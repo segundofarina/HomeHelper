@@ -4,5 +4,7 @@ import ar.edu.itba.paw.model.User;
 
 public interface UserService {
 
-    public User findById(int id);
+    User findById(int id);
+
+    User create(String username,String password);
 }

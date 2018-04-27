@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper;
 
 import ar.edu.itba.paw.interfaces.UserService;
+import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,27 @@ public class HelloWorldController {
         mav.addObject("greeting", "Mundo");
 
         return mav;
+    }
+    @RequestMapping("/users")
+    public ModelAndView helloUsers(@RequestParam("id") int id) {
+        final ModelAndView mav = new ModelAndView("index");
+        mav.addObject("greeting", us.findById(id).getUsername());
+
+        return mav;
+    }
+
+    @RequestMapping("/user/{userId}")
+    public ModelAndView helloUser(@PathVariable("userId") int id) {
+        final ModelAndView mav = new ModelAndView("index");
+        mav.addObject("greeting", us.findById(id).getUsername());
+
+        return mav;
+    }
+
+    @RequestMapping("/create")
+    public ModelAndView create(@RequestParam(value = "name", required = true) final String username,@RequestParam(value = "pass", required = true) final String password) {
+        final User u = us.create(username,password);
+        return new ModelAndView("redirect:/user/" + u. getId());
     }
 
 }

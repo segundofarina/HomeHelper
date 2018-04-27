@@ -19,4 +19,9 @@ public class UserServiceImpl implements UserService {
     public User findById(int id) {
         return us.findById(id);
     }
+
+    public User create(final String username, final String password) {
+        return us.create(username,password);
+    }
 }
+
