@@ -40,7 +40,7 @@ public class HelloWorldController {
 
     @RequestMapping("/create")
     public ModelAndView create(@RequestParam(value = "name", required = true) final String username,@RequestParam(value = "pass", required = true) final String password) {
-        final User u = us.create(username,password);
+        final User u = us.create(username,password, "Juan", "Perez", "juancito@hotmail.com", "1134546576");
         return new ModelAndView("redirect:/user/" + u. getId());
     }
 

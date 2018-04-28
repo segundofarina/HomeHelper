@@ -25,7 +25,8 @@ public class UserJdbcDao implements UserDao {
             RowMapper<User>() {
 
                 public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new User(rs.getString("username"),rs.getString("password"), rs.getInt("userid"));
+        return new User(rs.getString("username"), rs.getInt("userid"),rs.getString("password")
+        ,rs.getString("firstname"),rs.getString("lastname"),rs.getString("email"),rs.getString("phone"));
         }
     };
 
@@ -47,15 +48,20 @@ public class UserJdbcDao implements UserDao {
         return list.get(0);
     }
 
-
-    public User create(final String username, final String password) {
+    public User create(String username, String password, String firstname, String lastname, String email, String phone) {
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("username", username);// la key es el nombre de la columna
         args.put("password",password);
+        args.put("firstname",firstname);
+        args.put("lastname",lastname);
+        args.put("email",email);
+        args.put("phone",phone);
         final Number userId = jdbcInsert.executeAndReturnKey(args);
-
-        return new User(username, password,userId.intValue());
+        return new User(username,userId.intValue(), password, firstname, lastname, email, phone);
     }
+
+
+
 
 
 

@@ -23,6 +23,10 @@ import static junit.framework.Assert.assertNotNull;
     public class UserJdbcDaoTest {
         private static final String PASSWORD = "Password";
         private static final String USERNAME = "Username";
+        private static final String FIRSTNAME = "Jorge";
+        private static final String LASTNAME = "Abayu";
+        private static final String EMAIL = "jorgito@yo.com";
+        private static final String PHONE = "1123453421";
 
         @Autowired
         private DataSource ds;
@@ -38,9 +42,10 @@ import static junit.framework.Assert.assertNotNull;
         }
         @Test
         public void testCreate() {
-            final User user = userDao.create(USERNAME, PASSWORD);
+            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE);
             assertNotNull(user);
-            assertEquals(USERNAME, user.getUsername()); assertEquals(PASSWORD, user.getPassword());
+            assertEquals(USERNAME, user.getUsername());
+            assertEquals(PASSWORD, user.getPassword());
             assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
         }
     }

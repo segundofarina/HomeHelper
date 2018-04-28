@@ -20,8 +20,8 @@ public class UserServiceImpl implements UserService {
         return us.findById(id);
     }
 
-    public User create(final String username, final String password) {
-        return us.create(username,password);
+    public User create(String username, String password, String firstname, String lastname, String email, String phone) {
+        return us.create(username, password, firstname, lastname, email,  phone);
     }
 }
 
