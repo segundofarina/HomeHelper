@@ -15,7 +15,11 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
 
+import java.util.List;
+
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertTrue;
 
 @Sql("classpath:schema.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,19 +34,36 @@ public class SProviderJdbcDaoTest {
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private SProviderDao sProvider;
+    private SProviderDao sProviderDao;
 
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "serviceTypes");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "serviceProviders");
     }
 
     @Test
     public void testCreate() {
         final SProvider sProvider = sProviderDao.create(USER_ID, POST_ID);
         assertNotNull(sProvider);
+        assertTrue(sProvider.getUserId() == USER_ID);
+        assertTrue(sProvider.getPosts().contains(POST_ID));
+    }
 
+    @Test
+    public void testGetServiceProviders() {
+        final List<SProvider> sProviders = sProviderDao.getServiceProviders();
+        assertNotNull(sProviders);
+        //assertTrue(sProviders.contains() == USER_ID);
+        //assertTrue(sProvider.getPosts().contains(POST_ID));
+    }
+
+    @Test
+    public void testGetServiceProviderWithUserId() {
+        final SProvider sProvider = sProviderDao.getServiceProviderWithUserId(USER_ID);
+        assertNotNull(sProvider);
+        assertEquals(USER_ID, sProvider.getUserId());
+        assertTrue(sProvider.getPosts().contains(POST_ID));
     }
 
 }

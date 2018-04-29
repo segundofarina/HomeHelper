@@ -24,12 +24,10 @@ CREATE TABLE IF NOT EXISTS posts (
 CREATE TABLE IF NOT EXISTS serviceProviders(
   userId INTEGER REFERENCES users(userid),
   postId INTEGER REFERENCES posts(postId)
-
 );
 
 CREATE TABLE IF NOT EXISTS postAreas(
   postId INTEGER REFERENCES posts(postId),
   pin varchar(100),
   radius INTEGER
-
 );
