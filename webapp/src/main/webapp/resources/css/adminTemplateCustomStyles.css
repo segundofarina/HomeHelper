@@ -1,0 +1,7 @@
+.notify {
+    display: none;
+}
+
+.notify.active {
+    display: block;
+}
