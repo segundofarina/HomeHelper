@@ -221,11 +221,30 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-body"> This is some text within a card block. </div>
+                        <div class="card-body">
+                            <a href="/sprovider/<c:out value="${providerId}/addPost" />" class="btn btn-danger btn-block waves-effect waves-light">Add new post</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <c:forEach items="${postList}" var="post">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <ul>
+                                    <li><c:out value="${post.idPost}" /></li>
+                                    <li><c:out value="${post.title}" /></li>
+                                    <li><c:out value="${post.description}" /></li>
+                                    <li><c:out value="${post.serviceType}" /></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </c:forEach>
 
             <!-- End PAge Content -->
         </div>
