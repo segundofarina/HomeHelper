@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,7 +28,6 @@ import static org.mockito.Mockito.mock;
 @Sql("classpath:schema.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class STypeJdbcDaoTest {
     private final static String NAME = "Name";
     private final static String NAME_UPDATE = "NameUpdate";
@@ -44,7 +44,7 @@ public class STypeJdbcDaoTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
-        //JdbcTestUtils.deleteFromTables(jdbcTemplate, "serviceTypes");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "serviceTypes");
     }
 
     @Test
@@ -57,8 +57,8 @@ public class STypeJdbcDaoTest {
 
     @Test
     public void testGetList() {
-        //testCreate();
 
+        sTypeDao.create(NAME);
         final List<ServiceType> list = sTypeDao.getServiceTypes();
         assertNotNull(list);
         assertEquals( JdbcTestUtils.countRowsInTable(jdbcTemplate, "serviceTypes"),list.size());
@@ -69,22 +69,27 @@ public class STypeJdbcDaoTest {
 
     @Test
     public void testGetServiceTypeWithId() {
-        //testCreate();
 
-        final ServiceType st = sTypeDao.getServiceTypeWithId(insertedId);
+        final ServiceType serviceType = sTypeDao.create(NAME);
+        final ServiceType st = sTypeDao.getServiceTypeWithId(serviceType.getServiceTypeId());
         assertNotNull(st);
-        assertEquals(insertedId, st.getServiceTypeId());
+        assertEquals(serviceType.getServiceTypeId(), st.getServiceTypeId());
         assertEquals(NAME, st.getName());
     }
 
 
     @Test
     public void testUpdateServiceTypeWithId() {
-        //testCreate();
 
-        final ServiceType st = sTypeDao.updateServiceTypeWithId(insertedId, NAME_UPDATE);
+        final ServiceType serviceType = sTypeDao.create(NAME);
+        final ServiceType st = sTypeDao.updateServiceTypeWithId(serviceType.getServiceTypeId(), NAME_UPDATE);
         assertNotNull(st);
-        assertEquals( insertedId, st.getServiceTypeId());
+        assertEquals( serviceType.getServiceTypeId(), st.getServiceTypeId());
         assertEquals( NAME_UPDATE, st.getName());
+    }
+
+    public static ServiceType  insertDummyServiceType(STypeDao sTypeDao){
+         ServiceType serviceType = sTypeDao.create(NAME);
+        return serviceType;
     }
 }

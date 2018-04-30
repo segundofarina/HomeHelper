@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.model.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +33,7 @@ import static junit.framework.Assert.assertNotNull;
         private DataSource ds;
 
         @Autowired
-        private UserJdbcDao userDao;
+        private UserDao userDao;
 
         private JdbcTemplate jdbcTemplate;
         @Before
@@ -46,7 +47,13 @@ import static junit.framework.Assert.assertNotNull;
             assertNotNull(user);
             assertEquals(USERNAME, user.getUsername());
             assertEquals(PASSWORD, user.getPassword());
+            assertEquals(0,user.getId());
             assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
+        }
+
+        public static User insertDummyUser(UserDao userDao){
+            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE);
+            return user;
         }
     }
 

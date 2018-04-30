@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface SProviderDao {
 
-    SProvider create(int userId, int postId);
+    SProvider create(int userId);
 
     List<SProvider> getServiceProviders();
 

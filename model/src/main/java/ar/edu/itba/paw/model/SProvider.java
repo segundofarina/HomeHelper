@@ -1,12 +1,14 @@
 package ar.edu.itba.paw.model;
 
+import java.util.List;
 import java.util.Set;
 
-public class SProvider {
+public class SProvider extends User{
     private int userId;
-    private Set<Integer> posts;
+    private List<Post> posts;
 
-    public SProvider(int userId, Set<Integer> posts) {
+    public SProvider(int userId, List<Post> posts, User user) {
+        super(user.getUsername(),user.getId(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone());
         this.userId = userId;
         this.posts = posts;
     }
@@ -19,11 +21,11 @@ public class SProvider {
         this.userId = userId;
     }
 
-    public Set<Integer> getPosts() {
+    public List<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(Set<Integer> posts) {
+    public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
 }

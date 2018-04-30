@@ -13,19 +13,21 @@ CREATE TABLE IF NOT EXISTS serviceTypes (
   serviceName varchar(256)
 );
 
+CREATE TABLE IF NOT EXISTS serviceProviders(
+  userId INTEGER REFERENCES users(userid) PRIMARY KEY
+
+);
+
 CREATE TABLE IF NOT EXISTS posts (
   postId INTEGER IDENTITY PRIMARY KEY,
   title varchar(256),
   description VARCHAR(1000),
-  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId)
+  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
+  userId INTEGER REFERENCES serviceProviders(userid)
 );
 
 
-CREATE TABLE IF NOT EXISTS serviceProviders(
-  userId INTEGER REFERENCES users(userid),
-  postId INTEGER REFERENCES posts(postId)
 
-);
 
 CREATE TABLE IF NOT EXISTS postAreas(
   postId INTEGER REFERENCES posts(postId),
