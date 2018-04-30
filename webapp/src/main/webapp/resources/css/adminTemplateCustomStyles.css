@@ -5,3 +5,21 @@
 .notify.active {
     display: block;
 }
+
+.card.postThumb img {
+    width: 100%;
+    min-height: 10em;
+    border-radius: 4px;
+}
+
+.postThumb .postThumb-actions {
+    margin-top: 3em;
+    position: relative;
+    border-top: 1px solid #e1e2e2;
+    padding-top: 1em
+}
+
+.postThumb .postThumb-actions .btnDelete {
+    position: absolute;
+    right: 0;
+}

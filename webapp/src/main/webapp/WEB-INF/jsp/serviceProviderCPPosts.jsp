@@ -221,11 +221,39 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-body"> This is some text within a card block. </div>
+                        <div class="card-body">
+                            <a href="/sprovider/<c:out value="${providerId}/addPost" />" class="btn btn-danger waves-effect waves-light">Add new post</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <c:forEach items="${postList}" var="post">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card postThumb">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <img class="postImg" src="<c:url value="/resources/img/paintingJob.jpg" />" alt="post image" />
+                                    </div>
+                                    <div class="col-9">
+                                        <h3><c:out value="${post.title}" /></h3>
+                                        <p><c:out value="${post.description}" /></p>
+                                    </div>
+                                </div>
+                                <div class="postThumb-actions">
+                                    <a href="#" class="btn btn-default">Preview</a>
+                                    <a href="#" class="btn btn-default">Edit</a>
+                                    <a href="#" class="btn btn-default">Calendar</a>
+                                    <a href="#" class="btn btn-danger btnDelete">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </c:forEach>
 
             <!-- End PAge Content -->
         </div>
