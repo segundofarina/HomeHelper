@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.PostDao;
 import ar.edu.itba.paw.interfaces.SProviderDao;
+import ar.edu.itba.paw.interfaces.STypeDao;
 import ar.edu.itba.paw.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class PostJdbcDao implements PostDao{
@@ -24,6 +26,9 @@ public class PostJdbcDao implements PostDao{
 
     @Autowired
     private SProviderDao sProviderDao;
+
+    @Autowired
+    private STypeDao sTypeDao;
 
     private final static RowMapper<Post> ROW_MAPPER = new RowMapper<Post>() {
         public Post mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -44,9 +49,10 @@ public class PostJdbcDao implements PostDao{
         return list;
     }
 
-    public Post create(int userId, int serviceTypeId, String title, String description) {
+    public Optional<Post> create(int userId, int serviceTypeId, String title, String description) {
 
         /*Habria que checker que el user id existe en serviceProviders y que el serviceTypeId existe tambien*/
+
 
 
         final Map<String, Object> args = new HashMap<String, Object>();
@@ -60,26 +66,28 @@ public class PostJdbcDao implements PostDao{
         /* Insert postId in service provider table */
         //sProviderDao.create(userId, postId.intValue());
 
-        return new Post(postId.intValue(), title, description, String.valueOf(serviceTypeId));
+        String servTypeName =sTypeDao.getServiceTypeWithId(serviceTypeId).getName();
+
+        return  Optional.of(new Post(postId.intValue(), title, description, servTypeName));
     }
 
-    public Post getPostWithId(int postId) {
+    public Optional<Post> getPostWithId(int postId) {
         final List<Post> list = jdbcTemplate.query("SELECT postId, title, description, serviceName as serviceType FROM serviceProviders NATURAL JOIN posts NATURAL JOIN serviceTypes WHERE postId = ?;", ROW_MAPPER, postId);
         if(list.size() == 0) {
             return null; // SHOULD BE OPTIONAL
         }
-        return list.get(0);
+        return Optional.of(list.get(0));
     }
 
     public List<Post> getPosts() {
-        final List<Post> list = jdbcTemplate.query("SELECT postId, title, description, serviceName as serviceType FROM serviceProviders NATURAL JOIN posts;", ROW_MAPPER);
+        final List<Post> list = jdbcTemplate.query("SELECT postId, title, description, serviceName as serviceType FROM serviceProviders NATURAL JOIN posts NATURAL JOIN serviceTypes;", ROW_MAPPER);
         return list;
     }
 
     public Post updatePostWithId(int postId, int serviceTypeId, String title, String description) {
         jdbcTemplate.update("UPDATE posts SET title = ?, description = ?, serviceType = ? WHERE postId = ?", title, description, serviceTypeId, postId);
 
-        return getPostWithId(postId);
+        return getPostWithId(postId).get();
     }
 
     public boolean deletePostWithId(int postId) {

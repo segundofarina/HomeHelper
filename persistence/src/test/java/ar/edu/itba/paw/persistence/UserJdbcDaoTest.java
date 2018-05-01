@@ -15,10 +15,11 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
+import java.util.Optional;
 
-    @Sql("classpath:schema.sql")
+import static junit.framework.Assert.*;
+
+@Sql("classpath:schema.sql")
     @RunWith(SpringJUnit4ClassRunner.class)
     @ContextConfiguration(classes = TestConfig.class)
     public class UserJdbcDaoTest {
@@ -50,6 +51,18 @@ import static junit.framework.Assert.assertNotNull;
            // assertEquals(0,user.getId());
             assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
         }
+        @Test
+        public void testFindById(){
+            final User target = insertDummyUser(userDao);
+
+            Optional<User> response = userDao.findById(target.getId());
+            assertTrue(response.isPresent());
+            assertEquals(target,response.get());
+
+            response = userDao.findById(115);
+            assertFalse(response.isPresent());
+        }
+
 
         public static User insertDummyUser(UserDao userDao){
             final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE);

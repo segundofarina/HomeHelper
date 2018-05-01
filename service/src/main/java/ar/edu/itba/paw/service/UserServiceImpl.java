@@ -17,11 +17,12 @@ public class UserServiceImpl implements UserService {
 
 
     public User findById(int id) {
-        return us.findById(id);
+        return us.findById(id).get();
     }
 
     public User create(String username, String password, String firstname, String lastname, String email, String phone) {
         return us.create(username, password, firstname, lastname, email,  phone);
     }
+
 }
 

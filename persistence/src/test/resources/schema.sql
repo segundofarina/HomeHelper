@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS users (
   userid INTEGER IDENTITY PRIMARY KEY,
-  username varchar(100),
-  password varchar(100),
+  username varchar(100) UNIQUE NOT NULL ,
+  password varchar(100) NOT NULL,
   firstname varchar(100),
   lastname varchar(100),
   email varchar(100),
@@ -25,8 +25,6 @@ CREATE TABLE IF NOT EXISTS posts (
   serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
   userId INTEGER REFERENCES serviceProviders(userid)
 );
-
-
 
 
 CREATE TABLE IF NOT EXISTS postAreas(

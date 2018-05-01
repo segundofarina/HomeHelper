@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Repository
@@ -39,14 +40,25 @@ public class UserJdbcDao implements UserDao {
 
     }
 
-    public User findById(int id) {
+    public Optional<User> findById(int id) {
         final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?;",
                 ROW_MAPPER, id);
         if (list.isEmpty()) {
-            return null;
+            return Optional.empty();
         }
-        return list.get(0);
+        return Optional.of(list.get(0));
     }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE username = ?;",
+                ROW_MAPPER, username);
+        if (list.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(list.get(0));
+    }
+
 
     public User create(String username, String password, String firstname, String lastname, String email, String phone) {
         final Map<String, Object> args = new HashMap<String, Object>();

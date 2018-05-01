@@ -77,4 +77,34 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        if (getId() != user.getId()) return false;
+        if (!getUsername().equals(user.getUsername())) return false;
+        if (!getPassword().equals(user.getPassword())) return false;
+        if (getFirstname() != null ? !getFirstname().equals(user.getFirstname()) : user.getFirstname() != null)
+            return false;
+        if (getLastname() != null ? !getLastname().equals(user.getLastname()) : user.getLastname() != null)
+            return false;
+        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null) return false;
+        return getPhone() != null ? getPhone().equals(user.getPhone()) : user.getPhone() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getUsername().hashCode();
+        result = 31 * result + getId();
+        result = 31 * result + getPassword().hashCode();
+        result = 31 * result + (getFirstname() != null ? getFirstname().hashCode() : 0);
+        result = 31 * result + (getLastname() != null ? getLastname().hashCode() : 0);
+        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
+        result = 31 * result + (getPhone() != null ? getPhone().hashCode() : 0);
+        return result;
+    }
 }

@@ -20,6 +20,7 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 import javax.sql.DataSource;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static junit.framework.TestCase.assertEquals;
@@ -60,9 +61,10 @@ public class SProviderJdbcDaoTest {
 
     @Test
     public void testCreate() {
-       final SProvider sProvider = sProviderDao.create(USER_ID);
+       final Optional<SProvider> sProvider = sProviderDao.create(USER_ID);
         assertNotNull(sProvider);
-        assertTrue(sProvider.getUserId() == USER_ID);
+        assertTrue(sProvider.isPresent());
+        assertEquals(USER_ID, sProvider.get().getId());
     }
 
     @Test
@@ -79,16 +81,17 @@ public class SProviderJdbcDaoTest {
     public void testGetServiceProviderWithUserId() {
         sProviderDao.create(USER_ID);
 
-        final SProvider sProvider = sProviderDao.getServiceProviderWithUserId(USER_ID);
+        final Optional<SProvider> sProvider = sProviderDao.getServiceProviderWithUserId(USER_ID);
         assertNotNull(sProvider);
-        assertEquals(USER_ID, sProvider.getUserId());
+        assertTrue(sProvider.isPresent());
+        assertEquals(USER_ID, sProvider.get().getId());
     }
 
 
 
     public boolean containsSpId(List<SProvider> list, int id){
         for (SProvider s : list){
-            if(s.getUserId() == id){
+            if(s.getId() == id){
                 return true;
             }
         }
@@ -97,7 +100,7 @@ public class SProviderJdbcDaoTest {
 
     public SProvider getSpId(List<SProvider> list, int id){
         for (SProvider s : list){
-            if(s.getUserId() == id){
+            if(s.getId() == id){
                 return s;
             }
         }

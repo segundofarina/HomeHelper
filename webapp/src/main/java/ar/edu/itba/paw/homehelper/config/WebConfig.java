@@ -25,6 +25,7 @@ import javax.sql.DataSource;
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Value("classpath:schema.sql") private Resource schemaSql;
+    @Value("classpath:dbreset.sql") private Resource dbReset;
 
     @Bean
     public DataSourceInitializer dataSourceInitializer(final DataSource ds) {
@@ -35,7 +36,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
     private DatabasePopulator databasePopulator() {
         final ResourceDatabasePopulator dbp = new ResourceDatabasePopulator();
-        dbp.addScript(schemaSql);
+        dbp.addScript(dbReset);
         return dbp;
     }
 

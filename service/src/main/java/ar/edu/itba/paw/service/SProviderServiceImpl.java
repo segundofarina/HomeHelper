@@ -14,7 +14,19 @@ public class SProviderServiceImpl implements SProviderService {
     @Autowired
     private PostDao postDao;
 
+
+
+
+
     public List<Post> getPosts(int providerId) {
         return postDao.getPostWithUserId(providerId);
+    }
+
+    //public boolean addPost(Post p){
+    //    postDao.create(p.getIdPost(),p.getServiceType(),p.getTitle(),p.getDescription());
+    //}
+
+    public boolean addPost(int userId, int serviceTypeId, String title, String description){
+        return postDao.create(userId, serviceTypeId, title, description).isPresent();
     }
 }

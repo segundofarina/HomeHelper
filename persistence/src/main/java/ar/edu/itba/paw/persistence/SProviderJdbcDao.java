@@ -10,9 +10,12 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import javax.swing.text.html.Option;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+
+import static java.util.Optional.empty;
 
 @Repository
 public class SProviderJdbcDao implements SProviderDao {
@@ -32,26 +35,7 @@ public class SProviderJdbcDao implements SProviderDao {
         jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("serviceProviders");
     }
 
-    /*
-    private static class DbRow {
-        private int userId;
-        private int postId;
 
-        public DbRow(int userId, int postId) {
-            this.userId = userId;
-            this.postId = postId;
-        }
-    }
-
-    */
-    /* Row mapper for every row in the table */
-    /*
-    private final static RowMapper<DbRow> ROW_MAPPER = new RowMapper<DbRow>() {
-        public DbRow mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new DbRow(rs.getInt("userId"), rs.getInt("postId"));
-        }
-    };
-    */
 
     /* Table ServiceProviders has been redefined to only have userId as it's columns*/
 
@@ -64,61 +48,42 @@ public class SProviderJdbcDao implements SProviderDao {
 
     /** SProviderDao implemented methods **/
 
-    public SProvider create(int userId) {
+    public Optional<SProvider> create(int userId) {
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("userId", userId);
-        //args.put("postId", postId);
+
+        if(!userDao.findById(userId).isPresent()){
+            return Optional.empty();
+            /* O bien podria tirar una excepcion ya que no tendria que crear un Sprovider que no es user*/
+        }
 
         jdbcInsert.execute(args);
-        //final Number id = jdbcInsert.executeAndReturnKey(args);
 
-        return new SProvider(userId,postDao.getPostWithUserId(userId),userDao.findById(userId));
+        return Optional.of(new SProvider(postDao.getPostWithUserId(userId),userDao.findById(userId).get()));
 
     }
 
     public List<SProvider> getServiceProviders() {
         List<Integer> dbRowsList = jdbcTemplate.query("SELECT * FROM serviceProviders", ROW_MAPPER);
 
-        /*Map<Integer, Set<Integer>> map = new HashMap<Integer, Set<Integer>>();
-
-        for(DbRow row : dbRowsList) {
-            if(!map.containsKey(row.userId)) {
-                Set<Integer> set = new HashSet<Integer>();
-                set.add(row.postId);
-                map.put(row.userId, set);
-            } else {
-                map.get(row.userId).add(row.postId);
-            }
-        }
-
-
-        List<SProvider> list = new ArrayList<SProvider>();
-
-        for(Integer user : map.keySet()) {
-            list.add(new SProvider(user, map.get(user)));
-        }*/
         List<SProvider> list = new ArrayList<SProvider>();
 
         for(Integer id : dbRowsList) {
-            list.add(new SProvider(id, postDao.getPostWithUserId(id),userDao.findById(id)));
+            list.add(new SProvider( postDao.getPostWithUserId(id),userDao.findById(id).get()));
         }
 
         return list;
     }
 
-    public SProvider getServiceProviderWithUserId(int userId) {
-        List<Integer> dbRowsList = jdbcTemplate.query("SELECT * FROM serviceProviders WHERE userId = ?", ROW_MAPPER, userId);
+    public Optional<SProvider> getServiceProviderWithUserId(int userId) {
+        List<Integer> dbRowsList = jdbcTemplate.query("SELECT * FROM serviceProviders WHERE userId = ?"
+                , ROW_MAPPER, userId);
 
 
-        /*Set<Integer> posts = new HashSet<Integer>();
-
-        for(DbRow row : dbRowsList) {
-            posts.add(row.postId);
-        }*/
         if(dbRowsList.size() == 1) {
-            return new SProvider(userId, postDao.getPostWithUserId(userId), userDao.findById(userId));
+            return Optional.of(new SProvider( postDao.getPostWithUserId(userId), userDao.findById(userId).get()));
         }else{
-            return null;
+            return Optional.empty();
         }
     }
 }

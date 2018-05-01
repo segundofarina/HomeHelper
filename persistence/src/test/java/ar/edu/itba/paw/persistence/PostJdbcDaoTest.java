@@ -7,6 +7,7 @@ import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.model.Post;
 import ar.edu.itba.paw.model.ServiceType;
 import ar.edu.itba.paw.model.User;
+import javafx.geometry.Pos;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertTrue;
 
 @Sql("classpath:schema.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -62,7 +64,7 @@ public class PostJdbcDaoTest {
     public void testCreate() {
         final Post post = postDao.create(USER_ID, SERVICE_TYPE_ID, TITLE, DESCRIPTION);
         assertNotNull(post);
-        assertEquals(1,post.getIdPost());
+        //assertEquals(1,post.getIdPost());
         assertEquals(TITLE,post.getTitle());
         assertEquals(DESCRIPTION,post.getDescription());
     }
@@ -80,11 +82,41 @@ public class PostJdbcDaoTest {
 
     @Test
     public void testGetPostWithId() {
+        Post target =postDao.create(USER_ID, SERVICE_TYPE_ID, TITLE, DESCRIPTION);
+        postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 2", "Description 2");
+        postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 3", "Description 3");
+        postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 4", "Description 4");
+
+        Post response = postDao.getPostWithId(target.getIdPost());
+
+
+        assertEquals(target.getIdPost(),response.getIdPost());
+        assertEquals(target.getTitle(),response.getTitle());
+        assertEquals(target.getDescription(),response.getDescription());
+        assertEquals("Service type test",target.getServiceType(),response.getServiceType());
+
+        assertTrue(target.equals(response));
+
 
     }
 
     @Test
     public void testGetPosts() {
+        Post post1 = postDao.create(USER_ID, SERVICE_TYPE_ID, TITLE, DESCRIPTION);
+        Post post2 = postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 2", "Description 2");
+        Post post3 = postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 3", "Description 3");
+        Post post4 = postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 4", "Description 4");
+
+
+        List<Post> list =postDao.getPosts();
+
+        assertTrue(list.contains(post1));
+        assertTrue(list.contains(post2));
+        assertTrue(list.contains(post3));
+        assertTrue(list.contains(post4));
+
+        assertEquals(4,list.size());
+
 
     }
 
