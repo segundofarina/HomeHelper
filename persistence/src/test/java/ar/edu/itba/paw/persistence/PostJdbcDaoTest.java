@@ -62,7 +62,7 @@ public class PostJdbcDaoTest {
 
     @Test
     public void testCreate() {
-        final Post post = postDao.create(USER_ID, SERVICE_TYPE_ID, TITLE, DESCRIPTION);
+        final Post post = postDao.create(USER_ID, SERVICE_TYPE_ID, TITLE, DESCRIPTION).get();
         assertNotNull(post);
         //assertEquals(1,post.getIdPost());
         assertEquals(TITLE,post.getTitle());
@@ -82,12 +82,12 @@ public class PostJdbcDaoTest {
 
     @Test
     public void testGetPostWithId() {
-        Post target =postDao.create(USER_ID, SERVICE_TYPE_ID, TITLE, DESCRIPTION);
+        Post target =postDao.create(USER_ID, SERVICE_TYPE_ID, TITLE, DESCRIPTION).get();
         postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 2", "Description 2");
         postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 3", "Description 3");
         postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 4", "Description 4");
 
-        Post response = postDao.getPostWithId(target.getIdPost());
+        Post response = postDao.getPostWithId(target.getIdPost()).get();
 
 
         assertEquals(target.getIdPost(),response.getIdPost());
@@ -102,10 +102,10 @@ public class PostJdbcDaoTest {
 
     @Test
     public void testGetPosts() {
-        Post post1 = postDao.create(USER_ID, SERVICE_TYPE_ID, TITLE, DESCRIPTION);
-        Post post2 = postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 2", "Description 2");
-        Post post3 = postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 3", "Description 3");
-        Post post4 = postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 4", "Description 4");
+        Post post1 = postDao.create(USER_ID, SERVICE_TYPE_ID, TITLE, DESCRIPTION).get();
+        Post post2 = postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 2", "Description 2").get();
+        Post post3 = postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 3", "Description 3").get();
+        Post post4 = postDao.create(USER_ID, SERVICE_TYPE_ID, "Title 4", "Description 4").get();
 
 
         List<Post> list =postDao.getPosts();
@@ -131,6 +131,6 @@ public class PostJdbcDaoTest {
     }
 
     public static Post createDummyPost(PostDao postDao, User user, ServiceType serviceType){
-        return postDao.create(user.getId(), serviceType.getServiceTypeId(), TITLE, DESCRIPTION);
+        return postDao.create(user.getId(), serviceType.getServiceTypeId(), TITLE, DESCRIPTION).get();
     }
 }
