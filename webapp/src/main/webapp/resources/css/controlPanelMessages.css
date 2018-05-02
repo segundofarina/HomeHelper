@@ -1,0 +1,76 @@
+.messageThumbnails {
+    border-right: 1px solid #ccc;
+    padding: 0.3em;
+    height: 45em;
+    overflow: scroll;
+}
+
+.messageThumbnails .thumbItem {
+    display: block;
+    padding: 0.3em;
+    border-bottom: 1px solid #ccc;
+}
+
+.messageThumbnails .roundedImg {
+    width: 3.5em;
+    height: 3.5em;
+    margin-top: 0.8em;
+    background-color: red;
+    border-radius: 50%;
+}
+
+.messageContent {
+    height: 45em;
+    overflow: scroll;
+}
+
+.messageContent .scrollableContent {
+    overflow: scroll;
+    height: 32.5em;
+}
+
+.messageContent p {
+    margin: 0;
+}
+
+.myMsg, .otherMsg {
+    padding: 0.5em 1em;
+    border-radius: 0.7em;
+    max-width: 20em;
+    word-wrap: normal;
+    margin-bottom: 1em;
+}
+
+.myMsg {
+    float: right;
+    background-color: #1ABB9C;
+    color: #fff;
+}
+
+.otherMsg {
+    float: left;
+    background-color: #F1F0EF;
+    color: #444444;
+}
+
+.messageContent .fields {
+    border-top: 1px solid #ccc;
+    padding-top: 1em;
+    position: relative;
+}
+
+.messageContent .fields textarea {
+    resize: none;
+    height: 7em;
+    width: 100%;
+    color: #444444;
+    margin-bottom: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.appointmentDetails {
+    border-left: 1px solid #ccc;
+    height: 45em;
+    overflow: scroll;
+}
