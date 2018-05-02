@@ -118,7 +118,9 @@
                                         <a href="#" class="thumbItem">
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <div class="roundedImg"></div>
+                                                    <div>
+                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <h4>Name</h4>
@@ -132,7 +134,9 @@
                                         <a href="#" class="thumbItem">
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <div class="roundedImg"></div>
+                                                    <div>
+                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <h4>Name</h4>
@@ -143,7 +147,9 @@
                                         <a href="#" class="thumbItem">
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <div class="roundedImg"></div>
+                                                    <div>
+                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <h4>Name</h4>
@@ -154,7 +160,9 @@
                                         <a href="#" class="thumbItem">
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <div class="roundedImg"></div>
+                                                    <div>
+                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <h4>Name</h4>
@@ -165,7 +173,9 @@
                                         <a href="#" class="thumbItem">
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <div class="roundedImg"></div>
+                                                    <div>
+                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <h4>Name</h4>
@@ -176,7 +186,9 @@
                                         <a href="#" class="thumbItem">
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <div class="roundedImg"></div>
+                                                    <div>
+                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <h4>Name</h4>
@@ -187,7 +199,9 @@
                                         <a href="#" class="thumbItem">
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <div class="roundedImg"></div>
+                                                    <div>
+                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <h4>Name</h4>
@@ -198,7 +212,9 @@
                                         <a href="#" class="thumbItem">
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <div class="roundedImg"></div>
+                                                    <div>
+                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <h4>Name</h4>
@@ -209,7 +225,9 @@
                                         <a href="#" class="thumbItem">
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <div class="roundedImg"></div>
+                                                    <div>
+                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <h4>Name</h4>
@@ -220,7 +238,9 @@
                                         <a href="#" class="thumbItem">
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <div class="roundedImg"></div>
+                                                    <div>
+                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <h4>Name</h4>
@@ -231,7 +251,9 @@
                                         <a href="#" class="thumbItem">
                                             <div class="row">
                                                 <div class="col-sm-3">
-                                                    <div class="roundedImg"></div>
+                                                    <div>
+                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-9">
                                                     <h4>Name</h4>
@@ -239,6 +261,8 @@
                                                 </div>
                                             </div>
                                         </a>
+
+
 
                                         <!-- -->
                                     </div>
@@ -349,7 +373,18 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-3 appointmentDetails">
-
+                                        <div class="profilePicture">
+                                            <img src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
+                                        </div>
+                                        <div class="stars">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-half-empty"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="address">Santa Fe 1000, Buenos Aires</div>
+                                        <div class="calendar"></div>
                                     </div>
                                 </div>
 
@@ -384,5 +419,11 @@
 
 <!-- Custom Theme Scripts -->
 <script src="<c:url value="/resources/adminTemplate/build/js/custom.min.js"/>"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".scrollableContent").scrollTop($(".scrollableContent")[0].scrollHeight);
+    });
+</script>
 </body>
 </html>

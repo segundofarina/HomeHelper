@@ -15,7 +15,6 @@
     width: 3.5em;
     height: 3.5em;
     margin-top: 0.8em;
-    background-color: red;
     border-radius: 50%;
 }
 
@@ -35,7 +34,7 @@
 
 .myMsg, .otherMsg {
     padding: 0.5em 1em;
-    border-radius: 0.7em;
+    border-radius: 1em;
     max-width: 20em;
     word-wrap: normal;
     margin-bottom: 1em;
@@ -73,4 +72,30 @@
     border-left: 1px solid #ccc;
     height: 45em;
     overflow: scroll;
+}
+
+.appointmentDetails .profilePicture {
+    width: 10em;
+    margin: auto;
+}
+
+.appointmentDetails .profilePicture img{
+    width: 10em;
+    height: 10em;
+    border-radius: 100%;
+    border: 4px solid #2b3f54;
+    margin: auto;
+    margin-top: 2em;
+}
+
+.appointmentDetails .stars {
+    width: 6em;
+    margin: auto;
+    margin-top: 1em;
+}
+
+.appointmentDetails .address {
+    text-align: center;
+    margin-top: 0.5em;
+    font-style: italic;
 }
