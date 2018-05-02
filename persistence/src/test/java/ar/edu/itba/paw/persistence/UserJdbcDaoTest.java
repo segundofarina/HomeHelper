@@ -26,7 +26,7 @@ import static junit.framework.Assert.*;
         private static final String PASSWORD = "Password";
         private static final String USERNAME = "Username";
         private static final String FIRSTNAME = "Jorge";
-        private static final String LASTNAME = "Abayu";
+        private static final String LASTNAME = "Gomez";
         private static final String EMAIL = "jorgito@yo.com";
         private static final String PHONE = "1123453421";
 

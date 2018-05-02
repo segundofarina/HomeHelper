@@ -8,21 +8,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserDao us;
+    UserDao userDao;
 
 
     public User findById(int id) {
-        return us.findById(id).get();
+        return userDao.findById(id).get();
     }
 
     public User create(String username, String password, String firstname, String lastname, String email, String phone) {
-        return us.create(username, password, firstname, lastname, email,  phone);
+        return userDao.create(username, password, firstname, lastname, email,  phone);
     }
+
+    @Override
+    public boolean login(String username, String password) {
+        Optional<User> response =userDao.findByUsername(username);
+        if(!response.isPresent()){
+            return false;
+        }
+        User user = response.get();
+        if(user.getPassword().equals(password)){
+            return true;
+        }
+        return false;
+    }
+
 
 }
 
