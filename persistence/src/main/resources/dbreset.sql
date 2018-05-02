@@ -1,8 +1,8 @@
-drop table if exists postAreas;
-drop table if exists posts;
-drop table if exists serviceProviders;
-drop table if exists serviceTypes;
-drop table if exists users;
+drop table if exists postAreas CASCADE;
+drop table if exists posts CASCADE;
+drop table if exists serviceProviders CASCADE;
+drop table if exists serviceTypes CASCADE;
+drop table if exists users CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
   userid SERIAL PRIMARY KEY,

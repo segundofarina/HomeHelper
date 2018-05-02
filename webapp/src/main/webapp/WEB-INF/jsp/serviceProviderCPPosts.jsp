@@ -217,7 +217,7 @@
         <div class="container-fluid">
             <!-- Start Page Content -->
 
-
+<!--
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -254,6 +254,56 @@
                 </div>
 
             </c:forEach>
+-->
+
+            <div class="row postTable">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-title">
+                            <h4>Posts</h4>
+                            <a href="#" class="btn btn-primary btn-sm btnFloatRight"><i class="fa fa-plus"></i> Add new post</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Post Title</th>
+                                        <th>Incomings</th>
+                                        <th>Status</th>
+                                        <th>Edit</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <c:forEach items="${postList}" var="post">
+                                            <tr>
+                                                <td><c:out value="${post.title}" /></td>
+                                                <td class="color-success">$20.000</td>
+                                                <td><span class="badge badge-success">Active</span></td>
+                                                <td>
+                                                    <a href="#" class="btn btn-info btn-addon btn-sm">
+                                                        <i class="fa fa-folder"></i> Preview
+                                                    </a>
+                                                    <a href="#" class="btn btn-warning btn-addon btn-sm">
+                                                        <i class="fa fa-pencil"></i> Edit
+                                                    </a>
+                                                    <a href="#" class="btn btn-danger btn-addon btn-sm">
+                                                        <i class="fa fa-trash-o"></i> Delete
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
 
             <!-- End PAge Content -->
         </div>
