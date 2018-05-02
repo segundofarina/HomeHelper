@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.model.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,17 +15,18 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
+import java.util.Optional;
 
-    @Sql("classpath:schema.sql")
+import static junit.framework.Assert.*;
+
+@Sql("classpath:schema.sql")
     @RunWith(SpringJUnit4ClassRunner.class)
     @ContextConfiguration(classes = TestConfig.class)
     public class UserJdbcDaoTest {
         private static final String PASSWORD = "Password";
         private static final String USERNAME = "Username";
         private static final String FIRSTNAME = "Jorge";
-        private static final String LASTNAME = "Abayu";
+        private static final String LASTNAME = "Gomez";
         private static final String EMAIL = "jorgito@yo.com";
         private static final String PHONE = "1123453421";
 
@@ -32,13 +34,13 @@ import static junit.framework.Assert.assertNotNull;
         private DataSource ds;
 
         @Autowired
-        private UserJdbcDao userDao;
+        private UserDao userDao;
 
         private JdbcTemplate jdbcTemplate;
         @Before
         public void setUp() {
             jdbcTemplate = new JdbcTemplate(ds);
-            JdbcTestUtils.deleteFromTables(jdbcTemplate, "users");
+            JdbcTestUtils.deleteFromTables(jdbcTemplate, "posts","serviceProviders","serviceTypes","users");
         }
         @Test
         public void testCreate() {
@@ -46,7 +48,25 @@ import static junit.framework.Assert.assertNotNull;
             assertNotNull(user);
             assertEquals(USERNAME, user.getUsername());
             assertEquals(PASSWORD, user.getPassword());
+           // assertEquals(0,user.getId());
             assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
+        }
+        @Test
+        public void testFindById(){
+            final User target = insertDummyUser(userDao);
+
+            Optional<User> response = userDao.findById(target.getId());
+            assertTrue(response.isPresent());
+            assertEquals(target,response.get());
+
+            response = userDao.findById(115);
+            assertFalse(response.isPresent());
+        }
+
+
+        public static User insertDummyUser(UserDao userDao){
+            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE);
+            return user;
         }
     }
 

@@ -2,9 +2,13 @@ package ar.edu.itba.paw.interfaces;
 
 import ar.edu.itba.paw.model.User;
 
+import java.util.Optional;
+
 public interface UserDao {
 
-    User findById(int id);
+    Optional<User> findById(int id);
 
-    User create(String username, String password, String firstname, String lastname, String email, String phone);
+    Optional<User> findByUsername(String username);
+
+    User create(String username, String password, String firstName, String lastName, String email, String phone);
 }

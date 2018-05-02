@@ -11,6 +11,9 @@ import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -19,9 +22,10 @@ import javax.sql.DataSource;
 @EnableWebMvc
 @ComponentScan({ "ar.edu.itba.paw.homehelper", "ar.edu.itba.paw.service", "ar.edu.itba.paw.persistence"})
 @Configuration
-public class WebConfig {
+public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Value("classpath:schema.sql") private Resource schemaSql;
+    @Value("classpath:dbreset.sql") private Resource dbReset;
 
     @Bean
     public DataSourceInitializer dataSourceInitializer(final DataSource ds) {
@@ -32,7 +36,7 @@ public class WebConfig {
     }
     private DatabasePopulator databasePopulator() {
         final ResourceDatabasePopulator dbp = new ResourceDatabasePopulator();
-        dbp.addScript(schemaSql);
+        dbp.addScript(dbReset);
         return dbp;
     }
 
@@ -45,7 +49,6 @@ public class WebConfig {
         return viewResolver;
     }
 
-
     @Bean
     public DataSource dataSource() {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();
@@ -54,5 +57,10 @@ public class WebConfig {
         ds.setUsername("root");
         ds.setPassword("root");
         return ds;
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 }
