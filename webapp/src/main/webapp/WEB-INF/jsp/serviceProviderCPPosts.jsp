@@ -3,32 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<c:url value="/resources/adminTemplate/images/favicon.png" />">
-    <title>Home-Helper - Control Panel</title>
-    <!-- Bootstrap Core CSS -->
-    <link href="<c:url value="/resources/adminTemplate/css/lib/bootstrap/bootstrap.min.css" />" rel="stylesheet">
-    <!-- Custom CSS -->
-
-    <link href="<c:url value="/resources/adminTemplate/css/lib/calendar2/semantic.ui.min.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/adminTemplate/css/lib/calendar2/pignose.calendar.min.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/adminTemplate/css/lib/owl.carousel.min.css" />" rel="stylesheet" />
-    <link href="<c:url value="/resources/adminTemplate/css/lib/owl.theme.default.min.css" />" rel="stylesheet" />
-    <link href="<c:url value="/resources/adminTemplate/css/helper.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/adminTemplate/css/style.css" />" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:** -->
-    <!--[if lt IE 9]>
-    <script src="https:**oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https:**oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <link href="<c:url value="/resources/css/adminTemplateCustomStyles.css" />" rel="stylesheet">
+    <jsp:include page="headInclude.jsp" />
 </head>
 <body class="fix-header fix-sidebar">
 <!-- Preloader - style you can find in spinners.css -->
@@ -39,165 +14,14 @@
 <!-- Main wrapper  -->
 <div id="main-wrapper">
     <!-- header header  -->
-    <div class="header">
-        <nav class="navbar top-navbar navbar-expand-md navbar-light">
-            <!-- Logo -->
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">
-                    <!-- Logo icon -->
-                    <b><img src="<c:url value="/resources/adminTemplate/images/logo.png" />" alt="homepage" class="dark-logo" /></b>
-                    <!--End Logo icon -->
-                    <!-- Logo text -->
-                    <span>Home-Helper</span>
-                </a>
-            </div>
-            <!-- End Logo -->
-            <div class="navbar-collapse">
-                <!-- toggle and nav items -->
-                <ul class="navbar-nav mr-auto mt-md-0">
-                    <!-- Main Header Contetnt Empty -->
-                </ul>
-                <!-- User profile and search -->
-                <ul class="navbar-nav my-lg-0">
-                    <!-- Comment -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-muted text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-bell"></i>
-                            <div class="notify">
-                                <span class="heartbit"></span>
-                                <span class="point"></span>
-                            </div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right mailbox animated">
-                            <ul>
-                                <li>
-                                    <div class="drop-title">Notifications</div>
-                                </li>
-                                <li>
-                                    <div class="message-center">
-                                        <!-- Message -->
-                                        <a href="#">
-                                            <div class="btn btn-danger btn-circle m-r-10"><i class="fa fa-link"></i></div>
-                                            <div class="mail-contnet">
-                                                <h5>This is title</h5> <span class="mail-desc">Just see the my new admin!</span> <span class="time">9:30 AM</span>
-                                            </div>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#">
-                                            <div class="btn btn-success btn-circle m-r-10"><i class="ti-calendar"></i></div>
-                                            <div class="mail-contnet">
-                                                <h5>This is another title</h5> <span class="mail-desc">Just a reminder that you have event</span> <span class="time">9:10 AM</span>
-                                            </div>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#">
-                                            <div class="btn btn-info btn-circle m-r-10"><i class="ti-settings"></i></div>
-                                            <div class="mail-contnet">
-                                                <h5>This is title</h5> <span class="mail-desc">You can customize this template as you want</span> <span class="time">9:08 AM</span>
-                                            </div>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#">
-                                            <div class="btn btn-primary btn-circle m-r-10"><i class="ti-user"></i></div>
-                                            <div class="mail-contnet">
-                                                <h5>This is another title</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="nav-link text-center" href="javascript:void(0);"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <!-- End Comment -->
-                    <!-- Messages -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-muted  " href="#" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-envelope"></i>
-                            <div class="notify">
-                                <span class="heartbit"></span>
-                                <span class="point"></span>
-                            </div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right mailbox animated" aria-labelledby="2">
-                            <ul>
-                                <li>
-                                    <div class="drop-title">You have 4 new messages</div>
-                                </li>
-                                <li>
-                                    <div class="message-center">
-                                        <!-- Message -->
-                                        <a href="#">
-                                            <div class="user-img"> <img src="<c:url value="/resources/adminTemplate/images/users/5.jpg" />" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
-                                            <div class="mail-contnet">
-                                                <h5>Michael Qin</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span>
-                                            </div>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#">
-                                            <div class="user-img"> <img src="<c:url value="/resources/adminTemplate/images/users/2.jpg" />" alt="user" class="img-circle"> <span class="profile-status busy pull-right"></span> </div>
-                                            <div class="mail-contnet">
-                                                <h5>John Doe</h5> <span class="mail-desc">I've sung a song! See you at</span> <span class="time">9:10 AM</span>
-                                            </div>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#">
-                                            <div class="user-img"> <img src="<c:url value="/resources/adminTemplate/images/users/3.jpg" />" alt="user" class="img-circle"> <span class="profile-status away pull-right"></span> </div>
-                                            <div class="mail-contnet">
-                                                <h5>Mr. John</h5> <span class="mail-desc">I am a singer!</span> <span class="time">9:08 AM</span>
-                                            </div>
-                                        </a>
-                                        <!-- Message -->
-                                        <a href="#">
-                                            <div class="user-img"> <img src="<c:url value="/resources/adminTemplate/images/users/4.jpg" />" alt="user" class="img-circle"> <span class="profile-status offline pull-right"></span> </div>
-                                            <div class="mail-contnet">
-                                                <h5>Michael Qin</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a class="nav-link text-center" href="javascript:void(0);"> <strong>See all messages</strong> <i class="fa fa-angle-right"></i> </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <!-- End Messages -->
-                    <!-- Profile -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<c:url value="/resources/adminTemplate/images/users/5.jpg" />" alt="user" class="profile-pic" /></a>
-                        <div class="dropdown-menu dropdown-menu-right animated">
-                            <ul class="dropdown-user">
-                                <li><a href="#"><i class="ti-user"></i> Profile</a></li>
-                                <li><a href="#"><i class="ti-settings"></i> Setting</a></li>
-                                <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
+
+    <jsp:include page="header.jsp" />
+
     <!-- End header header -->
     <!-- Left Sidebar  -->
-    <div class="left-sidebar">
-        <!-- Sidebar scroll-->
-        <div class="scroll-sidebar">
-            <!-- Sidebar navigation-->
-            <nav class="sidebar-nav">
-                <ul id="sidebarnav">
-                    <li class="nav-devider"></li>
-                    <li class="nav-label">Home</li>
-                    <li> <a href="/sprovider/<c:out value="${providerId}" />"><i class="fa fa-tachometer"></i><span>Dashboard</span></a></li>
-                    <li class="nav-label">Apps</li>
-                    <li> <a href="#"><i class="fa fa-comments"></i><span>Messages</span></a></li>
-                    <li> <a href="/sprovider/<c:out value="${providerId}" />/posts"><i class="fa fa-th-list"></i><span>Posts</span></a></li>
-                </ul>
-            </nav>
-            <!-- End Sidebar navigation -->
-        </div>
-        <!-- End Sidebar scroll-->
-    </div>
+
+    <jsp:include page="leftSidebar.jsp" />
+
     <!-- End Left Sidebar  -->
     <!-- Page wrapper  -->
     <div class="page-wrapper">
@@ -217,43 +41,54 @@
         <div class="container-fluid">
             <!-- Start Page Content -->
 
-
-            <div class="row">
-                <div class="col-12">
+            <div class="row postTable">
+                <div class="col-lg-12">
                     <div class="card">
+                        <div class="card-title">
+                            <h4>Posts</h4>
+                            <a href="#" class="btn btn-primary btn-sm btnFloatRight"><i class="fa fa-plus"></i> Add new post</a>
+                        </div>
                         <div class="card-body">
-                            <a href="/sprovider/<c:out value="${providerId}/addPost" />" class="btn btn-danger waves-effect waves-light">Add new post</a>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Post Title</th>
+                                        <th>Incomings</th>
+                                        <th>Status</th>
+                                        <th>Edit</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <c:forEach items="${postList}" var="post">
+                                            <tr>
+                                                <td><c:out value="${post.title}" /></td>
+                                                <td class="color-success">$20.000</td>
+                                                <td><span class="badge badge-success">Active</span></td>
+                                                <td>
+                                                    <a href="#" class="btn btn-info btn-addon btn-sm">
+                                                        <i class="fa fa-folder"></i> Preview
+                                                    </a>
+                                                    <a href="#" class="btn btn-warning btn-addon btn-sm">
+                                                        <i class="fa fa-pencil"></i> Edit
+                                                    </a>
+                                                    <a href="#" class="btn btn-danger btn-addon btn-sm">
+                                                        <i class="fa fa-trash-o"></i> Delete
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <c:forEach items="${postList}" var="post">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card postThumb">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-3">
-                                        <img class="postImg" src="<c:url value="/resources/img/paintingJob.jpg" />" alt="post image" />
-                                    </div>
-                                    <div class="col-9">
-                                        <h3><c:out value="${post.title}" /></h3>
-                                        <p><c:out value="${post.description}" /></p>
-                                    </div>
-                                </div>
-                                <div class="postThumb-actions">
-                                    <a href="#" class="btn btn-default">Preview</a>
-                                    <a href="#" class="btn btn-default">Edit</a>
-                                    <a href="#" class="btn btn-default">Calendar</a>
-                                    <a href="#" class="btn btn-danger btnDelete">Delete</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-            </c:forEach>
+
 
             <!-- End PAge Content -->
         </div>
@@ -265,42 +100,8 @@
     <!-- End Page wrapper  -->
 </div>
 <!-- End Wrapper -->
-<!-- All Jquery -->
-<script src="<c:url value="/resources/adminTemplate/js/lib/jquery/jquery.min.js" />"></script>
-<!-- Bootstrap tether Core JavaScript -->
-<script src="<c:url value="/resources/adminTemplate/js/lib/bootstrap/js/popper.min.js" />"></script>
-<script src="<c:url value="/resources/adminTemplate/js/lib/bootstrap/js/bootstrap.min.js" />"></script>
-<!-- slimscrollbar scrollbar JavaScript -->
-<script src="<c:url value="/resources/adminTemplate/js/jquery.slimscroll.js" />"></script>
-<!--Menu sidebar -->
-<script src="<c:url value="/resources/adminTemplate/js/sidebarmenu.js" />"></script>
-<!--stickey kit -->
-<script src="<c:url value="/resources/adminTemplate/js/lib/sticky-kit-master/dist/sticky-kit.min.js" />"></script>
-<!--Custom JavaScript -->
 
-
-<!-- Amchart -->
-<script src="<c:url value="/resources/adminTemplate/js/lib/morris-chart/raphael-min.js" />"></script>
-<script src="<c:url value="/resources/adminTemplate/js/lib/morris-chart/morris.js" />"></script>
-<script src="<c:url value="/resources/adminTemplate/js/lib/morris-chart/dashboard1-init.js" />"></script>
-
-
-<script src="<c:url value="/resources/adminTemplate/js/lib/calendar-2/moment.latest.min.js" />"></script>
-<!-- scripit init-->
-<script src="<c:url value="/resources/adminTemplate/js/lib/calendar-2/semantic.ui.min.js" />"></script>
-<!-- scripit init-->
-<script src="<c:url value="/resources/adminTemplate/js/lib/calendar-2/prism.min.js" />"></script>
-<!-- scripit init-->
-<script src="<c:url value="/resources/adminTemplate/js/lib/calendar-2/pignose.calendar.min.js" />"></script>
-<!-- scripit init-->
-<script src="<c:url value="/resources/adminTemplate/js/lib/calendar-2/pignose.init.js" />"></script>
-
-<script src="<c:url value="/resources/adminTemplate/js/lib/owl-carousel/owl.carousel.min.js" />"></script>
-<script src="<c:url value="/resources/adminTemplate/js/lib/owl-carousel/owl.carousel-init.js" />"></script>
-<script src="<c:url value="/resources/adminTemplate/js/scripts.js" />"></script>
-<!-- scripit init-->
-
-<script src="<c:url value="/resources/adminTemplate/js/custom.min.js" />"></script>
+<jsp:include page="scriptsInclude.jsp" />
 
 </body>
 </html>

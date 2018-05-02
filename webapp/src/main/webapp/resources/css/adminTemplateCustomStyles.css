@@ -23,3 +23,15 @@
     position: absolute;
     right: 0;
 }
+
+.badge {
+    padding: .5em .8em;
+}
+
+.btnFloatRight {
+    float: right;
+}
+
+.postTable .card-title {
+    margin-bottom: 2em;
+}
