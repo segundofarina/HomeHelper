@@ -9,4 +9,6 @@ public interface ChatService {
     boolean sendMsg(int from,int to, String msg);
 
     List<Chat> getChatsOf(int userId);
+
+    Chat getChat(int providerId, int clientId);
 }

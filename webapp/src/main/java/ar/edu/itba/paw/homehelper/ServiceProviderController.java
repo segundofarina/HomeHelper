@@ -24,7 +24,6 @@ public class ServiceProviderController {
         final ModelAndView mav = new ModelAndView("serviceProviderControlPanel");
 
         mav.addObject("providerId", providerId);
-        //mav.addObject("postList", sProviderService.getPosts(providerId));
 
         return mav;
     }
@@ -40,25 +39,23 @@ public class ServiceProviderController {
         return mav;
     }
 
-    @RequestMapping(value = "/sprovider/{providerId}/messages", method = { RequestMethod.POST })
-    public ModelAndView sendMessagePost(@PathVariable("providerId") int providerId, @RequestParam("msg") String msg) {
+    @RequestMapping(value = "/sprovider/{providerId}/messages/{clientId}", method = { RequestMethod.POST })
+    public ModelAndView sendMessagePost(@PathVariable("providerId") int providerId, @PathVariable("clientId") int clientId, @RequestParam("msg") String msg) {
 
-        //final ModelAndView mav = new ModelAndView("serviceProviderCPMessages");
+        chatService.sendMsg(providerId, clientId, msg);
 
-        //mav.addObject("providerId", providerId);
-        //mav.addObject("chats", chatService.getChatsOf(providerId));
-        chatService.sendMsg(4,2,msg);
-
-        return new ModelAndView("redirect:/sprovider/" + providerId + "/messages");
+        return new ModelAndView("redirect:/sprovider/" + providerId + "/messages/" + clientId);
     }
 
-    @RequestMapping(value = "/sprovider/{providerId}/messages", method = { RequestMethod.GET })
-    public ModelAndView providerMessages(@PathVariable("providerId") int providerId) {
+    @RequestMapping(value = "/sprovider/{providerId}/messages/{clientId}", method = { RequestMethod.GET })
+    public ModelAndView providerMessages(@PathVariable("providerId") int providerId, @PathVariable("clientId") int clientId) {
 
         final ModelAndView mav = new ModelAndView("serviceProviderCPMessages");
 
         mav.addObject("providerId", providerId);
         mav.addObject("chats", chatService.getChatsOf(providerId));
+        mav.addObject("currentChat", chatService.getChat(providerId, clientId));
+
 
         return mav;
     }
@@ -69,7 +66,6 @@ public class ServiceProviderController {
         final ModelAndView mav = new ModelAndView("serviceProviderCPAppointments");
 
         mav.addObject("providerId", providerId);
-        //mav.addObject("postList", sProviderService.getPosts(providerId));
 
         return mav;
     }

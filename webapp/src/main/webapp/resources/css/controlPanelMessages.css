@@ -20,7 +20,6 @@
 
 .messageContent {
     height: 45em;
-    overflow: scroll;
 }
 
 .messageContent .scrollableContent {

@@ -25,4 +25,14 @@ public class ChatServiceImpl implements ChatService{
     public List<Chat> getChatsOf(int userId) {
         return chatDao.getChatsOf(userId);
     }
+
+    @Override
+    public Chat getChat(int providerId, int clientId) {
+        for(Chat chat: getChatsOf(providerId)) {
+            if(chat.getTo().getId() == clientId) {
+                return chat;
+            }
+        }
+        return null;
+    }
 }

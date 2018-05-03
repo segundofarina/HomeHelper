@@ -117,7 +117,8 @@
                                     <div class="col-sm-3 messageThumbnails">
 
                                         <c:forEach items="${chats}" var="chat">
-                                            <a href="#" class="thumbItem">
+                                            <c:url value="/sprovider/${providerId}/messages/${chat.to.id}" var="chatThreadUrl" />
+                                            <a href="${chatThreadUrl}" class="thumbItem">
                                                 <div class="row">
                                                     <div class="col-sm-3">
                                                         <div>
@@ -136,20 +137,26 @@
 
                                     <div class="col-sm-6 messageContent">
                                         <div class="scrollableContent">
-                                            <div class="clearfix">
-                                                <div class="myMsg">
-                                                    <p>Some text message for testing!</p>
+
+                                            <c:forEach items="${currentChat.messages}" var="msg">
+                                                <div class="clearfix">
+                                                    <c:choose>
+                                                        <c:when test="${msg.from == providerId}">
+                                                            <div class="myMsg">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <div class="otherMsg">
+                                                        </c:otherwise>
+                                                    </c:choose>
+
+                                                        <p><c:out value="${msg.message}" /></p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="otherMsg">
-                                                    <p>Response text message for testing!!</p>
-                                                </div>
-                                            </div>
+                                            </c:forEach>
 
                                         </div>
                                         <div class="fields">
-                                            <c:url value="/sprovider/${providerId}/messages" var="msgPostPath" />
+                                            <c:url value="/sprovider/${providerId}/messages/${currentChat.to.id}" var="msgPostPath" />
                                             <form action="<c:out value="${msgPostPath}" />" method="POST">
                                                 <div>
                                                     <textarea name="msg" placeholder="Write a message..."></textarea>
