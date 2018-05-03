@@ -60,6 +60,11 @@ public class ServiceProviderController {
         return mav;
     }
 
+    @RequestMapping(value = "/sprovider/{providerId}/messages", method = { RequestMethod.GET })
+    public ModelAndView providerMessagesGeneral(@PathVariable("providerId") int providerId) {
+        return new ModelAndView("redirect:/sprovider/" + providerId + "/messages/" + chatService.getLastMsgThread(providerId));
+    }
+
     @RequestMapping("/sprovider/{providerId}/appointments")
     public ModelAndView providerAppointments(@PathVariable("providerId") int providerId) {
 

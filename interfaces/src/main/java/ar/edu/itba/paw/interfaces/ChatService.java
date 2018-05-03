@@ -11,4 +11,6 @@ public interface ChatService {
     List<Chat> getChatsOf(int userId);
 
     Chat getChat(int providerId, int clientId);
+
+    int getLastMsgThread(int providerId);
 }
