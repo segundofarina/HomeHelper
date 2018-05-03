@@ -7,7 +7,6 @@ import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.model.Post;
 import ar.edu.itba.paw.model.ServiceType;
 import ar.edu.itba.paw.model.User;
-import javafx.geometry.Pos;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,7 +52,7 @@ public class PostJdbcDaoTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "posts","serviceProviders","serviceTypes","users");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "messages","posts","serviceProviders","serviceTypes","users");
         /* Add User and Service Type */
         SERVICE_TYPE_ID = STypeJdbcDaoTest.insertDummyServiceType(sTypeDao).getServiceTypeId();
         USER_ID = UserJdbcDaoTest.insertDummyUser(userDao).getId();
