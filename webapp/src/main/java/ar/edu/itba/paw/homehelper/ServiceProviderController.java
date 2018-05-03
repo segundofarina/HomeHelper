@@ -35,4 +35,26 @@ public class ServiceProviderController {
         return mav;
     }
 
+    @RequestMapping("/sprovider/{providerId}/messages")
+    public ModelAndView providerMessages(@PathVariable("providerId") int providerId) {
+
+        final ModelAndView mav = new ModelAndView("serviceProviderCPMessages");
+
+        mav.addObject("providerId", providerId);
+        //mav.addObject("postList", sProviderService.getPosts(providerId));
+
+        return mav;
+    }
+
+    @RequestMapping("/sprovider/{providerId}/appointments")
+    public ModelAndView providerAppointments(@PathVariable("providerId") int providerId) {
+
+        final ModelAndView mav = new ModelAndView("serviceProviderCPAppointments");
+
+        mav.addObject("providerId", providerId);
+        //mav.addObject("postList", sProviderService.getPosts(providerId));
+
+        return mav;
+    }
+
 }
