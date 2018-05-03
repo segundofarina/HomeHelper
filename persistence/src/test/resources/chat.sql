@@ -1,10 +1,9 @@
-drop table if EXISTS messages;
 drop table if exists postAreas;
 drop table if exists posts;
 drop table if exists serviceProviders;
 drop table if exists serviceTypes;
 drop table if exists users;
-
+drop table if EXISTS messages;
 
 CREATE TABLE IF NOT EXISTS users (
   userid INTEGER IDENTITY PRIMARY KEY,
@@ -45,7 +44,7 @@ CREATE TABLE IF NOT EXISTS messages(
   userFrom INTEGER REFERENCES users(userId),
   userTo  INTEGER REFERENCES users(userId),
   message VARCHAR(10000),
-  messageDate TIMESTAMP  default CURRENT_DATE
+  meesageDate TIMESTAMP not null default CURRENT_DATE
 );
 
 insert into users VALUES(1,'segundofarina','dulcedeleche','Segundo','Farina','segundofarina@me.com','1134373920');
@@ -69,7 +68,3 @@ insert into posts VALUES (4,'Trabajos de pintura en Vicente Lopez','Paredes inte
 insert into messages VALUES (2,5,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
 insert into messages VALUES (5,2,'Hola Florencia si que necesitas?',DEFAULT );
 insert into messages VALUES (2,5,'Necesito hacer un aramrio para zapatillas',DEFAULT );
-
-insert into messages VALUES (2,4,'Este tambien es un chat',DEFAULT );
-insert into messages VALUES (4,2,'AAA mira que bueno',DEFAULT );
-insert into messages VALUES (2,4,'Jajaja',DEFAULT );
