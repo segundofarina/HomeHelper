@@ -115,157 +115,25 @@
 
                                 <div class="row">
                                     <div class="col-sm-3 messageThumbnails">
-                                        <a href="#" class="thumbItem">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div>
-                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <h4>Name</h4>
-                                                    <p>Last Message</p>
-                                                </div>
-                                            </div>
-                                        </a>
 
+                                        <c:forEach items="${chats}" var="chat">
+                                            <a href="#" class="thumbItem">
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div>
+                                                            <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-9">
+                                                        <h4><c:out value="${chat.from.firstname}" /> <c:out value="${chat.from.lastname}" /></h4>
+                                                        <p><c:out value="${chat.preview}" /></p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </c:forEach>
 
-                                        <!-- -->
-                                        <a href="#" class="thumbItem">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div>
-                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <h4>Name</h4>
-                                                    <p>Last Message</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="thumbItem">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div>
-                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <h4>Name</h4>
-                                                    <p>Last Message</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="thumbItem">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div>
-                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <h4>Name</h4>
-                                                    <p>Last Message</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="thumbItem">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div>
-                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <h4>Name</h4>
-                                                    <p>Last Message</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="thumbItem">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div>
-                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <h4>Name</h4>
-                                                    <p>Last Message</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="thumbItem">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div>
-                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <h4>Name</h4>
-                                                    <p>Last Message</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="thumbItem">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div>
-                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <h4>Name</h4>
-                                                    <p>Last Message</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="thumbItem">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div>
-                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <h4>Name</h4>
-                                                    <p>Last Message</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="thumbItem">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div>
-                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <h4>Name</h4>
-                                                    <p>Last Message</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="thumbItem">
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div>
-                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <h4>Name</h4>
-                                                    <p>Last Message</p>
-                                                </div>
-                                            </div>
-                                        </a>
-
-
-
-                                        <!-- -->
                                     </div>
+
                                     <div class="col-sm-6 messageContent">
                                         <div class="scrollableContent">
                                             <div class="clearfix">
@@ -279,97 +147,17 @@
                                                 </div>
                                             </div>
 
-                                            <!-- -->
-                                            <div class="clearfix">
-                                                <div class="myMsg">
-                                                    <p>Some text message for testing!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="otherMsg">
-                                                    <p>Response text message for testing!!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="myMsg">
-                                                    <p>Some text message for testing!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="otherMsg">
-                                                    <p>Response text message for testing!!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="myMsg">
-                                                    <p>Some text message for testing!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="otherMsg">
-                                                    <p>Response text message for testing!!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="myMsg">
-                                                    <p>Some text message for testing!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="otherMsg">
-                                                    <p>Response text message for testing!!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="myMsg">
-                                                    <p>Some text message for testing!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="otherMsg">
-                                                    <p>Response text message for testing!!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="myMsg">
-                                                    <p>Some text message for testing!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="otherMsg">
-                                                    <p>Response text message for testing!!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="myMsg">
-                                                    <p>Some text message for testing!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="otherMsg">
-                                                    <p>Response text message for testing!!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="myMsg">
-                                                    <p>Some text message for testing!</p>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix">
-                                                <div class="otherMsg">
-                                                    <p>Response text message for testing!!</p>
-                                                </div>
-                                            </div>
-                                            <!-- -->
-
                                         </div>
                                         <div class="fields">
-                                            <div>
-                                                <textarea placeholder="Write a message..."></textarea>
-                                            </div>
-                                            <div>
-                                                <button class="btn btn-success">Send</button>
-                                            </div>
+                                            <c:url value="/sprovider/${providerId}/messages" var="msgPostPath" />
+                                            <form action="<c:out value="${msgPostPath}" />" method="POST">
+                                                <div>
+                                                    <textarea name="msg" placeholder="Write a message..."></textarea>
+                                                </div>
+                                                <div>
+                                                    <input type="submit" value="send" class="btn btn-success" />
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="col-sm-3 appointmentDetails">
@@ -422,7 +210,8 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $(".scrollableContent").scrollTop($(".scrollableContent")[0].scrollHeight);
+        var scrollableContent = $(".scrollableContent");
+        scrollableContent.scrollTop(scrollableContent[0].scrollHeight);
     });
 </script>
 </body>

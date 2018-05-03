@@ -1,19 +1,24 @@
-package ar.edu.itba.paw;
+package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.interfaces.ChatDao;
 import ar.edu.itba.paw.interfaces.ChatService;
 import ar.edu.itba.paw.model.Chat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ChatServiceImpl implements ChatService{
 
     @Autowired
     ChatDao chatDao;
     @Override
     public boolean sendMsg(int from,int to, String msg) {
-       return chatDao.writeMessage(from,to,msg).isPresent();
+        if(msg.isEmpty() || msg.equals("")) {
+            return false;
+        }
+        return chatDao.writeMessage(from,to,msg).isPresent();
     }
 
     @Override
