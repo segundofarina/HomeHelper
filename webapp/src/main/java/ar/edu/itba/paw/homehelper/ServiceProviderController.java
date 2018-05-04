@@ -56,4 +56,14 @@ public class ServiceProviderController {
         return mav;
     }
 
+    @RequestMapping("/sprovider/{providerId}/reviews")
+    public ModelAndView providerReviews(@PathVariable("providerId") int providerId) {
+
+        final ModelAndView mav = new ModelAndView("serviceProviderCPReviews");
+
+        mav.addObject("providerId", providerId);
+
+        return mav;
+    }
+
 }
