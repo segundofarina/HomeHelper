@@ -1,10 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
-
 <div class="col-md-3 left_col">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="/" class="site_title"><i class="fa fa-paw"></i> <span>Home-Helper</span></a>
+            <a href="/" class="site_title">
+                <div class="logo floatingL">
+                    <img src="<c:url value="/resources/img/HHLogo.png"/>" alt="Logo" />
+                </div>
+                <div class="floatingL">Home-Helper</div>
+            </a>
         </div>
 
         <div class="clearfix"></div>
