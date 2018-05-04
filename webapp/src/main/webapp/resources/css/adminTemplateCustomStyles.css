@@ -1,37 +1,22 @@
-.notify {
-    display: none;
-}
-
-.notify.active {
-    display: block;
-}
-
-.card.postThumb img {
+.sidebar-footer a {
     width: 100%;
-    min-height: 10em;
-    border-radius: 4px;
+    font-size: 14px;
 }
 
-.postThumb .postThumb-actions {
-    margin-top: 3em;
-    position: relative;
-    border-top: 1px solid #e1e2e2;
-    padding-top: 1em
+.logo {
+    width: 1.7em;
+    height: 1.7em;
+    margin-top: 0.5em;
+    margin-right: 0.4em;
+    margin-left: 0.25em;
 }
 
-.postThumb .postThumb-actions .btnDelete {
-    position: absolute;
-    right: 0;
+.logo img {
+    width: 100%;
+    height: 100%;
+    vertical-align: top;
 }
 
-.badge {
-    padding: .5em .8em;
-}
-
-.btnFloatRight {
-    float: right;
-}
-
-.postTable .card-title {
-    margin-bottom: 2em;
+.floatingL {
+    float: left;
 }
