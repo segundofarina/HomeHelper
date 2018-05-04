@@ -3,8 +3,8 @@ drop table if exists posts CASCADE;
 drop table if exists serviceProviders CASCADE;
 drop table if exists serviceTypes CASCADE;
 drop table if exists users CASCADE;
-drop table if exists review CASCADE;
-drop table if exists aptitude CASCADE;
+drop table if exists reviews CASCADE;
+drop table if exists aptitudes CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
   userid SERIAL PRIMARY KEY,
@@ -44,14 +44,14 @@ CREATE TABLE IF NOT EXISTS postAreas(
 
 CREATE TABLE IF NOT EXISTS aptitudes(
   aptitudeId SERIAL PRIMARY KEY,
-  userId INTEGER REFERENCES users(userid),
+  userId INTEGER REFERENCES serviceProviders(userId),
   serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
   description TEXT
 );
 
 CREATE TABLE IF NOT EXISTS reviews(
   userId INTEGER  REFERENCES users(userId),
-  aptitudeId INTEGER REFERENCES aptitude(aptitudeId),
+  aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
   reviewdate TIMESTAMP default CURRENT_DATE,
   rating INTEGER CHECK(rating > 0 AND rating < 6),
   comment TEXT
@@ -70,7 +70,4 @@ insert into serviceProviders VALUES(5);
 insert into serviceTypes VALUES (1,'Carpintero');
 insert into serviceTypes VALUES (2,'Pintor');
 
-insert into posts VALUES (1,'Primer post','Alta experiencia en cosas de carpineria(?) WEEee',1,4);
-insert into posts VALUES (2,'Segundo post de carlitos','Tambien hago trabajos de pintura loco',2,4);
-insert into posts VALUES (3,'Carpinteria en zona norte','Expermientado trabajador educado. No como carlos',1,5);
-insert into posts VALUES (4,'Trabajos de pintura en Vicente Lopez','Paredes interiores y exteriores y muebles',2,5);
+insert into aptitudes VALUES (1,4,2,'Muy buen pintor segundito, te felicito <3');

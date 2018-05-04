@@ -10,6 +10,6 @@ public interface AptitudeDao {
 
     List<Aptitude> getById(int id);
 
-    boolean insertAptitude(int id, ServiceType service, String description);
+    boolean insertAptitude(int sProviderId, int serviceId, String description);
 
 }

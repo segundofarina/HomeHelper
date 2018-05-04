@@ -43,12 +43,12 @@ public class ReviewJdbcDao implements ReviewDao {
     }
     private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
         public Row mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Row(rs.getInt("userId"),rs.getInt("aptituteId"),rs.getString("reviewDate"),rs.getInt("rating"),rs.getString("comment"));
+            return new Row(rs.getInt("userId"),rs.getInt("aptitudeId"),rs.getString("reviewdate"),rs.getInt("rating"),rs.getString("comment"));
         }
     };
 
-    public List<Review> getReviewsBy(int aptitudeId){
-        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM aptitudes WHERE userId =? and aptitudeId =?", ROW_MAPPER,aptitudeId);
+    public List<Review> getReviewsOfAptitude(int aptitudeId){
+        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM reviews WHERE aptitudeId =?", ROW_MAPPER,aptitudeId);
 
         List<Review> reviews = new ArrayList<Review>();
 

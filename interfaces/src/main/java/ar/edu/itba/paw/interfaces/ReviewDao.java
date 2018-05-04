@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ReviewDao {
 
-    List<Review> getReviewsBy(int aptitudeId);
+    public List<Review> getReviewsOfAptitude(int aptitudeId);
 
     boolean insertReview(int userId, int aptitudeId, int rating, String comment );
 

@@ -59,20 +59,25 @@ public class AptitudeJdbcDao implements AptitudeDao {
         List<Aptitude> aptitudes = new ArrayList<Aptitude>();
 
         for(Row row : dbRowsList){
-            aptitudes.add(new Aptitude(sTypeDao.getServiceTypeWithId(row.serviceTypeId),row.description,reviewDao.getReviewsBy(row.aptitudeId)));
+            aptitudes.add(new Aptitude(sTypeDao.getServiceTypeWithId(row.serviceTypeId),row.description,reviewDao.getReviewsOfAptitude(row.aptitudeId)));
         }
 
         return aptitudes;
     }
 
     @Override
-    public boolean insertAptitude(int id, ServiceType service, String description) {
+    public boolean insertAptitude(int sProviderId, int serviceId, String description) {
         final Map<String, Object> args = new HashMap<String, Object>();
-        args.put("userId", id);
-        args.put("serviceTypeId",service.getServiceTypeId());
+        args.put("userId", sProviderId);
+        args.put("serviceTypeId",serviceId);
         args.put("description",description);
 
-        jdbcInsert.execute(args);
+        try {
+            jdbcInsert.execute(args);
+        }catch (Exception e){
+            return false;
+        }
+
 
         return true;
     }
