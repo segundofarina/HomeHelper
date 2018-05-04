@@ -24,13 +24,12 @@ public class ServiceProviderController {
         return mav;
     }
 
-    @RequestMapping("/sprovider/{providerId}/posts")
+    @RequestMapping("/sprovider/{providerId}/editProfile")
     public ModelAndView providerPosts(@PathVariable("providerId") int providerId) {
 
-        final ModelAndView mav = new ModelAndView("serviceProviderCPPosts");
+        final ModelAndView mav = new ModelAndView("serviceProviderCPEditProfile");
 
         mav.addObject("providerId", providerId);
-        mav.addObject("postList", sProviderService.getPosts(providerId));
 
         return mav;
     }
