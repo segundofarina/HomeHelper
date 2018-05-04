@@ -36,9 +36,6 @@ public class STypeJdbcDao implements STypeDao {
     };
 
 
-
-
-
     /** STypeDao implemented methods **/
 
     public ServiceType create(String name) {

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface SProviderDao {
 
-    Optional<SProvider> create(int userId);
+    Optional<SProvider> create(int userId, String description);
 
     List<SProvider> getServiceProviders();
 

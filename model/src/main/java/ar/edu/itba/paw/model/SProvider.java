@@ -4,18 +4,22 @@ import java.util.List;
 import java.util.Set;
 
 public class SProvider extends User{
-    private List<Post> posts;
+    private String description;
+    private List<Aptitude> aptitudes;
 
-    public SProvider( List<Post> posts, User user) {
+    public SProvider(User user, String description, List<Aptitude> aptitudes) {
         super(user.getUsername(),user.getId(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone());
-        this.posts = posts;
+        this.description = description;
+        this.aptitudes = aptitudes;
     }
 
-    public List<Post> getPosts() {
-        return posts;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
+    public List<Aptitude> getAptitudes() {
+        return aptitudes;
     }
+
+
 }

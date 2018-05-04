@@ -19,13 +19,13 @@ import java.util.Optional;
 
 @Repository
 public class UserJdbcDao implements UserDao {
+
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
-    private final static RowMapper<User> ROW_MAPPER = new
-            RowMapper<User>() {
+    private final static RowMapper<User> ROW_MAPPER = new RowMapper<User>() {
 
-                public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+        public User mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new User(rs.getString("username"), rs.getInt("userid"),rs.getString("password")
         ,rs.getString("firstname"),rs.getString("lastname"),rs.getString("email"),rs.getString("phone"));
         }

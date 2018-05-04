@@ -3,6 +3,8 @@ drop table if exists posts CASCADE;
 drop table if exists serviceProviders CASCADE;
 drop table if exists serviceTypes CASCADE;
 drop table if exists users CASCADE;
+drop table if exists review CASCADE;
+drop table if exists aptitude CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
   userid SERIAL PRIMARY KEY,
@@ -20,7 +22,8 @@ CREATE TABLE IF NOT EXISTS serviceTypes (
 );
 
 CREATE TABLE IF NOT EXISTS serviceProviders(
-  userId INTEGER REFERENCES users(userid) PRIMARY KEY
+  userId INTEGER REFERENCES users(userid) PRIMARY KEY,
+  description TEXT
 );
 
 
@@ -37,6 +40,21 @@ CREATE TABLE IF NOT EXISTS postAreas(
   postId INTEGER REFERENCES posts(postId),
   pin varchar(100),
   radius INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS aptitudes(
+  aptitudeId SERIAL PRIMARY KEY,
+  userId INTEGER REFERENCES users(userid),
+  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
+  description TEXT
+);
+
+CREATE TABLE IF NOT EXISTS reviews(
+  userId INTEGER  REFERENCES users(userId),
+  aptitudeId INTEGER REFERENCES aptitude(aptitudeId),
+  reviewdate TIMESTAMP default CURRENT_DATE,
+  rating INTEGER CHECK(rating > 0 AND rating < 6),
+  comment TEXT
 );
 
 

@@ -98,23 +98,7 @@ public class SProviderJdbcDaoTest {
         return false;
     }
 
-    public SProvider getSpId(List<SProvider> list, int id){
-        for (SProvider s : list){
-            if(s.getId() == id){
-                return s;
-            }
-        }
-        return null;
-    }
-
-    public boolean containsSpPost(Set<Integer> list, int id){
-        for (Integer post : list){
-            if(post == id){
-                return true;
-            }
-        }
-        return false;
-    }
+    
 
 
 

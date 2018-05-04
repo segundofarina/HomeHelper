@@ -30,7 +30,7 @@ public class ServiceProviderController {
         final ModelAndView mav = new ModelAndView("serviceProviderCPPosts");
 
         mav.addObject("providerId", providerId);
-        mav.addObject("postList", sProviderService.getPosts(providerId));
+ //       mav.addObject("postList", sProviderService.getPosts(providerId));
 
         return mav;
     }

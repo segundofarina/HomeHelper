@@ -1,0 +1,82 @@
+package ar.edu.itba.paw.persistence;
+
+import ar.edu.itba.paw.interfaces.AptitudeDao;
+import ar.edu.itba.paw.interfaces.ReviewDao;
+import ar.edu.itba.paw.interfaces.STypeDao;
+import ar.edu.itba.paw.model.Aptitude;
+import ar.edu.itba.paw.model.ServiceType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
+
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+
+@Repository
+public class AptitudeJdbcDao implements AptitudeDao {
+
+    private JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert jdbcInsert;
+
+    @Autowired
+    STypeDao sTypeDao;
+
+    @Autowired
+    ReviewDao reviewDao;
+
+    @Autowired
+    public AptitudeJdbcDao(final DataSource ds) {
+        jdbcTemplate = new JdbcTemplate(ds);
+        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("aptitudes");
+    }
+
+    private static class Row{
+        int aptitudeId;
+        int userId;
+        int serviceTypeId;
+        String description;
+
+        public Row(int aptitudeId, int userId, int serviceTypeId, String description) {
+            this.aptitudeId = aptitudeId;
+            this.userId = userId;
+            this.serviceTypeId = serviceTypeId;
+            this.description = description;
+        }
+    }
+    private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
+        public Row mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Row(rs.getInt("aptitudeId"),rs.getInt("userId"),rs.getInt("serviceTypeId"),rs.getString("description"));
+        }
+    };
+
+    public List<Aptitude> getById(int id) {
+        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM aptitudes WHERE userId =? ", ROW_MAPPER,id);
+
+        List<Aptitude> aptitudes = new ArrayList<Aptitude>();
+
+        for(Row row : dbRowsList){
+            aptitudes.add(new Aptitude(sTypeDao.getServiceTypeWithId(row.serviceTypeId),row.description,reviewDao.getReviewsBy(row.aptitudeId)));
+        }
+
+        return aptitudes;
+    }
+
+    @Override
+    public boolean insertAptitude(int id, ServiceType service, String description) {
+        final Map<String, Object> args = new HashMap<String, Object>();
+        args.put("userId", id);
+        args.put("serviceTypeId",service.getServiceTypeId());
+        args.put("description",description);
+
+        jdbcInsert.execute(args);
+
+        return true;
+    }
+
+
+
+}

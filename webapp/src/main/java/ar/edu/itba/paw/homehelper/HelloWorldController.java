@@ -32,10 +32,11 @@ public class HelloWorldController {
 
     @RequestMapping("/user/{userId}")
     public ModelAndView helloUser(@PathVariable("userId") int id) {
-        final ModelAndView mav = new ModelAndView("index");
-        mav.addObject("greeting", us.findById(id).getUsername());
-
-        return mav;
+        return helloUsers(id);
+//        final ModelAndView mav = new ModelAndView("index");
+//        mav.addObject("greeting", us.findById(id).getUsername());
+//
+//        return mav;
     }
 
     @RequestMapping("/create")

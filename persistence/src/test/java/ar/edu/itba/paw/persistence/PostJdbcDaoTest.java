@@ -1,13 +1,11 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.PostDao;
 import ar.edu.itba.paw.interfaces.SProviderDao;
 import ar.edu.itba.paw.interfaces.STypeDao;
 import ar.edu.itba.paw.interfaces.UserDao;
 import ar.edu.itba.paw.model.Post;
 import ar.edu.itba.paw.model.ServiceType;
 import ar.edu.itba.paw.model.User;
-import javafx.geometry.Pos;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
