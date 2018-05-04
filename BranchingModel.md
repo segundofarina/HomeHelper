@@ -36,6 +36,7 @@ $ git checkout develop
 $ git merge --no-ff Feature-{Description}-{PivotalID}
 
 # Delete branch
+$ git push -d origin Feature-{Description}-{PivotalID}
 $ git branch -d Feature-{Description}-{PivotalID}
 
 # Push changes
