@@ -42,3 +42,15 @@ $ git branch -d Feature-{Description}-{PivotalID}
 # Push changes
 $ git push -u origin develop
 ```
+
+#### To show all local and remote branches that (local) git knows about
+
+```
+$ git branch -a
+```
+
+#### To update the local list of remote branches
+
+```
+$ git remote update origin --prune
+```
