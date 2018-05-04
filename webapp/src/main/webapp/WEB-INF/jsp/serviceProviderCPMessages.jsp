@@ -117,7 +117,7 @@
                                     <div class="col-sm-3 messageThumbnails">
 
                                         <c:forEach items="${chats}" var="chat">
-                                            <c:url value="/sprovider/${providerId}/messages/${chat.to.id}" var="chatThreadUrl" />
+                                            <c:url value="/sprovider/${providerId}/messages/${chat.grey.id}" var="chatThreadUrl" />
                                             <a href="${chatThreadUrl}" class="thumbItem">
                                                 <div class="row">
                                                     <div class="col-sm-3">
@@ -126,7 +126,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-9">
-                                                        <h4><c:out value="${chat.from.firstname}" /> <c:out value="${chat.from.lastname}" /></h4>
+                                                        <h4><c:out value="${chat.green.firstname}" /> <c:out value="${chat.green.lastname}" /></h4>
                                                         <p><c:out value="${chat.preview}" /></p>
                                                     </div>
                                                 </div>
@@ -156,7 +156,7 @@
 
                                         </div>
                                         <div class="fields">
-                                            <c:url value="/sprovider/${providerId}/messages/${currentChat.to.id}" var="msgPostPath" />
+                                            <c:url value="/sprovider/${providerId}/messages/${currentChat.grey.id}" var="msgPostPath" />
                                             <form action="<c:out value="${msgPostPath}" />" method="POST">
                                                 <div>
                                                     <textarea name="msg" placeholder="Write a message..."></textarea>

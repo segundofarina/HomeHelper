@@ -65,6 +65,10 @@ insert into posts VALUES (2,'Segundo post de carlitos','Tambien hago trabajos de
 insert into posts VALUES (3,'Carpinteria en zona norte','Expermientado trabajador educado. No como carlos',1,5);
 insert into posts VALUES (4,'Trabajos de pintura en Vicente Lopez','Paredes interiores y exteriores y muebles',2,5);
 
+insert into messages VALUES (2,5,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
+insert into messages VALUES (5,2,'Hola Florencia si que necesitas?',DEFAULT );
+insert into messages VALUES (2,5,'Necesito hacer un aramrio para zapatillas',DEFAULT );
+
 insert into messages VALUES (2,4,'Este tambien es un chat',DEFAULT );
 insert into messages VALUES (4,2,'AAA mira que bueno',DEFAULT );
 insert into messages VALUES (2,4,'Jajaja',DEFAULT );

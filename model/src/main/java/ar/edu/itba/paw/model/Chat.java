@@ -5,25 +5,25 @@ import java.util.List;
 public class Chat {
 
     List<Message> messages;
-    User from;
-    User to;
+    User green;
+    User grey;
 
-    public Chat( User from, User to,List<Message> messages) {
+    public Chat( User green, User grey,List<Message> messages) {
         this.messages = messages;
-        this.from = from;
-        this.to = to;
+        this.green = green;
+        this.grey = grey;
     }
 
     public List<Message> getMessages() {
         return messages;
     }
 
-    public User getFrom() {
-        return from;
+    public User getGreen() {
+        return green;
     }
 
-    public User getTo() {
-        return to;
+    public User getGrey() {
+        return grey;
     }
 
     public String getPreview(){

@@ -10,7 +10,7 @@ public interface ChatService {
 
     List<Chat> getChatsOf(int userId);
 
-    Chat getChat(int providerId, int clientId);
+    Chat getChat(int greenId, int greyId);
 
     int getLastMsgThread(int providerId);
 }

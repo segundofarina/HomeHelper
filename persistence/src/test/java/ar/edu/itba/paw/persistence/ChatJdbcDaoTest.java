@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -56,8 +55,8 @@ public class ChatJdbcDaoTest {
         assertTrue(response.isPresent());
         Chat chat = response.get();
 
-        assertEquals(Const.USER2_ID,chat.getFrom().getId());
-        assertEquals(Const.SPROVIDER2_ID,chat.getTo().getId());
+        assertEquals(Const.USER2_ID,chat.getGreen().getId());
+        assertEquals(Const.SPROVIDER2_ID,chat.getGrey().getId());
 
         assertEquals(3,chat.getMessages().size());
     }

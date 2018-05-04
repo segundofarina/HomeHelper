@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ChatDao {
 
-    Optional<Chat> getChatBetween(int idFrom,int idTo);
+    Optional<Chat> getChatBetween(int idGreen,int idGrey);
 
     List<Chat> getChatsOf(int userId);
 
