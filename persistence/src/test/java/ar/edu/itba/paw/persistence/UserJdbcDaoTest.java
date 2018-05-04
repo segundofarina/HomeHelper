@@ -40,7 +40,7 @@ import static junit.framework.Assert.*;
         @Before
         public void setUp() {
             jdbcTemplate = new JdbcTemplate(ds);
-            JdbcTestUtils.deleteFromTables(jdbcTemplate, "posts","serviceProviders","serviceTypes","users");
+            JdbcTestUtils.deleteFromTables(jdbcTemplate, "messages","posts","serviceProviders","serviceTypes","users");
         }
         @Test
         public void testCreate() {

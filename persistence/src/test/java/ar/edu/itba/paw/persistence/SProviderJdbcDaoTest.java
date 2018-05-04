@@ -54,7 +54,7 @@ public class SProviderJdbcDaoTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "posts","serviceProviders","serviceTypes","users");
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "messages","posts","serviceProviders","serviceTypes","users");
         dUser = UserJdbcDaoTest.insertDummyUser(userDao);
         USER_ID = dUser.getId();
     }

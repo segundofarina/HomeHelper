@@ -1,8 +1,10 @@
+drop table if EXISTS messages;
 drop table if exists postAreas;
 drop table if exists posts;
 drop table if exists serviceProviders;
 drop table if exists serviceTypes;
 drop table if exists users;
+
 
 CREATE TABLE IF NOT EXISTS users (
   userid INTEGER IDENTITY PRIMARY KEY,
@@ -39,6 +41,13 @@ CREATE TABLE IF NOT EXISTS postAreas(
   radius INTEGER
 );
 
+CREATE TABLE IF NOT EXISTS messages(
+  userFrom INTEGER REFERENCES users(userId),
+  userTo  INTEGER REFERENCES users(userId),
+  message VARCHAR(10000),
+  messageDate TIMESTAMP  default CURRENT_DATE
+);
+
 insert into users VALUES(1,'segundofarina','dulcedeleche','Segundo','Farina','segundofarina@me.com','1134373920');
 insert into users VALUES(2,'florcavallin','dulcedeleche','Florencia','Cavallin','fcavallin@itba.edu.ar','1140910035');
 insert into users VALUES(3,'tinchovictory','dulcedeleche','Martin','Victory','martin@victory.com.ar','1159540388');
@@ -55,3 +64,12 @@ insert into posts VALUES (1,'Primer post','Alta experiencia en cosas de carpiner
 insert into posts VALUES (2,'Segundo post de carlitos','Tambien hago trabajos de pintura loco',2,4);
 insert into posts VALUES (3,'Carpinteria en zona norte','Expermientado trabajador educado. No como carlos',1,5);
 insert into posts VALUES (4,'Trabajos de pintura en Vicente Lopez','Paredes interiores y exteriores y muebles',2,5);
+
+
+insert into messages VALUES (2,5,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
+insert into messages VALUES (5,2,'Hola Florencia si que necesitas?',DEFAULT );
+insert into messages VALUES (2,5,'Necesito hacer un aramrio para zapatillas',DEFAULT );
+
+insert into messages VALUES (2,4,'Este tambien es un chat',DEFAULT );
+insert into messages VALUES (4,2,'AAA mira que bueno',DEFAULT );
+insert into messages VALUES (2,4,'Jajaja',DEFAULT );

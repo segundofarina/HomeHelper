@@ -1,37 +1,4 @@
-.notify {
-    display: none;
-}
-
-.notify.active {
-    display: block;
-}
-
-.card.postThumb img {
+.sidebar-footer a {
     width: 100%;
-    min-height: 10em;
-    border-radius: 4px;
-}
-
-.postThumb .postThumb-actions {
-    margin-top: 3em;
-    position: relative;
-    border-top: 1px solid #e1e2e2;
-    padding-top: 1em
-}
-
-.postThumb .postThumb-actions .btnDelete {
-    position: absolute;
-    right: 0;
-}
-
-.badge {
-    padding: .5em .8em;
-}
-
-.btnFloatRight {
-    float: right;
-}
-
-.postTable .card-title {
-    margin-bottom: 2em;
+    font-size: 14px;
 }
