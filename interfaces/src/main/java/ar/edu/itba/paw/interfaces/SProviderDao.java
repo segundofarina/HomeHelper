@@ -12,4 +12,6 @@ public interface SProviderDao {
     List<SProvider> getServiceProviders();
 
     Optional<SProvider> getServiceProviderWithUserId(int userId);
+
+    double getCalificationOfServiceProvider(int userId);
 }

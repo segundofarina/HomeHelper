@@ -55,7 +55,7 @@ public class AptitudeJdbcDaoTest {
         assertFalse(aptitudeDao.insertAptitude(3,40,"esta aptitud no existe"));
 
         assertFalse(aptitudeDao.insertAptitude(1,3,"Segundo no es proveedor"));
-        
+
 
     }
 }
