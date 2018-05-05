@@ -20,6 +20,21 @@ public class SProvider extends User{
     public List<Aptitude> getAptitudes() {
         return aptitudes;
     }
+    
+    public double getCalification(){
+        double calification = 0;
+        double aptitudeCalification = 0;
+        
+        for(Aptitude aptitude: aptitudes){
+            aptitudeCalification = 0;
+            for(Review review: aptitude.getReviews()){
+                aptitudeCalification+=review.getRating();
+            }
+            calification += aptitudeCalification/aptitude.getReviews().size();
+        }
+        
+        return calification;
+    }
 
 
 }
