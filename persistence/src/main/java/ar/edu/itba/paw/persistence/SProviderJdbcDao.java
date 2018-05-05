@@ -1,8 +1,9 @@
 package ar.edu.itba.paw.persistence;
 
 
-import ar.edu.itba.paw.interfaces.AptitudeDao;
-import ar.edu.itba.paw.interfaces.SProviderDao;
+import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
+import ar.edu.itba.paw.interfaces.daos.SProviderDao;
+import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.SProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,10 @@ public class SProviderJdbcDao implements SProviderDao {
     private final SimpleJdbcInsert jdbcInsert;
 
     @Autowired
-    AptitudeJdbcDao aptitudeDao;
+    AptitudeDao aptitudeDao;
 
     @Autowired
-    UserJdbcDao userDao;
+    UserDao userDao;
 
     @Autowired
     public SProviderJdbcDao(final DataSource ds) {
@@ -79,7 +80,7 @@ public class SProviderJdbcDao implements SProviderDao {
         List<SProvider> list = new ArrayList<SProvider>();
 
         for(Row row : dbRowsList) {
-            list.add(new SProvider(userDao.findById(row.id).get(),row.description,aptitudeDao.getById(row.id)));
+            list.add(new SProvider(userDao.findById(row.id).get(),row.description,aptitudeDao.getAptitudesOfUser(row.id)));
         }
 
         return list;
@@ -90,7 +91,7 @@ public class SProviderJdbcDao implements SProviderDao {
 
 
         if(dbRowsList.size() == 1) {
-            return Optional.of(new SProvider(userDao.findById(userId).get(),dbRowsList.get(0).description,aptitudeDao.getById(userId)));
+            return Optional.of(new SProvider(userDao.findById(userId).get(),dbRowsList.get(0).description,aptitudeDao.getAptitudesOfUser(userId)));
         }else{
             return Optional.empty();
         }

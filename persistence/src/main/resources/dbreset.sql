@@ -83,7 +83,7 @@ insert into aptitudes VALUES (1,4,2,'Muy buen pintor segundito, te felicito <3')
 
 insert into messages VALUES (2,5,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
 insert into messages VALUES (5,2,'Hola Florencia si que necesitas?',DEFAULT );
-insert into messages VALUES (2,5,'Necesito hacer un aramrio para zapatillas',DEFAULT );
+insert into messages VALUES (2,5,'Necesito hacer un aramario para zapatillas',DEFAULT );
 
 insert into messages VALUES (2,4,'Este tambien es un chat',DEFAULT );
 insert into messages VALUES (4,2,'AAA mira que bueno',DEFAULT );

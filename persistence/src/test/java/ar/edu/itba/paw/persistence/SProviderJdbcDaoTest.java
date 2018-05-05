@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.persistence;
 
 
-import ar.edu.itba.paw.interfaces.SProviderDao;
-import ar.edu.itba.paw.interfaces.UserDao;
+import ar.edu.itba.paw.interfaces.daos.SProviderDao;
+import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
 import org.junit.Before;

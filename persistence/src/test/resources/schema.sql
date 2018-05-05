@@ -1,12 +1,11 @@
-drop table if exists postAreas CASCADE ;
+drop table if EXISTS messages CASCADE ;
+drop table if exists postAreas CASCADE;
 drop table if exists posts CASCADE;
 drop table if exists serviceProviders CASCADE;
 drop table if exists serviceTypes CASCADE;
 drop table if exists users CASCADE;
-drop table if exists aptitudes CASCADE;
 drop table if exists reviews CASCADE;
-drop table if EXISTS messages CASCADE ;
-
+drop table if exists aptitudes CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
   userid INTEGER IDENTITY PRIMARY KEY,

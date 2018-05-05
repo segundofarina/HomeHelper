@@ -1,5 +1,5 @@
 package ar.edu.itba.paw.persistence;
-import ar.edu.itba.paw.interfaces.ReviewDao;
+import ar.edu.itba.paw.interfaces.daos.ReviewDao;
 import ar.edu.itba.paw.model.Review;
 import org.junit.Before;
 import org.junit.Test;

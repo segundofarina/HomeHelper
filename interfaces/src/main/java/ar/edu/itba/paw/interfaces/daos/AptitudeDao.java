@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.interfaces;
+package ar.edu.itba.paw.interfaces.daos;
 
 import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.Review;
@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AptitudeDao {
 
-    List<Aptitude> getById(int id);
+    List<Aptitude> getAptitudesOfUser(int id);
 
     boolean insertAptitude(int sProviderId, int serviceId, String description);
 

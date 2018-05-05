@@ -8,8 +8,11 @@ public class Aptitude {
     private ServiceType service;
     private String description;
     private List<Review> reviews;
+    private int id;
 
-    public Aptitude(ServiceType service, String description, List<Review> reviews) {
+
+    public Aptitude(int id ,ServiceType service, String description, List<Review> reviews) {
+        this.id = id;
         this.service = service;
         this.description = description;
         this.reviews = reviews;
@@ -25,5 +28,9 @@ public class Aptitude {
 
     public List<Review> getReviews() {
         return reviews;
+    }
+
+    public int getId() {
+        return id;
     }
 }

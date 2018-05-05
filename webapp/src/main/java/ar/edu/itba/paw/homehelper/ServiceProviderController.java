@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.homehelper;
 
-import ar.edu.itba.paw.interfaces.ChatService;
-import ar.edu.itba.paw.interfaces.SProviderService;
+import ar.edu.itba.paw.interfaces.services.ChatService;
+import ar.edu.itba.paw.interfaces.services.SProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -80,10 +80,6 @@ public class ServiceProviderController {
         final ModelAndView mav = new ModelAndView("serviceProviderCPReviews");
 
         mav.addObject("providerId", providerId);
-<<<<<<< HEAD
- //       mav.addObject("postList", sProviderService.getPosts(providerId));
-=======
->>>>>>> ffec5d26f8ae413b9bd8f64ea5e0032058859f26
 
         return mav;
     }

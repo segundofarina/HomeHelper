@@ -1,10 +1,9 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.AptitudeDao;
-import ar.edu.itba.paw.interfaces.ReviewDao;
-import ar.edu.itba.paw.interfaces.STypeDao;
+import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
+import ar.edu.itba.paw.interfaces.daos.ReviewDao;
+import ar.edu.itba.paw.interfaces.daos.STypeDao;
 import ar.edu.itba.paw.model.Aptitude;
-import ar.edu.itba.paw.model.ServiceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -53,13 +52,13 @@ public class AptitudeJdbcDao implements AptitudeDao {
         }
     };
 
-    public List<Aptitude> getById(int id) {
+    public List<Aptitude> getAptitudesOfUser(int id) {
         List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM aptitudes WHERE userId =? ", ROW_MAPPER,id);
 
         List<Aptitude> aptitudes = new ArrayList<Aptitude>();
 
         for(Row row : dbRowsList){
-            aptitudes.add(new Aptitude(sTypeDao.getServiceTypeWithId(row.serviceTypeId),row.description,reviewDao.getReviewsOfAptitude(row.aptitudeId)));
+            aptitudes.add(new Aptitude(row.aptitudeId,sTypeDao.getServiceTypeWithId(row.serviceTypeId),row.description,reviewDao.getReviewsOfAptitude(row.aptitudeId)));
         }
 
         return aptitudes;
