@@ -46,7 +46,7 @@ public class STypeJdbcDaoTest {
 
     @After
     public void check() {
-        
+
     }
 
     @Test
