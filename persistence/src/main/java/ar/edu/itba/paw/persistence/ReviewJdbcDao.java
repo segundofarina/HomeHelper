@@ -67,7 +67,11 @@ public class ReviewJdbcDao implements ReviewDao {
         args.put("rating", rating);
         args.put("comment", comment);
 
-        jdbcInsert.execute(args);
+        try {
+            jdbcInsert.execute(args);
+        }catch (Exception e){
+            return false;
+        }
 
         return true;
     }

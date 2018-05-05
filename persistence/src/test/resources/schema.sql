@@ -27,21 +27,6 @@ CREATE TABLE IF NOT EXISTS serviceProviders(
 
 );
 
-CREATE TABLE IF NOT EXISTS posts (
-  postId INTEGER IDENTITY PRIMARY KEY,
-  title varchar(256),
-  description VARCHAR(1000),
-  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
-  userId INTEGER REFERENCES serviceProviders(userid)
-);
-
-
-CREATE TABLE IF NOT EXISTS postAreas(
-  postId INTEGER REFERENCES posts(postId),
-  pin varchar(100),
-  radius INTEGER
-);
-
 CREATE TABLE IF NOT EXISTS aptitudes(
   aptitudeId INTEGER IDENTITY PRIMARY KEY,
   userId INTEGER REFERENCES serviceProviders(userId),
@@ -76,3 +61,6 @@ insert into aptitudes VALUES (2,3,2,'Martinsulis tambien es Pintor');
 insert into aptitudes VALUES (3,4,1,'Carlos el carpintero');
 insert into aptitudes VALUES (4,4,3,'Carlos obrero');
 
+insert into reviews VALUES (1,1,default,4,'Soy Segundo me encanto tu trabajo de carpinteria Martin');
+insert into reviews VALUES (1,1,default,4,'Soy Segundo me encanto tu segundo trabajo de carpinteria Martin');
+insert into reviews VALUES (2,2,default,5,'Soy Florencia me encanto el empapelado Martin');

@@ -43,14 +43,19 @@ public class AptitudeJdbcDaoTest {
 
         List<Aptitude> florenciaAptitudes = aptitudeDao.getById(2);
         assertEquals(0,florenciaAptitudes.size());
+
     }
     @Test
     public void insertAptitudeTest(){
-        boolean ans = aptitudeDao.insertAptitude(4,2,"HOLA Soy Segundo el pintor");
-        assertTrue(ans);
 
-        ans = aptitudeDao.insertAptitude(1,2,"HOLA Soy Segundo el pintor");
-        assertFalse(ans);
+        assertTrue(aptitudeDao.insertAptitude(3,3,"Tambien soy Obrero"));
+
+        assertFalse(aptitudeDao.insertAptitude(40,3,"Este proveedor no existe"));
+
+        assertFalse(aptitudeDao.insertAptitude(3,40,"esta aptitud no existe"));
+
+        assertFalse(aptitudeDao.insertAptitude(1,3,"Segundo no es proveedor"));
+        
 
     }
 }
