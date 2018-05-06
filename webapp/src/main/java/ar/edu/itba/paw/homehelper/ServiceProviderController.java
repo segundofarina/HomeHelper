@@ -1,14 +1,16 @@
 package ar.edu.itba.paw.homehelper;
 
-import ar.edu.itba.paw.interfaces.ChatService;
-import ar.edu.itba.paw.interfaces.SProviderService;
+import ar.edu.itba.paw.interfaces.services.ChatService;
+import ar.edu.itba.paw.interfaces.services.SProviderService;
+import ar.edu.itba.paw.model.AptitudeForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
+import java.util.ArrayList;
 
 @Controller
 public class ServiceProviderController {
@@ -29,11 +31,13 @@ public class ServiceProviderController {
     }
 
     @RequestMapping("/sprovider/{providerId}/editProfile")
-    public ModelAndView providerPosts(@PathVariable("providerId") int providerId) {
+    public ModelAndView providerPosts(@PathVariable("providerId") int providerId/*,@ModelAttribute("registerForm") final AptitudeForm form*/) {
 
         final ModelAndView mav = new ModelAndView("serviceProviderCPEditProfile");
 
         mav.addObject("providerId", providerId);
+        mav.addObject("provider",sProviderService.getServiceProviderWithUserId(providerId));
+        mav.addObject("serviceTypes",sProviderService.getServiceTypes());
 
         return mav;
     }
@@ -82,6 +86,21 @@ public class ServiceProviderController {
         mav.addObject("providerId", providerId);
 
         return mav;
+    }
+
+
+
+    @RequestMapping(value = "/sprovider/{providerId}/editProfile/updateAptitudes", method = { RequestMethod.POST })
+    public ModelAndView updateAptitudes(@Valid @ModelAttribute("registerForm") final AptitudeForm form, final BindingResult errors) {
+        if (errors.hasErrors()) { return providerPosts(form.getServiceProviderId());
+        }
+        ArrayList<AptitudeForm> list =new ArrayList<AptitudeForm>();
+        list.add(form);
+        sProviderService.updateAptitudes(form.getServiceProviderId(),list);
+       // final User u = us.create(form.getUsername(), form .getPassword());
+
+
+        return providerPosts(form.getServiceProviderId());
     }
 
 }
