@@ -27,7 +27,7 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/setAppointment", method = { RequestMethod.POST })
-    public ModelAndView create(@Valid @ModelAttribute("re gisterForm") final AppointmentForm form, final BindingResult errors) {
+    public ModelAndView create(@Valid @ModelAttribute("registerForm") final AppointmentForm form, final BindingResult errors) {
         if (errors.hasErrors()) { return providerProfile(4,form);
         }
         final ModelAndView mav = new ModelAndView("profile");

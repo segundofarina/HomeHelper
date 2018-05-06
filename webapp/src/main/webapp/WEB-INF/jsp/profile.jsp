@@ -63,6 +63,7 @@
 
             <!-- profile detail -->
             <div class="profileDetails">
+                <div class="bgImg"><div class="img"></div></div>
                 <div class="container">
                     <div class="content">
                         <div class="profileImg">
