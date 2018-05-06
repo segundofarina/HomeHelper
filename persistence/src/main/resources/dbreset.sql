@@ -6,6 +6,7 @@ drop table if exists serviceTypes CASCADE;
 drop table if exists users CASCADE;
 drop table if exists reviews CASCADE;
 drop table if exists aptitudes CASCADE;
+DROP TABLE IF EXISTS appointments CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
   userid SERIAL PRIMARY KEY,
@@ -48,7 +49,7 @@ CREATE TABLE IF NOT EXISTS messages(
   messageDate TIMESTAMP  default CURRENT_DATE
 );
 
-CREATE TABLE IF NOT EXISTS appointment(
+CREATE TABLE IF NOT EXISTS appointments(
   appointmentId SERIAL PRIMARY KEY,
   userId INTEGER REFERENCES users(userId),
   providerId INTEGER REFERENCES serviceProviders(userId),
@@ -59,26 +60,36 @@ CREATE TABLE IF NOT EXISTS appointment(
   jobDescription VARCHAR(10000)
 );
 
+
 insert into users VALUES(1,'segundofarina','dulcedeleche','Segundo','Farina','segundofarina@me.com','1134373920');
 insert into users VALUES(2,'florcavallin','dulcedeleche','Florencia','Cavallin','fcavallin@itba.edu.ar','1140910035');
 insert into users VALUES(3,'tinchovictory','dulcedeleche','Martin','Victory','martin@victory.com.ar','1159540388');
 insert into users VALUES(4,'carlosrodriguez','dulcedeleche','Carlos','Rodriguez','carlosrod@gmail.com','1156984231');
 insert into users VALUES(5,'juliovelez','dulcedeleche','Julio','Velez','julitogallina@hotmail.com','1148526584');
 
-insert into serviceProviders VALUES(4,'Trabajo en obras desde hace 5 años en mi casa');
-insert into serviceProviders VALUES(5,'Carpintero desde los 90');
+insert into serviceProviders VALUES(3,'Soy Tincho Victory y no me tomo recreos');
+insert into serviceProviders VALUES(4,'Soy Carlitos, trabajo todos los dias hasta las 11 de la mañana');
+insert into serviceProviders VALUES(5,'Estudie en el balseiro y no me gusto');
 
 insert into serviceTypes VALUES (1,'Carpintero');
 insert into serviceTypes VALUES (2,'Pintor');
+insert into serviceTypes VALUES (3,'Obrero');
 
+insert into aptitudes VALUES (1,3,1,'Martin el carpintero');
+insert into aptitudes VALUES (2,3,2,'Martinsulis tambien es Pintor');
+insert into aptitudes VALUES (3,4,1,'Carlos el carpintero');
+insert into aptitudes VALUES (4,4,3,'Carlos obrero');
 
-insert into aptitudes VALUES (1,4,2,'Muy buen pintor segundito, te felicito <3');
-
+insert into reviews VALUES (1,1,default,4,'Soy Segundo me encanto tu trabajo de carpinteria Martin');
+insert into reviews VALUES (1,1,default,4,'Soy Segundo me encanto tu segundo trabajo de carpinteria Martin');
+insert into reviews VALUES (2,2,default,5,'Soy Florencia me encanto el empapelado Martin');
 
 insert into messages VALUES (2,5,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
 insert into messages VALUES (5,2,'Hola Florencia si que necesitas?',DEFAULT );
-insert into messages VALUES (2,5,'Necesito hacer un aramario para zapatillas',DEFAULT );
+insert into messages VALUES (2,5,'Necesito hacer un aramrio para zapatillas',DEFAULT );
 
 insert into messages VALUES (2,4,'Este tambien es un chat',DEFAULT );
 insert into messages VALUES (4,2,'AAA mira que bueno',DEFAULT );
 insert into messages VALUES (2,4,'Jajaja',DEFAULT );
+
+insert into appointments VALUES (1,1,3,1,'10-05-2018' ,'cuba 2546 6p','Pending','soy flor cavallin, tincho haceme un mueble nuevo');
