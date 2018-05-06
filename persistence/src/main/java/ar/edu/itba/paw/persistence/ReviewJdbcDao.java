@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
@@ -29,11 +30,11 @@ public class ReviewJdbcDao implements ReviewDao {
     private static class Row{
         int userId;
         int aptitudeId;
-        String reviewdate;
+        Timestamp reviewdate;
         int rating;
         String comment;
 
-        public Row(int userId, int aptitudeId, String reviewdate, int rating, String comment) {
+        public Row(int userId, int aptitudeId, Timestamp reviewdate, int rating, String comment) {
             this.userId = userId;
             this.aptitudeId = aptitudeId;
             this.reviewdate = reviewdate;
@@ -43,7 +44,7 @@ public class ReviewJdbcDao implements ReviewDao {
     }
     private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
         public Row mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Row(rs.getInt("userId"),rs.getInt("aptitudeId"),rs.getString("reviewdate"),rs.getInt("rating"),rs.getString("comment"));
+            return new Row(rs.getInt("userId"),rs.getInt("aptitudeId"),rs.getTimestamp("reviewdate"),rs.getInt("rating"),rs.getString("comment"));
         }
     };
 

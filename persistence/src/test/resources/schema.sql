@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS appointments(
   userId INTEGER REFERENCES users(userId),
   providerId INTEGER REFERENCES serviceProviders(userId),
   serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
-  appointmentDate VARCHAR(10000),
+  appointmentDate TIMESTAMP default CURRENT_DATE,
   address VARCHAR(10000),
   status VARCHAR(20),
   jobDescription VARCHAR(10000)
@@ -93,7 +93,7 @@ insert into messages VALUES (2,4,'Este tambien es un chat',DEFAULT );
 insert into messages VALUES (4,2,'AAA mira que bueno',DEFAULT );
 insert into messages VALUES (2,4,'Jajaja',DEFAULT );
 
-insert into appointments VALUES (1,1,3,1,'10-05-2018' ,'cuba 2546 6p','Pending','soy flor cavallin, tincho haceme un mueble nuevo');
+insert into appointments VALUES (1,1,3,1,DEFAULT ,'cuba 2546 6p','Pending','soy flor cavallin, tincho haceme un mueble nuevo');
 
 
 

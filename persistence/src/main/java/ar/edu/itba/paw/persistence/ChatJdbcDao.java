@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.*;
 
 @Repository
@@ -27,7 +29,7 @@ public class ChatJdbcDao implements ChatDao{
 
     private final static RowMapper<Message> ROW_MAPPER = new RowMapper<Message>() {
         public Message mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Message(rs.getInt("userFrom"), rs.getInt("userTo"), rs.getString("messageDate"), rs.getString("message"));
+            return new Message(rs.getInt("userFrom"), rs.getInt("userTo"), rs.getTimestamp("messageDate"), rs.getString("message"));
         }
     };
 
@@ -102,9 +104,8 @@ public class ChatJdbcDao implements ChatDao{
         args.put("userFrom", from);
         args.put("userTo", to);
         args.put("message", message);
-        //args.put("meesageDate", userId);
 
         jdbcInsert.execute(args);
-        return Optional.of(new Message(from,to,"DATE",message));
+        return Optional.of(new Message(from,to,Timestamp.from(Instant.now()),message));
     }
 }
