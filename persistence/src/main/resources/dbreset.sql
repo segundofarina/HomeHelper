@@ -71,8 +71,8 @@ insert into users VALUES(3,'tinchovictory','dulcedeleche','Martin','Victory','ma
 insert into users VALUES(4,'carlosrodriguez','dulcedeleche','Carlos','Rodriguez','carlosrod@gmail.com','1156984231');
 insert into users VALUES(5,'juliovelez','dulcedeleche','Julio','Velez','julitogallina@hotmail.com','1148526584');
 
-insert into serviceProviders VALUES(4);
-insert into serviceProviders VALUES(5);
+insert into serviceProviders VALUES(4,'Trabajo en obras desde hace 5 años en mi casa');
+insert into serviceProviders VALUES(5,'Carpintero desde los 90');
 
 insert into serviceTypes VALUES (1,'Carpintero');
 insert into serviceTypes VALUES (2,'Pintor');

@@ -33,7 +33,7 @@ public class AptitudeJdbcDao implements AptitudeDao {
         jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("aptitudes");
     }
 
-    private static class Row{
+    private static class Row {
         int aptitudeId;
         int userId;
         int serviceTypeId;
@@ -46,19 +46,20 @@ public class AptitudeJdbcDao implements AptitudeDao {
             this.description = description;
         }
     }
+
     private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
         public Row mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Row(rs.getInt("aptitudeId"),rs.getInt("userId"),rs.getInt("serviceTypeId"),rs.getString("description"));
+            return new Row(rs.getInt("aptitudeId"), rs.getInt("userId"), rs.getInt("serviceTypeId"), rs.getString("description"));
         }
     };
 
     public List<Aptitude> getAptitudesOfUser(int id) {
-        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM aptitudes WHERE userId =? ", ROW_MAPPER,id);
+        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM aptitudes WHERE userId =? ", ROW_MAPPER, id);
 
         List<Aptitude> aptitudes = new ArrayList<Aptitude>();
 
-        for(Row row : dbRowsList){
-            aptitudes.add(new Aptitude(row.aptitudeId,sTypeDao.getServiceTypeWithId(row.serviceTypeId),row.description,reviewDao.getReviewsOfAptitude(row.aptitudeId)));
+        for (Row row : dbRowsList) {
+            aptitudes.add(new Aptitude(row.aptitudeId, sTypeDao.getServiceTypeWithId(row.serviceTypeId), row.description, reviewDao.getReviewsOfAptitude(row.aptitudeId)));
         }
 
         return aptitudes;
@@ -68,12 +69,12 @@ public class AptitudeJdbcDao implements AptitudeDao {
     public boolean insertAptitude(int sProviderId, int serviceId, String description) {
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("userId", sProviderId);
-        args.put("serviceTypeId",serviceId);
-        args.put("description",description);
+        args.put("serviceTypeId", serviceId);
+        args.put("description", description);
 
         try {
             jdbcInsert.execute(args);
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
 
@@ -81,6 +82,29 @@ public class AptitudeJdbcDao implements AptitudeDao {
         return true;
     }
 
+    @Override
+    public boolean updateAptitude(int aptId, String description) {
+        try {
+            jdbcTemplate.update("UPDATE aptitudes SET description = ? WHERE aptitudeId = ?", description, aptId);
+        } catch (Exception e) {
+            return false;
+        }
+        List<Row> list;
+
+        try {
+            list = jdbcTemplate.query("SELECT * FROM aptitudes WHERE aptitudeId = ?", ROW_MAPPER, aptId);
+        } catch (Exception e) {
+            return false;
+        }
+        if (list.size() == 0) {
+            return false;
+        }
+        if (list.get(0).description.equals(description)) {
+                return true;
+        }
+        return false;
+
+    }
 
 
 }

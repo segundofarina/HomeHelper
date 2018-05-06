@@ -129,11 +129,11 @@
                                         <div class="col-md-8 col-sm-8 col-xs-12">
                                             <div class="form-group">
                                                 <label for="fullName">Full Name:</label>
-                                                <input id="fullName" type="text" name="fullName" class="form-control" readonly="readonly" placeholder="Name" />
+                                                <input id="fullName" type="text" name="fullName" class="form-control" readonly="readonly" placeholder="<c:out value="${provider.firstname}"/> <c:out value="${provider.lastname}"/> " />
                                             </div>
                                             <div class="form-group">
                                                 <label for="generalDescription">Description:</label>
-                                                <textarea id="generalDescription" name="generalDescription" class="form-control" placeholder="Write some description..."></textarea>
+                                                <textarea id="generalDescription" name="generalDescription" class="form-control" placeholder="Write some description..."><c:out value="${provider.description}" /></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -160,39 +160,23 @@
 
                                 <!-- HIDDEN Aptitudes template -->
 
+
+
                                 <div class="dynamic-element" style="display: none">
                                     <div class="form-group">
                                         <label for="serviceType[]">Service Type:</label>
                                         <select id="serviceType[]" name="serviceType[]" class="form-control">
                                             <option value="">Select one</option>
+                                            <c:forEach items="${serviceTypes}" var="st">
+                                                <option value="<c:out value="${st.serviceTypeId}"/>"><c:out value="${st.name}"/></option>
+                                            </c:forEach>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="aptDescription[]">Description:</label>
-                                        <textarea id="aptDescription[]" name="aptDescription[]" class="form-control" placeholder="Write some description..."></textarea>
+                                        <textarea id="aptDescription[]" name="aptDescription[]" class="form-control" placeholder="Write some description..."><c:out value="${st.name}"/></textarea>
                                     </div>
                                     <button type="button" class="btn btn-danger btn-sm disabled deleteApt"><i class="fa fa-trash"></i> Delete Aptitude</button>
-                                    <!-- Modal -->
-                                    <!--<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-                                        <div class="modal-dialog modal-sm">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
-                                                    </button>
-                                                    <h4 class="modal-title" id="myModalLabel2">Delete aptitude</h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <h4>Are you sure you want to delete the aptitude?</h4>
-                                                    <p>Warning! This action cant't be undone.</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-danger deleteApt" data-dismiss="modal"><i class="fa fa-trash"></i> Delete Aptitude</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>-->
-                                    <!-- End Modal -->
                                 </div>
 
                                 <!-- End aptitudes template -->
@@ -201,6 +185,27 @@
                                     <fieldset>
                                         <div class="dynamic-stuff">
                                             <!-- Dynamic element will be cloned here -->
+
+                                            <c:forEach items="${provider.aptitudes}" var="aptitude">
+
+
+
+                                            <div class="dynamic-element" >
+                                                <div class="form-group">
+                                                    <label for="serviceType[]">Service Type:</label>
+                                                    <select id="serviceType[]" name="serviceType[]" class="form-control" disabled="disabled">
+                                                        <option value="<c:out value="${aptitude.service.serviceTypeId}"/>"><c:out value="${aptitude.service.name}"/></option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="aptDescription[]">Description:</label>
+                                                    <textarea id="aptDescription[]" name="aptDescription[]" class="form-control" placeholder="Write some description..."><c:out value="${aptitude.description}"/></textarea>
+                                                </div>
+                                                <button type="button" class="btn btn-danger btn-sm disabled deleteApt"><i class="fa fa-trash"></i> Delete Aptitude</button>
+                                            </div>
+
+                                            </c:forEach>
+
                                         </div>
 
                                         <div class="divider-dashed"></div>
@@ -268,7 +273,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        addElement();
+        //addElement();
 
         //Clone the hidden element and shows it
         $('.add-one').click(function(e) {
