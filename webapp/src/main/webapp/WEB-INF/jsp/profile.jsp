@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,9 +43,13 @@
                             <img src="<c:url value="/resources/img/img.jpg" />" alt="profile picture" />
                         </div>
                         <div class="name">
-                            <h3>Martin Victory</h3>
+                            <h3><c:out value="${provider.firstname}"/> <c:out value="${provider.lastname}"/></h3>
                         </div>
-                        <div class="serviceType"><em>Pintor y obrero</em></div>
+                        <div class="serviceType">
+                            <c:forEach items="${provider.aptitudes}" var="aptitude">
+                            <em><c:out value="${aptitude.service.name}"/> </em>
+                            </c:forEach>
+                        </div>
                         <div class="stars">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -70,9 +75,9 @@
                             <div class="panel-body descriptionTxt">
                                 <p>
                                     <span class="quote openQuote">&#x201C;</span>
-                                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt ex eget magna cursus, ut pretium dui imperdiet. Nullam eleifend sem laoreet ultrices condimentum. Vestibulum malesuada viverra quam sed venenatis. Vivamus vel odio non lectus commodo sagittis. Etiam ut porta lectus. Quisque eleifend, nisl non maximus cursus, orci urna ultrices turpis, et fermentum magna ex nec massa. Aenean fermentum porttitor enim in porta. Vivamus mollis massa quis risus suscipit, vehicula malesuada velit dictum.
-                                    Etiam iaculis magna ultrices finibus egestas. In vitae lacus nisi. Quisque maximus augue est, ut fringilla libero tempus at. Praesent vulputate fringilla quam ac pretium. Quisque fermentum cursus erat, eu rhoncus leo ultrices id. Suspendisse et sagittis mi. Pellentesque sit amet mauris vitae urna interdum tempus sit amet id justo. Donec fringilla id quam pulvinar consequat. Fusce scelerisque id dolor eu pretium. Ut ut elit pretium, elementum nibh non, tincidunt nisl. Vivamus tristique erat lobortis, rhoncus est suscipit, iaculis sapien. Sed ex orci, lacinia at aliquet quis, cursus eget libero. Suspendisse venenatis ex at nisl lobortis laoreet.
-                                    Pellentesque sed eros blandit, rutrum nibh eu, congue nisi. Mauris congue, ex tincidunt facilisis pulvinar, velit diam varius justo, nec viverra est sem sed lacus. Donec vel lectus tristique, faucibus libero non, tincidunt felis. Mauris commodo augue ut scelerisque aliquet. Cras a pretium sem. Nunc accumsan dolor non interdum volutpat. Sed nec dignissim lectus.</span>
+                                    <span>
+                                        <c:out value="${provider.description}"/>
+                                    </span>
                                     <span class="quote closeQuote">&#x02EE;</span>
                                 </p>
                             </div>
@@ -81,29 +86,33 @@
                     <div class="col-xs-12 col-sm-4 col-md-3 panel-appointment">
                         <div class="panel panel-shadow">
                             <div class="panel-body">
-                                <form method="post" action="/setAppointment">
+                                <c:url value="/setAppointment" var="postPath"/>
+                                <form:form modelAttribute="appointmentForm" action="${postPath}" method="get">
                                     <div class="form-group">
-                                        <label for="apServiceType">Service Type:</label>
-                                        <select class="form-control" id="apServiceType">
-                                            <option value="">Select a service type...</option>
-                                        </select>
+                                        <form:label path="serviceType">Service Type:</form:label>
+                                        <form:select class="form-control" path="serviceType">
+                                            <c:forEach items="${provider.aptitudes}" var="aptitude">
+                                                <option value="<c:out value="${aptitude.service.serviceTypeId}"/>"> <c:out value="${aptitude.service.name}"/></option>
+                                            </c:forEach>
+                                        </form:select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="apDate">Date:</label>
-                                        <input type="text" name="date" id="apDate" class="form-control" placeholder="Select a date..." />
+                                        <formlabel path="date">Date:</formlabel>
+                                        <form:input type="text" name="date" path="date" class="form-control" placeholder="Select a date..." />
                                     </div>
                                     <div class="form-group">
-                                        <label for="apDescription">Description:</label>
-                                        <textarea name="description" id="apDescription" class="form-control" placeholder="Describe your situation"></textarea>
+                                        <form:label path="description">Description:</form:label>
+                                        <form:textarea path="description" class="form-control" placeholder="Describe your situation"></form:textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-success btn-full-width">Contact</button>
-                                </form>
+                                    <form:button type="submit" class="btn btn-success btn-full-width">Contact</form:button>
+                                </form:form>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <h2>Aptitudes</h2>
+                <c:forEach items="${provider.aptitudes}" var="aptitude">
 
                 <div class="row aptitude">
                     <div class="col-xs-12 col-sm-8 col-md-9">
@@ -112,11 +121,9 @@
                             <div class="col-xs-12 col-md-8">
                                 <div class="panel">
                                     <div class="panel-body descriptionTxt">
-                                        <h3>Pintor</h3>
+                                        <h3><c:out value="${aptitude.service.name}"/></h3>
                                         <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt ex eget magna cursus, ut pretium dui imperdiet. Nullam eleifend sem laoreet ultrices condimentum. Vestibulum malesuada viverra quam sed venenatis. Vivamus vel odio non lectus commodo sagittis. Etiam ut porta lectus. Quisque eleifend, nisl non maximus cursus, orci urna ultrices turpis, et fermentum magna ex nec massa. Aenean fermentum porttitor enim in porta. Vivamus mollis massa quis risus suscipit, vehicula malesuada velit dictum.
-                                            <br />
-                                            Etiam iaculis magna ultrices finibus egestas. In vitae lacus nisi. Quisque maximus augue est, ut fringilla libero tempus at. Praesent vulputate fringilla quam ac pretium. Quisque fermentum cursus erat, eu rhoncus leo ultrices id. Suspendisse et sagittis mi. Pellentesque sit amet mauris vitae urna interdum tempus sit amet id justo.
+                                            <c:out value="${aptitude.description}"/>
                                         </p>
                                     </div>
                                 </div>
@@ -162,6 +169,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <!-- reviews -->
@@ -169,7 +177,7 @@
                     <div class="col-xs-12 col-sm-8 col-md-9">
                         <div class="panel descriptionTxt">
                             <div class="panel-body">
-
+                             <c:forEach items="${aptitude.reviews}" var="review">
                                 <div class="review-item">
 
                                     <div class="row">
@@ -181,7 +189,7 @@
                                         <div class="col-xs-12 col-sm-9 col-md-8">
                                             <blockquote>
                                                 <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt ex eget magna cursus, ut pretium dui imperdiet. Nullam eleifend sem laoreet ultrices condimentum. Vestibulum malesuada viverra quam sed venenatis. Vivamus vel odio non lectus commodo sagittis. Etiam ut porta lectus.
+                                                    <c:out value="${review.comment}"/>
                                                 </p>
                                                 <footer class="visible-xs visible-sm">May 24, 2018</footer>
                                             </blockquote>
@@ -197,42 +205,15 @@
 
                                 </div>
 
+                             </c:forEach>
 
-                                <!---->
-
-                                <div class="review-item">
-
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-3 col-md-2">
-                                            <div class="profileImg">
-                                                <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile Img" />
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-9 col-md-8">
-                                            <blockquote>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt ex eget magna cursus, ut pretium dui imperdiet. Nullam eleifend sem laoreet ultrices condimentum. Vestibulum malesuada viverra quam sed venenatis. Vivamus vel odio non lectus commodo sagittis. Etiam ut porta lectus.
-                                                </p>
-                                                <footer class="visible-xs visible-sm">May 24, 2018</footer>
-                                            </blockquote>
-                                        </div>
-                                        <div class="hidden-sm hidden-xs col-md-2">
-                                            <div class="date-panel">
-                                                <p class="day">24</p>
-                                                <p class="month">May</p>
-                                                <p class="year">2018</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <!---->
 
                             </div>
                         </div>
                     </div>
                 </div>
+
+                </c:forEach>
             </div>
 
             <!-- /main content -->

@@ -1,8 +1,12 @@
 package ar.edu.itba.paw.persistence;
 
 
-import ar.edu.itba.paw.interfaces.SProviderDao;
+import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
+import ar.edu.itba.paw.interfaces.daos.SProviderDao;
+import ar.edu.itba.paw.interfaces.daos.UserDao;
+import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.SProvider;
+import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -10,12 +14,9 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import javax.swing.text.html.Option;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-
-import static java.util.Optional.empty;
 
 @Repository
 public class SProviderJdbcDao implements SProviderDao {
@@ -24,10 +25,10 @@ public class SProviderJdbcDao implements SProviderDao {
     private final SimpleJdbcInsert jdbcInsert;
 
     @Autowired
-    PostJdbcDao postDao;
+    AptitudeDao aptitudeDao;
 
     @Autowired
-    UserJdbcDao userDao;
+    UserDao userDao;
 
     @Autowired
     public SProviderJdbcDao(final DataSource ds) {
@@ -39,19 +40,30 @@ public class SProviderJdbcDao implements SProviderDao {
 
     /* Table ServiceProviders has been redefined to only have userId as it's columns*/
 
-    private final static RowMapper<Integer> ROW_MAPPER = new RowMapper<Integer>() {
-        public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return rs.getInt("userId");
+
+    private static class Row{
+        int id;
+        String description;
+
+        public Row(int id, String description) {
+            this.id = id;
+            this.description = description;
+        }
+
+    }
+    private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
+        public Row mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Row(rs.getInt("userId"),rs.getString("description"));
         }
     };
 
 
     /** SProviderDao implemented methods **/
 
-    public Optional<SProvider> create(int userId) {
+    public Optional<SProvider> create(int userId, String description) {
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("userId", userId);
-
+        args.put("description",description);
         if(!userDao.findById(userId).isPresent()){
             return Optional.empty();
             /* O bien podria tirar una excepcion ya que no tendria que crear un Sprovider que no es user*/
@@ -59,29 +71,28 @@ public class SProviderJdbcDao implements SProviderDao {
 
         jdbcInsert.execute(args);
 
-        return Optional.of(new SProvider(postDao.getPostWithUserId(userId),userDao.findById(userId).get()));
+        return Optional.of(new SProvider(userDao.findById(userId).get(),description, new ArrayList<Aptitude>() ));
 
     }
 
     public List<SProvider> getServiceProviders() {
-        List<Integer> dbRowsList = jdbcTemplate.query("SELECT * FROM serviceProviders", ROW_MAPPER);
+        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM serviceProviders", ROW_MAPPER);
 
         List<SProvider> list = new ArrayList<SProvider>();
 
-        for(Integer id : dbRowsList) {
-            list.add(new SProvider( postDao.getPostWithUserId(id),userDao.findById(id).get()));
+        for(Row row : dbRowsList) {
+            list.add(new SProvider(userDao.findById(row.id).get(),row.description,aptitudeDao.getAptitudesOfUser(row.id)));
         }
 
         return list;
     }
 
     public Optional<SProvider> getServiceProviderWithUserId(int userId) {
-        List<Integer> dbRowsList = jdbcTemplate.query("SELECT * FROM serviceProviders WHERE userId = ?"
-                , ROW_MAPPER, userId);
+        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM serviceProviders WHERE userId = ?", ROW_MAPPER, userId);
 
 
         if(dbRowsList.size() == 1) {
-            return Optional.of(new SProvider( postDao.getPostWithUserId(userId), userDao.findById(userId).get()));
+            return Optional.of(new SProvider(userDao.findById(userId).get(),dbRowsList.get(0).description,aptitudeDao.getAptitudesOfUser(userId)));
         }else{
             return Optional.empty();
         }

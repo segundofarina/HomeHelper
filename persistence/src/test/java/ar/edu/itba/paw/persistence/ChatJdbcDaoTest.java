@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 
-import ar.edu.itba.paw.interfaces.ChatDao;
+import ar.edu.itba.paw.interfaces.daos.ChatDao;
 import ar.edu.itba.paw.model.Chat;
 import ar.edu.itba.paw.model.Message;
 import org.junit.Before;
@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -41,6 +42,7 @@ public class ChatJdbcDaoTest {
     }
     @Test
     public void writeMessageTest(){
+        int count =JdbcTestUtils.countRowsInTable(jdbcTemplate,"messages");
         final String message = "Hello";
         Optional<Message> response =chatDao.writeMessage(Const.USER_ID,Const.SPROVIDER_ID,message);
         assertTrue(response.isPresent());
@@ -48,6 +50,7 @@ public class ChatJdbcDaoTest {
         assertEquals(Const.USER_ID,response.get().getFrom());
         assertEquals(Const.SPROVIDER_ID,response.get().getTo());
         assertEquals(message,response.get().getMessage());
+        assertEquals(count+1,JdbcTestUtils.countRowsInTable(jdbcTemplate,"messages"));
     }
     @Test
     public void  testGetChatBetween(){
