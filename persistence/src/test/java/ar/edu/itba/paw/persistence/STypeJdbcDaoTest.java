@@ -68,7 +68,7 @@ public class STypeJdbcDaoTest {
     @Test
     public void testGetServiceTypeWithId() {
 
-        final ServiceType st = sTypeDao.getServiceTypeWithId(Const.SERVICETYPE_ID);
+        final ServiceType st = sTypeDao.getServiceTypeWithId(Const.SERVICETYPE_ID).get();
         assertNotNull(st);
         assertEquals(Const.SERVICETYPE_ID, st.getServiceTypeId());
         assertEquals(Const.SERVICETYPE_NAME, st.getName());
@@ -79,7 +79,7 @@ public class STypeJdbcDaoTest {
     public void testUpdateServiceTypeWithId() {
 
 
-        final ServiceType st = sTypeDao.updateServiceTypeWithId(Const.SERVICETYPE_ID, NAME_UPDATE);
+        final ServiceType st = sTypeDao.updateServiceTypeWithId(Const.SERVICETYPE_ID, NAME_UPDATE).get();
         assertNotNull(st);
         assertEquals( Const.SERVICETYPE_ID, st.getServiceTypeId());
         assertEquals( NAME_UPDATE, st.getName());

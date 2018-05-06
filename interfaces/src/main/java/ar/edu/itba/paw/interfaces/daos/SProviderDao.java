@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.daos;
 
 import ar.edu.itba.paw.model.SProvider;
+import ar.edu.itba.paw.model.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,4 +15,5 @@ public interface SProviderDao {
     Optional<SProvider> getServiceProviderWithUserId(int userId);
 
     double getCalificationOfServiceProvider(int userId);
+
 }

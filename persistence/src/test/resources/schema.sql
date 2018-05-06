@@ -6,6 +6,7 @@ drop table if exists serviceTypes CASCADE;
 drop table if exists users CASCADE;
 drop table if exists reviews CASCADE;
 drop table if exists aptitudes CASCADE;
+drop table if exists appointments CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
   userid INTEGER IDENTITY PRIMARY KEY,
@@ -50,6 +51,17 @@ CREATE TABLE IF NOT EXISTS messages(
   messageDate TIMESTAMP  default CURRENT_DATE
 );
 
+CREATE TABLE IF NOT EXISTS appointments(
+  appointmentId INTEGER IDENTITY PRIMARY KEY,
+  userId INTEGER REFERENCES users(userId),
+  providerId INTEGER REFERENCES serviceProviders(userId),
+  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
+  appointmentDate VARCHAR(10000),
+  address VARCHAR(10000),
+  status VARCHAR(20),
+  jobDescription VARCHAR(10000)
+);
+
 insert into users VALUES(1,'segundofarina','dulcedeleche','Segundo','Farina','segundofarina@me.com','1134373920');
 insert into users VALUES(2,'florcavallin','dulcedeleche','Florencia','Cavallin','fcavallin@itba.edu.ar','1140910035');
 insert into users VALUES(3,'tinchovictory','dulcedeleche','Martin','Victory','martin@victory.com.ar','1159540388');
@@ -80,4 +92,8 @@ insert into messages VALUES (2,5,'Necesito hacer un aramrio para zapatillas',DEF
 insert into messages VALUES (2,4,'Este tambien es un chat',DEFAULT );
 insert into messages VALUES (4,2,'AAA mira que bueno',DEFAULT );
 insert into messages VALUES (2,4,'Jajaja',DEFAULT );
+
+insert into appointments VALUES (1,1,3,1,'10-05-2018' ,'cuba 2546 6p','Pending','soy flor cavallin, tincho haceme un mueble nuevo');
+
+
 

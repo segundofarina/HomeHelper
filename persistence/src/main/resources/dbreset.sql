@@ -27,22 +27,6 @@ CREATE TABLE IF NOT EXISTS serviceProviders(
   description TEXT
 );
 
-
-CREATE TABLE IF NOT EXISTS posts (
-  postId SERIAL PRIMARY KEY,
-  title varchar(256),
-  description TEXT,
-  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
-  userId INTEGER REFERENCES serviceProviders(userid)
-);
-
-
-CREATE TABLE IF NOT EXISTS postAreas(
-  postId INTEGER REFERENCES posts(postId),
-  pin varchar(100),
-  radius INTEGER
-);
-
 CREATE TABLE IF NOT EXISTS aptitudes(
   aptitudeId SERIAL PRIMARY KEY,
   userId INTEGER REFERENCES serviceProviders(userId),
@@ -63,6 +47,18 @@ CREATE TABLE IF NOT EXISTS messages(
   message VARCHAR(10000),
   messageDate TIMESTAMP  default CURRENT_DATE
 );
+
+CREATE TABLE IF NOT EXISTS appointment(
+  appointmentId INTEGER SERIAL PRIMARY KEY,
+  userId INTEGER REFERENCES users(userId),
+  providerId INTEGER REFERENCES serviceProviders(userId),
+  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
+  appointmentDate TIMESTAMP  default CURRENT_DATE,
+  address VARCHAR(10000),
+  status VARCHAR(20),
+  jobDescription VARCHAR(10000)
+);
+
 
 
 insert into users VALUES(1,'segundofarina','dulcedeleche','Segundo','Farina','segundofarina@me.com','1134373920');
