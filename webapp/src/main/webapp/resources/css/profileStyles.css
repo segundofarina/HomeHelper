@@ -205,8 +205,13 @@ label {
 }
 
 .aptitude h3 {
-    margin-top: 0;
-    color: #73879C;
+    margin-top: 1em;
+    color: #72869c;
+    margin-left: 1em;
+    border-bottom: 2px solid #e8e8e8;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.8em;
+    margin-right: 1em;
 }
 
 .aptitude-bars {

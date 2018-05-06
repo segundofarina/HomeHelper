@@ -138,17 +138,19 @@
                     </div>
                 </div>
 
-                <h2>Aptitudes</h2>
+                <h1>Aptitudes</h1>
                 <c:forEach items="${provider.aptitudes}" var="aptitude">
 
                 <div class="row aptitude">
+
                     <div class="col-xs-12 col-sm-8 col-md-9">
+
+                        <h3><c:out value="${aptitude.service.name}"/></h3>
 
                         <div class="row">
                             <div class="col-xs-12 col-md-8">
                                 <div class="panel">
                                     <div class="panel-body descriptionTxt">
-                                        <h3><c:out value="${aptitude.service.name}"/></h3>
                                         <p>
                                             <c:out value="${aptitude.description}"/>
                                         </p>
