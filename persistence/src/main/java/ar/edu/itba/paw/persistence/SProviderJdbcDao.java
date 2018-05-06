@@ -97,11 +97,4 @@ public class SProviderJdbcDao implements SProviderDao {
             return Optional.empty();
         }
     }
-
-    @Override
-    public double getCalificationOfServiceProvider(int userId) {
-       Optional<SProvider> provider = getServiceProviderWithUserId(userId);
-       return provider.get().getCalification();
-
-    }
 }

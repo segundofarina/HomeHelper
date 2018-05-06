@@ -14,6 +14,4 @@ public interface SProviderDao {
 
     Optional<SProvider> getServiceProviderWithUserId(int userId);
 
-    double getCalificationOfServiceProvider(int userId);
-
 }

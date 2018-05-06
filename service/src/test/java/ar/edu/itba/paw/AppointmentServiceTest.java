@@ -1,40 +1,36 @@
 package ar.edu.itba.paw;
 
-import ar.edu.itba.paw.model.Appointment;
-import ar.edu.itba.paw.model.Status;
 import org.junit.Test;
-
-import java.util.List;
 
 public class AppointmentServiceTest {
 
     @Test
-    public void getAppointmentsByProviderId(){
+    public void getAppointmentsByProviderIdTest(){
 
     }
     @Test
-    public void getAppointmentsByUserId(){
+    public void getAppointmentsByUserIdTest(){
 
     }
 
     @Test
-    public void getAppointment(){
+    public void getAppointmentTest(){
 
     }
     @Test
-    public void getAppointmentId(){
+    public void getAppointmentIdTest(){
 
     }
     @Test
-    public void addAppointment(){
+    public void addAppointmentTest(){
 
     }
     @Test
-    public void confirmAppointment(){
+    public void confirmAppointmentTest(){
 
     }
     @Test
-    public void completedAppointment(){
+    public void completedAppointmentTest(){
 
     }
 }
