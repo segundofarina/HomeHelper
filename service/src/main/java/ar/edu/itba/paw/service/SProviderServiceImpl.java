@@ -7,6 +7,7 @@ import ar.edu.itba.paw.interfaces.daos.SProviderDao;
 import ar.edu.itba.paw.interfaces.daos.STypeDao;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.Aptitude;
+import ar.edu.itba.paw.model.Review;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.ServiceType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,19 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Override
     public double getCalificationOfServiceProvider(int userId) {
-        return sProviderDao.getCalificationOfServiceProvider(userId);
+        List<Aptitude> aptitudes = aptitudeDao.getAptitudesOfUser(userId);
+        double finalCalification = 0;
+        double calification = 0;
+
+        for(Aptitude aptitude : aptitudes){
+            calification = 0;
+            for(Review review : aptitude.getReviews()){
+                calification+=review.getRating();
+            }
+            finalCalification = calification/aptitude.getReviews().size();
+        }
+
+        return finalCalification;
     }
 
     @Override

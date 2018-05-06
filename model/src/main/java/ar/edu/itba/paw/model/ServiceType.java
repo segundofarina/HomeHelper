@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.model;
 
+
 import java.util.Objects;
 
 public class ServiceType {

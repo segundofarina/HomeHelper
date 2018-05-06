@@ -58,8 +58,9 @@ public class AptitudeJdbcDao implements AptitudeDao {
 
         List<Aptitude> aptitudes = new ArrayList<Aptitude>();
 
-        for (Row row : dbRowsList) {
-            aptitudes.add(new Aptitude(row.aptitudeId, sTypeDao.getServiceTypeWithId(row.serviceTypeId), row.description, reviewDao.getReviewsOfAptitude(row.aptitudeId)));
+
+        for(Row row : dbRowsList){
+            aptitudes.add(new Aptitude(row.aptitudeId,sTypeDao.getServiceTypeWithId(row.serviceTypeId).get(),row.description,reviewDao.getReviewsOfAptitude(row.aptitudeId)));
         }
 
         return aptitudes;

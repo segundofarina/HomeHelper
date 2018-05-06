@@ -6,6 +6,7 @@ import ar.edu.itba.paw.interfaces.daos.SProviderDao;
 import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.SProvider;
+import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -95,12 +96,5 @@ public class SProviderJdbcDao implements SProviderDao {
         }else{
             return Optional.empty();
         }
-    }
-
-    @Override
-    public double getCalificationOfServiceProvider(int userId) {
-       Optional<SProvider> provider = getServiceProviderWithUserId(userId);
-       return provider.get().getCalification();
-
     }
 }

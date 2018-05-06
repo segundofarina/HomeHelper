@@ -2,6 +2,8 @@ package ar.edu.itba.paw.interfaces.services;
 
 import ar.edu.itba.paw.model.User;
 
+import java.util.Optional;
+
 public interface UserService {
 
     User findById(int id);

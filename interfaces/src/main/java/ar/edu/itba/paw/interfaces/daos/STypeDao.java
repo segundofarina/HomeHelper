@@ -3,6 +3,7 @@ package ar.edu.itba.paw.interfaces.daos;
 import ar.edu.itba.paw.model.ServiceType;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface STypeDao {
 
@@ -10,7 +11,7 @@ public interface STypeDao {
 
     List<ServiceType> getServiceTypes();
 
-    ServiceType getServiceTypeWithId(int serviceTypeId);
+    Optional<ServiceType> getServiceTypeWithId(int serviceTypeId);
 
-    ServiceType updateServiceTypeWithId(int serviceTypeId, String newServiceName);
+    Optional<ServiceType> updateServiceTypeWithId(int serviceTypeId, String newServiceName);
 }
