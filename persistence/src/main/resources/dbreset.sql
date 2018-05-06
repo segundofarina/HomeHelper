@@ -49,11 +49,11 @@ CREATE TABLE IF NOT EXISTS messages(
 );
 
 CREATE TABLE IF NOT EXISTS appointment(
-  appointmentId INTEGER SERIAL PRIMARY KEY,
+  appointmentId SERIAL PRIMARY KEY,
   userId INTEGER REFERENCES users(userId),
   providerId INTEGER REFERENCES serviceProviders(userId),
   serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
-  appointmentDate TIMESTAMP  default CURRENT_DATE,
+  appointmentDate VARCHAR(100),
   address VARCHAR(10000),
   status VARCHAR(20),
   jobDescription VARCHAR(10000)

@@ -9,32 +9,32 @@ import java.util.List;
 public class AppointmentServiceTest {
 
     @Test
-    void getAppointmentsByProviderId(){
+    public void getAppointmentsByProviderId(){
 
     }
     @Test
-    void getAppointmentsByUserId(){
+    public void getAppointmentsByUserId(){
 
     }
 
     @Test
-    void getAppointment(){
+    public void getAppointment(){
 
     }
     @Test
-    void getAppointmentId(){
+    public void getAppointmentId(){
 
     }
     @Test
-    void addAppointment(){
+    public void addAppointment(){
 
     }
     @Test
-    void confirmAppointment(){
+    public void confirmAppointment(){
 
     }
     @Test
-    void completedAppointment(){
+    public void completedAppointment(){
 
     }
 }
