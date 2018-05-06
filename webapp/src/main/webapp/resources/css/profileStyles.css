@@ -190,8 +190,9 @@ h2 {
     width: 100%;
 }
 
-textarea {
+textarea.form-control {
     resize: vertical;
+    min-height: 10em;
 }
 
 label {
@@ -220,64 +221,45 @@ label {
     background-color: #26b99a;
 }
 
-.aptitude .date-panel {
-    background-color: #EEEEEE;
-    border-radius: 5px;
-    padding: 1em;
-}
-
-.aptitude .date-panel p {
-    color: #73879C;
-    text-align: center;
-    margin-bottom: 2px;
-    font-weight: bold;
-    line-height: 25px;
-}
-
-.aptitude .date-panel .day {
-    font-size: 40px;
-}
-
-.aptitude .date-panel .month {
-    font-size: 15px;
-}
-
-.aptitude .date-panel .year {
-    font-size: 22px;
-}
-
-.aptitude .profileImg {
-    text-align: center;
-    margin-bottom: 2em;
-}
-
-.aptitude .profileImg img {
-    width: 100%;
-    height: 100%;
-    border-radius: 100%;
-    max-width: 10em;
-}
-
-.aptitude blockquote {
-    font-size: 14px;
-}
-
 .review-item {
-    padding-top: 2em;
-    padding-bottom: 1em;
+    min-height: 8em;
 }
 
-.review-item:first-child {
-    padding-top: 0;
+.line-divider:not(:first-of-type) {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    border-top: 1px solid #eee;
 }
 
-.review-item:last-child {
-    padding-bottom: 0;
+.review-item .profileImg {
+    text-align: center;
+    left: 0;
+    right: 0;
 }
 
-.review-item:not(:last-child) {
-    border-bottom: 1px dashed #979797;
+.review-item .profileImg img {
+    width: 6em;
+    height: 6em;
+    border-radius: 100%;
 }
+
+.review-item .name h5 {
+    margin-bottom: 3px;
+}
+
+.review-item .date {
+    font-style: italic;
+    margin-right: 0.5em;
+}
+
+.review-item .dotDivider {
+    display: inline-block;
+}
+
+.review-item .description {
+    margin-top: 2em;
+}
+
 
 footer.footer {
     background: #fff;
@@ -307,6 +289,32 @@ footer.footer {
         position: fixed;
         top: 6em;
     }
+
+    .review-item .profileImg {
+        position: absolute;
+    }
+
+    .review-item .date {
+        display: inline-block;
+    }
+
+    .review-item .stars {
+        display: inline-block;
+        margin-left: 0;
+    }
+
+    .review-item .description {
+        margin-top: 1em;
+    }
+
+    .divider-left {
+        border-left: 2px solid #EEEEEE;
+    }
+
+    .review-item .stars {
+        margin-left: 0.5em;
+    }
+
 }
 
 @media (min-width: 992px) {

@@ -202,36 +202,45 @@
                 <!-- reviews -->
                 <div class="row aptitude">
                     <div class="col-xs-12 col-sm-8 col-md-9">
-                        <div class="panel descriptionTxt">
+                        <div class="panel">
                             <div class="panel-body">
                              <c:forEach items="${aptitude.reviews}" var="review">
-                                <div class="review-item">
-
+                                 <div class="line-divider"></div>
+                                 <div class="review-item">
                                     <div class="row">
-                                        <div class="col-xs-12 col-sm-3 col-md-2">
+                                        <div class="col-xs-6 col-sm-3 col-md-2">
                                             <div class="profileImg">
-                                                <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile Img" />
+                                                <img src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Img" />
+                                                <div class="name hidden-xs">
+                                                    <h5><c:out value="" />Martin Victory</h5>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-9 col-md-8">
-                                            <blockquote>
-                                                <p>
-                                                    <c:out value="${review.comment}"/>
-                                                </p>
-                                                <footer class="visible-xs visible-sm">May 24, 2018</footer>
-                                            </blockquote>
-                                        </div>
-                                        <div class="hidden-sm hidden-xs col-md-2">
-                                            <div class="date-panel">
-                                                <p class="day">24</p>
-                                                <p class="month">May</p>
-                                                <p class="year">2018</p>
+                                        <div class="col-xs-6 col-sm-9 col-md-10 divider-left">
+                                            <div class="name visible-xs">
+                                                <h5>Martin Victory</h5>
                                             </div>
+                                            <div class="date"><c:out value="${review.date}" /></div>
+                                            <div class="dotDivider hidden-xs">&#x25CF;</div>
+                                            <div class="stars">
+                                                <i class="fa fa-star<c:if test="${review.rating == 0}"><c:out value="-o"/></c:if>"></i>
+                                                <i class="fa fa-star<c:if test="${review.rating == 1}"><c:out value="-o"/></c:if>"></i>
+                                                <i class="fa fa-star<c:if test="${review.rating == 2}"><c:out value="-o"/></c:if>"></i>
+                                                <i class="fa fa-star<c:if test="${review.rating == 3}"><c:out value="-o"/></c:if>"></i>
+                                                <i class="fa fa-star<c:if test="${review.rating == 4}"><c:out value="-o"/></c:if>"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-0 col-sm-3 col-md-2"></div>
+                                        <div class="col-xs-12 col-sm-9 col-md-10 divider-left">
+                                            <p class="description">
+                                                <c:out value="${review.comment}" />
+                                            </p>
                                         </div>
                                     </div>
 
                                 </div>
-
                              </c:forEach>
 
 
