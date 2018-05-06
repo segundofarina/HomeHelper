@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.ChatDao;
-import ar.edu.itba.paw.interfaces.UserDao;
+import ar.edu.itba.paw.interfaces.daos.ChatDao;
+import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.model.Chat;
 import ar.edu.itba.paw.model.Message;
 import ar.edu.itba.paw.model.User;

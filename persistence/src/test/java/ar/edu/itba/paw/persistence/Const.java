@@ -49,5 +49,14 @@ public interface Const {
     String USER3_EMAIL="martin@victory.com.ar";
     String USER3_PHONE="1159540388";
 
+    int SERVICETYPE_ID=1;
+    String SERVICETYPE_NAME="Carpintero";
+
+    int SERVICETYPE2_ID=2;
+    String SERVICETYPE2_NAME="Pintor";
+
+    int SERVICETYPE3_ID=3;
+    String SERVICETYPE3_NAME="Obrero";
+
 
 }

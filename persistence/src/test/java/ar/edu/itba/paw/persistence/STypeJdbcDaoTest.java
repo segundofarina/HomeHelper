@@ -1,16 +1,11 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.STypeDao;
+import ar.edu.itba.paw.interfaces.daos.STypeDao;
 import ar.edu.itba.paw.model.ServiceType;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -44,47 +39,49 @@ public class STypeJdbcDaoTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
-        JdbcTestUtils.deleteFromTables(jdbcTemplate, "messages","posts","serviceProviders","serviceTypes","users");
+        //JdbcTestUtils.deleteFromTables(jdbcTemplate, "messages","posts","serviceProviders","serviceTypes","users");
+    }
+
+    @After
+    public void check() {
+
     }
 
     @Test
     public void testCreate() {
+        int count =JdbcTestUtils.countRowsInTable(jdbcTemplate,  "serviceTypes");
         final ServiceType serviceType = sTypeDao.create(NAME);
         assertNotNull(serviceType);
         assertEquals(NAME, serviceType.getName());
-        assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate,  "serviceTypes"));
+        assertEquals(count+1, JdbcTestUtils.countRowsInTable(jdbcTemplate,  "serviceTypes"));
     }
 
     @Test
     public void testGetList() {
 
-        sTypeDao.create(NAME);
         final List<ServiceType> list = sTypeDao.getServiceTypes();
         assertNotNull(list);
         assertEquals( JdbcTestUtils.countRowsInTable(jdbcTemplate, "serviceTypes"),list.size());
-        assertEquals( 1, list.size());
-        //assertEquals( 0, list.get(0).getServiceTypeId());
-        assertEquals( NAME, list.get(0).getName());
+
     }
 
     @Test
     public void testGetServiceTypeWithId() {
 
-        final ServiceType serviceType = sTypeDao.create(NAME);
-        final ServiceType st = sTypeDao.getServiceTypeWithId(serviceType.getServiceTypeId());
+        final ServiceType st = sTypeDao.getServiceTypeWithId(Const.SERVICETYPE_ID).get();
         assertNotNull(st);
-        assertEquals(serviceType.getServiceTypeId(), st.getServiceTypeId());
-        assertEquals(NAME, st.getName());
+        assertEquals(Const.SERVICETYPE_ID, st.getServiceTypeId());
+        assertEquals(Const.SERVICETYPE_NAME, st.getName());
     }
 
 
     @Test
     public void testUpdateServiceTypeWithId() {
 
-        final ServiceType serviceType = sTypeDao.create(NAME);
-        final ServiceType st = sTypeDao.updateServiceTypeWithId(serviceType.getServiceTypeId(), NAME_UPDATE);
+
+        final ServiceType st = sTypeDao.updateServiceTypeWithId(Const.SERVICETYPE_ID, NAME_UPDATE).get();
         assertNotNull(st);
-        assertEquals( serviceType.getServiceTypeId(), st.getServiceTypeId());
+        assertEquals( Const.SERVICETYPE_ID, st.getServiceTypeId());
         assertEquals( NAME_UPDATE, st.getName());
     }
 

@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS serviceTypes (
 );
 
 CREATE TABLE IF NOT EXISTS serviceProviders(
-  userId INTEGER REFERENCES users(userid) PRIMARY KEY
+  userId INTEGER REFERENCES users(userid) PRIMARY KEY,
+  description TEXT
 );
 
 
@@ -31,4 +32,25 @@ CREATE TABLE IF NOT EXISTS postAreas(
   postId INTEGER REFERENCES posts(postId),
   pin varchar(100),
   radius INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS aptitudes(
+  aptitudeId SERIAL PRIMARY KEY,
+  userId INTEGER REFERENCES serviceProviders(userId),
+  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
+  description TEXT
+);
+
+CREATE TABLE IF NOT EXISTS reviews(
+  userId INTEGER  REFERENCES users(userId),
+  aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
+  reviewdate TIMESTAMP default CURRENT_DATE,
+  rating INTEGER CHECK(rating > 0 AND rating < 6),
+  comment TEXT
+);
+CREATE TABLE IF NOT EXISTS messages(
+  userFrom INTEGER REFERENCES users(userId),
+  userTo  INTEGER REFERENCES users(userId),
+  message VARCHAR(10000),
+  messageDate TIMESTAMP  default CURRENT_DATE
 );

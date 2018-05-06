@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.UserDao;
+import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.model.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,24 +40,29 @@ import static junit.framework.Assert.*;
         @Before
         public void setUp() {
             jdbcTemplate = new JdbcTemplate(ds);
-            JdbcTestUtils.deleteFromTables(jdbcTemplate, "messages","posts","serviceProviders","serviceTypes","users");
+            //JdbcTestUtils.deleteFromTables(jdbcTemplate, "messages","posts","serviceProviders","serviceTypes","users");
         }
         @Test
         public void testCreate() {
+            int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "users");
             final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE);
             assertNotNull(user);
             assertEquals(USERNAME, user.getUsername());
             assertEquals(PASSWORD, user.getPassword());
            // assertEquals(0,user.getId());
-            assertEquals(1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
+            assertEquals(count+1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "users"));
         }
         @Test
         public void testFindById(){
-            final User target = insertDummyUser(userDao);
 
-            Optional<User> response = userDao.findById(target.getId());
+            Optional<User> response = userDao.findById(Const.USER_ID);
             assertTrue(response.isPresent());
-            assertEquals(target,response.get());
+            assertEquals(Const.USER_USERNAME,response.get().getUsername());
+            assertEquals(Const.USER_PASSWORD,response.get().getPassword());
+            assertEquals(Const.USER_FIRSTNAME,response.get().getFirstname());
+            assertEquals(Const.USER_LASTNAME,response.get().getLastname());
+            assertEquals(Const.USER_EMAIL,response.get().getEmail());
+            assertEquals(Const.USER_PHONE,response.get().getPhone());
 
             response = userDao.findById(115);
             assertFalse(response.isPresent());
