@@ -44,7 +44,7 @@
 }
 
 .navbar .navbar-btn {
-    margin-left: 1em;
+    width: 100%;
 }
 
 .btn-custom {
@@ -53,10 +53,13 @@
     font-weight: bold;
     font-size: 11px;
     padding: 0.7em 2em;
+    border: 2px solid #73879C;
 }
 
-.btn-custom:hover {
-    color: #fff;
+.btn-custom:hover, .btn-custom:focus {
+    color: #444444;
+    background-color: #FFFFFF;
+    border: 2px solid #73879C;
 }
 
 .btn-rounded {
@@ -66,4 +69,11 @@
 
 .main-content {
     padding-top: 70px;
+}
+
+@media (min-width: 768px) {
+    .navbar .navbar-btn {
+        margin-left: 1em;
+        width: auto;
+    }
 }
