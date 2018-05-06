@@ -4,8 +4,7 @@ drop table if exists serviceTypes CASCADE;
 drop table if exists users CASCADE;
 drop table if exists reviews CASCADE;
 drop table if exists aptitudes CASCADE;
-drop table if exists appointment CASCADE;
-
+DROP TABLE IF EXISTS appointments CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
   userid SERIAL PRIMARY KEY,
@@ -48,7 +47,7 @@ CREATE TABLE IF NOT EXISTS messages(
   messageDate TIMESTAMP  default CURRENT_DATE
 );
 
-CREATE TABLE IF NOT EXISTS appointment(
+CREATE TABLE IF NOT EXISTS appointments(
   appointmentId SERIAL PRIMARY KEY,
   userId INTEGER REFERENCES users(userId),
   providerId INTEGER REFERENCES serviceProviders(userId),
@@ -289,3 +288,4 @@ insert into messages VALUES (2,6,'Necesito hacer un aramrio para zapatillas',DEF
 insert into messages VALUES (2,9,'Este tambien es un chat',DEFAULT );
 insert into messages VALUES (9,2,'AAA mira que bueno',DEFAULT );
 insert into messages VALUES (2,9,'Jajaja',DEFAULT );
+
