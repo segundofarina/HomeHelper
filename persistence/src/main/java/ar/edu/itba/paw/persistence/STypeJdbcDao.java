@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.STypeDao;
+import ar.edu.itba.paw.interfaces.daos.STypeDao;
 import ar.edu.itba.paw.model.ServiceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class STypeJdbcDao implements STypeDao {
@@ -36,9 +37,6 @@ public class STypeJdbcDao implements STypeDao {
     };
 
 
-
-
-
     /** STypeDao implemented methods **/
 
     public ServiceType create(String name) {
@@ -55,17 +53,16 @@ public class STypeJdbcDao implements STypeDao {
         return list;
     }
 
-    public ServiceType getServiceTypeWithId(int serviceTypeId) {
+    public Optional<ServiceType> getServiceTypeWithId(int serviceTypeId) {
         final List<ServiceType> list = jdbcTemplate.query("SELECT * FROM serviceTypes WHERE serviceTypeId = ?", ROW_MAPPER, serviceTypeId);
-
-        if(list.size() == 0) {
-            return null; // SHOULD RETURN AN OPTIONAL
+        if(list.size() == 1) {
+            Optional<ServiceType> ans = Optional.ofNullable(list.get(0));
+            return ans;
         }
-
-        return list.get(0);
+        return Optional.empty();
     }
 
-    public ServiceType updateServiceTypeWithId(int serviceTypeId, String newServiceName) {
+    public Optional<ServiceType> updateServiceTypeWithId(int serviceTypeId, String newServiceName) {
         jdbcTemplate.update("UPDATE serviceTypes SET serviceName = ? WHERE serviceTypeId = ?", newServiceName, serviceTypeId);
 
         return getServiceTypeWithId(serviceTypeId);

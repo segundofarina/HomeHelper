@@ -4,6 +4,8 @@ drop table if exists posts CASCADE;
 drop table if exists serviceProviders CASCADE;
 drop table if exists serviceTypes CASCADE;
 drop table if exists users CASCADE;
+drop table if exists reviews CASCADE;
+drop table if exists aptitudes CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
   userid SERIAL PRIMARY KEY,
@@ -21,25 +23,24 @@ CREATE TABLE IF NOT EXISTS serviceTypes (
 );
 
 CREATE TABLE IF NOT EXISTS serviceProviders(
-  userId INTEGER REFERENCES users(userid) PRIMARY KEY
+  userId INTEGER REFERENCES users(userid) PRIMARY KEY,
+  description TEXT
 );
 
-
-CREATE TABLE IF NOT EXISTS posts (
-  postId SERIAL PRIMARY KEY,
-  title varchar(256),
-  description TEXT,
+CREATE TABLE IF NOT EXISTS aptitudes(
+  aptitudeId SERIAL PRIMARY KEY,
+  userId INTEGER REFERENCES serviceProviders(userId),
   serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
-  userId INTEGER REFERENCES serviceProviders(userid)
+  description TEXT
 );
 
-
-CREATE TABLE IF NOT EXISTS postAreas(
-  postId INTEGER REFERENCES posts(postId),
-  pin varchar(100),
-  radius INTEGER
+CREATE TABLE IF NOT EXISTS reviews(
+  userId INTEGER  REFERENCES users(userId),
+  aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
+  reviewdate TIMESTAMP default CURRENT_DATE,
+  rating INTEGER CHECK(rating > 0 AND rating < 6),
+  comment TEXT
 );
-
 CREATE TABLE IF NOT EXISTS messages(
   userFrom INTEGER REFERENCES users(userId),
   userTo  INTEGER REFERENCES users(userId),
@@ -47,6 +48,16 @@ CREATE TABLE IF NOT EXISTS messages(
   messageDate TIMESTAMP  default CURRENT_DATE
 );
 
+CREATE TABLE IF NOT EXISTS appointment(
+  appointmentId SERIAL PRIMARY KEY,
+  userId INTEGER REFERENCES users(userId),
+  providerId INTEGER REFERENCES serviceProviders(userId),
+  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
+  appointmentDate VARCHAR(100),
+  address VARCHAR(10000),
+  status VARCHAR(20),
+  jobDescription VARCHAR(10000)
+);
 
 insert into users VALUES(1,'segundofarina','dulcedeleche','Segundo','Farina','segundofarina@me.com','1134373920');
 insert into users VALUES(2,'florcavallin','dulcedeleche','Florencia','Cavallin','fcavallin@itba.edu.ar','1140910035');
@@ -54,20 +65,19 @@ insert into users VALUES(3,'tinchovictory','dulcedeleche','Martin','Victory','ma
 insert into users VALUES(4,'carlosrodriguez','dulcedeleche','Carlos','Rodriguez','carlosrod@gmail.com','1156984231');
 insert into users VALUES(5,'juliovelez','dulcedeleche','Julio','Velez','julitogallina@hotmail.com','1148526584');
 
-insert into serviceProviders VALUES(4);
-insert into serviceProviders VALUES(5);
+insert into serviceProviders VALUES(4,'Trabajo en obras desde hace 5 años en mi casa');
+insert into serviceProviders VALUES(5,'Carpintero desde los 90');
 
 insert into serviceTypes VALUES (1,'Carpintero');
 insert into serviceTypes VALUES (2,'Pintor');
 
-insert into posts VALUES (1,'Primer post','Alta experiencia en cosas de carpineria(?) WEEee',1,4);
-insert into posts VALUES (2,'Segundo post de carlitos','Tambien hago trabajos de pintura loco',2,4);
-insert into posts VALUES (3,'Carpinteria en zona norte','Expermientado trabajador educado. No como carlos',1,5);
-insert into posts VALUES (4,'Trabajos de pintura en Vicente Lopez','Paredes interiores y exteriores y muebles',2,5);
+
+insert into aptitudes VALUES (1,4,2,'Muy buen pintor segundito, te felicito <3');
+
 
 insert into messages VALUES (2,5,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
 insert into messages VALUES (5,2,'Hola Florencia si que necesitas?',DEFAULT );
-insert into messages VALUES (2,5,'Necesito hacer un aramrio para zapatillas',DEFAULT );
+insert into messages VALUES (2,5,'Necesito hacer un aramario para zapatillas',DEFAULT );
 
 insert into messages VALUES (2,4,'Este tambien es un chat',DEFAULT );
 insert into messages VALUES (4,2,'AAA mira que bueno',DEFAULT );

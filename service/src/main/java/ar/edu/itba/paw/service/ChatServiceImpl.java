@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.service;
 
-import ar.edu.itba.paw.interfaces.ChatDao;
-import ar.edu.itba.paw.interfaces.ChatService;
+import ar.edu.itba.paw.interfaces.daos.ChatDao;
+import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.model.Chat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
