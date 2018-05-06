@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
@@ -44,12 +45,12 @@ public class AppointmentJdbcDao implements AppointmentDao {
         int userId;
         int providerId;
         int serviceTypeId;
-        String date;
+        Timestamp date;
         String address;
         Status status;
         String jobDescription;
 
-        public Row(int appointmentId, int userId, int providerId, int serviceTypeId, String appointmentDate, String address, Status status, String jobDescription) {
+        public Row(int appointmentId, int userId, int providerId, int serviceTypeId, Timestamp appointmentDate, String address, Status status, String jobDescription) {
             this.appointmentId = appointmentId;
             this.userId = userId;
             this.providerId = providerId;
@@ -64,7 +65,7 @@ public class AppointmentJdbcDao implements AppointmentDao {
 
     private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
         public Row mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Row(rs.getInt("appointmentId"), rs.getInt("userId"), rs.getInt("providerId"), rs.getInt("serviceTypeId"), rs.getString("appointmentDate"), rs.getString("address"), Status.getStatus(rs.getString("status")), rs.getString("jobDescription"));
+            return new Row(rs.getInt("appointmentId"), rs.getInt("userId"), rs.getInt("providerId"), rs.getInt("serviceTypeId"), rs.getTimestamp("appointmentDate"), rs.getString("address"), Status.getStatus(rs.getString("status")), rs.getString("jobDescription"));
         }
     };
 
@@ -108,7 +109,7 @@ public class AppointmentJdbcDao implements AppointmentDao {
     }
 
     @Override
-    public Optional<Integer> getAppointmentId(int clientId, int providerId, String date, String address) {
+    public Optional<Integer> getAppointmentId(int clientId, int providerId, Timestamp date, String address) {
         List<Row> dbId = jdbcTemplate.query("SELECT * FROM appointments WHERE userId =? and providerId =? and appointmentDate =? and address =?", ROW_MAPPER, clientId, providerId, date, address);
 
         if (dbId.size() == 1) {
@@ -120,7 +121,7 @@ public class AppointmentJdbcDao implements AppointmentDao {
     }
 
     @Override
-    public boolean addAppointment(int clientId, int providerId, int serviceTypeId, String date, String address, String jobDescripcion) {
+    public boolean addAppointment(int clientId, int providerId, int serviceTypeId, Timestamp date, String address, String jobDescripcion) {
         if (!userDao.findById(clientId).isPresent() || !sProviderDao.getServiceProviderWithUserId(providerId).isPresent() || !serviceTypeDao.getServiceTypeWithId(serviceTypeId).isPresent()) {
             return false;
         }
