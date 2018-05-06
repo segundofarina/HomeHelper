@@ -7,6 +7,7 @@ import ar.edu.itba.paw.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -65,7 +66,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Integer getAppointmentId(int clientId, int providerId, String date, String address) {
+    public Integer getAppointmentId(int clientId, int providerId, Timestamp date, String address) {
         Optional<Integer> id = appointmentDao.getAppointmentId(clientId,providerId,date,address);
         if(id.isPresent()){
             return id.get();
@@ -74,7 +75,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public boolean addAppointment(int clientId, int providerId, int serviceTypeId, String date, String address, String jobDescripcion) {
+    public boolean addAppointment(int clientId, int providerId, int serviceTypeId, Timestamp date, String address, String jobDescripcion) {
         return appointmentDao.addAppointment(clientId,providerId,serviceTypeId,date,address,jobDescripcion);
     }
 

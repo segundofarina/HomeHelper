@@ -1,14 +1,16 @@
 package ar.edu.itba.paw.model;
 
+import java.sql.Timestamp;
+
 public class Message {
 
     int from;
     int to;
     int thread;
-    String Date;
+    Timestamp Date;
     String message;
 
-    public Message(int from, int to, String date, String message) {
+    public Message(int from, int to, Timestamp date, String message) {
         this.from = from;
         this.to = to;
         Date = date;
@@ -31,7 +33,7 @@ public class Message {
         return thread;
     }
 
-    public String getDate() {
+    public Timestamp getDate() {
         return Date;
     }
 }
