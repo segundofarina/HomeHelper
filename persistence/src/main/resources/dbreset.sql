@@ -1,4 +1,4 @@
-drop table if EXISTS messages;
+drop table if EXISTS messages CASCADE;
 drop table if exists serviceProviders CASCADE;
 drop table if exists serviceTypes CASCADE;
 drop table if exists users CASCADE;
@@ -281,3 +281,11 @@ insert into reviews VALUES (7,5,DEFAULT,5,'Me resolvio una urgencia fuera de hor
 insert into reviews VALUES (8,6,DEFAULT,5,'Cambiamos la entrada de un local comercial, me aconsejo re bien, el trabajo quedo excelente! coordinamos muy rápido (y en ningún momento me pateó o plantó (antes de contactarlo llame a otros dos supuestamente recomendados que me plantaron) muy detallista y perfeccionista, sin ninguna duda lo volvería a llamar si necesito hacer alguna otra cosa. Super recomendable!!!.');
 insert into reviews VALUES (9,6,DEFAULT,5,'Reparó una puerta de una cocina que da al exterior. Super profesional, la dejo como nueva. Recomiendo contratar su servicio.');
 insert into reviews VALUES (1,6,DEFAULT,5,'Trabajo bien y rápido. Arreglo una parrilla de un quincho. Muchas gracias!!!!.');
+
+insert into messages VALUES (2,6,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
+insert into messages VALUES (6,2,'Hola Florencia si que necesitas?',DEFAULT );
+insert into messages VALUES (2,6,'Necesito hacer un aramrio para zapatillas',DEFAULT );
+
+insert into messages VALUES (2,9,'Este tambien es un chat',DEFAULT );
+insert into messages VALUES (9,2,'AAA mira que bueno',DEFAULT );
+insert into messages VALUES (2,9,'Jajaja',DEFAULT );
