@@ -1,0 +1,109 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    background-color: #F7F7F7;
+    color: #444444;
+}
+
+h2 {
+    color: #444444;
+}
+
+.main_container {
+    min-height: 100%;
+    position: relative;
+}
+
+.main-content {
+    padding-top: 100px;
+    padding-bottom: 50px;
+}
+
+footer.footer {
+    background: #fff;
+    padding: 15px 20px;
+    display: block;
+    margin-top: 2em;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.panel {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid #E6E9ED;
+    padding: 15px 30px;
+    min-height: 9em;
+}
+
+.profileImg {
+    margin: auto;
+    max-width: 7em;
+    left: 0;
+    right: 0;
+}
+
+.profileImg img {
+    border-radius: 100%;
+    width: 100%;
+    height: 100%;
+}
+
+.profileName, .serviceTypes {
+    margin-top: 0;
+}
+
+.serviceTypes {
+    font-style: italic;
+}
+
+.profileDescription {
+    margin-top: 0.5em;
+}
+
+.separatorDot {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .profileImg {
+        position: absolute;
+    }
+
+    .moveLeft {
+        float: left;
+    }
+
+    .moveRight {
+        float: right;
+    }
+
+    .profileName {
+        margin-right: 0.5em;
+    }
+
+    .serviceTypes {
+        margin-left: 0.5em;
+    }
+    
+    .separatorDot {
+        display: inline-block;
+    }
+
+    .profileName, .serviceTypes {
+        display: inline-block;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1000px;
+    }
+}
+
