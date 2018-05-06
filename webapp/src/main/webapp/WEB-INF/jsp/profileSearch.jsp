@@ -34,6 +34,10 @@
     <div class="main-content">
 
         <div class="container">
+
+            <c:forEach items="${list}" var="provider">
+
+
             <div class="panel">
                 <div class="panel-body">
                     <div class="row">
@@ -44,9 +48,13 @@
                         </div>
                         <div class="col-xs-6 col-sm-10">
                             <div class="moveLeft">
-                                <h3 class="profileName">Martin Victory</h3>
+                                <h3 class="profileName"><c:out value="${provider.firstname}"/> <c:out value="${provider.lastname}"/></h3>
                                 <span class="separatorDot">&#x25CF;</span>
-                                <h5 class="serviceTypes">Pintor y obrero</h5>
+                                <h5 class="serviceTypes">
+                                    <c:forEach items="${provider.aptitudes}" var="aptitude">
+                                        <c:out value="${aptitude.service.name}"/>
+                                    </c:forEach>
+                                </h5>
                             </div>
                             <div class="moveRight">
                                 <div class="stars">
@@ -64,12 +72,14 @@
                         <div class="col-xs-0 col-sm-2"></div>
                         <div class="col-xs-12 col-sm-10">
                             <p class="profileDescription">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt ex eget magna cursus, ut pretium dui imperdiet. Nullam eleifend sem laoreet ultrices condimentum. Vestibulum malesuada viverra quam sed venenatis. Vivamus vel odio non lectus commodo sagittis. Etiam ut porta lectus. Quisque eleifend, nisl non maximus cursus, orci urna ultrices turpis, et fermentum magna ex nec massa. Aenean fermentum porttitor enim in porta. Vivamus mollis massa quis risus suscipit, vehicula malesuada velit dictum.
+                                <c:out value="${provider.description}"/>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
+
+            </c:forEach>
         </div>
 
     </div><!-- /main content -->
