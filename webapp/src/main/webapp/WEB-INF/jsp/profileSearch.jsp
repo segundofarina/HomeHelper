@@ -72,7 +72,7 @@
                                         <div class="profileImg">
                                             <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile picture" />
                                             <div class="profileBtn hidden-xs">
-                                                <a href="#" class="btn btn-success btn-sm">View Profile</a>
+                                                <a href="/profile/<c:out value="${provider.id}"/>" class="btn btn-success btn-sm">View Profile</a>
                                             </div>
                                         </div>
                                     </div>
@@ -107,7 +107,7 @@
                                     </div>
                                 </div>
                                 <div class="profileBtn visible-xs">
-                                    <a href="#" class="btn btn-success btn-sm btn-full-width">View Profile</a>
+                                    <a href="/profile/<c:out value="${provider.id}"/>" class="btn btn-success btn-sm btn-full-width">View Profile</a>
                                 </div>
                             </div>
                         </div>
