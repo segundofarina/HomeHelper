@@ -1,5 +1,7 @@
-package ar.edu.itba.paw.homehelper;
+package ar.edu.itba.paw.homehelper.controller;
 
+import ar.edu.itba.paw.homehelper.form.AppointmentForm;
+import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.SProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +30,15 @@ public class ClientController {
         return mav;
     }
 
+    @RequestMapping("/login") public ModelAndView login() {
+        return new ModelAndView("login"); }
+
     @RequestMapping("/search")
     public ModelAndView searchProfile(@Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors) {
         if (errors.hasErrors()) { return index(form); }
 
         final ModelAndView mav = new ModelAndView("profileSearch");
-        List<SProvider> list =sProviderService.getServiceProvidersWithServiceType(form.serviceTypeId);
+        List<SProvider> list =sProviderService.getServiceProvidersWithServiceType(form.getServiceTypeId());
         mav.addObject("list",list);
         mav.addObject("serviceTypes",sProviderService.getServiceTypes());
         return mav;

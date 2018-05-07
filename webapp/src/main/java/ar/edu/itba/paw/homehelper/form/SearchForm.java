@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.homehelper.from;
+package ar.edu.itba.paw.homehelper.form;
 
 public class SearchForm {
     int cityId;

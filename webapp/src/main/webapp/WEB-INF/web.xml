@@ -11,12 +11,27 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>ar.edu.itba.paw.homehelper.config.WebConfig,</param-value>
+        <param-value>
+            ar.edu.itba.paw.homehelper.config.WebConfig ,
+            ar.edu.itba.paw.homehelper.config.WebAuthConfig,
+        </param-value>
     </context-param>
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <servlet-name>dispatcher</servlet-name>
+    </filter-mapping>
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+
+
 
     <servlet>
         <servlet-name>dispatcher</servlet-name>
