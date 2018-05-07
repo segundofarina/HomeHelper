@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,18 +41,20 @@
             <div class="container-fluid">
                 <h1>Some Text</h1>
                 <div class="searchForm">
-                    <form method="POST" action="/search">
+                    <c:url value="/search" var="postPath"/>
+                    <form:form modelAttribute="searchForm" action="${postPath}" method="Post">
                         <div class="form-group">
-                            <input type="text" name="city" class="form-control" placeholder="Write your city..." />
+                            <form:input type="text" path="cityId" class="form-control" placeholder="Write your city..." />
                         </div>
                         <div class="form-group">
-                            <input type="text" name="city" class="form-control" placeholder="Write your address..." />
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="city" class="form-control" placeholder="Write a service type..." />
+                            <form:select path="serviceTypeId" class="form-control" >
+                        <c:forEach items="${serviceTypes}" var="st">
+                            <option value="<c:out value="${st.serviceTypeId}"/>"><c:out value="${st.name}"/></option>
+                        </c:forEach>
+                            </form:select>
                         </div>
                         <button type="submit" class="btn btn-success">Search <i class="fa fa-long-arrow-right"></i></button>
-                    </form>
+                    </form:form>
                 </div>
             </div>
         </div>

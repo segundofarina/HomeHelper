@@ -11,6 +11,8 @@ public interface SProviderService {
 
     List<SProvider> getServiceProviders();
 
+    List<SProvider> getServiceProvidersWithServiceType(int serviceType);
+
     SProvider getServiceProviderWithUserId(int userId);
 
     double getCalificationOfServiceProvider(int userId);
@@ -24,5 +26,7 @@ public interface SProviderService {
     public boolean updateAptitude(int aptId,String newDescription);
 
     public boolean updateAptitudes(int spId, List<AptitudeForm> list);
+
+
 
 }

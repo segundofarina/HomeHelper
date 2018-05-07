@@ -13,6 +13,7 @@ import ar.edu.itba.paw.model.ServiceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,6 +39,21 @@ public class SProviderServiceImpl implements SProviderService {
     @Override
     public List<SProvider> getServiceProviders() {
         return sProviderDao.getServiceProviders();
+    }
+
+    @Override
+    public List<SProvider> getServiceProvidersWithServiceType(int serviceType) {
+        List<SProvider> filteredSp = new ArrayList<SProvider>();
+
+        for(SProvider sp: getServiceProviders()){
+            for(Aptitude ap :sp.getAptitudes()){
+                if(ap.getService().getServiceTypeId() == serviceType){
+                    filteredSp.add(sp);
+                }
+            }
+        }
+        return filteredSp;
+
     }
 
     @Override
@@ -73,6 +89,8 @@ public class SProviderServiceImpl implements SProviderService {
 
         return false;
     }
+
+
 
 
     @Override
