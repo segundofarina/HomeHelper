@@ -41,11 +41,11 @@ public class ReviewJdbcDaoTest {
     @Test
     public void insertReviewTest(){
 
-        assertTrue(reviewDao.insertReview(3,1,1,"No me gusto tu trabajo cabroon"));
+        assertTrue(reviewDao.insertReview(3,1,5,5,5,5,5,"No me gusto tu trabajo cabroon"));
 
-        assertFalse(reviewDao.insertReview(40,1,1,"No me gusto tu trabajo cabroon"));
+        assertFalse(reviewDao.insertReview(40,1,1,5,5,5,5,"No me gusto tu trabajo cabroon"));
 
-        assertFalse(reviewDao.insertReview(3,40,1,"No me gusto tu trabajo cabroon"));
+        assertFalse(reviewDao.insertReview(3,40,1,5,5,5,5,"No me gusto tu trabajo cabroon"));
 
     }
 }

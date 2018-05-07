@@ -20,20 +20,71 @@ public class SProvider extends User{
     public List<Aptitude> getAptitudes() {
         return aptitudes;
     }
-    
-    public double getCalification(){
-        double calification = 0;
-        double aptitudeCalification = 0;
-        
-        for(Aptitude aptitude: aptitudes){
-            aptitudeCalification = 0;
-            for(Review review: aptitude.getReviews()){
-                aptitudeCalification+=review.getRating();
-            }
-            calification += aptitudeCalification/aptitude.getReviews().size();
+
+    public double getQualityCalification(){
+
+        double quality = 0;
+
+        for(Aptitude aptitude : aptitudes){
+            quality += aptitude.getQualityCalification();
         }
-        
-        return calification;
+
+        return quality/aptitudes.size();
+    }
+
+    public double getCleannessCalification(){
+
+        double cleanness = 0;
+
+        for(Aptitude aptitude : aptitudes){
+            cleanness += aptitude.getCleannessCalification();
+        }
+
+        return cleanness/aptitudes.size();
+    }
+
+    public double getPriceCalification(){
+
+        double price = 0;
+
+        for(Aptitude aptitude : aptitudes){
+            price += aptitude.getPriceCalification();
+        }
+
+        return price/aptitudes.size();
+    }
+
+    public double getPunctualityCalification(){
+
+        double punctuality = 0;
+
+        for(Aptitude aptitude : aptitudes){
+            punctuality += aptitude.getPunctualityCalification();
+        }
+
+        return punctuality/aptitudes.size();
+    }
+
+    public double getTreatmentCalification(){
+
+        double treatment = 0;
+
+        for(Aptitude aptitude : aptitudes){
+            treatment += aptitude.getTreatmentCalification();
+        }
+
+        return treatment/aptitudes.size();
+    }
+
+    public double getGeneralCalification() {
+
+        double general = 0;
+
+        for(Aptitude aptitude : aptitudes){
+            general += aptitude.getGeneralCalification();
+        }
+
+        return general/aptitudes.size();
     }
 
 

@@ -18,22 +18,6 @@ CREATE TABLE IF NOT EXISTS serviceProviders(
   description TEXT
 );
 
-
-CREATE TABLE IF NOT EXISTS posts (
-  postId SERIAL PRIMARY KEY,
-  title varchar(256),
-  description TEXT,
-  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
-  userId INTEGER REFERENCES serviceProviders(userid)
-);
-
-
-CREATE TABLE IF NOT EXISTS postAreas(
-  postId INTEGER REFERENCES posts(postId),
-  pin varchar(100),
-  radius INTEGER
-);
-
 CREATE TABLE IF NOT EXISTS aptitudes(
   aptitudeId SERIAL PRIMARY KEY,
   userId INTEGER REFERENCES serviceProviders(userId),
@@ -45,7 +29,11 @@ CREATE TABLE IF NOT EXISTS reviews(
   userId INTEGER  REFERENCES users(userId),
   aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
   reviewdate TIMESTAMP default CURRENT_DATE,
-  rating INTEGER CHECK(rating > 0 AND rating < 6),
+  quality INTEGER CHECK(quality > 0 AND  quality < 6),
+  cleanness INTEGER CHECK(cleanness > 0 AND cleanness < 6),
+  price INTEGER CHECK(price > 0 AND price < 6),
+  punctuality INTEGER CHECK(punctuality > 0 AND punctuality < 6),
+  treatment INTEGER CHECK(treatment > 0 AND treatment < 6),
   comment TEXT
 );
 CREATE TABLE IF NOT EXISTS messages(
