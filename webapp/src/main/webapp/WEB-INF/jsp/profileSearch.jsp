@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,21 +40,24 @@
                 <div class="col-xs-12 col-sm-4 col-md-3 col-fixed">
                     <div class="panel">
                         <div class="panel-body">
-                            <form action="/search" method="post">
+                            <c:url value="/search" var="postPath"/>
+                            <form:form modelAttribute="searchForm" action="${postPath}" method="Post">
                                 <div class="form-group">
-                                    <label for="fieldCity">City:</label>
-                                    <select class="form-control" id="fieldCity">
-                                        <option value="">Select a city...</option>
-                                    </select>
+                                    <form:label path="cityId">City:</form:label>
+                                    <form:select class="form-control" path="cityId">
+                                        <option value="1">Select a city...</option>
+                                    </form:select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="serviceType">Service Type:</label>
-                                    <select class="form-control" id="serviceType">
-                                        <option value="">Select a service type...</option>
-                                    </select>
+                                    <form:label path="serviceTypeId">Service Type:</form:label>
+                                    <form:select path="serviceTypeId" class="form-control" >
+                                        <c:forEach items="${serviceTypes}" var="st">
+                                            <option value="<c:out value="${st.serviceTypeId}"/>"><c:out value="${st.name}"/></option>
+                                        </c:forEach>
+                                    </form:select>
                                 </div>
-                                <button type="submit" class="btn btn-success btn-full-width">Search</button>
-                            </form>
+                                <form:button type="submit" class="btn btn-success btn-full-width">Search</form:button>
+                            </form:form>
                         </div>
                     </div>
                 </div>
@@ -87,12 +91,7 @@
                                             </h5>
                                         </div>
                                         <div class="moveRight">
-                                            <div class="stars">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                                <i class="fa fa-star-o"></i>
+                                            <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>">
                                             </div>
                                         </div>
                                         <div class="clearfix"></div>
@@ -141,7 +140,12 @@
 <script src="<c:url value="/resources/adminTemplate/vendors/nprogress/nprogress.js"/>"></script>-->
 
 <!-- Custom Theme Scripts -->
-
+<script src="<c:url value="/resources/js/customJs.js"/>"></script>
+<script>
+    $(document).ready(function(){
+        generateStars();
+    });
+</script>
 
 </body>
 </html>

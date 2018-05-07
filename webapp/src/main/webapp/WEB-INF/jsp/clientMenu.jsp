@@ -10,7 +10,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
                 <img src="<c:url value="/resources/img/HHLogo.png" />" alt="logo" />
                 <span>Home-Helper</span>
             </a>
