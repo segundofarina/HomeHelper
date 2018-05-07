@@ -37,6 +37,7 @@
 
             <!-- profile detail -->
             <div class="profileDetails">
+                <div class="bgImg"><div class="img"></div></div>
                 <div class="container">
                     <div class="content">
                         <div class="profileImg">
@@ -111,17 +112,19 @@
                     </div>
                 </div>
 
-                <h2>Aptitudes</h2>
+                <h1>Aptitudes</h1>
                 <c:forEach items="${provider.aptitudes}" var="aptitude">
 
                 <div class="row aptitude">
+
                     <div class="col-xs-12 col-sm-8 col-md-9">
+
+                        <h3><c:out value="${aptitude.service.name}"/></h3>
 
                         <div class="row">
                             <div class="col-xs-12 col-md-8">
                                 <div class="panel">
                                     <div class="panel-body descriptionTxt">
-                                        <h3><c:out value="${aptitude.service.name}"/></h3>
                                         <p>
                                             <c:out value="${aptitude.description}"/>
                                         </p>
@@ -140,28 +143,35 @@
                                             <i class="fa fa-star-o"></i>
                                         </div>
                                         <div class="progressBars">
-                                            <h5>Algo:</h5>
+                                            <h5>Qualtiy</h5>
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="3.5" aria-valuemin="0" aria-valuemax="5" style="width: 70%;">
-                                                    3.5
+
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.qualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.qualityCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.qualityCalification}"/>
                                                 </div>
                                             </div>
-                                            <h5>Algo:</h5>
+                                            <h5>Price:</h5>
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="5" style="width: 100%;">
-                                                    5
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.priceCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.priceCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.priceCalification}"/>
                                                 </div>
                                             </div>
-                                            <h5>Algo:</h5>
+                                            <h5>Punctuality:</h5>
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="4.5" aria-valuemin="0" aria-valuemax="5" style="width: 90%;">
-                                                    4.5
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.punctualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.punctualityCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.punctualityCalification}"/>
                                                 </div>
                                             </div>
-                                            <h5>Algo:</h5>
+                                            <h5>Treatment:</h5>
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="4.8" aria-valuemin="0" aria-valuemax="5" style="width: 96%;">
-                                                    4.8
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.treatmentCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.treatmentCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.treatmentCalification}"/>
+                                                </div>
+                                            </div>
+                                            <h5>Cleanness:</h5>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.cleannessCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.cleannessCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.cleannessCalification}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -175,36 +185,45 @@
                 <!-- reviews -->
                 <div class="row aptitude">
                     <div class="col-xs-12 col-sm-8 col-md-9">
-                        <div class="panel descriptionTxt">
+                        <div class="panel">
                             <div class="panel-body">
                              <c:forEach items="${aptitude.reviews}" var="review">
-                                <div class="review-item">
-
+                                 <div class="line-divider"></div>
+                                 <div class="review-item">
                                     <div class="row">
-                                        <div class="col-xs-12 col-sm-3 col-md-2">
+                                        <div class="col-xs-6 col-sm-3 col-md-2">
                                             <div class="profileImg">
-                                                <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile Img" />
+                                                <img src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Img" />
+                                                <div class="name hidden-xs">
+                                                    <h5><c:out value="" /><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></h5>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-9 col-md-8">
-                                            <blockquote>
-                                                <p>
-                                                    <c:out value="${review.comment}"/>
-                                                </p>
-                                                <footer class="visible-xs visible-sm">May 24, 2018</footer>
-                                            </blockquote>
-                                        </div>
-                                        <div class="hidden-sm hidden-xs col-md-2">
-                                            <div class="date-panel">
-                                                <p class="day">24</p>
-                                                <p class="month">May</p>
-                                                <p class="year">2018</p>
+                                        <div class="col-xs-6 col-sm-9 col-md-10 divider-left">
+                                            <div class="name visible-xs">
+                                                <h5>Martin Victory</h5>
                                             </div>
+                                            <div class="date"><c:out value="${review.date}" /></div>
+                                            <div class="dotDivider hidden-xs">&#x25CF;</div>
+                                            <div class="stars">
+                                                <i class="fa fa-star<c:if test="${review.generalCalification < 1}"><c:out value="-o"/></c:if>"></i>
+                                                <i class="fa fa-star<c:if test="${review.generalCalification < 2}"><c:out value="-o"/></c:if>"></i>
+                                                <i class="fa fa-star<c:if test="${review.generalCalification < 3}"><c:out value="-o"/></c:if>"></i>
+                                                <i class="fa fa-star<c:if test="${review.generalCalification < 4}"><c:out value="-o"/></c:if>"></i>
+                                                <i class="fa fa-star<c:if test="${review.generalCalification < 5}"><c:out value="-o"/></c:if>"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-0 col-sm-3 col-md-2"></div>
+                                        <div class="col-xs-12 col-sm-9 col-md-10 divider-left">
+                                            <p class="description">
+                                                <c:out value="${review.comment}" />
+                                            </p>
                                         </div>
                                     </div>
 
                                 </div>
-
                              </c:forEach>
 
 

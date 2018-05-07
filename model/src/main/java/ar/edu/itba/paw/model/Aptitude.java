@@ -42,8 +42,7 @@ public class Aptitude {
         for(Review review : reviews){
             quality += review.getQualityCalification();
         }
-
-        return quality/reviews.size();
+        return Math.floor((quality/reviews.size()) * 100) / 100;
     }
 
     public double getCleannessCalification(){
@@ -53,8 +52,7 @@ public class Aptitude {
         for(Review review : reviews){
             cleanness += review.getCleannessCalification();
         }
-
-        return cleanness/reviews.size();
+        return Math.floor((cleanness/reviews.size()) * 100) / 100;
     }
 
     public double getPriceCalification(){
@@ -64,7 +62,7 @@ public class Aptitude {
         for(Review review : reviews){
             price += review.getPriceCalification();
         }
-        return price/reviews.size();
+        return Math.floor((price/reviews.size()) * 100) / 100;
     }
 
     public double getPunctualityCalification(){
@@ -74,8 +72,7 @@ public class Aptitude {
         for(Review review : reviews){
             punctuality += review.getPunctualityCalification();
         }
-
-        return punctuality/reviews.size();
+        return Math.floor((punctuality/reviews.size()) * 100) / 100;
     }
 
     public double getTreatmentCalification(){
@@ -86,7 +83,7 @@ public class Aptitude {
             treatment += review.getTreatmentCalification();
         }
 
-        return treatment/reviews.size();
+        return Math.floor((treatment/reviews.size()) * 100) / 100;
     }
 
     public double getGeneralCalification() {
@@ -97,6 +94,8 @@ public class Aptitude {
             generalCalification += review.getGeneralCalification();
         }
 
-        return generalCalification/reviews.size();
+        return Math.floor((generalCalification/reviews.size()) * 100) / 100;
+
+
     }
 }
