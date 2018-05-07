@@ -23,6 +23,10 @@ public class SProvider extends User{
 
     public double getQualityCalification(){
 
+        if(aptitudes.size() == 0 ){
+            return 0;
+        }
+
         double quality = 0;
 
         for(Aptitude aptitude : aptitudes){
@@ -32,6 +36,10 @@ public class SProvider extends User{
     }
 
     public double getCleannessCalification(){
+
+        if(aptitudes.size() == 0 ){
+            return 0;
+        }
 
         double cleanness = 0;
 
@@ -44,6 +52,10 @@ public class SProvider extends User{
 
     public double getPriceCalification(){
 
+        if(aptitudes.size() == 0 ){
+            return 0;
+        }
+
         double price = 0;
 
         for(Aptitude aptitude : aptitudes){
@@ -55,6 +67,10 @@ public class SProvider extends User{
 
     public double getPunctualityCalification(){
 
+        if(aptitudes.size() == 0 ){
+            return 0;
+        }
+
         double punctuality = 0;
 
         for(Aptitude aptitude : aptitudes){
@@ -64,6 +80,10 @@ public class SProvider extends User{
     }
 
     public double getTreatmentCalification(){
+
+        if(aptitudes.size() == 0 ){
+            return 0;
+        }
 
         double treatment = 0;
 
@@ -75,12 +95,26 @@ public class SProvider extends User{
 
     public double getGeneralCalification() {
 
+        if(aptitudes.size() == 0 ){
+            return 0;
+        }
+
         double general = 0;
 
         for(Aptitude aptitude : aptitudes){
             general += aptitude.getGeneralCalification();
         }
         return Math.floor((general/aptitudes.size()) * 100) / 100;
+    }
+
+    public boolean hasReviews(){
+
+        for(Aptitude aptitude: aptitudes){
+            if(aptitude.hasReviews()){
+                return true;
+            }
+        }
+        return false;
     }
 
 
