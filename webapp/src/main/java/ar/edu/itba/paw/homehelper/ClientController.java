@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper;
 
 import ar.edu.itba.paw.interfaces.services.SProviderService;
+import ar.edu.itba.paw.model.SProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class ClientController {
@@ -18,10 +20,21 @@ public class ClientController {
     @Autowired
     SProviderService sProviderService;
 
+
+    @RequestMapping("/")
+    public ModelAndView index(@ModelAttribute("searchForm") final SearchForm form) {
+        final ModelAndView mav = new ModelAndView("index");
+        mav.addObject("serviceTypes",sProviderService.getServiceTypes());
+        return mav;
+    }
+
     @RequestMapping("/search")
-    public ModelAndView searchProfile() {
+    public ModelAndView searchProfile(@Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors) {
+        if (errors.hasErrors()) { return index(form); }
+
         final ModelAndView mav = new ModelAndView("profileSearch");
-        mav.addObject("list",sProviderService.getServiceProviders());
+        List<SProvider> list =sProviderService.getServiceProvidersWithServiceType(form.serviceTypeId);
+        mav.addObject("list",list);
         return mav;
     }
     
@@ -35,7 +48,7 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/setAppointment", method = { RequestMethod.POST })
-    public ModelAndView create(@Valid @ModelAttribute("re gisterForm") final AppointmentForm form, final BindingResult errors) {
+    public ModelAndView create(@Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors) {
         if (errors.hasErrors()) { return providerProfile(4,form);
         }
         final ModelAndView mav = new ModelAndView("profile");

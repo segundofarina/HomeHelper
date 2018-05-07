@@ -11,6 +11,8 @@ public interface SProviderService {
 
     List<SProvider> getServiceProviders();
 
+    List<SProvider> getServiceProvidersWithServiceType(int serviceType);
+
     SProvider getServiceProviderWithUserId(int userId);
 
     boolean addReviewToAptitude(int userId, int serviceType, int quality,int cleanness, int price, int punctuality, int treatment, String comment);
@@ -22,5 +24,7 @@ public interface SProviderService {
     boolean updateAptitude(int aptId,String newDescription);
 
     boolean updateAptitudes(int spId, List<AptitudeForm> list);
+
+
 
 }
