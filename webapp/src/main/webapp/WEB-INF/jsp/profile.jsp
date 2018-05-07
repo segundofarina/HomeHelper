@@ -51,13 +51,7 @@
                             <em><c:out value="${aptitude.service.name}"/> </em>
                             </c:forEach>
                         </div>
-                        <div class="stars">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-half-o"></i>
-                            <i class="fa fa-star-o"></i>
-                        </div>
+                        <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>"></div>
                         <div class="hline toLeft hidden-xs"></div>
                         <div class="hline toRight hidden-xs"></div>
                     </div>
@@ -135,13 +129,7 @@
                                 <div class="panel">
                                     <div class="panel-body aptitude-bars">
                                         <h4>General reviews</h4>
-                                        <div class="stars">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
+                                        <div class="stars dyn-stars" data-rating="<c:out value="${aptitude.generalCalification}"/>"></div>
                                         <div class="progressBars">
                                             <h5>Qualtiy</h5>
                                             <div class="progress">
@@ -205,13 +193,7 @@
                                             </div>
                                             <div class="date"><c:out value="${review.date}" /></div>
                                             <div class="dotDivider hidden-xs">&#x25CF;</div>
-                                            <div class="stars">
-                                                <i class="fa fa-star<c:if test="${review.generalCalification < 1}"><c:out value="-o"/></c:if>"></i>
-                                                <i class="fa fa-star<c:if test="${review.generalCalification < 2}"><c:out value="-o"/></c:if>"></i>
-                                                <i class="fa fa-star<c:if test="${review.generalCalification < 3}"><c:out value="-o"/></c:if>"></i>
-                                                <i class="fa fa-star<c:if test="${review.generalCalification < 4}"><c:out value="-o"/></c:if>"></i>
-                                                <i class="fa fa-star<c:if test="${review.generalCalification < 5}"><c:out value="-o"/></c:if>"></i>
-                                            </div>
+                                            <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -262,17 +244,19 @@
 <script src="<c:url value="/resources/adminTemplate/vendors/nprogress/nprogress.js"/>"></script>-->
 
 <!-- Custom Theme Scripts -->
+<script src="<c:url value="/resources/js/customJs.js"/>"></script>
+
 <script>
     $(document).ready(function () {
+        generateStars();
+
+
         $(window).scroll(function () {
             var panel = $('.panel-appointment');
             var scroll = $(window).scrollTop();
 
             var offset = 300;
-            var offsetBottom = 100;
-
-            //console.log(scroll);
-            //console.log(scroll >= offset);
+            //var offsetBottom = 100;
 
             if(scroll >= offset) {
                 panel.addClass('panel-appointment-fixed');
