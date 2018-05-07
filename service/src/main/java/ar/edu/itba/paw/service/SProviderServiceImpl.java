@@ -13,6 +13,7 @@ import ar.edu.itba.paw.model.ServiceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,38 +42,38 @@ public class SProviderServiceImpl implements SProviderService {
     }
 
     @Override
+    public List<SProvider> getServiceProvidersWithServiceType(int serviceType) {
+        List<SProvider> filteredSp = new ArrayList<SProvider>();
+
+        for(SProvider sp: getServiceProviders()){
+            for(Aptitude ap :sp.getAptitudes()){
+                if(ap.getService().getServiceTypeId() == serviceType){
+                    filteredSp.add(sp);
+                }
+            }
+        }
+        return filteredSp;
+
+    }
+
+    @Override
     public SProvider getServiceProviderWithUserId(int userId) {
         return sProviderDao.getServiceProviderWithUserId(userId).get();
     }
 
     @Override
-    public double getCalificationOfServiceProvider(int userId) {
-        List<Aptitude> aptitudes = aptitudeDao.getAptitudesOfUser(userId);
-        double finalCalification = 0;
-        double calification = 0;
-
-        for(Aptitude aptitude : aptitudes){
-            calification = 0;
-            for(Review review : aptitude.getReviews()){
-                calification+=review.getRating();
-            }
-            finalCalification = calification/aptitude.getReviews().size();
-        }
-
-        return finalCalification;
-    }
-
-    @Override
-    public boolean addReviewToAptitude(int userId, int serviceType, int rating, String comment) {
+    public boolean addReviewToAptitude(int userId, int serviceType, int quality,int cleanness, int price, int punctuality, int treatment, String comment) {
         List<Aptitude> list = aptitudeDao.getAptitudesOfUser(userId);
         for(Aptitude a : list){
             if(a.getService().getServiceTypeId() == serviceType){
-                return reviewDao.insertReview(userId,a.getId(),rating,comment);
+                return reviewDao.insertReview(userId,a.getId(),quality,cleanness,price,punctuality,treatment,comment);
             }
         }
 
         return false;
     }
+
+
 
 
     @Override

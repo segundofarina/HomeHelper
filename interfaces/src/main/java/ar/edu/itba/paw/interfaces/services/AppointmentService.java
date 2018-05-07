@@ -3,6 +3,7 @@ package ar.edu.itba.paw.interfaces.services;
 import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.Status;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface AppointmentService {
@@ -17,9 +18,9 @@ public interface AppointmentService {
 
     Appointment getAppointment(int appointmentId);
 
-    Integer getAppointmentId(int clientId, int providerId, String date, String address);
+    Integer getAppointmentId(int clientId, int providerId, Timestamp date, String address);
 
-    boolean addAppointment(int clientId, int providerId, int serviceTypeId, String date, String address, String jobDescripcion);
+    boolean addAppointment(int clientId, int providerId, int serviceTypeId, Timestamp date, String address, String jobDescripcion);
 
     boolean confirmAppointment(int appointmentId);
 

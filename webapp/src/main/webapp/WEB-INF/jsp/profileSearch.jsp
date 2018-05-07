@@ -33,43 +33,90 @@
     <!-- main content -->
     <div class="main-content">
 
-        <div class="container">
-            <div class="panel">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-2">
-                            <div class="profileImg">
-                                <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile picture" />
-                            </div>
-                        </div>
-                        <div class="col-xs-6 col-sm-10">
-                            <div class="moveLeft">
-                                <h3 class="profileName">Martin Victory</h3>
-                                <span class="separatorDot">&#x25CF;</span>
-                                <h5 class="serviceTypes">Pintor y obrero</h5>
-                            </div>
-                            <div class="moveRight">
-                                <div class="stars">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-half-o"></i>
-                                    <i class="fa fa-star-o"></i>
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3 col-fixed">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <form action="/search" method="post">
+                                <div class="form-group">
+                                    <label for="fieldCity">City:</label>
+                                    <select class="form-control" id="fieldCity">
+                                        <option value="">Select a city...</option>
+                                    </select>
                                 </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-0 col-sm-2"></div>
-                        <div class="col-xs-12 col-sm-10">
-                            <p class="profileDescription">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt ex eget magna cursus, ut pretium dui imperdiet. Nullam eleifend sem laoreet ultrices condimentum. Vestibulum malesuada viverra quam sed venenatis. Vivamus vel odio non lectus commodo sagittis. Etiam ut porta lectus. Quisque eleifend, nisl non maximus cursus, orci urna ultrices turpis, et fermentum magna ex nec massa. Aenean fermentum porttitor enim in porta. Vivamus mollis massa quis risus suscipit, vehicula malesuada velit dictum.
-                            </p>
+                                <div class="form-group">
+                                    <label for="serviceType">Service Type:</label>
+                                    <select class="form-control" id="serviceType">
+                                        <option value="">Select a service type...</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-success btn-full-width">Search</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xs-0 col-sm-4 col-md-3">
+
+                </div>
+                <div class="col-xs-12 col-sm-8 col-md-9">
+                    <c:forEach items="${list}" var="provider">
+
+                        <div class="panel profile-item">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-2">
+                                        <div class="profileImg">
+                                            <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile picture" />
+                                            <div class="profileBtn hidden-xs">
+                                                <a href="/profile/<c:out value="${provider.id}"/>" class="btn btn-success btn-sm">View Profile</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-10">
+                                        <div class="moveLeft">
+                                            <h3 class="profileName"><c:out value="${provider.firstname}"/> <c:out value="${provider.lastname}"/></h3>
+                                            <span class="separatorDot">&#x25CF;</span>
+                                            <h5 class="serviceTypes">
+                                                <c:forEach items="${provider.aptitudes}" var="aptitude">
+                                                    <c:out value="${aptitude.service.name}"/>
+                                                </c:forEach>
+                                            </h5>
+                                        </div>
+                                        <div class="moveRight">
+                                            <div class="stars">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-half-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-0 col-sm-2"></div>
+                                    <div class="col-xs-12 col-sm-10">
+                                        <p class="profileDescription">
+                                            <c:out value="${provider.description}"/>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="profileBtn visible-xs">
+                                    <a href="/profile/<c:out value="${provider.id}"/>" class="btn btn-success btn-sm btn-full-width">View Profile</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </c:forEach>
+                </div>
+            </div>
+
+
         </div>
 
     </div><!-- /main content -->

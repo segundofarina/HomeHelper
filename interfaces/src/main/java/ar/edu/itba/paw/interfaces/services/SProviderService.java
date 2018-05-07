@@ -11,18 +11,20 @@ public interface SProviderService {
 
     List<SProvider> getServiceProviders();
 
+    List<SProvider> getServiceProvidersWithServiceType(int serviceType);
+
     SProvider getServiceProviderWithUserId(int userId);
 
-    double getCalificationOfServiceProvider(int userId);
-
-    boolean addReviewToAptitude(int userId, int serviceType, int rating, String comment);
+    boolean addReviewToAptitude(int userId, int serviceType, int quality,int cleanness, int price, int punctuality, int treatment, String comment);
 
     boolean addAptitude(int userId, int serviceType, String description);
 
-    public List<ServiceType> getServiceTypes();
+    List<ServiceType> getServiceTypes();
 
-    public boolean updateAptitude(int aptId,String newDescription);
+    boolean updateAptitude(int aptId,String newDescription);
 
-    public boolean updateAptitudes(int spId, List<AptitudeForm> list);
+    boolean updateAptitudes(int spId, List<AptitudeForm> list);
+
+
 
 }

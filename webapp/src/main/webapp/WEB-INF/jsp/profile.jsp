@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,15 +37,20 @@
 
             <!-- profile detail -->
             <div class="profileDetails">
+                <div class="bgImg"><div class="img"></div></div>
                 <div class="container">
                     <div class="content">
                         <div class="profileImg">
                             <img src="<c:url value="/resources/img/img.jpg" />" alt="profile picture" />
                         </div>
                         <div class="name">
-                            <h3>Martin Victory</h3>
+                            <h3><c:out value="${provider.firstname}"/> <c:out value="${provider.lastname}"/></h3>
                         </div>
-                        <div class="serviceType"><em>Pintor y obrero</em></div>
+                        <div class="serviceType">
+                            <c:forEach items="${provider.aptitudes}" var="aptitude">
+                            <em><c:out value="${aptitude.service.name}"/> </em>
+                            </c:forEach>
+                        </div>
                         <div class="stars">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -70,9 +76,9 @@
                             <div class="panel-body descriptionTxt">
                                 <p>
                                     <span class="quote openQuote">&#x201C;</span>
-                                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt ex eget magna cursus, ut pretium dui imperdiet. Nullam eleifend sem laoreet ultrices condimentum. Vestibulum malesuada viverra quam sed venenatis. Vivamus vel odio non lectus commodo sagittis. Etiam ut porta lectus. Quisque eleifend, nisl non maximus cursus, orci urna ultrices turpis, et fermentum magna ex nec massa. Aenean fermentum porttitor enim in porta. Vivamus mollis massa quis risus suscipit, vehicula malesuada velit dictum.
-                                    Etiam iaculis magna ultrices finibus egestas. In vitae lacus nisi. Quisque maximus augue est, ut fringilla libero tempus at. Praesent vulputate fringilla quam ac pretium. Quisque fermentum cursus erat, eu rhoncus leo ultrices id. Suspendisse et sagittis mi. Pellentesque sit amet mauris vitae urna interdum tempus sit amet id justo. Donec fringilla id quam pulvinar consequat. Fusce scelerisque id dolor eu pretium. Ut ut elit pretium, elementum nibh non, tincidunt nisl. Vivamus tristique erat lobortis, rhoncus est suscipit, iaculis sapien. Sed ex orci, lacinia at aliquet quis, cursus eget libero. Suspendisse venenatis ex at nisl lobortis laoreet.
-                                    Pellentesque sed eros blandit, rutrum nibh eu, congue nisi. Mauris congue, ex tincidunt facilisis pulvinar, velit diam varius justo, nec viverra est sem sed lacus. Donec vel lectus tristique, faucibus libero non, tincidunt felis. Mauris commodo augue ut scelerisque aliquet. Cras a pretium sem. Nunc accumsan dolor non interdum volutpat. Sed nec dignissim lectus.</span>
+                                    <span>
+                                        <c:out value="${provider.description}"/>
+                                    </span>
                                     <span class="quote closeQuote">&#x02EE;</span>
                                 </p>
                             </div>
@@ -81,42 +87,46 @@
                     <div class="col-xs-12 col-sm-4 col-md-3 panel-appointment">
                         <div class="panel panel-shadow">
                             <div class="panel-body">
-                                <form method="post" action="/setAppointment">
+                                <c:url value="/setAppointment" var="postPath"/>
+                                <form:form modelAttribute="appointmentForm" action="${postPath}" method="get">
                                     <div class="form-group">
-                                        <label for="apServiceType">Service Type:</label>
-                                        <select class="form-control" id="apServiceType">
-                                            <option value="">Select a service type...</option>
-                                        </select>
+                                        <form:label path="serviceType">Service Type:</form:label>
+                                        <form:select class="form-control" path="serviceType">
+                                            <c:forEach items="${provider.aptitudes}" var="aptitude">
+                                                <option value="<c:out value="${aptitude.service.serviceTypeId}"/>"> <c:out value="${aptitude.service.name}"/></option>
+                                            </c:forEach>
+                                        </form:select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="apDate">Date:</label>
-                                        <input type="text" name="date" id="apDate" class="form-control" placeholder="Select a date..." />
+                                        <formlabel path="date">Date:</formlabel>
+                                        <form:input type="text" name="date" path="date" class="form-control" placeholder="Select a date..." />
                                     </div>
                                     <div class="form-group">
-                                        <label for="apDescription">Description:</label>
-                                        <textarea name="description" id="apDescription" class="form-control" placeholder="Describe your situation"></textarea>
+                                        <form:label path="description">Description:</form:label>
+                                        <form:textarea path="description" class="form-control" placeholder="Describe your situation"></form:textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-success btn-full-width">Contact</button>
-                                </form>
+                                    <form:button type="submit" class="btn btn-success btn-full-width">Contact</form:button>
+                                </form:form>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <h2>Aptitudes</h2>
+                <h1>Aptitudes</h1>
+                <c:forEach items="${provider.aptitudes}" var="aptitude">
 
                 <div class="row aptitude">
+
                     <div class="col-xs-12 col-sm-8 col-md-9">
+
+                        <h3><c:out value="${aptitude.service.name}"/></h3>
 
                         <div class="row">
                             <div class="col-xs-12 col-md-8">
                                 <div class="panel">
                                     <div class="panel-body descriptionTxt">
-                                        <h3>Pintor</h3>
                                         <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt ex eget magna cursus, ut pretium dui imperdiet. Nullam eleifend sem laoreet ultrices condimentum. Vestibulum malesuada viverra quam sed venenatis. Vivamus vel odio non lectus commodo sagittis. Etiam ut porta lectus. Quisque eleifend, nisl non maximus cursus, orci urna ultrices turpis, et fermentum magna ex nec massa. Aenean fermentum porttitor enim in porta. Vivamus mollis massa quis risus suscipit, vehicula malesuada velit dictum.
-                                            <br />
-                                            Etiam iaculis magna ultrices finibus egestas. In vitae lacus nisi. Quisque maximus augue est, ut fringilla libero tempus at. Praesent vulputate fringilla quam ac pretium. Quisque fermentum cursus erat, eu rhoncus leo ultrices id. Suspendisse et sagittis mi. Pellentesque sit amet mauris vitae urna interdum tempus sit amet id justo.
+                                            <c:out value="${aptitude.description}"/>
                                         </p>
                                     </div>
                                 </div>
@@ -133,28 +143,35 @@
                                             <i class="fa fa-star-o"></i>
                                         </div>
                                         <div class="progressBars">
-                                            <h5>Algo:</h5>
+                                            <h5>Qualtiy</h5>
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="3.5" aria-valuemin="0" aria-valuemax="5" style="width: 70%;">
-                                                    3.5
+
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.qualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.qualityCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.qualityCalification}"/>
                                                 </div>
                                             </div>
-                                            <h5>Algo:</h5>
+                                            <h5>Price:</h5>
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="5" style="width: 100%;">
-                                                    5
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.priceCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.priceCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.priceCalification}"/>
                                                 </div>
                                             </div>
-                                            <h5>Algo:</h5>
+                                            <h5>Punctuality:</h5>
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="4.5" aria-valuemin="0" aria-valuemax="5" style="width: 90%;">
-                                                    4.5
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.punctualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.punctualityCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.punctualityCalification}"/>
                                                 </div>
                                             </div>
-                                            <h5>Algo:</h5>
+                                            <h5>Treatment:</h5>
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="4.8" aria-valuemin="0" aria-valuemax="5" style="width: 96%;">
-                                                    4.8
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.treatmentCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.treatmentCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.treatmentCalification}"/>
+                                                </div>
+                                            </div>
+                                            <h5>Cleanness:</h5>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.cleannessCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.cleannessCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.cleannessCalification}"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -162,77 +179,60 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <!-- reviews -->
                 <div class="row aptitude">
                     <div class="col-xs-12 col-sm-8 col-md-9">
-                        <div class="panel descriptionTxt">
+                        <div class="panel">
                             <div class="panel-body">
-
-                                <div class="review-item">
-
+                             <c:forEach items="${aptitude.reviews}" var="review">
+                                 <div class="line-divider"></div>
+                                 <div class="review-item">
                                     <div class="row">
-                                        <div class="col-xs-12 col-sm-3 col-md-2">
+                                        <div class="col-xs-6 col-sm-3 col-md-2">
                                             <div class="profileImg">
-                                                <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile Img" />
+                                                <img src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Img" />
+                                                <div class="name hidden-xs">
+                                                    <h5><c:out value="" /><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></h5>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-sm-9 col-md-8">
-                                            <blockquote>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt ex eget magna cursus, ut pretium dui imperdiet. Nullam eleifend sem laoreet ultrices condimentum. Vestibulum malesuada viverra quam sed venenatis. Vivamus vel odio non lectus commodo sagittis. Etiam ut porta lectus.
-                                                </p>
-                                                <footer class="visible-xs visible-sm">May 24, 2018</footer>
-                                            </blockquote>
-                                        </div>
-                                        <div class="hidden-sm hidden-xs col-md-2">
-                                            <div class="date-panel">
-                                                <p class="day">24</p>
-                                                <p class="month">May</p>
-                                                <p class="year">2018</p>
+                                        <div class="col-xs-6 col-sm-9 col-md-10 divider-left">
+                                            <div class="name visible-xs">
+                                                <h5>Martin Victory</h5>
                                             </div>
+                                            <div class="date"><c:out value="${review.date}" /></div>
+                                            <div class="dotDivider hidden-xs">&#x25CF;</div>
+                                            <div class="stars">
+                                                <i class="fa fa-star<c:if test="${review.generalCalification < 1}"><c:out value="-o"/></c:if>"></i>
+                                                <i class="fa fa-star<c:if test="${review.generalCalification < 2}"><c:out value="-o"/></c:if>"></i>
+                                                <i class="fa fa-star<c:if test="${review.generalCalification < 3}"><c:out value="-o"/></c:if>"></i>
+                                                <i class="fa fa-star<c:if test="${review.generalCalification < 4}"><c:out value="-o"/></c:if>"></i>
+                                                <i class="fa fa-star<c:if test="${review.generalCalification < 5}"><c:out value="-o"/></c:if>"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-0 col-sm-3 col-md-2"></div>
+                                        <div class="col-xs-12 col-sm-9 col-md-10 divider-left">
+                                            <p class="description">
+                                                <c:out value="${review.comment}" />
+                                            </p>
                                         </div>
                                     </div>
 
                                 </div>
+                             </c:forEach>
 
-
-                                <!---->
-
-                                <div class="review-item">
-
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-3 col-md-2">
-                                            <div class="profileImg">
-                                                <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile Img" />
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-9 col-md-8">
-                                            <blockquote>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt ex eget magna cursus, ut pretium dui imperdiet. Nullam eleifend sem laoreet ultrices condimentum. Vestibulum malesuada viverra quam sed venenatis. Vivamus vel odio non lectus commodo sagittis. Etiam ut porta lectus.
-                                                </p>
-                                                <footer class="visible-xs visible-sm">May 24, 2018</footer>
-                                            </blockquote>
-                                        </div>
-                                        <div class="hidden-sm hidden-xs col-md-2">
-                                            <div class="date-panel">
-                                                <p class="day">24</p>
-                                                <p class="month">May</p>
-                                                <p class="year">2018</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <!---->
 
                             </div>
                         </div>
                     </div>
                 </div>
+
+                </c:forEach>
             </div>
 
             <!-- /main content -->

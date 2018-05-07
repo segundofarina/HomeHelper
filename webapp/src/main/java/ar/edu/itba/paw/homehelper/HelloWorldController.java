@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.services.UserService;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,13 +15,7 @@ public class HelloWorldController {
     @Autowired
     private UserService us;
 
-    @RequestMapping("/")
-    public ModelAndView helloWorld() {
-        final ModelAndView mav = new ModelAndView("index");
-        mav.addObject("greeting", "Mundo");
 
-        return mav;
-    }
     @RequestMapping("/users")
     public ModelAndView helloUsers(@RequestParam("id") int id) {
         final ModelAndView mav = new ModelAndView("index");

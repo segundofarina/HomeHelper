@@ -1,19 +1,18 @@
 package ar.edu.itba.paw.model;
 
-import java.security.Provider;
-import java.util.Optional;
+import java.sql.Timestamp;
 
 public class Appointment {
     private int appointmentId;
     private User client;
     private SProvider provider;
     private ServiceType serviceType;
-    private String date;
+    private Timestamp date;
     private String address;
     private Status estatus;
     private String jobDescripcion;
 
-    public Appointment(int appointmentId, User client, SProvider provider, ServiceType serviceType, String date, String address, Status estatus, String jobDescripcion) {
+    public Appointment(int appointmentId, User client, SProvider provider, ServiceType serviceType, Timestamp date, String address, Status estatus, String jobDescripcion) {
         this.appointmentId = appointmentId;
         this.client = client;
         this.provider = provider;
@@ -40,7 +39,7 @@ public class Appointment {
         return serviceType;
     }
 
-    public String getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
