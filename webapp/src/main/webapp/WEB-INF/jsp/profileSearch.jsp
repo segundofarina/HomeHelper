@@ -91,12 +91,7 @@
                                             </h5>
                                         </div>
                                         <div class="moveRight">
-                                            <div class="stars">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                                <i class="fa fa-star-o"></i>
+                                            <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>">
                                             </div>
                                         </div>
                                         <div class="clearfix"></div>
@@ -145,7 +140,12 @@
 <script src="<c:url value="/resources/adminTemplate/vendors/nprogress/nprogress.js"/>"></script>-->
 
 <!-- Custom Theme Scripts -->
-
+<script src="<c:url value="/resources/js/customJs.js"/>"></script>
+<script>
+    $(document).ready(function(){
+        generateStars();
+    });
+</script>
 
 </body>
 </html>
