@@ -28,8 +28,7 @@ public class SProvider extends User{
         for(Aptitude aptitude : aptitudes){
             quality += aptitude.getQualityCalification();
         }
-
-        return quality/aptitudes.size();
+        return Math.floor((quality/aptitudes.size()) * 100) / 100;
     }
 
     public double getCleannessCalification(){
@@ -40,7 +39,7 @@ public class SProvider extends User{
             cleanness += aptitude.getCleannessCalification();
         }
 
-        return cleanness/aptitudes.size();
+        return Math.floor((cleanness/aptitudes.size()) * 100) / 100;
     }
 
     public double getPriceCalification(){
@@ -51,7 +50,7 @@ public class SProvider extends User{
             price += aptitude.getPriceCalification();
         }
 
-        return price/aptitudes.size();
+        return Math.floor((price/aptitudes.size()) * 100) / 100;
     }
 
     public double getPunctualityCalification(){
@@ -61,8 +60,7 @@ public class SProvider extends User{
         for(Aptitude aptitude : aptitudes){
             punctuality += aptitude.getPunctualityCalification();
         }
-
-        return punctuality/aptitudes.size();
+        return Math.floor((punctuality/aptitudes.size()) * 100) / 100;
     }
 
     public double getTreatmentCalification(){
@@ -72,8 +70,7 @@ public class SProvider extends User{
         for(Aptitude aptitude : aptitudes){
             treatment += aptitude.getTreatmentCalification();
         }
-
-        return treatment/aptitudes.size();
+        return Math.floor((treatment/aptitudes.size()) * 100) / 100;
     }
 
     public double getGeneralCalification() {
@@ -83,8 +80,7 @@ public class SProvider extends User{
         for(Aptitude aptitude : aptitudes){
             general += aptitude.getGeneralCalification();
         }
-
-        return general/aptitudes.size();
+        return Math.floor((general/aptitudes.size()) * 100) / 100;
     }
 
 
