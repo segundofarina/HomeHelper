@@ -37,6 +37,10 @@ public class Aptitude {
 
     public double getQualityCalification(){
 
+        if(reviews.size() == 0){
+            return 0;
+        }
+
         double quality = 0;
 
         for(Review review : reviews){
@@ -46,6 +50,10 @@ public class Aptitude {
     }
 
     public double getCleannessCalification(){
+
+        if(reviews.size() == 0){
+            return 0;
+        }
 
         double cleanness = 0;
 
@@ -57,6 +65,10 @@ public class Aptitude {
 
     public double getPriceCalification(){
 
+        if(reviews.size() == 0){
+            return 0;
+        }
+
         double price = 0;
 
         for(Review review : reviews){
@@ -66,6 +78,10 @@ public class Aptitude {
     }
 
     public double getPunctualityCalification(){
+
+        if(reviews.size() == 0){
+            return 0;
+        }
 
         double punctuality = 0;
 
@@ -77,6 +93,10 @@ public class Aptitude {
 
     public double getTreatmentCalification(){
 
+        if(reviews.size() == 0){
+            return 0;
+        }
+
         double treatment = 0;
 
         for(Review review : reviews){
@@ -87,6 +107,10 @@ public class Aptitude {
     }
 
     public double getGeneralCalification() {
+
+        if(reviews.size() == 0){
+            return 0;
+        }
 
         double generalCalification = 0;
 
