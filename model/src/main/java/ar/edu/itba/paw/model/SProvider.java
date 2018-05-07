@@ -107,5 +107,15 @@ public class SProvider extends User{
         return Math.floor((general/aptitudes.size()) * 100) / 100;
     }
 
+    public boolean hasReviews(){
+
+        for(Aptitude aptitude: aptitudes){
+            if(aptitude.hasReviews()){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

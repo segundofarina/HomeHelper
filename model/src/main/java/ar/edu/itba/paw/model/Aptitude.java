@@ -122,4 +122,11 @@ public class Aptitude {
 
 
     }
+
+    public boolean hasReviews(){
+        if(reviews.size() != 0){
+            return true;
+        }
+        return false;
+    }
 }
