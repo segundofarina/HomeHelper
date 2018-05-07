@@ -35,6 +35,7 @@ public class ClientController {
         final ModelAndView mav = new ModelAndView("profileSearch");
         List<SProvider> list =sProviderService.getServiceProvidersWithServiceType(form.serviceTypeId);
         mav.addObject("list",list);
+        mav.addObject("serviceTypes",sProviderService.getServiceTypes());
         return mav;
     }
     

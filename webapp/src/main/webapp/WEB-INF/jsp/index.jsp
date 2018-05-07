@@ -44,16 +44,20 @@
                     <c:url value="/search" var="postPath"/>
                     <form:form modelAttribute="searchForm" action="${postPath}" method="Post">
                         <div class="form-group">
-                            <form:input type="text" path="cityId" class="form-control" placeholder="Write your city..." />
-                        </div>
-                        <div class="form-group">
-                            <form:select path="serviceTypeId" class="form-control" >
-                        <c:forEach items="${serviceTypes}" var="st">
-                            <option value="<c:out value="${st.serviceTypeId}"/>"><c:out value="${st.name}"/></option>
-                        </c:forEach>
+                            <form:label path="cityId">City:</form:label>
+                            <form:select class="form-control" path="cityId">
+                                <option value="1">Select a city...</option>
                             </form:select>
                         </div>
-                        <button type="submit" class="btn btn-success">Search <i class="fa fa-long-arrow-right"></i></button>
+                        <div class="form-group">
+                            <form:label path="serviceTypeId">Service Type:</form:label>
+                            <form:select path="serviceTypeId" class="form-control" >
+                                <c:forEach items="${serviceTypes}" var="st">
+                                    <option value="<c:out value="${st.serviceTypeId}"/>"><c:out value="${st.name}"/></option>
+                                </c:forEach>
+                            </form:select>
+                        </div>
+                        <form:button type="submit" class="btn btn-success btn-full-width">Search</form:button>
                     </form:form>
                 </div>
             </div>
