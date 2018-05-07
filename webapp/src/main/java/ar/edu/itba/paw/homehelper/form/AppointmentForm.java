@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.homehelper;
+package ar.edu.itba.paw.homehelper.from;
 
 public class AppointmentForm {
 
