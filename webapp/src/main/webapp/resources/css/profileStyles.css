@@ -100,7 +100,7 @@ h2 {
     border-color: #26b99a;
 }
 
-.btn-success:hover {
+.btn-success:hover, .btn-success:focus, btn-success:active {
     background-color: #26b99a;
     border-color: #26b99a;
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);

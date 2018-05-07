@@ -38,8 +38,40 @@ footer.footer {
     -moz-box-shadow: none;
     box-shadow: none;
     border: 1px solid #E6E9ED;
+}
+
+.panel.profile-item {
     padding: 15px 30px;
-    min-height: 9em;
+}
+
+.panel.profile-item .panel-body {
+    min-height: 12em;
+}
+
+.form-control {
+    box-shadow: none;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #26b99a;
+    border-color: #26b99a;
+}
+
+.btn-success:hover, .btn-success:focus, btn-success:active {
+    background-color: #26b99a;
+    border-color: #26b99a;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+.btn-full-width {
+    width: 100%;
+}
+
+label {
+    color: #73879C;
+    font-size: 13px;
 }
 
 .profileImg {
@@ -53,6 +85,15 @@ footer.footer {
     border-radius: 100%;
     width: 100%;
     height: 100%;
+}
+
+.profileImg .profileBtn {
+    margin-top: 1em;
+    text-align: center;
+}
+
+.profileImg .profileBtn .btn {
+    padding: 5px;
 }
 
 .profileName, .serviceTypes {
@@ -72,6 +113,11 @@ footer.footer {
 }
 
 @media (min-width: 768px) {
+    .container-fluid {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
     .profileImg {
         position: absolute;
     }
@@ -98,6 +144,16 @@ footer.footer {
 
     .profileName, .serviceTypes {
         display: inline-block;
+    }
+
+    .col-fixed {
+        position: fixed;
+    }
+}
+
+@media (min-width: 992px) {
+    .profileImg .profileBtn .btn {
+        padding: 5px 10px;
     }
 }
 
