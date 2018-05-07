@@ -31,7 +31,8 @@ public class ClientController {
     }
 
     @RequestMapping("/login") public ModelAndView login() {
-        return new ModelAndView("login"); }
+        return new ModelAndView("login");
+    }
 
     @RequestMapping("/search")
     public ModelAndView searchProfile(@Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors) {
