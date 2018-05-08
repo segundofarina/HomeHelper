@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="<c:url value="/resources/img/favicon.png"/>"/>
 
-    <title>Home-Helper | Pintor</title>
+    <title>Home-Helper | <spring:message code="general.search"/></title>
 
     <!-- Bootstrap -->
     <link href="<c:url value="/resources/adminTemplate/vendors/bootstrap/dist/css/bootstrap.min.css"/>" rel="stylesheet" />
@@ -45,18 +46,18 @@
                                 <div class="form-group">
                                     <form:label path="cityId">City:</form:label>
                                     <form:select class="form-control" path="cityId">
-                                        <option value="1">Select a city...</option>
+                                        <option value="1"><spring:message code="index.select-city"/>...</option>
                                     </form:select>
                                 </div>
                                 <div class="form-group">
-                                    <form:label path="serviceTypeId">Service Type:</form:label>
+                                    <form:label path="serviceTypeId"><spring:message code="general.service-type"/>:</form:label>
                                     <form:select path="serviceTypeId" class="form-control" >
                                         <c:forEach items="${serviceTypes}" var="st">
                                             <option value="<c:out value="${st.serviceTypeId}"/>"><c:out value="${st.name}"/></option>
                                         </c:forEach>
                                     </form:select>
                                 </div>
-                                <form:button type="submit" class="btn btn-success btn-full-width">Search</form:button>
+                                <form:button type="submit" class="btn btn-success btn-full-width"><spring:message code="general.search"/></form:button>
                             </form:form>
                         </div>
                     </div>
@@ -76,7 +77,7 @@
                                         <div class="profileImg">
                                             <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile picture" />
                                             <div class="profileBtn hidden-xs">
-                                                <a href="/profile/<c:out value="${provider.id}"/>" class="btn btn-success btn-sm">View Profile</a>
+                                                <a href="/profile/<c:out value="${provider.id}"/>" class="btn btn-success btn-sm"><spring:message code="profile.view-profile"/></a>
                                             </div>
                                         </div>
                                     </div>
@@ -106,7 +107,7 @@
                                     </div>
                                 </div>
                                 <div class="profileBtn visible-xs">
-                                    <a href="/profile/<c:out value="${provider.id}"/>" class="btn btn-success btn-sm btn-full-width">View Profile</a>
+                                    <a href="/profile/<c:out value="${provider.id}"/>" class="btn btn-success btn-sm btn-full-width"><spring:message code="profile.view-profile"/></a>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +124,7 @@
     <!-- footer content -->
     <footer class="footer">
         <div class="pull-right">
-            © 2018 All rights reserved Home-Helper.com
+            <spring:message code="index.rights-reserved"/>
         </div>
         <div class="clearfix"></div>
     </footer><!-- /footer content -->

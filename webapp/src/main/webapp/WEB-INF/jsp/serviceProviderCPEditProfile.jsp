@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="<c:url value="/resources/img/favicon.png"/>"/>
 
-    <title>Home-Helper | Control Panel</title>
+    <title>Home-Helper | <spring:message code="sprovider.control-panel"/></title>
 
     <!-- Bootstrap -->
     <link href="<c:url value="/resources/adminTemplate/vendors/bootstrap/dist/css/bootstrap.min.css"/>" rel="stylesheet">
@@ -46,8 +47,8 @@
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="javascript:;">Settings</a></li>
-                                <li><a href="/login"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                <li><a href="javascript:;"><spring:message code="general.settings"/></a></li>
+                                <li><a href="/login"><i class="fa fa-sign-out pull-right"></i> <spring:message code="general.logout"/></a></li>
                             </ul>
                         </li>
 
@@ -84,7 +85,7 @@
                                 <li>
                                     <div class="text-center">
                                         <a>
-                                            <strong>See All Alerts</strong>
+                                            <strong><spring:message code="sprovider.see-alerts"/></strong>
                                             <i class="fa fa-angle-right"></i>
                                         </a>
                                     </div>
@@ -102,7 +103,7 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Profile</h3>
+                        <h3><spring:message code="general.profile"/></h3>
                     </div>
                 </div>
 
@@ -112,7 +113,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>General Info</h2>
+                                <h2><spring:message code="sprovider.general-info"/></h2>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
@@ -122,17 +123,17 @@
                                             <div class="profileImgEdit">
                                                 <img src="<c:url value="/resources/img/img.jpg"/>" alt="profileImg" />
                                                 <div class="cover">
-                                                    <p class="coverTxt">Change Profile Picture</p>
+                                                    <p class="coverTxt"><spring:message code="sprovider.change-pic"/></p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-8 col-sm-8 col-xs-12">
                                             <div class="form-group">
-                                                <label for="fullName">Full Name:</label>
+                                                <label for="fullName"><spring:message code="sprovider.full-name"/>:</label>
                                                 <input id="fullName" type="text" name="fullName" class="form-control" readonly="readonly" placeholder="<c:out value="${provider.firstname}"/> <c:out value="${provider.lastname}"/> " />
                                             </div>
                                             <div class="form-group">
-                                                <label for="generalDescription">Description:</label>
+                                                <label for="generalDescription"><spring:message code="general.description"/>:</label>
                                                 <textarea id="generalDescription" name="generalDescription" class="form-control" placeholder="Write some description..."><c:out value="${provider.description}" /></textarea>
                                             </div>
                                         </div>
@@ -140,7 +141,7 @@
                                     <div class="divider-dashed"></div>
                                     <div class="form-group">
                                         <div class="clearfix">
-                                            <button type="submit" class="btn btn-success btnAction"><i class="fa fa-edit"></i> Update</button>
+                                            <button type="submit" class="btn btn-success btnAction"><i class="fa fa-edit"></i><spring:message code="general.update"/></button>
                                         </div>
                                     </div>
                                 </form>
@@ -153,7 +154,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Aptitudes</h2>
+                                <h2><spring:message code="general.aptitudes"/></h2>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
@@ -164,19 +165,19 @@
 
                                 <div class="dynamic-element" style="display: none">
                                     <div class="form-group">
-                                        <label for="serviceType[]">Service Type:</label>
+                                        <label for="serviceType[]"><spring:message code="general.service-type"/>:</label>
                                         <select id="serviceType[]" name="serviceType[]" class="form-control">
-                                            <option value="">Select one</option>
+                                            <option value=""><spring:message code="service-type.select"/></option>
                                             <c:forEach items="${serviceTypes}" var="st">
                                                 <option value="<c:out value="${st.serviceTypeId}"/>"><c:out value="${st.name}"/></option>
                                             </c:forEach>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="aptDescription[]">Description:</label>
+                                        <label for="aptDescription[]"><spring:message code="general.description"/>:</label>
                                         <textarea id="aptDescription[]" name="aptDescription[]" class="form-control" placeholder="Write some description..."><c:out value="${st.name}"/></textarea>
                                     </div>
-                                    <button type="button" class="btn btn-danger btn-sm disabled deleteApt"><i class="fa fa-trash"></i> Delete Aptitude</button>
+                                    <button type="button" class="btn btn-danger btn-sm disabled deleteApt"><i class="fa fa-trash"></i><spring:message code="aptitude.delete"/></button>
                                 </div>
 
                                 <!-- End aptitudes template -->
@@ -192,16 +193,16 @@
 
                                             <div class="dynamic-element" >
                                                 <div class="form-group">
-                                                    <label for="serviceType[]">Service Type:</label>
+                                                    <label for="serviceType[]"><spring:message code="general.service-type"/>:</label>
                                                     <select id="serviceType[]" name="serviceType[]" class="form-control" disabled="disabled">
                                                         <option value="<c:out value="${aptitude.service.serviceTypeId}"/>"><c:out value="${aptitude.service.name}"/></option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="aptDescription[]">Description:</label>
+                                                    <label for="aptDescription[]"><spring:message code="general.description"/>:</label>
                                                     <textarea id="aptDescription[]" name="aptDescription[]" class="form-control" placeholder="Write some description..."><c:out value="${aptitude.description}"/></textarea>
                                                 </div>
-                                                <button type="button" class="btn btn-danger btn-sm disabled deleteApt"><i class="fa fa-trash"></i> Delete Aptitude</button>
+                                                <button type="button" class="btn btn-danger btn-sm disabled deleteApt"><i class="fa fa-trash"></i><spring:message code="aptitude.delete"/></button>
                                             </div>
 
                                             </c:forEach>
@@ -213,12 +214,12 @@
                                             <div class="row">
                                                 <div class="col-sm-6 col-xs-12">
                                                     <div class="clearfix">
-                                                        <button type="button" class="btn btn-default add-one"><i class="fa fa-plus"></i> Add new aptitude</button>
+                                                        <button type="button" class="btn btn-default add-one"><i class="fa fa-plus"></i><spring:message code="aptitude.add"/></button>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6 col-xs-6">
                                                     <div class="clearfix">
-                                                        <button type="submit" class="btn btn-success btnAction"><i class="fa fa-edit"></i> Update</button>
+                                                        <button type="submit" class="btn btn-success btnAction"><i class="fa fa-edit"></i><spring:message code="general.update"/></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -251,7 +252,7 @@
         <!-- footer content -->
         <footer>
             <div class="pull-right">
-                © 2018 All rights reserved Home-Helper.com
+                <spring:message code="index.rights-reserved"/>
             </div>
             <div class="clearfix"></div>
         </footer>

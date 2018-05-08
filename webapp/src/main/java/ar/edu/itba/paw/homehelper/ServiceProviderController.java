@@ -26,6 +26,7 @@ public class ServiceProviderController {
         final ModelAndView mav = new ModelAndView("serviceProviderControlPanel");
 
         mav.addObject("providerId", providerId);
+        mav.addObject("provider",sProviderService.getServiceProviderWithUserId(providerId));
 
         return mav;
     }

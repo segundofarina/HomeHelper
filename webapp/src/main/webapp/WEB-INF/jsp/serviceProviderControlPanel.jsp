@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="<c:url value="/resources/img/favicon.png"/>"/>
 
-    <title>Home-Helper | Control Panel</title>
+    <title>Home-Helper | <spring:message code="sprovider.control-panel"/></title>
 
     <!-- Bootstrap -->
     <link href="<c:url value="/resources/adminTemplate/vendors/bootstrap/dist/css/bootstrap.min.css"/>" rel="stylesheet">
@@ -41,12 +42,12 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="<c:url value="/resources/img/img.jpg"/>" alt="">John Doe
+                                <img src="<c:url value="/resources/img/img.jpg"/>" alt=""><c:out value="${provider.firstname}"/><c:out value="${provider.lastname}"/>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="javascript:;">Settings</a></li>
-                                <li><a href="/login"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                <li><a href="javascript:;"><spring:message code="general.settings"/></a></li>
+                                <li><a href="/login"><i class="fa fa-sign-out pull-right"></i><spring:message code="general.logout"/></a></li>
                             </ul>
                         </li>
 
@@ -83,7 +84,7 @@
                                 <li>
                                     <div class="text-center">
                                         <a>
-                                            <strong>See All Alerts</strong>
+                                            <strong><spring:message code="sprovider.see-alerts"/></strong>
                                             <i class="fa fa-angle-right"></i>
                                         </a>
                                     </div>
@@ -115,7 +116,7 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                Add content to the page ...
+                                <spring:message code="sprovider.add-content"/>
                             </div>
                         </div>
                     </div>
@@ -127,7 +128,7 @@
         <!-- footer content -->
         <footer>
             <div class="pull-right">
-                © 2018 All rights reserved Home-Helper.com
+                <spring:message code="index.rights-reserved"/>
             </div>
             <div class="clearfix"></div>
         </footer>
