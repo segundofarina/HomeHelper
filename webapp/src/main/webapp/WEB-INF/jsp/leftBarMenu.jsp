@@ -20,7 +20,7 @@
             </div>
             <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <h2><c:out value="${providerName}"/></h2>
             </div>
             <div class="clearfix"></div>
         </div>

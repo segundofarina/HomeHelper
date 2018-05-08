@@ -30,6 +30,7 @@ public class ServiceProviderController {
         }
 
         mav.addObject("providerId", loggedInUser.getId());
+        mav.addObject("providerName", loggedInUser.getFirstname());
 
         return mav;
     }
@@ -44,6 +45,7 @@ public class ServiceProviderController {
         final int providerId = loggedInUser.getId();
 
         mav.addObject("providerId", providerId);
+        mav.addObject("providerName", loggedInUser.getFirstname());
         mav.addObject("provider", sProviderService.getServiceProviderWithUserId(providerId));
         mav.addObject("serviceTypes",sProviderService.getServiceTypes());
 
@@ -71,6 +73,7 @@ public class ServiceProviderController {
         final ModelAndView mav = new ModelAndView("serviceProviderCPMessages");
 
         mav.addObject("providerId", providerId);
+        mav.addObject("providerName", loggedInUser.getFirstname());
         mav.addObject("chats", chatService.getChatsOf(providerId));
         mav.addObject("currentChat", chatService.getChat(providerId, clientId));
 
@@ -84,6 +87,7 @@ public class ServiceProviderController {
             //Exception
         }
         final int providerId = loggedInUser.getId();
+
         return new ModelAndView("redirect:/sprovider/" + providerId + "/messages/" + chatService.getLastMsgThread(providerId));
     }
 
@@ -96,6 +100,7 @@ public class ServiceProviderController {
         final ModelAndView mav = new ModelAndView("serviceProviderCPAppointments");
 
         mav.addObject("providerId", providerId);
+        mav.addObject("providerName", loggedInUser.getFirstname());
 
         return mav;
     }
@@ -109,6 +114,7 @@ public class ServiceProviderController {
         final ModelAndView mav = new ModelAndView("serviceProviderCPReviews");
 
         mav.addObject("providerId", providerId);
+        mav.addObject("providerName", loggedInUser.getFirstname());
 
         return mav;
     }
