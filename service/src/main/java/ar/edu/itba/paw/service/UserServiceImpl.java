@@ -47,18 +47,6 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
-    @Override
-    public boolean isValidUser(int id, String usernname) {
-        User user = findByUsername(usernname);
-        if(user == null) {
-            return false;
-        }
-        if(user.getId() != id) {
-            return false;
-        }
-        return true;
-    }
-
 
 }
 

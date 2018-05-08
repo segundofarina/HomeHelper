@@ -33,16 +33,16 @@
             <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                    <li><a href="/sprovider/<c:out value="${providerId}"/>"><i class="fa fa-home"></i> Home</span></a></li>
+                    <li><a href="/sprovider"><i class="fa fa-home"></i> Home</a></li>
                     <li><a><i class="fa fa-user"></i> Profile <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="/sprovider/<c:out value="${providerId}"/>/editProfile">Edit profile</a></li>
+                            <li><a href="/sprovider/editProfile">Edit profile</a></li>
                             <li><a href="/profile/<c:out value="${providerId}"/>?ownerview">Profile preview</a></li>
                         </ul>
                     </li>
-                    <li><a href="/sprovider/<c:out value="${providerId}"/>/messages"><i class="fa fa-comments"></i> Messages</span></a></li>
-                    <li><a href="/sprovider/<c:out value="${providerId}"/>/appointments"><i class="fa fa-table"></i> Appointments</span></a></li>
-                    <li><a href="/sprovider/<c:out value="${providerId}"/>/reviews"><i class="fa fa-edit"></i> Reviews</span></a></li>
+                    <li><a href="/sprovider/messages"><i class="fa fa-comments"></i> Messages</a></li>
+                    <li><a href="/sprovider/appointments"><i class="fa fa-table"></i> Appointments</a></li>
+                    <li><a href="/sprovider/reviews"><i class="fa fa-edit"></i> Reviews</a></li>
                 </ul>
             </div>
         </div>

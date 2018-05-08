@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.homehelper.config;
 
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
-import ar.edu.itba.paw.homehelper.auth.ValidUsersId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -10,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
 
 import java.util.concurrent.TimeUnit;
 
@@ -28,8 +26,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                     .antMatchers("/login").permitAll()
                     .antMatchers("/signup").permitAll()
-                    //.antMatchers("/sprovider/**").hasRole("PROVIDER")
-                    .antMatchers("/sprovider/{userId}/**").access("hasRole('PROVIDER') and @validUsersId.checkUserId(authentication, #userId)")
+                    .antMatchers("/sprovider/**").hasRole("PROVIDER")
                     .antMatchers("/client/**").hasRole("USER")
                     .antMatchers("/**").permitAll()
                 .and().formLogin()
@@ -51,12 +48,6 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(final WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/403", "/resources/**");
-    }
-
-
-    @Bean
-    public ValidUsersId validUsersId() {
-        return new ValidUsersId();
     }
 }
 
