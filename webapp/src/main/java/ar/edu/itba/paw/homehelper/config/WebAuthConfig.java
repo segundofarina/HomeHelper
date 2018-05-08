@@ -2,12 +2,14 @@ package ar.edu.itba.paw.homehelper.config;
 
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,10 +25,11 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
         http.userDetailsService(userDetailsService).sessionManagement()
                 .invalidSessionUrl("/login")
                 .and().authorizeRequests()
-                    .antMatchers("/login").anonymous()
-                    .antMatchers("/signup").anonymous()
+                    .antMatchers("/login").permitAll()
+                    .antMatchers("/signup").permitAll()
                     .antMatchers("/sprovider/**").hasRole("PROVIDER")
-                    .antMatchers("/**").authenticated()
+                    .antMatchers("/client/**").hasRole("USER")
+                    .antMatchers("/**").permitAll()
                 .and().formLogin()
                     .usernameParameter("username").passwordParameter("password")
                     .defaultSuccessUrl("/", false).loginPage("/login")
@@ -46,5 +49,6 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     public void configure(final WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/403", "/resources/**");
     }
+
 }
 
