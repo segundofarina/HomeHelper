@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper.config;
 
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
+import ar.edu.itba.paw.homehelper.auth.ValidUsersId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,16 +24,18 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.userDetailsService(userDetailsService).sessionManagement()
-                .invalidSessionUrl("/login")
+                .invalidSessionUrl("/")
                 .and().authorizeRequests()
                     .antMatchers("/login").permitAll()
                     .antMatchers("/signup").permitAll()
-                    .antMatchers("/sprovider/**").hasRole("PROVIDER")
+                    //.antMatchers("/sprovider/**").hasRole("PROVIDER")
+                    .antMatchers("/sprovider/{userId}/**").access("hasRole('PROVIDER') and @validUsersId.checkUserId(authentication, #userId)")
                     .antMatchers("/client/**").hasRole("USER")
                     .antMatchers("/**").permitAll()
                 .and().formLogin()
                     .usernameParameter("username").passwordParameter("password")
-                    .defaultSuccessUrl("/", false).loginPage("/login")
+                    .defaultSuccessUrl("/", false)
+                    .loginPage("/login")
                 .and().rememberMe()
                     .userDetailsService(userDetailsService)
                     .rememberMeParameter("rememberme")
@@ -50,5 +53,10 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/403", "/resources/**");
     }
 
+
+    @Bean
+    public ValidUsersId validUsersId() {
+        return new ValidUsersId();
+    }
 }
 

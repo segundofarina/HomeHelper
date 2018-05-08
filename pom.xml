@@ -13,6 +13,7 @@
         <javax.validation-api.version>1.0.0.GA</javax.validation-api.version>
         <org.hibernate.validator>4.3.1.Final</org.hibernate.validator>
         <spring-security.version>4.0.4.RELEASE</spring-security.version>
+        <spring-security-web.version>4.1.1.RELEASE</spring-security-web.version>
     </properties>
     <modelVersion>4.0.0</modelVersion>
     <groupId>ar.edu.itba.paw</groupId>
@@ -119,7 +120,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <version>${spring-security.version}</version>
+                <version>${spring-security-web.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
