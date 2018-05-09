@@ -20,7 +20,8 @@
                 <img src="<c:url value="/resources/img/img.jpg"/>" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
-                <span><spring:message code="leftBarMenu.welcome" arguments="${provider.firstname},${provider.lastname}"/></span>
+                <span><spring:message code="leftBarMenu.welcome" />,</span>
+                <h2><c:out value="${providerName}"/></h2>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -33,22 +34,22 @@
             <div class="menu_section">
                 <h3><spring:message code="general.general"/></h3>
                 <ul class="nav side-menu">
-                    <li><a href="/sprovider/<c:out value="${providerId}"/>"><i class="fa fa-home"></i><span><spring:message code="general.home"/></span></a></li>
-                    <li><a><i class="fa fa-user"></i> <spring:message code="general.profile"/> <span class="fa fa-chevron-down"></span></a>
+                    <li><a href="<c:url value="/sprovider" />"><i class="fa fa-home"></i> <spring:message code="general.home"/></a></li>
+                    <li><a><i class="fa fa-user"></i><spring:message code="general.profile"/> <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="/sprovider/<c:out value="${providerId}"/>/editProfile"><spring:message code="leftBarMenu.edit-profile"/></a></li>
-                            <li><a href="/profile/<c:out value="${providerId}"/>?ownerview"><spring:message code="leftBarMenu.profile-preview"/></a></li>
+                            <li><a href="<c:url value="/sprovider/editProfile" /> "><spring:message code="leftBarMenu.edit-profile"/></a></li>
+                            <li><a href="<c:url value="/profile/${providerId}?ownerview"/> "><spring:message code="leftBarMenu.profile-preview"/></a></li>
                         </ul>
                     </li>
-                    <li><a href="/sprovider/<c:out value="${providerId}"/>/messages"><i class="fa fa-comments"></i><span><spring:message code="general.messages"/></span></a></li>
-                    <li><a href="/sprovider/<c:out value="${providerId}"/>/appointments"><i class="fa fa-table"></i><span><spring:message code="general.appointments"/></span></a></li>
-                    <li><a href="/sprovider/<c:out value="${providerId}"/>/reviews"><i class="fa fa-edit"></i><span><spring:message code="general.reviews"/></span></a></li>
+                    <li><a href="<c:url value="/sprovider/messages"/> "><i class="fa fa-comments"></i> <spring:message code="general.messages"/></a></li>
+                    <li><a href="<c:url value="/sprovider/appointments"/> "><i class="fa fa-table"></i> <spring:message code="general.appointments"/></a></li>
+                    <li><a href="<c:url value="/sprovider/reviews" /> "><i class="fa fa-edit"></i> <spring:message code="general.reviews"/></a></li>
                 </ul>
             </div>
         </div>
         <!-- /sidebar menu -->
 
-        <!-- /menu footer buttons -->
+        <!-- /menu footer buttons --
         <div class="sidebar-footer hidden-small">
             <a href="/"><spring:message code="leftBarMenu.use-client"/></a>
         </div>

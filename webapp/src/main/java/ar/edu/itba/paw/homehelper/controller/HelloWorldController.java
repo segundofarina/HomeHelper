@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.homehelper;
+package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.interfaces.services.UserService;
 import ar.edu.itba.paw.model.User;

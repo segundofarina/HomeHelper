@@ -74,7 +74,6 @@
                                     <span>
                                         <c:out value="${provider.description}"/>
                                     </span>
-                                    <span class="quote closeQuote">&#x02EE;</span>
                                 </p>
                             </div>
                         </div>

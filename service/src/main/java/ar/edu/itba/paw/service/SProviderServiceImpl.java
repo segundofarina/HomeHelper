@@ -10,11 +10,13 @@ import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.Review;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.ServiceType;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SProviderServiceImpl implements SProviderService {
@@ -58,7 +60,11 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Override
     public SProvider getServiceProviderWithUserId(int userId) {
-        return sProviderDao.getServiceProviderWithUserId(userId).get();
+        Optional<SProvider> sProvider = sProviderDao.getServiceProviderWithUserId(userId);
+        if(sProvider.isPresent()) {
+            return sProvider.get();
+        }
+        return null;
     }
 
     @Override
@@ -113,6 +119,24 @@ public class SProviderServiceImpl implements SProviderService {
 
         return true;
 
+    }
+
+    @Override
+    public int getServiceProviderId(int userId) {
+        if(userId == -1) {
+            return -1;
+        }
+
+        SProvider sProvider = getServiceProviderWithUserId(userId);
+        if(sProvider == null) {
+            return -1;
+        }
+        return sProvider.getId();
+    }
+
+    @Override
+    public boolean isServiceProvider(int userId) {
+        return getServiceProviderWithUserId(userId) != null;
     }
 
     private static AptitudeForm getApt ( List<AptitudeForm> list, int servicetypeId){
