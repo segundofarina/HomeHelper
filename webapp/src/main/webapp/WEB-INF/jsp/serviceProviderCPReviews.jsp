@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="<c:url value="/resources/img/favicon.png"/>"/>
 
-    <title>Home-Helper | Control Panel</title>
+    <title>Home-Helper | <spring:message code="sprovider.control-panel"/></title>
 
     <!-- Bootstrap -->
     <link href="<c:url value="/resources/adminTemplate/vendors/bootstrap/dist/css/bootstrap.min.css"/>" rel="stylesheet">
@@ -56,9 +57,9 @@
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="<c:url value="/" />">Use as client</a></li>
-                                <li><a href="javascript:;">Settings</a></li>
-                                <li><a href="<c:url value="/logout"/>"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                <li><a href="<c:url value="/" />"><spring:message code="general.switchToClient" /></a></li>
+                                <li><a href="javascript:;"><spring:message code="general.settings"/></a></li>
+                                <li><a href="<c:url value="/logout"/>"><i class="fa fa-sign-out pull-right"></i> <spring:message code="general.logout"/></a></li>
                             </ul>
                         </li>
 
@@ -95,7 +96,7 @@
                                 <li>
                                     <div class="text-center">
                                         <a>
-                                            <strong>See All Alerts</strong>
+                                            <strong><spring:message code="sprovider.see-alerts"/></strong>
                                             <i class="fa fa-angle-right"></i>
                                         </a>
                                     </div>
@@ -113,7 +114,7 @@
             <div class="">
                 <div class="page-title">
                     <div class="title_left">
-                        <h3>Reviews</h3>
+                        <h3><spring:message code="general.reviews"/></h3>
                     </div>
                 </div>
 
@@ -123,7 +124,7 @@
                     <div class="col-md-6 col-sm-12 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Pending reviews</h2>
+                                <h2><spring:message code="sprovider.pending-reviews"/></h2>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
@@ -131,8 +132,8 @@
                                     <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Name</th>
-                                        <th>Date</th>
+                                        <th><spring:message code="general.name"/></th>
+                                        <th><spring:message code="general.date"/></th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -143,7 +144,7 @@
                                         </th>
                                         <td>Mark</td>
                                         <td>May 20, 2018</td>
-                                        <td><a href="#" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Write review</a></td>
+                                        <td><a href="#" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i><spring:message code="client.write-review"/></a></td>
                                     </tr>
                                     <tr>
                                         <th>
@@ -151,7 +152,7 @@
                                         </th>
                                         <td>Mark</td>
                                         <td>May 20, 2018</td>
-                                        <td><a href="#" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Write review</a></td>
+                                        <td><a href="#" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i><spring:message code="client.write-review"/></a></td>
                                     </tr>
                                     <tr>
                                         <th>
@@ -159,7 +160,7 @@
                                         </th>
                                         <td>Mark</td>
                                         <td>May 20, 2018</td>
-                                        <td><a href="#" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Write review</a></td>
+                                        <td><a href="#" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i><spring:message code="client.write-review"/></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -172,7 +173,7 @@
                     <div class="col-md-6 col-sm-12 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Last reviews</h2>
+                                <h2><spring:message code="sprovider.last-reviews"/></h2>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
@@ -180,9 +181,9 @@
                                     <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Name</th>
-                                        <th>Date</th>
-                                        <th>Review</th>
+                                        <th><spring:message code="general.name"/></th>
+                                        <th><spring:message code="general.date"/></th>
+                                        <th><spring:message code="general.review"/></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -241,7 +242,7 @@
         <!-- footer content -->
         <footer>
             <div class="pull-right">
-                © 2018 All rights reserved Home-Helper.com
+                <spring:message code="index.rights-reserved"/>
             </div>
             <div class="clearfix"></div>
         </footer>

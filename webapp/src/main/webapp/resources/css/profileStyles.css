@@ -236,6 +236,7 @@ footer.footer {
 
     .review-item .profileImg {
         position: absolute;
+        padding: 0 0.5em;
     }
 
     .review-item .date {
