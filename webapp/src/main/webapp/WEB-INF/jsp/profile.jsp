@@ -81,15 +81,17 @@
                     <div class="col-xs-12 col-sm-4 col-md-3 panel-appointment">
                         <div class="panel panel-shadow">
                             <div class="panel-body">
-                                <c:url value="/setAppointment" var="postPath"/>
-                                <form:form modelAttribute="appointmentForm" action="${postPath}" method="get">
+                                <c:url value="/client/setAppointment" var="postPath"/>
+                                <form:form modelAttribute="appointmentForm" action="${postPath}" method="post">
                                     <div class="form-group">
                                         <form:label path="serviceType">Service Type:</form:label>
                                         <form:select class="form-control" path="serviceType">
+                                            <option value="">Select service type...</option>
                                             <c:forEach items="${provider.aptitudes}" var="aptitude">
                                                 <option value="<c:out value="${aptitude.service.serviceTypeId}"/>"> <c:out value="${aptitude.service.name}"/></option>
                                             </c:forEach>
                                         </form:select>
+                                        <form:errors path="username" element="p" />
                                     </div>
                                     <div class="form-group">
                                         <form:label path="date">Date:</form:label>

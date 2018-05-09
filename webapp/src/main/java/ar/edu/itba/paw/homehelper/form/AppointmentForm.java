@@ -2,9 +2,10 @@ package ar.edu.itba.paw.homehelper.form;
 
 public class AppointmentForm {
 
-    int serviceType;
-    String date;
-    String description;
+
+    private int serviceType;
+    private String date;
+    private String description;
 
     public String getDate() {
         return date;

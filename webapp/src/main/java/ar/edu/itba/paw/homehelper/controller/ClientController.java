@@ -67,8 +67,8 @@ public class ClientController {
         return mav;
     }
 
-    @RequestMapping(value = "/setAppointment", method = { RequestMethod.POST })
-    public ModelAndView create(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors) {
+    @RequestMapping(value = "/client/setAppointment", method = { RequestMethod.POST })
+    public ModelAndView setAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors) {
 
         if (errors.hasErrors()) {
             return providerProfile(loggedInUser, 4,form);
