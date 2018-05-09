@@ -83,6 +83,7 @@
                             <div class="panel-body">
                                 <c:url value="/client/setAppointment" var="postPath"/>
                                 <form:form modelAttribute="appointmentForm" action="${postPath}" method="post">
+                                    <form:input type="hidden" value="${provider.id}" path="providerId" />
                                     <div class="form-group">
                                         <form:label path="serviceType"><spring:message code="general.service-type"/>:</form:label>
                                         <form:select class="form-control" path="serviceType">
@@ -91,11 +92,12 @@
                                                 <option value="<c:out value="${aptitude.service.serviceTypeId}"/>"> <c:out value="${aptitude.service.name}"/></option>
                                             </c:forEach>
                                         </form:select>
-                                        <form:errors path="serviceType" element="p" />
+                                        <form:errors path="serviceType" element="p" cssClass="form-error" />
                                     </div>
                                     <div class="form-group">
                                         <form:label path="date"><spring:message code="general.date"/>:</form:label>
                                         <form:input type="text" name="date" path="date" class="form-control" placeholder="Select a date..." />
+                                        <form:errors path="date" element="p" cssClass="form-error" />
                                     </div>
                                     <div class="form-group">
                                         <form:label path="description"><spring:message code="general.description"/>:</form:label>

@@ -9,7 +9,7 @@ public class Appointment {
     private ServiceType serviceType;
     private Timestamp date;
     private String address;
-    private Status estatus;
+    private Status status;
     private String jobDescripcion;
 
     public Appointment(int appointmentId, User client, SProvider provider, ServiceType serviceType, Timestamp date, String address, Status estatus, String jobDescripcion) {
@@ -19,7 +19,7 @@ public class Appointment {
         this.serviceType = serviceType;
         this.date = date;
         this.address = address;
-        this.estatus = estatus;
+        this.status = estatus;
         this.jobDescripcion = jobDescripcion;
     }
 
@@ -47,15 +47,15 @@ public class Appointment {
         return address;
     }
 
-    public Status getEstatus() {
-        return estatus;
+    public Status getStatus() {
+        return status;
     }
 
     public String getJobDescripcion() {
         return jobDescripcion;
     }
 
-    public void setEstatus(Status estatus) {
-        this.estatus = estatus;
+    public void setStatus(Status estatus) {
+        this.status = estatus;
     }
 }

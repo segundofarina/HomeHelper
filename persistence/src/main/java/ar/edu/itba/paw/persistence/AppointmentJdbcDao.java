@@ -37,7 +37,7 @@ public class AppointmentJdbcDao implements AppointmentDao {
     @Autowired
     public AppointmentJdbcDao(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
-        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("appointments");
+        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("appointments").usingGeneratedKeyColumns("appointmentId");
     }
 
     private static class Row {

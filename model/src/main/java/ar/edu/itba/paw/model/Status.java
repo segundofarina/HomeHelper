@@ -1,9 +1,32 @@
 package ar.edu.itba.paw.model;
 
-import java.util.Date;
-
 public enum Status {
-    Pending, Confirmed, Done;
+    Pending(1), Confirmed(2), Done(3);
+
+    private int numVal;
+
+    Status(int numVal) {
+        this.numVal = numVal;
+    }
+
+    public int getNumVal() {
+        return numVal;
+    }
+
+    @Override
+    public String toString() {
+        if(numVal == 1) {
+            return "Pending";
+        }
+        if(numVal == 2) {
+            return "Confirmed";
+        }
+        if(numVal == 3) {
+            return "Done";
+        }
+        return "Undefined";
+    }
+
 
     public static Status getStatus(int status) {
         if(status == 1){

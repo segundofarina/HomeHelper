@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -34,7 +35,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<Appointment> ans = new ArrayList<>();
 
         for(Appointment appointment : appointments){
-            if(appointment.getEstatus().equals(status)){
+            if(appointment.getStatus().equals(status)){
                 ans.add(appointment);
             }
         }
@@ -48,7 +49,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<Appointment> ans = new ArrayList<>();
 
         for(Appointment appointment : appointments){
-            if(appointment.getEstatus().equals(status)){
+            if(appointment.getStatus().equals(status)){
                 ans.add(appointment);
             }
         }
@@ -67,7 +68,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Integer getAppointmentId(int clientId, int providerId, Timestamp date, String address) {
-        Optional<Integer> id = appointmentDao.getAppointmentId(clientId,providerId,date,address);
+        Optional<Integer> id = appointmentDao.getAppointmentId(clientId, providerId, date, address);
         if(id.isPresent()){
             return id.get();
         }
@@ -75,8 +76,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public boolean addAppointment(int clientId, int providerId, int serviceTypeId, Timestamp date, String address, String jobDescripcion) {
-        return appointmentDao.addAppointment(clientId,providerId,serviceTypeId,date,address,jobDescripcion);
+    public boolean addAppointment(int clientId, int providerId, int serviceTypeId, String date, String address, String jobDescripcion) {
+        return appointmentDao.addAppointment(clientId, providerId, serviceTypeId, stringToTimestamp(date), address, jobDescripcion);
     }
 
     @Override
@@ -87,6 +88,38 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public boolean completedAppointment(int appointmentId) {
         return appointmentDao.updateStatusOfAppointment(appointmentId,Status.Done);
+    }
+
+    @Override
+    public List<Appointment> getPendingAppointmentWithProviderId(int providerId) {
+        List<Appointment> appointments = getAppointmentsByProviderId(providerId);
+        List<Appointment> ans = new ArrayList<>();
+
+        for(Appointment appointment : appointments){
+            if(appointment.getStatus().equals(Status.Pending) || appointment.getStatus().equals(Status.Confirmed)){
+                ans.add(appointment);
+            }
+        }
+
+        return ans;
+    }
+
+    private Timestamp stringToTimestamp(String str) {
+        return new Timestamp(tryParse(str).getTime());
+    }
+
+    private Date tryParse(String date) {
+        List<String> dateFormats = Arrays.asList("dd/MM/yyyy", "dd-MM-yyyy", "dd.MM.yyyy");
+        for(String dateFormat : dateFormats) {
+            try {
+                return new SimpleDateFormat(dateFormat).parse(date);
+            } catch (ParseException e) {
+
+            }
+        }
+
+        //invalid date time
+        return null;
     }
 
 }

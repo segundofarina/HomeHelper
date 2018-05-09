@@ -2,6 +2,7 @@ package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
+import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
@@ -17,11 +18,16 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.oracle.jrockit.jfr.ContentType.Timestamp;
+
 @Controller
 public class ClientController {
 
     @Autowired
-    SProviderService sProviderService;
+    private SProviderService sProviderService;
+
+    @Autowired
+    private AppointmentService appointmentService;
 
 
     @RequestMapping("/")
@@ -57,7 +63,7 @@ public class ClientController {
     
 
     @RequestMapping("/profile/{providerId}")
-    public ModelAndView providerProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId,@ModelAttribute("appointmentForm") final AppointmentForm form) {
+    public ModelAndView providerProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId, @ModelAttribute("appointmentForm") final AppointmentForm form) {
         final ModelAndView mav = new ModelAndView("profile");
 
         mav.addObject("user", loggedInUser);
@@ -71,11 +77,12 @@ public class ClientController {
     public ModelAndView setAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors) {
 
         if (errors.hasErrors()) {
-            return providerProfile(loggedInUser, 4,form);
+            return providerProfile(loggedInUser, form.getProviderId(), form);
         }
-        final ModelAndView mav = new ModelAndView("profile");
 
-        return mav;
+        appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
+
+        return new ModelAndView("redirect:/client/appointmentConfirmed");
     }
 
     private int getUserId(User user) {

@@ -139,7 +139,19 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                        <c:forEach items="${appointmentsPending}" var="appointment">
+                                            <tr>
+                                                <th>
+                                                    <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                                </th>
+                                                <td><c:out value="${appointment.client.firstname}" /></td>
+                                                <td><c:out value="${appointment.date}" /></td>
+                                                <td><c:out value="${appointment.address}" /> </td>
+                                                <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
+                                            </tr>
+                                        </c:forEach>
+
+                                        <!--<tr>
                                             <th>
                                                 <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
                                             </th>
@@ -165,7 +177,7 @@
                                             <td>May 20, 2018</td>
                                             <td>Santa Fe 1000, Buenos Aires</td>
                                             <td><span class="label label-info">Confirmed</span></td>
-                                        </tr>
+                                        </tr>-->
                                     </tbody>
                                 </table>
                             </div>
@@ -192,6 +204,19 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+
+                                    <c:forEach items="${appointmentsDone}" var="appointment">
+                                        <tr>
+                                            <th>
+                                                <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                            </th>
+                                            <td><c:out value="${appointment.client.firstname}" /></td>
+                                            <td><c:out value="${appointment.date}" /></td>
+                                            <td><c:out value="${appointment.address}" /> </td>
+                                            <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
+                                        </tr>
+                                    </c:forEach>
+<!--
                                     <tr>
                                         <th>
                                             <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
@@ -219,6 +244,7 @@
                                         <td>Santa Fe 1000, Buenos Aires</td>
                                         <td><span class="label label-success">Done</span></td>
                                     </tr>
+                                    -->
                                     </tbody>
                                 </table>
                             </div>
