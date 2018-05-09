@@ -18,13 +18,31 @@
 
         <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
 
-            <button type="submit" class="btn btn-custom btn-rounded navbar-right navbar-btn">Log in</button>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="../navbar/">Home</a></li>
-                <li><a href="../navbar-static-top/">Static top</a></li>
-                <li><a href="./">Fixed top</a></li>
-            </ul>
+            <c:choose>
+                <c:when test="${user == null}">
+                    <a href="<c:url value="/login" />" class="btn btn-custom btn-rounded navbar-right navbar-btn">Log in</a>
+                </c:when>
+                <c:otherwise>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="<c:url value="/client/messages" />">Messages</a></li>
+                        <li><a href="<c:url value="/client/appointments" />">Appointments</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile picture" />
+                                <c:out value="${user.firstname}" />
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <c:if test="${userProviderId != -1}">
+                                    <li><a href="<c:url value="/sprovider" />">Use as provider</a></li>
+                                </c:if>
+                                <li><a href="<c:url value="/client/settings" />">Settings</a></li>
+                                <li><a href="<c:url value="/logout" />"><i class="fa fa-sign-out pull-right"></i>Log out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </c:otherwise>
+            </c:choose>
 
         </div><!--/.nav-collapse -->
     </div>

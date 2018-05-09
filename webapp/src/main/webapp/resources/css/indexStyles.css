@@ -69,108 +69,36 @@ h1 {
     margin-bottom: 5em;
 }
 
-.searchForm .form-group {
-    margin-bottom: 0;
+.panel {
+    border: 1px solid #E6E9ED;
+    box-shadow: none;
+}
+
+.form-group label {
+    width: 100%;
+    text-align: left;
 }
 
 .form-control {
-    height: 55px;
-    border-radius: 0;
-}
-
-.searchForm .form-group:not(:last-of-type) .form-control {
-    border-bottom: none;
-}
-
-.searchForm .form-group:first-of-type .form-control {
-    border-radius: 5px 5px 0 0;
-}
-
-.searchForm .form-group:last-of-type .form-control {
-    border-radius: 0 0 5px 5px;
+    height: 45px;
+    box-shadow: none;
 }
 
 .searchForm .btn, .searchForm .btn:hover {
-    width: 60%;
+    width: 100%;
     margin: auto;
     color: #fff;
     background-color: #26b99a;
     border-color: #26b99a;
     font-weight: bold;
-    margin-top: 2.5em;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    border-radius: 30px;
+    margin-top: 0.5em;
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    border-radius: 10px;
 }
 
 @media (min-width: 768px) {
-    .navbar-brand img {
-        height: 2.6em;
-    }
-
-    .navbar-brand span {
-        font-size: 30px;
-    }
-
     .left-screen {
         width: 50%;
-    }
-
-    /*.navbar-custom {
-        background-color: transparent;
-        border: 0;
-    }
-
-    .navbar-nav {
-        background: #73869c;
-        border-radius: 0 0 10px 11px;
-    }
-
-    .navbar-nav>li>a {
-        padding-top: 20px;
-        transition: 0.3s ease-in-out;
-        color: #FFFFFF;
-    }
-
-    .nav>li>a:focus, .nav>li>a:hover {
-        background-color: #ffffff;
-        border-radius: 0 0 10px 10px;
-        color: #444444;
-    }
-
-    .btn-custom {
-        background-color: #ffffff;
-        color: #444444;
-        font-size: 13px;
-        transition: 0.3s ease-in-out;
-        border: 3px solid #fff;
-    }
-
-    .btn-custom:hover {
-        color: #ffffff;
-        background-color: transparent;
-        border: 3px solid #ffffff;
-    }*/
-
-    .navbar-nav>li>a {
-        transition: 0.3s ease-in-out;
-    }
-
-    .btn-custom {
-        font-size: 13px;
-        transition: 0.3s ease-in-out;
-        border: 3px solid #73879C;
-    }
-
-    .btn-custom:hover {
-        background-color: transparent;
-    }
-
-    .navbar-nav>li>a {
-        padding-top: 20px;
-    }
-
-    .nav>li>a:focus, .nav>li>a:hover {
-        border-radius: 0 0 10px 10px;
     }
 }

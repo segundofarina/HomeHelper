@@ -40,25 +40,28 @@
         <div class="left-screen">
             <div class="container-fluid">
                 <h1>Some Text</h1>
-                <div class="searchForm">
-                    <c:url value="/search" var="postPath"/>
-                    <form:form modelAttribute="searchForm" action="${postPath}" method="Post">
-                        <div class="form-group">
-                            <form:label path="cityId">City:</form:label>
-                            <form:select class="form-control" path="cityId">
-                                <option value="1">Select a city...</option>
-                            </form:select>
-                        </div>
-                        <div class="form-group">
-                            <form:label path="serviceTypeId">Service Type:</form:label>
-                            <form:select path="serviceTypeId" class="form-control" >
-                                <c:forEach items="${serviceTypes}" var="st">
-                                    <option value="<c:out value="${st.serviceTypeId}"/>"><c:out value="${st.name}"/></option>
-                                </c:forEach>
-                            </form:select>
-                        </div>
-                        <form:button type="submit" class="btn btn-success btn-full-width">Search</form:button>
-                    </form:form>
+                <div class="panel searchForm">
+                    <div class="panel-body">
+                        <c:url value="/search" var="postPath"/>
+                        <form:form modelAttribute="searchForm" action="${postPath}" method="Post">
+                            <div class="form-group">
+                                <form:label path="cityId">City:</form:label>
+                                <form:select class="form-control" path="cityId">
+                                    <option value="1">Select a city...</option>
+                                </form:select>
+                            </div>
+                            <div class="form-group">
+                                <form:label path="serviceTypeId">Service Type:</form:label>
+                                <form:select path="serviceTypeId" class="form-control" >
+                                    <option value="">Select a serviceType...</option>
+                                    <c:forEach items="${serviceTypes}" var="st">
+                                        <option value="<c:out value="${st.serviceTypeId}"/>"><c:out value="${st.name}"/></option>
+                                    </c:forEach>
+                                </form:select>
+                            </div>
+                            <form:button type="submit" class="btn btn-success btn-full-width">Search</form:button>
+                        </form:form>
+                    </div>
                 </div>
             </div>
         </div>
