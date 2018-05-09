@@ -14,8 +14,9 @@
 
 .navbar-nav>li>a {
     color: #444444;
-    font-weight: bold;
+    font-weight: 500;
     font-size: 13px;
+    line-height: 32px;
 }
 
 .navbar-custom .navbar-nav>.active>a, .navbar-custom .navbar-nav>.active>a:focus, .navbar-custom .navbar-nav>.active>a:hover {
@@ -27,7 +28,7 @@
 }
 
 .navbar-brand img {
-    height: 2em;
+    height: 2.6em;
     margin-top: -0.5em;
     display: inline-block;
     margin-right: 1em;
@@ -54,10 +55,11 @@
     font-size: 11px;
     padding: 0.7em 2em;
     border: 2px solid #73879C;
+    transition: 0.3s ease-in-out;
 }
 
 .btn-custom:hover, .btn-custom:focus {
-    color: #444444;
+    color: #73879C;
     background-color: #FFFFFF;
     border: 2px solid #73879C;
 }
@@ -66,6 +68,45 @@
     border-radius: 25px;
 }
 
+.dropdown a {
+    color: #444444;
+    font-weight: 500;
+}
+
+.dropdown img {
+    width: 29px;
+    height: 29px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.dropdown i {
+    margin-left: 0.5em;
+}
+
+.dropdown .dropdown-menu {
+    position: absolute;
+    background: #fff;
+    margin-top: 0;
+    border: 1px solid #D9DEE4;
+    -webkit-box-shadow: none;
+    right: 0;
+    left: auto;
+    width: 200px;
+    font-size: 12px;
+    list-style: none;
+    padding: 0;
+    text-shadow: none;
+    top: 100%;
+    z-index: 9998;
+    border-top: 1px solid #e8e7e8;
+}
+
+.dropdown .dropdown-menu li a {
+    width: 100%;
+    padding: 12px 20px;
+    color: #696464;
+}
 
 .main-content {
     padding-top: 70px;
@@ -75,5 +116,11 @@
     .navbar .navbar-btn {
         margin-left: 1em;
         width: auto;
+        margin-top: 14px;
+        margin-bottom: 14px;
+    }
+
+    .navbar-brand span {
+        font-size: 30px;
     }
 }

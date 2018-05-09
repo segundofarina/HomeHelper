@@ -88,7 +88,7 @@ public class ServiceProviderController {
         }
         final int providerId = loggedInUser.getId();
 
-        return new ModelAndView("redirect:/sprovider/" + providerId + "/messages/" + chatService.getLastMsgThread(providerId));
+        return new ModelAndView("redirect:/sprovider/messages/" + chatService.getLastMsgThread(providerId));
     }
 
     @RequestMapping("/sprovider/appointments")

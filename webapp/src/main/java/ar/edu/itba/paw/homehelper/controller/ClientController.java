@@ -4,6 +4,7 @@ import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.SProvider;
+import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -24,8 +25,15 @@ public class ClientController {
 
 
     @RequestMapping("/")
-    public ModelAndView index(@ModelAttribute("searchForm") final SearchForm form) {
+    public ModelAndView index(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("searchForm") final SearchForm form) {
         final ModelAndView mav = new ModelAndView("index");
+        int userId = -1;
+
+        if(loggedInUser != null) {
+            userId = loggedInUser.getId();
+        }
+
+        mav.addObject("userId", userId);
         mav.addObject("serviceTypes",sProviderService.getServiceTypes());
         return mav;
     }
@@ -35,10 +43,20 @@ public class ClientController {
     }
 
     @RequestMapping("/search")
-    public ModelAndView searchProfile(@Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors) {
-        if (errors.hasErrors()) { return index(form); }
+    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors) {
+        if (errors.hasErrors()) {
+            return index(loggedInUser, form);
+        }
 
         final ModelAndView mav = new ModelAndView("profileSearch");
+        int userId = -1;
+
+        if(loggedInUser != null) {
+            userId = loggedInUser.getId();
+        }
+
+        mav.addObject("userId", userId);
+
         List<SProvider> list =sProviderService.getServiceProvidersWithServiceType(form.getServiceTypeId());
         mav.addObject("list",list);
         mav.addObject("serviceTypes",sProviderService.getServiceTypes());
@@ -47,17 +65,25 @@ public class ClientController {
     
 
     @RequestMapping("/profile/{providerId}")
-    public ModelAndView providerProfile(@PathVariable("providerId") int providerId,@ModelAttribute("appointmentForm") final AppointmentForm form) {
+    public ModelAndView providerProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId,@ModelAttribute("appointmentForm") final AppointmentForm form) {
         final ModelAndView mav = new ModelAndView("profile");
+        int userId = -1;
+
+        if(loggedInUser != null) {
+            userId = loggedInUser.getId();
+        }
+
+        mav.addObject("userId", userId);
         mav.addObject("provider",sProviderService.getServiceProviderWithUserId(providerId));
 
         return mav;
     }
 
     @RequestMapping(value = "/setAppointment", method = { RequestMethod.POST })
-    public ModelAndView create(@Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors) {
+    public ModelAndView create(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors) {
 
-        if (errors.hasErrors()) { return providerProfile(4,form);
+        if (errors.hasErrors()) {
+            return providerProfile(loggedInUser, 4,form);
         }
         final ModelAndView mav = new ModelAndView("profile");
 

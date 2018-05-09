@@ -18,13 +18,28 @@
 
         <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
 
-            <button type="submit" class="btn btn-custom btn-rounded navbar-right navbar-btn">Log in</button>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="../navbar/">Home</a></li>
-                <li><a href="../navbar-static-top/">Static top</a></li>
-                <li><a href="./">Fixed top</a></li>
-            </ul>
+            <c:choose>
+                <c:when test="${userId == -1}">
+                    <a href="/login" class="btn btn-custom btn-rounded navbar-right navbar-btn">Log in</a>
+                </c:when>
+                <c:otherwise>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="/client/messages">Messages</a></li>
+                        <li><a href="/client/appointments">Appointments</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile picture" />
+                                Martin Victory
+                                <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/client/settings">Settings</a></li>
+                                <li><a href="/logout">Log out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </c:otherwise>
+            </c:choose>
 
         </div><!--/.nav-collapse -->
     </div>
