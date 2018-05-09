@@ -31,7 +31,7 @@ public class HHUserDetailsService implements UserDetailsService {
         final ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
-        if(sp.getServiceProviderWithUserId(user.getId())!=null){
+        if(sp.isServiceProvider(user.getId())){
             authorities.add((new SimpleGrantedAuthority("ROLE_PROVIDER")));
         }
 

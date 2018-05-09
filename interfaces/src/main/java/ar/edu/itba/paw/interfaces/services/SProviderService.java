@@ -25,6 +25,8 @@ public interface SProviderService {
 
     boolean updateAptitudes(int spId, List<AptitudeForm> list);
 
+    int getServiceProviderId(int userId);
 
+    boolean isServiceProvider(int userId);
 
 }

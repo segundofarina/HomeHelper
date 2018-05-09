@@ -28,7 +28,7 @@
 }
 
 .navbar-brand img {
-    height: 2.6em;
+    height: 2em;
     margin-top: -0.5em;
     display: inline-block;
     margin-right: 1em;
@@ -113,14 +113,26 @@
 }
 
 @media (min-width: 768px) {
+    .navbar .container-fluid {
+        padding-right: 0;
+    }
+
+    .navbar-right {
+        margin-right: 0;
+    }
+
     .navbar .navbar-btn {
-        margin-left: 1em;
         width: auto;
         margin-top: 14px;
         margin-bottom: 14px;
+        margin-right: 50px;
     }
 
     .navbar-brand span {
         font-size: 30px;
+    }
+
+    .navbar-brand img {
+        height: 2.6em;
     }
 }

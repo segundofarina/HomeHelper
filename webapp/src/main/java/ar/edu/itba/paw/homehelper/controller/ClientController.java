@@ -27,14 +27,10 @@ public class ClientController {
     @RequestMapping("/")
     public ModelAndView index(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("searchForm") final SearchForm form) {
         final ModelAndView mav = new ModelAndView("index");
-        int userId = -1;
 
-        if(loggedInUser != null) {
-            userId = loggedInUser.getId();
-        }
-
-        mav.addObject("userId", userId);
-        mav.addObject("serviceTypes",sProviderService.getServiceTypes());
+        mav.addObject("user", loggedInUser);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+        mav.addObject("serviceTypes", sProviderService.getServiceTypes());
         return mav;
     }
 
@@ -49,15 +45,11 @@ public class ClientController {
         }
 
         final ModelAndView mav = new ModelAndView("profileSearch");
-        int userId = -1;
 
-        if(loggedInUser != null) {
-            userId = loggedInUser.getId();
-        }
+        mav.addObject("user", loggedInUser);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
-        mav.addObject("userId", userId);
-
-        List<SProvider> list =sProviderService.getServiceProvidersWithServiceType(form.getServiceTypeId());
+        List<SProvider> list = sProviderService.getServiceProvidersWithServiceType(form.getServiceTypeId());
         mav.addObject("list",list);
         mav.addObject("serviceTypes",sProviderService.getServiceTypes());
         return mav;
@@ -67,13 +59,9 @@ public class ClientController {
     @RequestMapping("/profile/{providerId}")
     public ModelAndView providerProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId,@ModelAttribute("appointmentForm") final AppointmentForm form) {
         final ModelAndView mav = new ModelAndView("profile");
-        int userId = -1;
 
-        if(loggedInUser != null) {
-            userId = loggedInUser.getId();
-        }
-
-        mav.addObject("userId", userId);
+        mav.addObject("user", loggedInUser);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
         mav.addObject("provider",sProviderService.getServiceProviderWithUserId(providerId));
 
         return mav;
@@ -88,5 +76,12 @@ public class ClientController {
         final ModelAndView mav = new ModelAndView("profile");
 
         return mav;
+    }
+
+    private int getUserId(User user) {
+        if(user == null) {
+            return -1;
+        }
+        return user.getId();
     }
 }

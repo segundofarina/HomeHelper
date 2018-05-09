@@ -56,8 +56,9 @@
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                <li><a href="<c:url value="/" />">Use as client</a></li>
                                 <li><a href="javascript:;">Settings</a></li>
-                                <li><a href="/login"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                <li><a href="<c:url value="/logout"/>"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                             </ul>
                         </li>
 
