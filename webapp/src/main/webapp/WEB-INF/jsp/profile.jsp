@@ -91,7 +91,7 @@
                                                 <option value="<c:out value="${aptitude.service.serviceTypeId}"/>"> <c:out value="${aptitude.service.name}"/></option>
                                             </c:forEach>
                                         </form:select>
-                                        <form:errors path="username" element="p" />
+                                        <form:errors path="serviceType" element="p" />
                                     </div>
                                     <div class="form-group">
                                         <form:label path="date"><spring:message code="general.date"/>:</form:label>

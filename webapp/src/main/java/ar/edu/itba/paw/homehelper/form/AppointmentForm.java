@@ -1,9 +1,11 @@
 package ar.edu.itba.paw.homehelper.form;
 
+import javax.validation.constraints.NotNull;
+
 public class AppointmentForm {
 
-
-    private int serviceType;
+    @NotNull
+    private String serviceType;
     private String date;
     private String description;
 
@@ -23,11 +25,11 @@ public class AppointmentForm {
         this.description = description;
     }
 
-    public int getServiceType() {
+    public String getServiceType() {
         return serviceType;
     }
 
-    public void setServiceType(int serviceType) {
+    public void setServiceType(String serviceType) {
         this.serviceType = serviceType;
     }
 }
