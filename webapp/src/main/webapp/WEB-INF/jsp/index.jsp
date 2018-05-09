@@ -23,6 +23,7 @@
 
     <!-- Custom Theme Style -->
     <link href="<c:url value="/resources/css/clientNavbarStyles.css" />" rel="stylesheet" />
+    <link href="<c:url value="/resources/css/generalStyles.css" />" rel="stylesheet" />
     <link href="<c:url value="/resources/css/indexStyles.css" />" rel="stylesheet" />
 </head>
 
@@ -47,19 +48,23 @@
                         <c:url value="/search" var="postPath"/>
                         <form:form modelAttribute="searchForm" action="${postPath}" method="Post">
                             <div class="form-group">
-                                <form:label path="cityId"><spring:message code="general.city"/>:</form:label>
-                                <form:select class="form-control" path="cityId">
-                                    <option value="1"><spring:message code="index.select-city"/>...</option>
+                                <form:label path="city"><spring:message code="general.city"/>:</form:label>
+                                <form:select class="form-control" path="city">
+                                    <form:option value="NONE"><spring:message code="index.select-city"/>...</form:option>
+                                    <form:option value="1">Buenos Aires</form:option>
                                 </form:select>
+                                <form:errors path="city" element="p" cssClass="form-error" />
                             </div>
                             <div class="form-group">
-                                <form:label path="serviceTypeId"><spring:message code="general.service-type"/>:</form:label>
-                                <form:select path="serviceTypeId" class="form-control" >
-                                    <option value=""><spring:message code="index.select-serviceType"/>...</option>
+                                <form:label path="serviceType"><spring:message code="general.service-type"/>:</form:label>
+                                <form:select path="serviceType" class="form-control" >
+                                    <form:option value=""><spring:message code="index.select-serviceType"/>...</form:option>
+                                    <%--<form:options items="${serviceTypes}" itemValue="${}" />--%>
                                     <c:forEach items="${serviceTypes}" var="st">
-                                        <option value="<c:out value="${st.serviceTypeId}"/>"><c:out value="${st.name}"/></option>
+                                        <form:option value="${st.serviceTypeId}"><c:out value="${st.name}"/></form:option>
                                     </c:forEach>
                                 </form:select>
+                                <form:errors path="serviceType" element="p" cssClass="form-error" />
                             </div>
                             <form:button type="submit" class="btn btn-success btn-full-width"><spring:message code="general.search"/></form:button>
                         </form:form>
