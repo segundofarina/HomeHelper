@@ -92,7 +92,7 @@
                                         </form:select>
                                     </div>
                                     <div class="form-group">
-                                        <formlabel path="date">Date:</formlabel>
+                                        <form:label path="date">Date:</form:label>
                                         <form:input type="text" name="date" path="date" class="form-control" placeholder="Select a date..." />
                                     </div>
                                     <div class="form-group">
