@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,39 +40,39 @@
 
         <div class="left-screen">
             <div class="container-fluid">
-                <h1>Some Text</h1>
+
+                <h1><spring:message code="index.greeting"/></h1>
                 <div class="panel searchForm">
                     <div class="panel-body">
                         <c:url value="/search" var="postPath"/>
                         <form:form modelAttribute="searchForm" action="${postPath}" method="Post">
                             <div class="form-group">
-                                <form:label path="cityId">City:</form:label>
+                                <form:label path="cityId"><spring:message code="general.city"/>:</form:label>
                                 <form:select class="form-control" path="cityId">
-                                    <option value="1">Select a city...</option>
+                                    <option value="1"><spring:message code="index.select-city"/>...</option>
                                 </form:select>
                             </div>
                             <div class="form-group">
-                                <form:label path="serviceTypeId">Service Type:</form:label>
+                                <form:label path="serviceTypeId"><spring:message code="general.service-type"/>:</form:label>
                                 <form:select path="serviceTypeId" class="form-control" >
-                                    <option value="">Select a serviceType...</option>
+                                    <option value=""><spring:message code="index.select-serviceType"/>...</option>
                                     <c:forEach items="${serviceTypes}" var="st">
                                         <option value="<c:out value="${st.serviceTypeId}"/>"><c:out value="${st.name}"/></option>
                                     </c:forEach>
                                 </form:select>
                             </div>
-                            <form:button type="submit" class="btn btn-success btn-full-width">Search</form:button>
+                            <form:button type="submit" class="btn btn-success btn-full-width"><spring:message code="general.search"/></form:button>
                         </form:form>
                     </div>
                 </div>
             </div>
         </div>
-
     </div><!-- /main content -->
 
     <!-- footer content -->
     <footer class="footer">
         <div class="pull-right">
-            © 2018 All rights reserved Home-Helper.com
+            <spring:message code="index.rights-reserved"/>
         </div>
         <div class="clearfix"></div>
     </footer><!-- /footer content -->

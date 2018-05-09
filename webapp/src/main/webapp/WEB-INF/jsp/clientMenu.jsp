@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <nav class="navbar navbar-fixed-top navbar-custom">
     <div class="container-fluid">
 
@@ -20,7 +20,7 @@
 
             <c:choose>
                 <c:when test="${user == null}">
-                    <a href="<c:url value="/login" />" class="btn btn-custom btn-rounded navbar-right navbar-btn">Log in</a>
+                    <a href="<c:url value="/login" />" class="btn btn-custom btn-rounded navbar-right navbar-btn"><spring:message code="general.login"/></a>
                 </c:when>
                 <c:otherwise>
                     <ul class="nav navbar-nav navbar-right">

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="<c:url value="/resources/img/favicon.png"/>"/>
 
-    <title>Home-Helper | Name</title>
+    <title>Home-Helper | <spring:message code="general.name"/></title>
 
     <!-- Bootstrap -->
     <link href="<c:url value="/resources/adminTemplate/vendors/bootstrap/dist/css/bootstrap.min.css"/>" rel="stylesheet" />
@@ -73,7 +74,6 @@
                                     <span>
                                         <c:out value="${provider.description}"/>
                                     </span>
-                                    <span class="quote closeQuote">&#x02EE;</span>
                                 </p>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                                 <c:url value="/setAppointment" var="postPath"/>
                                 <form:form modelAttribute="appointmentForm" action="${postPath}" method="get">
                                     <div class="form-group">
-                                        <form:label path="serviceType">Service Type:</form:label>
+                                        <form:label path="serviceType"><spring:message code="general.service-type"/>:</form:label>
                                         <form:select class="form-control" path="serviceType">
                                             <c:forEach items="${provider.aptitudes}" var="aptitude">
                                                 <option value="<c:out value="${aptitude.service.serviceTypeId}"/>"> <c:out value="${aptitude.service.name}"/></option>
@@ -92,21 +92,21 @@
                                         </form:select>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="date">Date:</form:label>
+                                        <form:label path="date"><spring:message code="general.date"/>:</form:label>
                                         <form:input type="text" name="date" path="date" class="form-control" placeholder="Select a date..." />
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="description">Description:</form:label>
+                                        <form:label path="description"><spring:message code="general.description"/>:</form:label>
                                         <form:textarea path="description" class="form-control" placeholder="Describe your situation"></form:textarea>
                                     </div>
-                                    <form:button type="submit" class="btn btn-success btn-full-width">Contact</form:button>
+                                    <form:button type="submit" class="btn btn-success btn-full-width"><spring:message code="general.contact"/></form:button>
                                 </form:form>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <h1>Aptitudes</h1>
+                <h1><spring:message code="general.aptitudes"/></h1>
                 <c:forEach items="${provider.aptitudes}" var="aptitude">
 
                 <div class="row aptitude">
@@ -128,35 +128,35 @@
                             <div class="col-xs-12 col-md-4">
                                 <div class="panel">
                                     <div class="panel-body aptitude-bars">
-                                        <h4>General reviews</h4>
+                                        <h4><spring:message code="profile.general-reviews"/></h4>
                                         <div class="stars dyn-stars" data-rating="<c:out value="${aptitude.generalCalification}"/>"></div>
                                         <div class="progressBars">
-                                            <h5>Qualtiy</h5>
+                                            <h5><spring:message code="general.quality"/>:</h5>
                                             <div class="progress">
 
                                                 <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.qualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.qualityCalification*20}"/>%;">
                                                     <c:out value="${aptitude.qualityCalification}"/>
                                                 </div>
                                             </div>
-                                            <h5>Price:</h5>
+                                            <h5><spring:message code="general.price"/>:</h5>
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.priceCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.priceCalification*20}"/>%;">
                                                     <c:out value="${aptitude.priceCalification}"/>
                                                 </div>
                                             </div>
-                                            <h5>Punctuality:</h5>
+                                            <h5><spring:message code="general.punctuality"/>:</h5>
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.punctualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.punctualityCalification*20}"/>%;">
                                                     <c:out value="${aptitude.punctualityCalification}"/>
                                                 </div>
                                             </div>
-                                            <h5>Treatment:</h5>
+                                            <h5><spring:message code="general.treatment"/>:</h5>
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.treatmentCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.treatmentCalification*20}"/>%;">
                                                     <c:out value="${aptitude.treatmentCalification}"/>
                                                 </div>
                                             </div>
-                                            <h5>Cleanness:</h5>
+                                            <h5><spring:message code="general.cleanness"/>:</h5>
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.cleannessCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.cleannessCalification*20}"/>%;">
                                                     <c:out value="${aptitude.cleannessCalification}"/>
@@ -222,7 +222,7 @@
             <!-- footer content -->
             <footer class="footer">
                 <div class="pull-right">
-                    © 2018 All rights reserved Home-Helper.com
+                    <spring:message code="index.rights-reserved"/>
                 </div>
                 <div class="clearfix"></div>
             </footer>
