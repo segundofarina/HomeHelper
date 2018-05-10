@@ -13,8 +13,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
 
+import javax.imageio.ImageIO;
 import javax.sql.DataSource;
+import javax.sql.rowset.serial.SerialBlob;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.Optional;
 
 import static junit.framework.Assert.*;
@@ -29,8 +36,9 @@ import static junit.framework.Assert.*;
         private static final String LASTNAME = "Gomez";
         private static final String EMAIL = "jorgito@yo.com";
         private static final String PHONE = "1123453421";
+        private static final byte [] IMAGE = new byte[]{1, 0, 1, 0};
 
-        @Autowired
+    @Autowired
         private DataSource ds;
 
         @Autowired
@@ -43,9 +51,9 @@ import static junit.framework.Assert.*;
             //JdbcTestUtils.deleteFromTables(jdbcTemplate, "messages","posts","serviceProviders","serviceTypes","users");
         }
         @Test
-        public void testCreate() {
+        public void testCreate() throws SQLException {
             int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "users");
-            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE);
+            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE,new SerialBlob(IMAGE));
             assertNotNull(user);
             assertEquals(USERNAME, user.getUsername());
             assertEquals(PASSWORD, user.getPassword());
@@ -69,9 +77,21 @@ import static junit.framework.Assert.*;
         }
 
 
-        public static User insertDummyUser(UserDao userDao){
-            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE);
+        public static User insertDummyUser(UserDao userDao) throws SQLException {
+            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE,new SerialBlob(IMAGE));
             return user;
         }
-    }
+
+        @Test
+        public void testGetProfileImage() throws SQLException, IOException {
+
+                try {
+
+                    InputStream in = userDao.findById(1).get().getImage().getBinaryStream();
+                    BufferedImage image = ImageIO.read(in);
+                } catch (Exception e){
+                    //habria que hacer algo aca;
+                }
+        }
+}
 

@@ -13,7 +13,8 @@ CREATE TABLE IF NOT EXISTS users (
   firstname varchar(100),
   lastname varchar(100),
   email varchar(100),
-  phone varchar(100)
+  phone varchar(100),
+  image BLOB
 );
 
 CREATE TABLE IF NOT EXISTS serviceTypes (
@@ -62,22 +63,22 @@ CREATE TABLE IF NOT EXISTS appointments(
   jobDescription VARCHAR(10000)
 );
 
-insert into users VALUES (1,'sfarina','dulcedeleche','Segundo Augusto','Fariña','afarina@itba.edu.ar','1541234567');
-insert into users VALUES (2,'mvictory','dulcedeleche','Martin','Victory','mvictory@itba.edu.ar','1563498751');
-insert into users VALUES (3,'fcavallin','dulcedeleche','Florencia','Cavallin','fcavallin@itba.edu.ar','1563287519');
-insert into users VALUES (4,'marcemiozzo','dulcedeleche','Marcelo','Miozzo','marcemiozzo@google.com','1532357421');
-insert into users VALUES (5,'nadimer','dulcedeleche','Nadine','Merlino','nadimer@fibertel.com.ar','1561182277');
-insert into users VALUES (6,'scavallin','dulcedeleche','Sergio Eduardo','Cavallin','scavallin@pluspetrol.net','1540910023');
-insert into users VALUES (7,'bianq','dulcedeleche','Bianca','Fallace','bianqfallace@google.com','1542366653');
-insert into users VALUES (8,'alvarocrespo','dulcedeleche','Alvaro','Crespo','acrespo@itba.edu.ar','1563325569');
-insert into users VALUES (9,'mfallone','dulcedeleche','Marco','Fallone','mfallon@itba.edu.ar','1562009879');
-insert into users VALUES (10,'mtessino','dulcedeleche','Mario','Tessino','maritotessino@outlook.com','1562341209');
-insert into users VALUES (11,'lynch','dulcedeleche','Marcelo','Lynch','marchusL@google.com','1563277639');
-insert into users VALUES (12,'tomicerda','dulcedeleche','Tomás','Cerda','tcerda@itba.edu.ar','1562874621');
-insert into users VALUES (13,'carlubarru','dulcedeleche','Carla','Barrufaldi','carlabarrufaldi@outlook.com','1539098798');
-insert into users VALUES (14,'axelf','dulcedeleche','Axel','Fratoni','axfratoni@itba.edu.ar','1563880943');
-insert into users VALUES (15,'feroviedo','dulcedeleche','Fernan','Oviedo','foviedo@google.com','1542548790');
-insert into users VALUES (16,'ndonof','dulcedeleche','Nicolas','Donofrio','ndonofrio@outlook.com','1534890542');
+insert into users VALUES (1,'sfarina','dulcedeleche','Segundo Augusto','Fariña','afarina@itba.edu.ar','1541234567','hola mundo');
+insert into users VALUES (2,'mvictory','dulcedeleche','Martin','Victory','mvictory@itba.edu.ar','1563498751','hola mundo');
+insert into users VALUES (3,'fcavallin','dulcedeleche','Florencia','Cavallin','fcavallin@itba.edu.ar','1563287519','hola mundo');
+insert into users VALUES (4,'marcemiozzo','dulcedeleche','Marcelo','Miozzo','marcemiozzo@google.com','1532357421','hola mundo');
+insert into users VALUES (5,'nadimer','dulcedeleche','Nadine','Merlino','nadimer@fibertel.com.ar','1561182277','hola mundo');
+insert into users VALUES (6,'scavallin','dulcedeleche','Sergio Eduardo','Cavallin','scavallin@pluspetrol.net','1540910023','hola mundo');
+insert into users VALUES (7,'bianq','dulcedeleche','Bianca','Fallace','bianqfallace@google.com','1542366653','hola mundo');
+insert into users VALUES (8,'alvarocrespo','dulcedeleche','Alvaro','Crespo','acrespo@itba.edu.ar','1563325569','hola mundo');
+insert into users VALUES (9,'mfallone','dulcedeleche','Marco','Fallone','mfallon@itba.edu.ar','1562009879','hola mundo');
+insert into users VALUES (10,'mtessino','dulcedeleche','Mario','Tessino','maritotessino@outlook.com','1562341209','hola mundo');
+insert into users VALUES (11,'lynch','dulcedeleche','Marcelo','Lynch','marchusL@google.com','1563277639','hola mundo');
+insert into users VALUES (12,'tomicerda','dulcedeleche','Tomás','Cerda','tcerda@itba.edu.ar','1562874621','hola mundo');
+insert into users VALUES (13,'carlubarru','dulcedeleche','Carla','Barrufaldi','carlabarrufaldi@outlook.com','1539098798','hola mundo');
+insert into users VALUES (14,'axelf','dulcedeleche','Axel','Fratoni','axfratoni@itba.edu.ar','1563880943','hola mundo');
+insert into users VALUES (15,'feroviedo','dulcedeleche','Fernan','Oviedo','foviedo@google.com','1542548790','hola mundo');
+insert into users VALUES (16,'ndonof','dulcedeleche','Nicolas','Donofrio','ndonofrio@outlook.com','1534890542','hola mundo');
 
 insert into serviceProviders VALUES (1,'Mi nombre es Segundo y tengo 22 años, trabajo en el negocio desde 2010. Trabaje en la fabrica de mubles de Noray desde el 2010 al 2015. En el 2015 comence mi propia empresa de mubles a medida. Contactate con nosotros y a la brevedad te contestaremos!!');
 

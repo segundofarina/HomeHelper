@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS users (
   firstname varchar(100),
   lastname varchar(100),
   email varchar(100),
-  phone varchar(100)
+  phone varchar(100),
+  image BLOB
 );
 
 CREATE TABLE IF NOT EXISTS serviceTypes (

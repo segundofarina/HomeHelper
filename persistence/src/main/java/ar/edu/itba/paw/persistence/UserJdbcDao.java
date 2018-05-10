@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -26,23 +27,18 @@ public class UserJdbcDao implements UserDao {
     private final static RowMapper<User> ROW_MAPPER = new RowMapper<User>() {
 
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new User(rs.getString("username"), rs.getInt("userid"),rs.getString("password")
-        ,rs.getString("firstname"),rs.getString("lastname"),rs.getString("email"),rs.getString("phone"));
+        return new User(rs.getString("username"), rs.getInt("userid"),rs.getString("password"),rs.getString("firstname"),rs.getString("lastname"),rs.getString("email"),rs.getString("phone"),rs.getBlob("image"));
         }
     };
 
     @Autowired
     public UserJdbcDao(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
-        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("users")
-                .usingGeneratedKeyColumns("userid");
-
-
+        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("users").usingGeneratedKeyColumns("userid");
     }
 
     public Optional<User> findById(int id) {
-        final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?;",
-                ROW_MAPPER, id);
+        final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?;", ROW_MAPPER, id);
         if (list.isEmpty()) {
             return Optional.empty();
         }
@@ -60,7 +56,7 @@ public class UserJdbcDao implements UserDao {
     }
 
 
-    public User create(String username, String password, String firstname, String lastname, String email, String phone) {
+    public User create(String username, String password, String firstname, String lastname, String email, String phone,Blob image) {
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("username", username);// la key es el nombre de la columna
         args.put("password",password);
@@ -68,14 +64,10 @@ public class UserJdbcDao implements UserDao {
         args.put("lastname",lastname);
         args.put("email",email);
         args.put("phone",phone);
+        args.put("image",image);
         final Number userId = jdbcInsert.executeAndReturnKey(args);
-        return new User(username,userId.intValue(), password, firstname, lastname, email, phone);
+        return new User(username,userId.intValue(), password, firstname, lastname, email, phone,image);
     }
-
-
-
-
-
 
 
 }
