@@ -59,7 +59,6 @@
                                 <form:label path="serviceType"><spring:message code="general.service-type"/>:</form:label>
                                 <form:select path="serviceType" class="form-control" >
                                     <form:option value=""><spring:message code="index.select-serviceType"/>...</form:option>
-                                    <%--<form:options items="${serviceTypes}" itemValue="${}" />--%>
                                     <c:forEach items="${serviceTypes}" var="st">
                                         <form:option value="${st.serviceTypeId}"><c:out value="${st.name}"/></form:option>
                                     </c:forEach>
