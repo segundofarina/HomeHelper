@@ -2,6 +2,7 @@ package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
+import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
@@ -22,6 +23,9 @@ public class ClientController {
 
     @Autowired
     SProviderService sProviderService;
+
+    @Autowired
+    ChatService chatService;
 
 
     @RequestMapping("/")
@@ -74,6 +78,19 @@ public class ClientController {
             return providerProfile(loggedInUser, 4,form);
         }
         final ModelAndView mav = new ModelAndView("profile");
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/client/messages/{providerId}", method = {RequestMethod.GET})
+    public ModelAndView messages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") final int providerId) {
+        final ModelAndView mav = new ModelAndView("clientMessages");
+
+        mav.addObject("user", loggedInUser);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+
+        mav.addObject("chats", chatService.getChatsOf(loggedInUser.getId()));
+        mav.addObject("currentChat", chatService.getChat(loggedInUser.getId(), providerId));
 
         return mav;
     }
