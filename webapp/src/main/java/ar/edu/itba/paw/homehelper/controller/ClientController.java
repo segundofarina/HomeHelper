@@ -9,10 +9,7 @@ import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -82,6 +79,15 @@ public class ClientController {
         return mav;
     }
 
+    @RequestMapping(value = "/client/messages/{providerId}", method = { RequestMethod.POST })
+    public ModelAndView sendMessagePost(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId, @RequestParam("msg") String msg) {
+        final int userId = loggedInUser.getId();
+
+        chatService.sendMsg(userId, providerId, msg);
+
+        return new ModelAndView("redirect:/client/messages/" + providerId);
+    }
+
     @RequestMapping(value = "/client/messages/{providerId}", method = {RequestMethod.GET})
     public ModelAndView messages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") final int providerId) {
         final ModelAndView mav = new ModelAndView("clientMessages");
@@ -93,6 +99,12 @@ public class ClientController {
         mav.addObject("currentChat", chatService.getChat(loggedInUser.getId(), providerId));
 
         return mav;
+    }
+
+    @RequestMapping("/client/messages")
+    public ModelAndView messagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser) {
+        final int userId = loggedInUser.getId();
+        return new ModelAndView("redirect:/client/messages" + chatService.getLastMsgThread(userId));
     }
 
     private int getUserId(User user) {

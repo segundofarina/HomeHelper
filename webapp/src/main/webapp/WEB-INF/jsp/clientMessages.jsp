@@ -85,7 +85,7 @@
 
                             </div>
                             <div class="fields">
-                                <c:url value="/sprovider/${providerId}/messages/${currentChat.grey.id}" var="msgPostPath" />
+                                <c:url value="/client/messages/${currentChat.grey.id}" var="msgPostPath" />
                                 <form action="<c:out value="${msgPostPath}" />" method="POST">
                                     <div>
                                         <textarea name="msg" placeholder="Write a message..."></textarea>
