@@ -70,16 +70,16 @@
                                 <c:forEach items="${currentChat.messages}" var="msg">
                                 <div class="clearfix">
                                     <c:choose>
-                                    <c:when test="${msg.from == providerId}">
-                                    <div class="myMsg">
+                                        <c:when test="${msg.from == currentChat.green.id}">
+                                            <div class="myMsg">
                                         </c:when>
                                         <c:otherwise>
-                                        <div class="otherMsg">
-                                            </c:otherwise>
-                                            </c:choose>
+                                            <div class="otherMsg">
+                                        </c:otherwise>
+                                    </c:choose>
 
-                                            <p><c:out value="${msg.message}" /></p>
-                                        </div>
+                                                <p><c:out value="${msg.message}" /></p>
+                                            </div>
                                 </div>
                                 </c:forEach>
 
