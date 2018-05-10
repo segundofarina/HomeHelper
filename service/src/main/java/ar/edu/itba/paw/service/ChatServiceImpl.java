@@ -40,6 +40,9 @@ public class ChatServiceImpl implements ChatService{
     @Override
     public int getLastMsgThread(int providerId) {
         List<Chat> list = getChatsOf(providerId);
+        if(list.isEmpty()){
+            return -1;
+        }
         return list.get(list.size() - 1).getGrey().getId();
     }
 }

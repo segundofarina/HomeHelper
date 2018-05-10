@@ -20,7 +20,6 @@ public class SecurityUserServiceImpl implements SecurityUserService {
         if(authentication == null) {
             return null;
         }
-
         return userService.findByUsername(authentication.getName());
 
     }

@@ -1,11 +1,19 @@
 package ar.edu.itba.paw.homehelper.controller;
 
+import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
+import ar.edu.itba.paw.homehelper.form.SignUpForm;
+import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
+import ar.edu.itba.paw.interfaces.services.UserService;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +30,12 @@ public class ClientController {
 
     @Autowired
     SProviderService sProviderService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    HHUserDetailsService userDetailsService;
 
 
     @RequestMapping("/")
@@ -77,6 +91,35 @@ public class ClientController {
 
         return mav;
     }
+
+    @RequestMapping("/signup")
+    public ModelAndView signup(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("signUpForm") final SignUpForm form) {
+        final ModelAndView mav = new ModelAndView("signup");
+
+        mav.addObject("user", loggedInUser);
+        return mav;
+    }
+
+    @RequestMapping(value = "/createUser", method = { RequestMethod.POST })
+    public ModelAndView createUser(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("signUpForm") final SignUpForm form, final BindingResult errors) {
+
+        if (errors.hasErrors()) {
+            return signup(loggedInUser, form);
+        }
+
+        User user = userService.create(form.getUsername(),form.getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone());
+
+        UserDetails userDetails =userDetailsService.loadUserByUsername(user.getUsername());
+
+        Authentication auth =
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+
+        return new ModelAndView("redirect:/");
+    }
+
 
     private int getUserId(User user) {
         if(user == null) {

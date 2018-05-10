@@ -79,6 +79,8 @@ insert into users VALUES (14,'axelf','dulcedeleche','Axel','Fratoni','axfratoni@
 insert into users VALUES (15,'feroviedo','dulcedeleche','Fernan','Oviedo','foviedo@google.com','1542548790');
 insert into users VALUES (16,'ndonof','dulcedeleche','Nicolas','Donofrio','ndonofrio@outlook.com','1534890542');
 
+
+
 insert into serviceProviders VALUES (1,'Mi nombre es Segundo y tengo 22 años, trabajo en el negocio desde 2010. Trabaje en la fabrica de mubles de Noray desde el 2010 al 2015. En el 2015 comence mi propia empresa de mubles a medida. Contactate con nosotros y a la brevedad te contestaremos!!');
 
 insert into serviceProviders VALUES (2,'Mi nombre es Martin, tengo 32 años. Trabajo como pintor hace 10 años junto a un equipo de 5 pintores. Los presupuestos se presentan por escrito sin cargo alguno. (Dentro de la zona de capital federal.)
@@ -454,4 +456,11 @@ insert into messages VALUES (2,6,'Necesito hacer un aramrio para zapatillas',DEF
 insert into messages VALUES (2,9,'Este tambien es un chat',DEFAULT );
 insert into messages VALUES (9,2,'AAA mira que bueno',DEFAULT );
 insert into messages VALUES (2,9,'Jajaja',DEFAULT );
+
+
+-- updating serial sequence numbers
+SELECT setval('users_userid_seq', (SELECT MAX(userid) from users));
+SELECT setval('serviceTypes_serviceTypeId_seq', (SELECT MAX(serviceTypeId) from serviceTypes));
+SELECT setval('aptitudes_aptitudeId_seq', (SELECT MAX(aptitudeId) from aptitudes));
+SELECT setval('appointments_appointmentId_seq', (SELECT MAX(appointmentId) from appointments));
 
