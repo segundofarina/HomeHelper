@@ -46,7 +46,7 @@
                         <div class="col-sm-3 messageThumbnails">
 
                             <c:forEach items="${chats}" var="chat">
-                                <c:url value="/sprovider/${providerId}/messages/${chat.grey.id}" var="chatThreadUrl" />
+                                <c:url value="/client/messages/${chat.grey.id}" var="chatThreadUrl" />
                                 <a href="${chatThreadUrl}" class="thumbItem">
                                     <div class="row">
                                         <div class="col-sm-3">

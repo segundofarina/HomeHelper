@@ -104,7 +104,7 @@ public class ClientController {
     @RequestMapping("/client/messages")
     public ModelAndView messagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser) {
         final int userId = loggedInUser.getId();
-        return new ModelAndView("redirect:/client/messages" + chatService.getLastMsgThread(userId));
+        return new ModelAndView("redirect:/client/messages/" + chatService.getLastMsgThread(userId));
     }
 
     private int getUserId(User user) {
