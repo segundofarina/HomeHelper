@@ -94,7 +94,7 @@ public class ClientController {
         return mav;
     }
 
-    /*@RequestMapping(value = "/profile/{providerId}", method = RequestMethod.POST)
+   /* @RequestMapping(value = "/profile/{providerId}", method = RequestMethod.POST)
     public ModelAndView checkValidAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors, HttpServletRequest request) {
         if (errors.hasErrors()) {
             return providerProfile(loggedInUser, form.getProviderId(), form);
@@ -104,7 +104,8 @@ public class ClientController {
 
         if(loggedInUser == null) {
             System.out.println("going to login");
-            return new ModelAndView("redirect:/login?action=setApp");
+            //return new ModelAndView("redirect:/login?action=setApp");
+            //request.getRequestDispatcher("/client/setAppointment").forward(request, response);
         }
 
         System.out.println("going to setAppointment");
