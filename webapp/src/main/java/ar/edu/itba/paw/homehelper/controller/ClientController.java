@@ -3,22 +3,21 @@ package ar.edu.itba.paw.homehelper.controller;
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
+import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Enumeration;
 import java.util.List;
 
-import static com.oracle.jrockit.jfr.ContentType.Timestamp;
 
 @Controller
 public class ClientController {
@@ -28,6 +27,9 @@ public class ClientController {
 
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    ChatService chatService;
 
 
     @RequestMapping("/")
@@ -40,24 +42,43 @@ public class ClientController {
         return mav;
     }
 
-    @RequestMapping("/login") public ModelAndView login() {
+    @RequestMapping("/login") public ModelAndView login(HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
+        request.getSession().setAttribute("url_prior_login", referer);
+
         return new ModelAndView("login");
     }
 
-    @RequestMapping("/search")
-    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors) {
-        if (errors.hasErrors()) {
-            return index(loggedInUser, form);
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public ModelAndView processSearchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors, @RequestParam(required = false, defaultValue = "y", value = "redr") final String redr, @RequestParam(required = false, defaultValue = "none", value = "st") final String st) {
+        if(errors.hasErrors()) {
+            if(redr.equals("y")) {
+                return index(loggedInUser, form);
+            }
+            return searchProfile(loggedInUser, form, st);
         }
+        return searchProfile(loggedInUser, form, String.valueOf(form.getServiceTypeId()));
+    }
 
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, @RequestParam(required = false, defaultValue = "none", value = "st") final String st) {
         final ModelAndView mav = new ModelAndView("profileSearch");
+        final int serviceTypeId;
+        final List<SProvider> list;
+
+        if(st.equals("none")) {
+            serviceTypeId = form.getServiceTypeId();
+        } else {
+            serviceTypeId = Integer.parseInt(st);
+        }
+        list = sProviderService.getServiceProvidersWithServiceType(serviceTypeId);
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
-        List<SProvider> list = sProviderService.getServiceProvidersWithServiceType(form.getServiceTypeId());
         mav.addObject("list",list);
         mav.addObject("serviceTypes",sProviderService.getServiceTypes());
+        mav.addObject("serviceTypeId", serviceTypeId);
         return mav;
     }
     
@@ -73,8 +94,26 @@ public class ClientController {
         return mav;
     }
 
+    /*@RequestMapping(value = "/profile/{providerId}", method = RequestMethod.POST)
+    public ModelAndView checkValidAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors, HttpServletRequest request) {
+        if (errors.hasErrors()) {
+            return providerProfile(loggedInUser, form.getProviderId(), form);
+        }
+
+        request.setAttribute("appointmentForm", form);
+
+        if(loggedInUser == null) {
+            System.out.println("going to login");
+            return new ModelAndView("redirect:/login?action=setApp");
+        }
+
+        System.out.println("going to setAppointment");
+        return new ModelAndView("redirect:/client/setAppointment");
+        //return setAppointment(loggedInUser, form);
+    }*/
+
     @RequestMapping(value = "/client/setAppointment", method = { RequestMethod.POST })
-    public ModelAndView setAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors) {
+    public ModelAndView setAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("appointmentForm") @Valid final AppointmentForm form, final BindingResult errors) {
 
         if (errors.hasErrors()) {
             return providerProfile(loggedInUser, form.getProviderId(), form);
@@ -83,6 +122,34 @@ public class ClientController {
         appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
 
         return new ModelAndView("redirect:/client/appointmentConfirmed");
+    }
+
+    @RequestMapping(value = "/client/messages/{providerId}", method = { RequestMethod.POST })
+    public ModelAndView sendMessagePost(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId, @RequestParam("msg") String msg) {
+        final int userId = loggedInUser.getId();
+
+        chatService.sendMsg(userId, providerId, msg);
+
+        return new ModelAndView("redirect:/client/messages/" + providerId);
+    }
+
+    @RequestMapping(value = "/client/messages/{providerId}", method = {RequestMethod.GET})
+    public ModelAndView messages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") final int providerId) {
+        final ModelAndView mav = new ModelAndView("clientMessages");
+
+        mav.addObject("user", loggedInUser);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+
+        mav.addObject("chats", chatService.getChatsOf(loggedInUser.getId()));
+        mav.addObject("currentChat", chatService.getChat(loggedInUser.getId(), providerId));
+
+        return mav;
+    }
+
+    @RequestMapping("/client/messages")
+    public ModelAndView messagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser) {
+        final int userId = loggedInUser.getId();
+        return new ModelAndView("redirect:/client/messages/" + chatService.getLastMsgThread(userId));
     }
 
     private int getUserId(User user) {

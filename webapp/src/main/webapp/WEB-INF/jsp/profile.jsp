@@ -87,9 +87,9 @@
                                     <div class="form-group">
                                         <form:label path="serviceType"><spring:message code="general.service-type"/>:</form:label>
                                         <form:select class="form-control" path="serviceType">
-                                            <option value="">Select service type...</option>
+                                            <form:option value="none">Select service type...</form:option>
                                             <c:forEach items="${provider.aptitudes}" var="aptitude">
-                                                <option value="<c:out value="${aptitude.service.serviceTypeId}"/>"> <c:out value="${aptitude.service.name}"/></option>
+                                                <form:option value="${aptitude.service.serviceTypeId}"> <c:out value="${aptitude.service.name}"/></form:option>
                                             </c:forEach>
                                         </form:select>
                                         <form:errors path="serviceType" element="p" cssClass="form-error" />
