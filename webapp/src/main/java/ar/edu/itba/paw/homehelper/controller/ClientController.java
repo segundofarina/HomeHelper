@@ -13,8 +13,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ClientController {
@@ -36,7 +39,10 @@ public class ClientController {
         return mav;
     }
 
-    @RequestMapping("/login") public ModelAndView login() {
+    @RequestMapping("/login") public ModelAndView login(HttpServletRequest request) {
+        String referer = request.getHeader("Referer");
+        request.getSession().setAttribute("url_prior_login", referer);
+
         return new ModelAndView("login");
     }
 
@@ -86,7 +92,7 @@ public class ClientController {
         return mav;
     }
 
-    @RequestMapping(value = "/setAppointment", method = { RequestMethod.POST })
+    @RequestMapping(value = "/client/setAppointment", method = { RequestMethod.POST })
     public ModelAndView create(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors) {
 
         if (errors.hasErrors()) {

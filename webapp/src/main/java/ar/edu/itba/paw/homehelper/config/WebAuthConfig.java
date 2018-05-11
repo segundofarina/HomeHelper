@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper.config;
 
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
+import ar.edu.itba.paw.homehelper.auth.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.util.concurrent.TimeUnit;
 
@@ -35,7 +37,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/**").permitAll()
                 .and().formLogin()
                     .usernameParameter("username").passwordParameter("password")
-                    .defaultSuccessUrl("/", false)
+                    .successHandler(successHandler())
                     .loginPage("/login")
                 .and().rememberMe()
                     .userDetailsService(userDetailsService)
@@ -70,6 +72,11 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return new LoginSuccessHandler("/");
     }
 }
 
