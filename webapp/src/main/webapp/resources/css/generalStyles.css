@@ -53,3 +53,8 @@ footer.footer {
 .btn-full-width {
     width: 100%;
 }
+
+.form-error {
+    margin-top: 5px;
+    color: #e60000;
+}

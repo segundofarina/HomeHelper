@@ -1,23 +1,36 @@
 package ar.edu.itba.paw.homehelper.form;
 
+import javax.validation.constraints.Pattern;
+
 public class SearchForm {
-    int cityId;
-    int serviceTypeId;
+
+    @Pattern(regexp = "[0-9]+")
+    private String city;
+    @Pattern(regexp = "[0-9]+")
+    private String serviceType;
 
 
-    public int getCityId() {
-        return cityId;
+    public String getCity() {
+        return city;
     }
 
-    public void setCityId(int cityId) {
-        this.cityId = cityId;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    public int getCityId() {
+        return Integer.valueOf(city);
     }
 
     public int getServiceTypeId() {
-        return serviceTypeId;
-    }
-
-    public void setServiceTypeId(int serviceTypeId) {
-        this.serviceTypeId = serviceTypeId;
+        return Integer.valueOf(serviceType);
     }
 }

@@ -39,20 +39,37 @@ public class ClientController {
         return new ModelAndView("login");
     }
 
-    @RequestMapping("/search")
-    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors) {
-        if (errors.hasErrors()) {
-            return index(loggedInUser, form);
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public ModelAndView processSearchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors, @RequestParam(required = false, defaultValue = "y", value = "redr") final String redr, @RequestParam(required = false, defaultValue = "none", value = "st") final String st) {
+        if(errors.hasErrors()) {
+            if(redr.equals("y")) {
+                return index(loggedInUser, form);
+            }
+            return searchProfile(loggedInUser, form, st);
         }
+        return searchProfile(loggedInUser, form, String.valueOf(form.getServiceTypeId()));
+    }
 
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, @RequestParam(required = false, defaultValue = "none", value = "st") final String st) {
         final ModelAndView mav = new ModelAndView("profileSearch");
+        final int serviceTypeId;
+        final List<SProvider> list;
+
+        if(st.equals("none")) {
+            serviceTypeId = form.getServiceTypeId();
+        } else {
+            serviceTypeId = Integer.parseInt(st);
+        }
+        list = sProviderService.getServiceProvidersWithServiceType(serviceTypeId);
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
-        List<SProvider> list = sProviderService.getServiceProvidersWithServiceType(form.getServiceTypeId());
+       // List<SProvider> list = sProviderService.getServiceProvidersWithServiceType(form.getServiceTypeId());
         mav.addObject("list",list);
         mav.addObject("serviceTypes",sProviderService.getServiceTypes());
+        mav.addObject("serviceTypeId", serviceTypeId);
         return mav;
     }
     
