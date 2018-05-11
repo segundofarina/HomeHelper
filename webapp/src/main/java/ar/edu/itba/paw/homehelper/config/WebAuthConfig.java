@@ -36,7 +36,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .and().rememberMe()
                     .userDetailsService(userDetailsService)
                     .rememberMeParameter("rememberme")
-                    .key("mysupersecretketthatnobodyknowsabout")
+                    .key("8EE76CDB9A8876AAE26A81FAE178FC387382830D6DD81F90C064CEDCEEAE7CDD")
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
                 .and().logout()
                     .logoutUrl("/logout").logoutSuccessUrl("/login")
