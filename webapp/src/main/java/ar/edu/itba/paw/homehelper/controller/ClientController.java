@@ -2,16 +2,17 @@ package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
+import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
+import ar.edu.itba.paw.interfaces.services.UserService;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -22,6 +23,9 @@ public class ClientController {
 
     @Autowired
     SProviderService sProviderService;
+
+    @Autowired
+    UserService userService;
 
 
     @RequestMapping("/")
@@ -66,6 +70,12 @@ public class ClientController {
 
         return mav;
     }
+    @ResponseBody
+    @RequestMapping(value = "/profile/{userId}/profileimage",produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    public byte[] providerProfileImage(@PathVariable("userId") int userId) {
+        return userService.getProfileImage(userId);
+    }
+
 
     @RequestMapping(value = "/setAppointment", method = { RequestMethod.POST })
     public ModelAndView create(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors) {
