@@ -11,5 +11,5 @@ public interface UserDao {
 
     Optional<User> findByUsername(String username);
 
-    User create(String username, String password, String firstName, String lastName, String email, String phone,Blob image);
+    User create(String username, String password, String firstName, String lastName, String email, String phone, byte[] image);
 }

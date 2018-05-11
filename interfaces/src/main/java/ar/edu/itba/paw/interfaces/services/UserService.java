@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.services;
 
 import ar.edu.itba.paw.model.User;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -14,10 +15,10 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    User create(String username, String password, String firstname, String lastname, String email, String phone, Blob image);
+    User create(String username, String password, String firstname, String lastname, String email, String phone, byte[] image);
 
     boolean login(String username, String password);
 
-    BufferedImage getProfileImage(int id);
+    byte[] getProfileImage(int id);
 
 }

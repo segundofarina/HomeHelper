@@ -36,7 +36,8 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    public User create(String username, String password, String firstname, String lastname, String email, String phone, Blob image) {
+
+    public User create(String username, String password, String firstname, String lastname, String email, String phone,byte[] image) {
         return userDao.create(username, password, firstname, lastname, email,  phone, image);
     }
 
@@ -54,20 +55,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BufferedImage getProfileImage(int id){
+    public byte[] getProfileImage(int id) {
 
-        try {
+        if(userDao.findById(id).isPresent()) {
 
-            InputStream in = userDao.findById(id).get().getImage().getBinaryStream();
-            BufferedImage image = ImageIO.read(in);
-            return image;
-        } catch (Exception e){
-            //habria que hacer algo aca;
+            return userDao.findById(id).get().getImage();
         }
         return null;
 
     }
-
 
 }
 
