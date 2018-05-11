@@ -36,7 +36,7 @@ public class ChatJdbcDao implements ChatDao{
     @Autowired
     public ChatJdbcDao(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
-        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("messages").usingGeneratedKeyColumns("postId");
+        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("messages").usingGeneratedKeyColumns("postId").usingColumns("userfrom", "userto", "message");
 
     }
 

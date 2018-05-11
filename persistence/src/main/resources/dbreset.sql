@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS messages(
   userFrom INTEGER REFERENCES users(userId),
   userTo  INTEGER REFERENCES users(userId),
   message VARCHAR(10000),
-  messageDate TIMESTAMP  default CURRENT_DATE
+  messageDate TIMESTAMP  default CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS appointments(

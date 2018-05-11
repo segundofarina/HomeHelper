@@ -2,16 +2,14 @@ package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
+import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -22,6 +20,9 @@ public class ClientController {
 
     @Autowired
     SProviderService sProviderService;
+
+    @Autowired
+    ChatService chatService;
 
 
     @RequestMapping("/")
@@ -76,6 +77,34 @@ public class ClientController {
         final ModelAndView mav = new ModelAndView("profile");
 
         return mav;
+    }
+
+    @RequestMapping(value = "/client/messages/{providerId}", method = { RequestMethod.POST })
+    public ModelAndView sendMessagePost(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId, @RequestParam("msg") String msg) {
+        final int userId = loggedInUser.getId();
+
+        chatService.sendMsg(userId, providerId, msg);
+
+        return new ModelAndView("redirect:/client/messages/" + providerId);
+    }
+
+    @RequestMapping(value = "/client/messages/{providerId}", method = {RequestMethod.GET})
+    public ModelAndView messages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") final int providerId) {
+        final ModelAndView mav = new ModelAndView("clientMessages");
+
+        mav.addObject("user", loggedInUser);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+
+        mav.addObject("chats", chatService.getChatsOf(loggedInUser.getId()));
+        mav.addObject("currentChat", chatService.getChat(loggedInUser.getId(), providerId));
+
+        return mav;
+    }
+
+    @RequestMapping("/client/messages")
+    public ModelAndView messagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser) {
+        final int userId = loggedInUser.getId();
+        return new ModelAndView("redirect:/client/messages/" + chatService.getLastMsgThread(userId));
     }
 
     private int getUserId(User user) {
