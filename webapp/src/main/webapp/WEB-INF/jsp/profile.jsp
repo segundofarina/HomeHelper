@@ -81,8 +81,8 @@
                     <div class="col-xs-12 col-sm-4 col-md-3 panel-appointment">
                         <div class="panel panel-shadow">
                             <div class="panel-body">
-                                <c:url value="/setAppointment" var="postPath"/>
-                                <form:form modelAttribute="appointmentForm" action="${postPath}" method="get">
+                                <c:url value="/client/setAppointment" var="postPath"/>
+                                <form:form modelAttribute="appointmentForm" action="${postPath}" method="post">
                                     <div class="form-group">
                                         <form:label path="serviceType"><spring:message code="general.service-type"/>:</form:label>
                                         <form:select class="form-control" path="serviceType">
