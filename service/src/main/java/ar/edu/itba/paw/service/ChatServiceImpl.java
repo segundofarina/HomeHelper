@@ -14,6 +14,7 @@ public class ChatServiceImpl implements ChatService{
 
     @Autowired
     ChatDao chatDao;
+
     @Override
     public boolean sendMsg(int from,int to, String msg) {
         if(msg.isEmpty() || msg.equals("")) {

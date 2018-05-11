@@ -13,7 +13,10 @@
         <javax.validation-api.version>1.0.0.GA</javax.validation-api.version>
         <org.hibernate.validator>4.3.1.Final</org.hibernate.validator>
         <spring-security.version>4.0.4.RELEASE</spring-security.version>
-        <spring-security-web.version>4.1.1.RELEASE</spring-security-web.version>
+        <spring-security-web.version>4.0.4.RELEASE</spring-security-web.version>
+        <javax.mail.version>1.4.7</javax.mail.version>
+        <javax.mail-api.version>1.5.5</javax.mail-api.version>
+        <org.freemarker.version>2.3.23</org.freemarker.version>
     </properties>
     <modelVersion>4.0.0</modelVersion>
     <groupId>ar.edu.itba.paw</groupId>
@@ -57,6 +60,7 @@
                 <artifactId>spring-context</artifactId>
                 <version>${org.springframework.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
@@ -127,6 +131,28 @@
                 <artifactId>spring-security-config</artifactId>
                 <version>${spring-security.version}</version>
             </dependency>
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>javax.mail-api</artifactId>
+                <version>${javax.mail-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>${javax.mail.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${org.freemarker.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>4.2.5.RELEASE</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

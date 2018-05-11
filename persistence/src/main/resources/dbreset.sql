@@ -5,6 +5,7 @@ drop table if exists users CASCADE;
 drop table if exists reviews CASCADE;
 drop table if exists aptitudes CASCADE;
 DROP TABLE IF EXISTS appointments CASCADE;
+drop table if EXISTS verifyUsers CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
   userid SERIAL PRIMARY KEY,
@@ -60,6 +61,11 @@ CREATE TABLE IF NOT EXISTS appointments(
   address VARCHAR(10000),
   status VARCHAR(20),
   jobDescription VARCHAR(10000)
+);
+
+create TABLE if NOT EXISTS verifyUsers(
+  userId INTEGER REFERENCES users(userId),
+  keyCode VARCHAR(1000)
 );
 
 insert into users VALUES (1,'sfarina','dulcedeleche','Segundo Augusto','Fariña','afarina@itba.edu.ar','1541234567');

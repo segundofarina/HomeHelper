@@ -5,6 +5,7 @@ import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.homehelper.form.SignUpForm;
 import ar.edu.itba.paw.interfaces.daos.UserDao;
+import ar.edu.itba.paw.interfaces.services.MailService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.interfaces.services.UserService;
 import ar.edu.itba.paw.model.SProvider;
@@ -36,6 +37,9 @@ public class ClientController {
 
     @Autowired
     HHUserDetailsService userDetailsService;
+
+    @Autowired
+    MailService mailService;
 
 
     @RequestMapping("/")
@@ -100,6 +104,12 @@ public class ClientController {
         return mav;
     }
 
+    @RequestMapping("/sendEmail")
+    public ModelAndView sendEmail(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("signUpForm") final SignUpForm form) {
+        mailService.sendConfirmationEmail("afarina@itba.edu.ar",1);
+        return new ModelAndView("redirect:/");
+    }
+
     @RequestMapping(value = "/createUser", method = { RequestMethod.POST })
     public ModelAndView createUser(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("signUpForm") final SignUpForm form, final BindingResult errors) {
 
@@ -108,6 +118,9 @@ public class ClientController {
         }
 
         User user = userService.create(form.getUsername(),form.getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone());
+
+        mailService.sendConfirmationEmail(user.getEmail(),user.getId());
+
 
         UserDetails userDetails =userDetailsService.loadUserByUsername(user.getUsername());
 
