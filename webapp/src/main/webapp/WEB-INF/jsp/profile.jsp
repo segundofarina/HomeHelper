@@ -86,7 +86,7 @@
                     <div class="col-xs-12 col-sm-4 col-md-3 panel-appointment">
                         <div class="panel panel-shadow">
                             <div class="panel-body">
-                                <c:url value="/client/setAppointment" var="postPath"/>
+                                <c:url value="/profile/sendAppointment" var="postPath"/>
                                 <form:form modelAttribute="appointmentForm" action="${postPath}" method="post">
                                     <form:input type="hidden" value="${provider.id}" path="providerId" />
                                     <div class="form-group">

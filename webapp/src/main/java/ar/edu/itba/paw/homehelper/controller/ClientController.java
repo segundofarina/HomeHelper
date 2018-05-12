@@ -1,22 +1,21 @@
 package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
-import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
-import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Enumeration;
-import java.util.List;
 
 
 @Controller
@@ -32,98 +31,30 @@ public class ClientController {
     ChatService chatService;
 
 
-    @RequestMapping("/")
-    public ModelAndView index(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("searchForm") final SearchForm form) {
-        final ModelAndView mav = new ModelAndView("index");
+   /* Este metodo no andaa */
+   @RequestMapping(value = "/client/getSendAppointment", method = RequestMethod.GET)
+   public ModelAndView getSendAppointment(@ModelAttribute("appointmentForm") final AppointmentForm form, RedirectAttributes redrAttr, HttpServletRequest request) {
+       if(form == null) {
+           //throw new ForbiddenException();
+       }
 
-        mav.addObject("user", loggedInUser);
-        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
-        mav.addObject("serviceTypes", sProviderService.getServiceTypes());
-        return mav;
-    }
+       System.out.println(form.getDate());
 
-    @RequestMapping("/login") public ModelAndView login(HttpServletRequest request) {
-        String referer = request.getHeader("Referer");
-        request.getSession().setAttribute("url_prior_login", referer);
+       redrAttr.addFlashAttribute("appointmentForm", form);
+       //request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
+       return new ModelAndView("forward:/client/sendAppointment");
+   }
 
-        return new ModelAndView("login");
-    }
+   @RequestMapping(value = "/client/sendAppointment", method = RequestMethod.POST)
+   public ModelAndView sendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("appointmentForm") final AppointmentForm form) {
+       if(form == null) {
+           //throw exception
+       }
 
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public ModelAndView processSearchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors, @RequestParam(required = false, defaultValue = "y", value = "redr") final String redr, @RequestParam(required = false, defaultValue = "none", value = "st") final String st) {
-        if(errors.hasErrors()) {
-            if(redr.equals("y")) {
-                return index(loggedInUser, form);
-            }
-            return searchProfile(loggedInUser, form, st);
-        }
-        return searchProfile(loggedInUser, form, String.valueOf(form.getServiceTypeId()));
-    }
+       appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
 
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, @RequestParam(required = false, defaultValue = "none", value = "st") final String st) {
-        final ModelAndView mav = new ModelAndView("profileSearch");
-        final int serviceTypeId;
-        final List<SProvider> list;
-
-        if(st.equals("none")) {
-            serviceTypeId = form.getServiceTypeId();
-        } else {
-            serviceTypeId = Integer.parseInt(st);
-        }
-        list = sProviderService.getServiceProvidersWithServiceType(serviceTypeId);
-
-        mav.addObject("user", loggedInUser);
-        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
-
-        mav.addObject("list",list);
-        mav.addObject("serviceTypes",sProviderService.getServiceTypes());
-        mav.addObject("serviceTypeId", serviceTypeId);
-        return mav;
-    }
-    
-
-    @RequestMapping("/profile/{providerId}")
-    public ModelAndView providerProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId, @ModelAttribute("appointmentForm") final AppointmentForm form) {
-        final ModelAndView mav = new ModelAndView("profile");
-
-        mav.addObject("user", loggedInUser);
-        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
-        mav.addObject("provider",sProviderService.getServiceProviderWithUserId(providerId));
-
-        return mav;
-    }
-
-   /* @RequestMapping(value = "/profile/{providerId}", method = RequestMethod.POST)
-    public ModelAndView checkValidAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors, HttpServletRequest request) {
-        if (errors.hasErrors()) {
-            return providerProfile(loggedInUser, form.getProviderId(), form);
-        }
-
-        request.setAttribute("appointmentForm", form);
-
-        if(loggedInUser == null) {
-            System.out.println("going to login");
-            //return new ModelAndView("redirect:/login?action=setApp");
-            //request.getRequestDispatcher("/client/setAppointment").forward(request, response);
-        }
-
-        System.out.println("going to setAppointment");
-        return new ModelAndView("redirect:/client/setAppointment");
-        //return setAppointment(loggedInUser, form);
-    }*/
-
-    @RequestMapping(value = "/client/setAppointment", method = { RequestMethod.POST })
-    public ModelAndView setAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("appointmentForm") @Valid final AppointmentForm form, final BindingResult errors) {
-
-        if (errors.hasErrors()) {
-            return providerProfile(loggedInUser, form.getProviderId(), form);
-        }
-
-        appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
-
-        return new ModelAndView("redirect:/client/appointmentConfirmed");
-    }
+       return new ModelAndView("redirect:/client/appointmentConfirmed");
+   }
 
     @RequestMapping(value = "/client/messages/{providerId}", method = { RequestMethod.POST })
     public ModelAndView sendMessagePost(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId, @RequestParam("msg") String msg) {
