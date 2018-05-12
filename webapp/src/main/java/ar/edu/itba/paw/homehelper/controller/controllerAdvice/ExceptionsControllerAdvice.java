@@ -27,7 +27,7 @@ public class ExceptionsControllerAdvice {
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
         mav.addObject("errorNum", "404");
         mav.addObject("errorDesc", "Page Not Found");
-
+        
         return mav;
     }
 
