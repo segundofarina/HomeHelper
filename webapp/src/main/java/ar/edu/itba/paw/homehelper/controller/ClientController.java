@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.homehelper.controller;
 
+import ar.edu.itba.paw.homehelper.exceptions.ProviderNotFoundException;
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.interfaces.services.ChatService;
@@ -85,9 +86,15 @@ public class ClientController {
     public ModelAndView providerProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId,@ModelAttribute("appointmentForm") final AppointmentForm form) {
         final ModelAndView mav = new ModelAndView("profile");
 
+        final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
+
+        if(provider == null) {
+            throw new ProviderNotFoundException();
+        }
+
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
-        mav.addObject("provider",sProviderService.getServiceProviderWithUserId(providerId));
+        mav.addObject("provider", provider);
 
         return mav;
     }
