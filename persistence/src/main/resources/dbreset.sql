@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS appointments(
 );
 
 create TABLE if NOT EXISTS verifyUsers(
-  userId INTEGER REFERENCES users(userId),
+  userId INTEGER PRIMARY KEY REFERENCES users(userId),
   keyCode VARCHAR(1000)
 );
 
