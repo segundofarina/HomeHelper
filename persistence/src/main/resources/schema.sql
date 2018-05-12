@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS aptitudes(
   aptitudeId SERIAL PRIMARY KEY,
   userId INTEGER REFERENCES serviceProviders(userId),
   serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
-  description TEXT
+  description varchar(10000)
 );
 
 CREATE TABLE IF NOT EXISTS reviews(
@@ -34,11 +34,22 @@ CREATE TABLE IF NOT EXISTS reviews(
   price INTEGER CHECK(price > 0 AND price < 6),
   punctuality INTEGER CHECK(punctuality > 0 AND punctuality < 6),
   treatment INTEGER CHECK(treatment > 0 AND treatment < 6),
-  comment TEXT
+  comment varchar(10000)
 );
 CREATE TABLE IF NOT EXISTS messages(
   userFrom INTEGER REFERENCES users(userId),
   userTo  INTEGER REFERENCES users(userId),
   message VARCHAR(10000),
   messageDate TIMESTAMP  default CURRENT_DATE
+);
+
+CREATE TABLE IF NOT EXISTS appointments(
+  appointmentId SERIAL PRIMARY KEY,
+  userId INTEGER REFERENCES users(userId),
+  providerId INTEGER REFERENCES serviceProviders(userId),
+  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
+  appointmentDate VARCHAR(100),
+  address VARCHAR(10000),
+  status VARCHAR(20),
+  jobDescription VARCHAR(10000)
 );

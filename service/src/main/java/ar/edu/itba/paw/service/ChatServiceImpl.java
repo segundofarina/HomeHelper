@@ -17,6 +17,7 @@ public class ChatServiceImpl implements ChatService{
 
     @Autowired
     ChatDao chatDao;
+
     @Override
     public boolean sendMsg(int from,int to, String msg) {
         if(msg.isEmpty() || msg.equals("")) {
@@ -73,5 +74,6 @@ public class ChatServiceImpl implements ChatService{
             return -1;
         }
         return list.get(0).getGrey().getId();
+
     }
 }

@@ -78,5 +78,6 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationSuccessHandler successHandler() {
         return new LoginSuccessHandler("/");
     }
+
 }
 

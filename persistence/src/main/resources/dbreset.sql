@@ -5,6 +5,7 @@ drop table if exists users CASCADE;
 drop table if exists reviews CASCADE;
 drop table if exists aptitudes CASCADE;
 DROP TABLE IF EXISTS appointments CASCADE;
+drop table if EXISTS verifyUsers CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
   userid SERIAL PRIMARY KEY,
@@ -62,6 +63,11 @@ CREATE TABLE IF NOT EXISTS appointments(
   jobDescription VARCHAR(10000)
 );
 
+create TABLE if NOT EXISTS verifyUsers(
+  userId INTEGER PRIMARY KEY REFERENCES users(userId),
+  keyCode VARCHAR(1000)
+);
+
 insert into users VALUES (1,'sfarina','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Segundo Augusto','Fariña','afarina@itba.edu.ar','1541234567');
 insert into users VALUES (2,'mvictory','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Martin','Victory','mvictory@itba.edu.ar','1563498751');
 insert into users VALUES (3,'fcavallin','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Florencia','Cavallin','fcavallin@itba.edu.ar','1563287519');
@@ -78,6 +84,9 @@ insert into users VALUES (13,'carlubarru','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGl
 insert into users VALUES (14,'axelf','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Axel','Fratoni','axfratoni@itba.edu.ar','1563880943');
 insert into users VALUES (15,'feroviedo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Fernan','Oviedo','foviedo@google.com','1542548790');
 insert into users VALUES (16,'ndonof','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nicolas','Donofrio','ndonofrio@outlook.com','1534890542');
+
+
+
 
 insert into serviceProviders VALUES (1,'Mi nombre es Segundo y tengo 22 años, trabajo en el negocio desde 2010. Trabaje en la fabrica de mubles de Noray desde el 2010 al 2015. En el 2015 comence mi propia empresa de mubles a medida. Contactate con nosotros y a la brevedad te contestaremos!!');
 
@@ -454,4 +463,11 @@ insert into messages VALUES (2,6,'Necesito hacer un aramrio para zapatillas',DEF
 insert into messages VALUES (2,9,'Este tambien es un chat',DEFAULT );
 insert into messages VALUES (9,2,'AAA mira que bueno',DEFAULT );
 insert into messages VALUES (2,9,'Jajaja',DEFAULT );
+
+
+-- updating serial sequence numbers
+SELECT setval('users_userid_seq', (SELECT MAX(userid) from users));
+SELECT setval('serviceTypes_serviceTypeId_seq', (SELECT MAX(serviceTypeId) from serviceTypes));
+SELECT setval('aptitudes_aptitudeId_seq', (SELECT MAX(aptitudeId) from aptitudes));
+SELECT setval('appointments_appointmentId_seq', (SELECT MAX(appointmentId) from appointments));
 

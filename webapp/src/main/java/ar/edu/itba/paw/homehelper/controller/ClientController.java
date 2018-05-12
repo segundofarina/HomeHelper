@@ -4,11 +4,19 @@ import ar.edu.itba.paw.homehelper.exceptions.ProviderNotFoundException;
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.interfaces.services.ChatService;
+
+import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
+import ar.edu.itba.paw.homehelper.form.SignUpForm;
+import ar.edu.itba.paw.interfaces.services.MailService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
+import ar.edu.itba.paw.interfaces.services.UserService;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class ClientController {
@@ -28,6 +34,15 @@ public class ClientController {
 
     @Autowired
     ChatService chatService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    HHUserDetailsService userDetailsService;
+
+    @Autowired
+    MailService mailService;
 
 
     @RequestMapping("/")
@@ -136,6 +151,45 @@ public class ClientController {
     public ModelAndView messagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser) {
         final int userId = loggedInUser.getId();
         return new ModelAndView("redirect:/client/messages/" + chatService.getLastMsgThread(userId));
+    }
+
+    @RequestMapping("/signup")
+    public ModelAndView signup(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("signUpForm") final SignUpForm form) {
+        final ModelAndView mav = new ModelAndView("signup");
+
+        mav.addObject("user", loggedInUser);
+        return mav;
+    }
+
+    @RequestMapping("/sendEmail")
+    public ModelAndView sendEmail(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("signUpForm") final SignUpForm form) {
+        mailService.sendConfirmationEmail("afarina@itba.edu.ar",1);
+        return new ModelAndView("redirect:/");
+    }
+
+    @RequestMapping(value = "/createUser", method = { RequestMethod.POST })
+    public ModelAndView createUser(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("signUpForm") final SignUpForm form, final BindingResult errors) {
+
+        if (errors.hasErrors()) {
+            return signup(loggedInUser, form);
+        }
+
+        //User user = userService.create(form.getUsername(),form.getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone());
+       
+        User user = userService.create(form.getUsername(),form.getPasswordForm().getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone());
+
+        mailService.sendConfirmationEmail(user.getEmail(),user.getId());
+
+
+        UserDetails userDetails =userDetailsService.loadUserByUsername(user.getUsername());
+
+        Authentication auth =
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+
+        return new ModelAndView("redirect:/");
     }
 
     private int getUserId(User user) {
