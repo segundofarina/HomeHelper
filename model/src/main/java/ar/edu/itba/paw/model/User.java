@@ -9,8 +9,9 @@ public class User {
     private String lastname;
     private String email;
     private String phone;
+    private String address;
 
-    public User(String username, int id, String password, String firstname, String lastname, String email, String phone) {
+    public User(String username, int id, String password, String firstname, String lastname, String email, String phone, String address) {
         this.username = username;
         this.id = id;
         this.password = password;
@@ -18,6 +19,7 @@ public class User {
         this.lastname = lastname;
         this.email = email;
         this.phone = phone;
+        this.address = address;
     }
 
     public String getPhone() {
@@ -52,7 +54,9 @@ public class User {
         this.email = email;
     }
 
-
+    public String getAddress() {
+        return address;
+    }
 
     public String getUsername() {
         return username;

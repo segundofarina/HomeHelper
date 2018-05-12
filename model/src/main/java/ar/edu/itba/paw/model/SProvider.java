@@ -1,16 +1,19 @@
 package ar.edu.itba.paw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class SProvider extends User{
     private String description;
     private List<Aptitude> aptitudes;
+    private Set<Neighborhood> neighborhoods;
 
-    public SProvider(User user, String description, List<Aptitude> aptitudes) {
-        super(user.getUsername(),user.getId(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone());
+    public SProvider(User user, String description, List<Aptitude> aptitudes, Set<Neighborhood> neighborhoods) {
+        super(user.getUsername(),user.getId(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getAddress());
         this.description = description;
         this.aptitudes = aptitudes;
+        this.neighborhoods = neighborhoods;
     }
 
     public String getDescription() {
@@ -117,5 +120,8 @@ public class SProvider extends User{
         return false;
     }
 
+    public Set<Neighborhood> getNeighborhoods() {
+        return this.neighborhoods;
+    }
 
 }

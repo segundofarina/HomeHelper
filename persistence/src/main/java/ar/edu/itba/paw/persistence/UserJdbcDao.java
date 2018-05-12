@@ -27,7 +27,7 @@ public class UserJdbcDao implements UserDao {
 
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new User(rs.getString("username"), rs.getInt("userid"),rs.getString("password")
-        ,rs.getString("firstname"),rs.getString("lastname"),rs.getString("email"),rs.getString("phone"));
+        ,rs.getString("firstname"),rs.getString("lastname"),rs.getString("email"),rs.getString("phone"),rs.getString("address"));
         }
     };
 
@@ -60,7 +60,7 @@ public class UserJdbcDao implements UserDao {
     }
 
 
-    public User create(String username, String password, String firstname, String lastname, String email, String phone) {
+    public User create(String username, String password, String firstname, String lastname, String email, String phone, String address) {
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("username", username);// la key es el nombre de la columna
         args.put("password",password);
@@ -68,8 +68,9 @@ public class UserJdbcDao implements UserDao {
         args.put("lastname",lastname);
         args.put("email",email);
         args.put("phone",phone);
+        args.put("address", address);
         final Number userId = jdbcInsert.executeAndReturnKey(args);
-        return new User(username,userId.intValue(), password, firstname, lastname, email, phone);
+        return new User(username,userId.intValue(), password, firstname, lastname, email, phone,address);
     }
 
 

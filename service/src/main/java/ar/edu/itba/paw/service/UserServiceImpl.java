@@ -30,8 +30,8 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    public User create(String username, String password, String firstname, String lastname, String email, String phone) {
-        return userDao.create(username, password, firstname, lastname, email,  phone);
+    public User create(String username, String password, String firstname, String lastname, String email, String phone,String address) {
+        return userDao.create(username, password, firstname, lastname, email,  phone, address);
     }
 
     @Override

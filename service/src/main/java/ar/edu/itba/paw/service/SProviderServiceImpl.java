@@ -1,22 +1,18 @@
 package ar.edu.itba.paw.service;
 
+import ar.edu.itba.paw.interfaces.daos.*;
 import ar.edu.itba.paw.model.AptitudeForm;
-import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
-import ar.edu.itba.paw.interfaces.daos.ReviewDao;
-import ar.edu.itba.paw.interfaces.daos.SProviderDao;
-import ar.edu.itba.paw.interfaces.daos.STypeDao;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.Aptitude;
-import ar.edu.itba.paw.model.Review;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.ServiceType;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class SProviderServiceImpl implements SProviderService {
@@ -32,6 +28,9 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Autowired
     STypeDao sTypeDao;
+
+    @Autowired
+    WZoneDao wZoneDao;
 
     @Override
     public SProvider create(int userId, String description) {
@@ -148,6 +147,15 @@ public class SProviderServiceImpl implements SProviderService {
         return null;
     }
 
+    @Override
+    public boolean insertWorkingZoneOfProvider(int userId, int ngId) {
+        return wZoneDao.insertWorkingZoneOfProvider(userId,ngId);
+    }
+
+    @Override
+    public Set<SProvider> getServiceProvidersWorkingIn(int neighborhood) {
+            return wZoneDao.getServiceProvidersWorkingIn(neighborhood);
+    }
 
 
 }

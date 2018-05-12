@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS users (
   firstname varchar(100),
   lastname varchar(100),
   email varchar(100),
-  phone varchar(100)
+  phone varchar(100),
+  address varchar(100)
 );
 
 CREATE TABLE IF NOT EXISTS serviceTypes (
@@ -41,4 +42,13 @@ CREATE TABLE IF NOT EXISTS messages(
   userTo  INTEGER REFERENCES users(userId),
   message VARCHAR(10000),
   messageDate TIMESTAMP  default CURRENT_DATE
+);
+
+CREATE TABLE IF NOT EXISTS neighborhoods(
+  ngId SERIAL PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS workingzones(
+   ngId INTEGER REFERENCES neighborhoods(ngId),
+   userId INTEGER REFERENCES serviceProviders(userId)
 );

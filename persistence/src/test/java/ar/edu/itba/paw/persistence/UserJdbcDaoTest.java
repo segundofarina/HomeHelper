@@ -29,6 +29,7 @@ import static junit.framework.Assert.*;
         private static final String LASTNAME = "Gomez";
         private static final String EMAIL = "jorgito@yo.com";
         private static final String PHONE = "1123453421";
+        private static final String ADDRESS = "cuba 2546";
 
         @Autowired
         private DataSource ds;
@@ -45,7 +46,7 @@ import static junit.framework.Assert.*;
         @Test
         public void testCreate() {
             int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "users");
-            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE);
+            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE,ADDRESS);
             assertNotNull(user);
             assertEquals(USERNAME, user.getUsername());
             assertEquals(PASSWORD, user.getPassword());
@@ -70,7 +71,7 @@ import static junit.framework.Assert.*;
 
 
         public static User insertDummyUser(UserDao userDao){
-            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE);
+            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE,ADDRESS);
             return user;
         }
     }

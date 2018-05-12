@@ -5,6 +5,7 @@ import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.ServiceType;
 
 import java.util.List;
+import java.util.Set;
 
 public interface SProviderService {
     SProvider create(int userId, String description);
@@ -28,5 +29,9 @@ public interface SProviderService {
     int getServiceProviderId(int userId);
 
     boolean isServiceProvider(int userId);
+
+    boolean insertWorkingZoneOfProvider(int userId, int ngId);
+
+    Set<SProvider> getServiceProvidersWorkingIn(int neighborhood);
 
 }

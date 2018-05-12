@@ -7,6 +7,8 @@ drop table if exists users CASCADE;
 drop table if exists reviews CASCADE;
 drop table if exists aptitudes CASCADE;
 drop table if exists appointments CASCADE;
+drop table if exists neighborhoods CASCADE;
+drop table if exists workingzone CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
   userid INTEGER IDENTITY PRIMARY KEY,
@@ -15,7 +17,12 @@ CREATE TABLE IF NOT EXISTS users (
   firstname varchar(100),
   lastname varchar(100),
   email varchar(100),
-  phone varchar(100)
+  phone varchar(100),
+  address varchar(100)
+);
+
+CREATE TABLE IF NOT EXISTS neighborhoods(
+  ngId IDENTITY PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS serviceTypes (
@@ -66,11 +73,66 @@ CREATE TABLE IF NOT EXISTS appointments(
   jobDescription VARCHAR(10000)
 );
 
-insert into users VALUES(1,'segundofarina','dulcedeleche','Segundo','Farina','segundofarina@me.com','1134373920');
-insert into users VALUES(2,'florcavallin','dulcedeleche','Florencia','Cavallin','fcavallin@itba.edu.ar','1140910035');
-insert into users VALUES(3,'tinchovictory','dulcedeleche','Martin','Victory','martin@victory.com.ar','1159540388');
-insert into users VALUES(4,'carlosrodriguez','dulcedeleche','Carlos','Rodriguez','carlosrod@gmail.com','1156984231');
-insert into users VALUES(5,'juliovelez','dulcedeleche','Julio','Velez','julitogallina@hotmail.com','1148526584');
+CREATE TABLE IF NOT EXISTS workingzones(
+   ngId INTEGER REFERENCES neighborhoods(ngId),
+   userId INTEGER REFERENCES serviceProviders(userId)
+);
+
+
+insert into users VALUES(1,'segundofarina','dulcedeleche','Segundo','Farina','segundofarina@me.com','1134373920','cuba 2546');
+insert into users VALUES(2,'florcavallin','dulcedeleche','Florencia','Cavallin','fcavallin@itba.edu.ar','1140910035','cuba 2546');
+insert into users VALUES(3,'tinchovictory','dulcedeleche','Martin','Victory','martin@victory.com.ar','1159540388','cuba 2546');
+insert into users VALUES(4,'carlosrodriguez','dulcedeleche','Carlos','Rodriguez','carlosrod@gmail.com','1156984231','cuba 2546');
+insert into users VALUES(5,'juliovelez','dulcedeleche','Julio','Velez','julitogallina@hotmail.com','1148526584','cuba 2546');
+
+insert into neighborhoods VALUES (1);
+insert into neighborhoods VALUES (2);
+insert into neighborhoods VALUES (3);
+insert into neighborhoods VALUES (4);
+insert into neighborhoods VALUES (5);
+insert into neighborhoods VALUES (6);
+insert into neighborhoods VALUES (7);
+insert into neighborhoods VALUES (8);
+insert into neighborhoods VALUES (9);
+insert into neighborhoods VALUES (10);
+insert into neighborhoods VALUES (11);
+insert into neighborhoods VALUES (12);
+insert into neighborhoods VALUES (13);
+insert into neighborhoods VALUES (14);
+insert into neighborhoods VALUES (15);
+insert into neighborhoods VALUES (16);
+insert into neighborhoods VALUES (17);
+insert into neighborhoods VALUES (18);
+insert into neighborhoods VALUES (19);
+insert into neighborhoods VALUES (20);
+insert into neighborhoods VALUES (21);
+insert into neighborhoods VALUES (22);
+insert into neighborhoods VALUES (23);
+insert into neighborhoods VALUES (24);
+insert into neighborhoods VALUES (25);
+insert into neighborhoods VALUES (26);
+insert into neighborhoods VALUES (27);
+insert into neighborhoods VALUES (28);
+insert into neighborhoods VALUES (29);
+insert into neighborhoods VALUES (30);
+insert into neighborhoods VALUES (31);
+insert into neighborhoods VALUES (32);
+insert into neighborhoods VALUES (33);
+insert into neighborhoods VALUES (34);
+insert into neighborhoods VALUES (35);
+insert into neighborhoods VALUES (36);
+insert into neighborhoods VALUES (37);
+insert into neighborhoods VALUES (38);
+insert into neighborhoods VALUES (39);
+insert into neighborhoods VALUES (40);
+insert into neighborhoods VALUES (41);
+insert into neighborhoods VALUES (42);
+insert into neighborhoods VALUES (43);
+insert into neighborhoods VALUES (44);
+insert into neighborhoods VALUES (45);
+insert into neighborhoods VALUES (46);
+insert into neighborhoods VALUES (47);
+insert into neighborhoods VALUES (48);
 
 insert into serviceProviders VALUES(3,'Soy Tincho Victory y no me tomo recreos');
 insert into serviceProviders VALUES(4,'Soy Carlitos, trabajo todos los dias hasta las 11 de la mañana');
@@ -98,6 +160,8 @@ insert into messages VALUES (4,2,'AAA mira que bueno',DEFAULT );
 insert into messages VALUES (2,4,'Jajaja',DEFAULT );
 
 insert into appointments VALUES (1,1,3,1,DEFAULT ,'cuba 2546 6p','Pending','soy flor cavallin, tincho haceme un mueble nuevo');
+
+insert into workingzones VALUES (1,3);
 
 
 

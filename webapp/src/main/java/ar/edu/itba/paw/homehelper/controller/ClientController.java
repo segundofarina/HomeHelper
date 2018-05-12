@@ -3,11 +3,11 @@ package ar.edu.itba.paw.homehelper.controller;
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.interfaces.services.ChatService;
+import ar.edu.itba.paw.interfaces.services.NeighborhoodService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @Controller
 public class ClientController {
@@ -28,6 +27,9 @@ public class ClientController {
     @Autowired
     ChatService chatService;
 
+    @Autowired
+    NeighborhoodService neighborhoodService;
+
 
     @RequestMapping("/")
     public ModelAndView index(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("searchForm") final SearchForm form) {
@@ -36,6 +38,7 @@ public class ClientController {
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
         mav.addObject("serviceTypes", sProviderService.getServiceTypes());
+        mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
         return mav;
     }
 
@@ -68,7 +71,9 @@ public class ClientController {
         } else {
             serviceTypeId = Integer.parseInt(st);
         }
+
         list = sProviderService.getServiceProvidersWithServiceType(serviceTypeId);
+      
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
@@ -77,6 +82,7 @@ public class ClientController {
         mav.addObject("list",list);
         mav.addObject("serviceTypes",sProviderService.getServiceTypes());
         mav.addObject("serviceTypeId", serviceTypeId);
+        mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
         return mav;
     }
     

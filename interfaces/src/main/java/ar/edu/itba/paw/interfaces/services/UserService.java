@@ -10,7 +10,7 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    User create(String username, String password, String firstname, String lastname, String email, String phone);
+    User create(String username, String password, String firstname, String lastname, String email, String phone, String address);
 
     boolean login(String username, String password);
 
