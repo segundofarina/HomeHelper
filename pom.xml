@@ -17,6 +17,7 @@
         <javax.mail.version>1.4.7</javax.mail.version>
         <javax.mail-api.version>1.5.5</javax.mail-api.version>
         <org.freemarker.version>2.3.23</org.freemarker.version>
+        <commons-beanutils.version>1.9.3</commons-beanutils.version>
     </properties>
     <modelVersion>4.0.0</modelVersion>
     <groupId>ar.edu.itba.paw</groupId>
@@ -151,6 +152,12 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context-support</artifactId>
                 <version>4.2.5.RELEASE</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${commons-beanutils.version}</version>
             </dependency>
 
         </dependencies>

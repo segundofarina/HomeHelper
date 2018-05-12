@@ -36,6 +36,7 @@
     <!-- main content -->
     <div class="main-content">
         <div class="container">
+            <h1> <spring:message code="signup.greeting"/></h1>
         <div class="panel searchForm">
             <div class="panel-body">
                 <c:url value="/createUser" var="postPath"/>
@@ -71,14 +72,14 @@
                                 <form:errors path="username" element="p" cssClass="form-error"/>
                             </div>
                             <div class="form-group">
-                                <form:label path="password"><spring:message code="signup.password"/>:</form:label>
-                                <form:input type="password" path="password" cssClass="form-control"/>
-                                <form:errors path="password" element="p" cssClass="form-error"/>
+                                <form:label path="passwordForm.password"><spring:message code="signup.password"/>:</form:label>
+                                <form:input type="password" path="passwordForm.password" cssClass="form-control"/>
+                                <form:errors path="passwordForm.password" element="p" cssClass="form-error"/>
                             </div>
                             <div class="form-group">
-                                <form:label path="repeatPassword"><spring:message code="signup.repeatPassword"/>:</form:label>
-                                <form:input type="password" path="repeatPassword" cssClass="form-control"/>
-                                <form:errors path="repeatPassword" element="p" cssClass="form-error"/>
+                                <form:label path="passwordForm.repeatPassword"><spring:message code="signup.repeatPassword"/>:</form:label>
+                                <form:input type="password" path="passwordForm.repeatPassword" cssClass="form-control"/>
+                                <form:errors path="passwordForm" element="p" cssClass="form-error"/>
                             </div>
 
                         </div>

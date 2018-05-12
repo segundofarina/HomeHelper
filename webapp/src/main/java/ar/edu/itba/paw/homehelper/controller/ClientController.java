@@ -117,7 +117,8 @@ public class ClientController {
             return signup(loggedInUser, form);
         }
 
-        User user = userService.create(form.getUsername(),form.getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone());
+        //User user = userService.create(form.getUsername(),form.getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone());
+        User user = userService.create(form.getUsername(),form.getPasswordForm().getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone());
 
         mailService.sendConfirmationEmail(user.getEmail(),user.getId());
 

@@ -1,35 +1,42 @@
 package ar.edu.itba.paw.homehelper.form;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+//@FieldMatch(first = "password", second = "repeatPassword", message = "The password fields must match")
 public class SignUpForm {
 
 
-    @Size(min=1,max = 100)
+    @NotBlank
+    @Size(max = 100)
+    @Pattern(regexp = "[a-zA-Z ]*")
     private String firstname;
 
-    @Size(min=1,max = 100)
+    @NotBlank
+    @Size(max = 100)
+    @Pattern(regexp = "[a-zA-Z ]*")
     private String lastname;
 
+
     @Size(min = 6, max = 100)
-    @Pattern(regexp = "[a-zA-Z0-9]+")
+    @Pattern(regexp = "[a-zA-Z0-9]*")
     private String username;
 
-    @Size(min = 6, max = 100)
-    private String password;
+    @Valid
+    private PasswordForm passwordForm = new PasswordForm();
 
-    @Size(min = 6, max = 100)
-    private String repeatPassword;
-
-
-
+    @Email
+    @NotBlank
     private String email;
 
     @Size(max = 100)
-    @Pattern(regexp = "[0-9+]+")
+    @NotBlank
+    @Pattern(regexp = "[0-9+]*")
     private String phone;
 
 
@@ -56,21 +63,29 @@ public class SignUpForm {
     public void setUsername(String username) {
         this.username = username;
     }
-
+/*
     public String getPassword() {
-        return password;
+        return passwordForm.getPassword();
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        passwordForm.setPassword(password);
     }
 
     public String getRepeatPassword() {
-        return repeatPassword;
+        return passwordForm.getRepeatPassword();
+    }
+/*
+    public void setRepeatPassword(String repeatPassword) {
+        passwordForm.setPassword(repeatPassword);
+    }
+*/
+    public PasswordForm getPasswordForm() {
+        return passwordForm;
     }
 
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
+    public void setPasswordForm(PasswordForm passwordForm) {
+        this.passwordForm = passwordForm;
     }
 
     public String getEmail() {
