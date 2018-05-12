@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="<c:url value="/resources/img/favicon.png"/>"/>
 
-    <title>Home-Helper | <spring:message code="general.search"/></title>
+    <title>Home-Helper | <spring:message code="general.messages"/></title>
 
     <!-- Bootstrap -->
     <link href="<c:url value="/resources/adminTemplate/vendors/bootstrap/dist/css/bootstrap.min.css"/>" rel="stylesheet" />

@@ -53,7 +53,19 @@ public class ClientController {
 
        appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
 
-       return new ModelAndView("redirect:/client/appointmentConfirmed");
+       String redirect = "redirect:/client/appointmentConfirmed?appt=" + 1;
+
+       return new ModelAndView(redirect);
+   }
+
+   @RequestMapping("/client/appointmentConfirmed")
+   public ModelAndView appointmentConfirmed(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "appt") final int apId) {
+       final ModelAndView mav = new ModelAndView("appointmentConfirmed");
+       mav.addObject("user", loggedInUser);
+       mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+
+       mav.addObject("appointment", appointmentService.getAppointment(apId));
+       return mav;
    }
 
     @RequestMapping(value = "/client/messages/{providerId}", method = { RequestMethod.POST })
