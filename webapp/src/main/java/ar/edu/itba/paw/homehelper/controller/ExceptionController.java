@@ -39,6 +39,18 @@ public class ExceptionController {
         return mav;
     }
 
+    @RequestMapping("/error/500")
+    public ModelAndView error500(@ModelAttribute("loggedInUser") final User loggedInUser) {
+        final ModelAndView mav = new ModelAndView("error/500");
+
+        mav.addObject("user", loggedInUser);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+        mav.addObject("errorNum", "500");
+        mav.addObject("errorDesc", "Internal Server Error");
+
+        return mav;
+    }
+
     private int getUserId(User user) {
         if(user == null) {
             return -1;
