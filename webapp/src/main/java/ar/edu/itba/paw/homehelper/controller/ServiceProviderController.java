@@ -36,15 +36,6 @@ public class ServiceProviderController {
         return mav;
     }
 
-    @RequestMapping(value = "/createSProvider",method = {RequestMethod.GET})
-    public ModelAndView createProvider(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("createSProviderForm") final CreateSProviderForm form) {
-        final ModelAndView mav = new ModelAndView("createSProvider");
-
-        mav.addObject("user", loggedInUser);
-        //mav.addObject("serviceTypes",sProviderService.getServiceTypes());
-
-        return mav;
-    }
 /*
     @RequestMapping(value = "/createSProvider", method = { RequestMethod.POST })
     public ModelAndView createSProvider(@ModelAttribute("loggedInUser") final User loggedInUser,@Valid @ModelAttribute("createSProviderForm") final CreateSProviderForm form,final BindingResult errors) {

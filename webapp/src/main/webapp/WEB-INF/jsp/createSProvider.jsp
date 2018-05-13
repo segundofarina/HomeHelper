@@ -37,6 +37,9 @@
     <!-- main content -->
     <div class="main-content">
         <div class="container">
+            <div class="title">
+                <h2>Register as Service Provider</h2>
+            </div>
             <div class="row">
                 <section>
                     <div class="wizard">
@@ -77,143 +80,148 @@
                             </ul>
                         </div>
 
-                        <c:url value="/createSProvider" var="postPath"/>
+                        <c:url value="/client/createSProvider" var="postPath"/>
                         <form:form modelAttribute="createSProviderForm" action="${postPath}" method="Post">
                         <div class="tab-content">
                             <div class="tab-pane active" role="tabpanel" id="step1">
                                 <div class="step1">
-                                    <!--<div class="row">
-                                        <div class="col-md-6">
-                                            <label for="exampleInputEmail1">First Name</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                                   placeholder="First Name">
+                                    <div class="form-container">
+                                        <c:if test="${hasError == 1}">
+                                            <div class="alert alert-danger">There are invalid fields in the form. Please fix them.</div>
+                                        </c:if>
+                                        <div class="subtitle">
+                                            <h4>User details</h4>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label for="exampleInputEmail1">Last Name</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                                   placeholder="Last Name">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="exampleInputEmail1">Email address</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                                   placeholder="Email">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="exampleInputEmail1">Confirm Email address</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                                   placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="exampleInputEmail1">Mobile Number</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                                   placeholder="Email">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="exampleInputEmail1">Email address</label>
-                                            <div class="row">
-                                                <div class="col-md-3 col-xs-3">
-                                                    <input type="email" class="form-control" id="exampleInputEmail1"
-                                                           placeholder="Email">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6">
+                                                <div class="form-group">
+                                                    <form:label path="firstname">First Name:</form:label>
+                                                    <form:input path="firstname" type="text" cssClass="form-control" placeholder="First name..." />
+                                                    <form:errors path="firstname" element="p" cssClass="form-error" />
                                                 </div>
-                                                <div class="col-md-9 col-xs-9">
-                                                    <input type="email" class="form-control" id="exampleInputEmail1"
-                                                           placeholder="Email">
+                                                <div class="form-group">
+                                                    <form:label path="lastname">Last Name:</form:label>
+                                                    <form:input path="lastname" type="text" cssClass="form-control" placeholder="Last name..." />
+                                                    <form:errors path="lastname" element="p" cssClass="form-error" />
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6">
+                                                <div class="form-group">
+                                                    <form:label path="email">Email:</form:label>
+                                                    <form:input path="email" type="text" cssClass="form-control" placeholder="Email..." />
+                                                    <form:errors path="email" element="p" cssClass="form-error" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <form:label path="phone">First Name:</form:label>
+                                                    <form:input path="phone" type="text" cssClass="form-control" placeholder="Phone..." />
+                                                    <form:errors path="phone" element="p" cssClass="form-error" />
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>-->
+                                        <div class="pull-right btn-container">
+                                            <button type="button" class="btn btn-success next-step">Save and continue</button>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
                                 </div>
-                                <ul class="list-inline pull-right">
-                                    <li>
-                                        <button type="button" class="btn btn-primary next-step">Save and continue
-                                        </button>
-                                    </li>
-                                </ul>
                             </div>
+
                             <div class="tab-pane" role="tabpanel" id="step2">
                                 <div class="step2">
-                                        <div class="row">
-                                            <div class="col-md-6 col-xs12">
-                                                <div class="form-group">
-                                                    <label>Descripcion</label>
-                                                    <textarea class="form-control"></textarea>
-                                                </div>
-
+                                    <div class="form-container">
+                                        <div class="subtitle">
+                                            <h4>Provider Description</h4>
+                                        </div>
+                                        <div>
+                                            <div class="form-group">
+                                                <form:label path="profileDesc">Tell us about your job:</form:label>
+                                                <form:textarea path="profileDesc" cssClass="form-control resize-vertical" placeholder="Write some description..."></form:textarea>
+                                                <form:errors path="profileDesc" element="p" cssClass="form-error" />
                                             </div>
-                                    </div>
-                            </div>
-                            <ul class="list-inline pull-right">
-                                <li>
-                                    <button type="button" class="btn btn-default prev-step">Previous</button>
-                                </li>
-                                <li>
-                                    <button type="button" class="btn btn-primary next-step">Save and continue
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="tab-pane" role="tabpanel" id="step3">
-                            <div class="step3">
-                                <div class="row">
-                                    <div class="col-md-6 col-xs-12">
-                                        <h1>Aptitudes</h1>
-                                        <%--<div class="form-group">--%>
-                                            <%--<form:label path="serviceType"><spring:message code="general.service-type"/>:</form:label>--%>
-                                            <%--<form:select path="serviceType" class="form-control" >--%>
-                                                <%--<form:option value=""><spring:message code="index.select-serviceType"/>...</form:option>--%>
-                                                <%--<c:forEach items="${serviceTypes}" var="st">--%>
-                                                    <%--<form:option value="${st.serviceTypeId}"></form:option>--%>
-                                                <%--</c:forEach>--%>
-                                            <%--</form:select>--%>
-                                            <%--<form:errors path="serviceType" element="p" cssClass="form-error" />--%>
-                                        <%--</div>--%>
-                                        <%--<div class="form-group">--%>
-                                            <%--<label>Description</label>--%>
-                                            <%--<form:textarea path="aptDesc" class="form-control"></form:textarea>--%>
-                                        <%--</div>--%>
+                                        </div>
+                                        <div class="btn-container">
+                                            <div class="pull-left">
+                                                <button type="button" class="btn btn-default prev-step">Previous</button>
+                                            </div>
+                                            <div class="pull-right">
+                                                <button type="button" class="btn btn-success next-step">Save and continue</button>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
                                     </div>
                                 </div>
-
                             </div>
-                            <ul class="list-inline pull-right">
-                                <li>
-                                    <button type="button" class="btn btn-default prev-step">Previous</button>
-                                </li>
-                                <li>
-                                    <button type="button" class="btn btn-default next-step">Skip</button>
-                                </li>
-                                <li>
-                                    <button type="button" class="btn btn-primary btn-info-full next-step">Save
-                                        and continue
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="tab-pane" role="tabpanel" id="complete">
-                            <div class="step44">
-                                <h5>Completed</h5>
 
-
+                            <div class="tab-pane" role="tabpanel" id="step3">
+                                <div class="step3">
+                                    <div class="form-container">
+                                        <div class="subtitle">
+                                            <h4>Add your first apptitude</h4><h6>(You can add more later)</h6>
+                                        </div>
+                                        <div>
+                                            <div class="apptitude-row">
+                                                <div class="form-group">
+                                                    <form:label path="serviceType">Service Type:</form:label>
+                                                    <form:select path="serviceType" cssClass="form-control">
+                                                        <form:option value="">Select a service type</form:option>
+                                                        <c:forEach items="${serviceTypes}" var="st">
+                                                            <form:option value="${st.serviceTypeId}"><c:out value="${st.name}" /></form:option>
+                                                        </c:forEach>
+                                                    </form:select>
+                                                    <form:errors path="serviceType" element="p" cssClass="form-error" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <form:label path="aptDesc">Description:</form:label>
+                                                    <form:textarea path="aptDesc" cssClass="form-control resize-vertical" placeholder="Write about your skill..."></form:textarea>
+                                                    <form:errors path="aptDesc" element="p" cssClass="form-error" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="btn-container">
+                                            <div class="pull-left">
+                                                <button type="button" class="btn btn-default prev-step">Previous</button>
+                                            </div>
+                                            <div class="pull-right">
+                                                <button type="button" class="btn btn-success next-step">Save and continue</button>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
+
+                            <div class="tab-pane" role="tabpanel" id="complete">
+                                <div class="step4">
+                                    <div class="form-container">
+                                        <div class="finish">
+                                            <h3>You are ready to start using as service provider</h3>
+                                            <div class="img"></div>
+                                        </div>
+                                        <div class="btn-container">
+                                            <div class="pull-left">
+                                                <button type="button" class="btn btn-default prev-step">Previous</button>
+                                            </div>
+                                            <div class="pull-right">
+                                                <form:button type="submit" class="btn btn-success">Save and use as provider</form:button>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
                     </form:form>
+                        </div>
+                    </div>
+                </section>
             </div>
-            </section>
         </div>
     </div>
-</div>
-<footer class="footer">
-    <div class="pull-right">
-        © 2018 All rights reserved Home-Helper.com
-    </div>
-    <div class="clearfix"></div>
-</footer><!-- /footer content -->
+    <footer class="footer">
+        <div class="pull-right">
+            © 2018 All rights reserved Home-Helper.com
+        </div>
+        <div class="clearfix"></div>
+    </footer><!-- /footer content -->
 </div>
 
 <!-- jQuery -->

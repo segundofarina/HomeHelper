@@ -84,6 +84,7 @@ insert into users VALUES (13,'carlubarru','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGl
 insert into users VALUES (14,'axelf','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Axel','Fratoni','axfratoni@itba.edu.ar','1563880943');
 insert into users VALUES (15,'feroviedo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Fernan','Oviedo','foviedo@google.com','1542548790');
 insert into users VALUES (16,'ndonof','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nicolas','Donofrio','ndonofrio@outlook.com','1534890542');
+insert into users VALUES (17,'user','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Firstname','Lastname','mail@mail.com','1534890542');
 
 
 

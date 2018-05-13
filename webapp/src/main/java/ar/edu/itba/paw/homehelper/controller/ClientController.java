@@ -2,16 +2,15 @@ package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.homehelper.exceptions.ProviderNotFoundException;
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
+import ar.edu.itba.paw.homehelper.form.CreateSProviderForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
-import ar.edu.itba.paw.interfaces.services.ChatService;
+import ar.edu.itba.paw.interfaces.services.*;
 
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
 import ar.edu.itba.paw.homehelper.form.SignUpForm;
-import ar.edu.itba.paw.interfaces.services.MailService;
-import ar.edu.itba.paw.interfaces.services.SProviderService;
-import ar.edu.itba.paw.interfaces.services.UserService;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -43,6 +43,11 @@ public class ClientController {
 
     @Autowired
     MailService mailService;
+
+    @ModelAttribute("createSProviderForm")
+    public CreateSProviderForm createSProviderForm() {
+        return new CreateSProviderForm();
+    }
 
 
     @RequestMapping("/")
@@ -190,6 +195,41 @@ public class ClientController {
 
 
         return new ModelAndView("redirect:/");
+    }
+
+    @RequestMapping(value = "/client/createSProvider", method = {RequestMethod.GET})
+    public ModelAndView createProvider(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "n") final String error) {
+        final ModelAndView mav = new ModelAndView("createSProvider");
+
+        mav.addObject("user", loggedInUser);
+        mav.addObject("serviceTypes",sProviderService.getServiceTypes());
+
+        if(error.equals("n")) {
+            mav.addObject("hasError", 0);
+        } else {
+            mav.addObject("hasError", 1);
+        }
+
+        return mav;
+    }
+
+    @RequestMapping(value = "/client/createSProvider", method = RequestMethod.POST)
+    public ModelAndView postCreateProvider(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("createSProviderForm") final CreateSProviderForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
+        if(errors.hasErrors()) {
+            redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.createSProviderForm", errors);
+            redrAttr.addFlashAttribute("createSProviderForm", form);
+            return new ModelAndView("redirect:/client/createSProvider?error=y");
+        }
+
+        /* Save as service provider and add service provider privilages */
+        sProviderService.create(loggedInUser.getId(), form.getProfileDesc());
+        sProviderService.addAptitude(loggedInUser.getId(), form.getServiceTypeId(), form.getAptDesc());
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(loggedInUser.getUsername());
+        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        return new ModelAndView("redirect:/sprovider");
     }
 
     private int getUserId(User user) {
