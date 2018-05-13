@@ -224,6 +224,7 @@ public class ClientController {
         /* Save as service provider and add service provider privilages */
         sProviderService.create(loggedInUser.getId(), form.getProfileDesc());
         sProviderService.addAptitude(loggedInUser.getId(), form.getServiceTypeId(), form.getAptDesc());
+        //update user
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(loggedInUser.getUsername());
         Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

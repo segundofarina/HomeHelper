@@ -96,24 +96,53 @@
                                             <div class="col-xs-12 col-sm-6">
                                                 <div class="form-group">
                                                     <form:label path="firstname">First Name:</form:label>
-                                                    <form:input path="firstname" type="text" cssClass="form-control" placeholder="First name..." />
+                                                    <c:choose>
+                                                        <c:when test="${hasError == 0}">
+                                                            <form:input path="firstname" value="${user.firstname}" type="text" cssClass="form-control" placeholder="First name..." />
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <form:input path="firstname" type="text" cssClass="form-control" placeholder="First name..." />
+                                                        </c:otherwise>
+                                                    </c:choose>
+
                                                     <form:errors path="firstname" element="p" cssClass="form-error" />
                                                 </div>
                                                 <div class="form-group">
                                                     <form:label path="lastname">Last Name:</form:label>
-                                                    <form:input path="lastname" type="text" cssClass="form-control" placeholder="Last name..." />
+                                                    <c:choose>
+                                                        <c:when test="${hasError == 0}">
+                                                            <form:input path="lastname" value="${user.lastname}" type="text" cssClass="form-control" placeholder="Last name..." />
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <form:input path="lastname" type="text" cssClass="form-control" placeholder="Last name..." />
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                     <form:errors path="lastname" element="p" cssClass="form-error" />
                                                 </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-6">
                                                 <div class="form-group">
                                                     <form:label path="email">Email:</form:label>
-                                                    <form:input path="email" type="text" cssClass="form-control" placeholder="Email..." />
+                                                    <c:choose>
+                                                        <c:when test="${hasError == 0}">
+                                                            <form:input path="email" value="${user.email}" type="text" cssClass="form-control" placeholder="Email..." />
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <form:input path="email" type="text" cssClass="form-control" placeholder="Email..." />
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                     <form:errors path="email" element="p" cssClass="form-error" />
                                                 </div>
                                                 <div class="form-group">
                                                     <form:label path="phone">First Name:</form:label>
-                                                    <form:input path="phone" type="text" cssClass="form-control" placeholder="Phone..." />
+                                                    <c:choose>
+                                                        <c:when test="${hasError == 0}">
+                                                            <form:input path="phone" value="${user.phone}" type="text" cssClass="form-control" placeholder="Phone..." />
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <form:input path="phone" type="text" cssClass="form-control" placeholder="Phone..." />
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                     <form:errors path="phone" element="p" cssClass="form-error" />
                                                 </div>
                                             </div>
