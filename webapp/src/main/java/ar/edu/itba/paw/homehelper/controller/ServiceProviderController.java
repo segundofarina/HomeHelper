@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.homehelper.controller;
 
+import ar.edu.itba.paw.homehelper.form.CreateSProviderForm;
 import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.AptitudeForm;
@@ -35,6 +36,32 @@ public class ServiceProviderController {
         return mav;
     }
 
+    @RequestMapping(value = "/createSProvider",method = {RequestMethod.GET})
+    public ModelAndView createProvider(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("createSProviderForm") final CreateSProviderForm form) {
+        final ModelAndView mav = new ModelAndView("createSProvider");
+
+        mav.addObject("user", loggedInUser);
+        //mav.addObject("serviceTypes",sProviderService.getServiceTypes());
+
+        return mav;
+    }
+/*
+    @RequestMapping(value = "/createSProvider", method = { RequestMethod.POST })
+    public ModelAndView createSProvider(@ModelAttribute("loggedInUser") final User loggedInUser,@Valid @ModelAttribute("createSProviderForm") final CreateSProviderForm form,final BindingResult errors) {
+        if (errors.hasErrors()) { return createProvider(loggedInUser,form);
+        }
+
+
+        final ModelAndView mav = new ModelAndView("createSProvider");
+
+
+
+        mav.addObject("user", loggedInUser);
+        mav.addObject("serviceTypes",sProviderService.getServiceTypes());
+
+        return mav;
+    }
+*/
     @RequestMapping("/sprovider/editProfile")
     public ModelAndView providerPosts(@ModelAttribute("loggedInUser") final User loggedInUser/*,@ModelAttribute("registerForm") final AptitudeForm form*/) {
 

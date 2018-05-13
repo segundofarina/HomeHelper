@@ -7,6 +7,7 @@ import ar.edu.itba.paw.model.ServiceType;
 import java.util.List;
 
 public interface SProviderService {
+
     SProvider create(int userId, String description);
 
     List<SProvider> getServiceProviders();
