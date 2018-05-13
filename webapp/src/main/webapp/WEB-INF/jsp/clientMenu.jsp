@@ -33,9 +33,14 @@
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <c:if test="${userProviderId != -1}">
-                                    <li><a href="<c:url value="/sprovider" />">Use as provider</a></li>
-                                </c:if>
+                                <c:choose>
+                                    <c:when test="${userProviderId != -1}">
+                                        <li><a href="<c:url value="/sprovider" />">Use as provider</a></li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li><a href="<c:url value="/client/createSProvider" />">Create provider profile</a></li>
+                                    </c:otherwise>
+                                </c:choose>
                                 <li><a href="<c:url value="/client/settings" />">Settings</a></li>
                                 <li><a href="<c:url value="/logout" />"><i class="fa fa-sign-out pull-right"></i>Log out</a></li>
                             </ul>

@@ -1,25 +1,13 @@
 package ar.edu.itba.paw.homehelper.controller;
 
-import ar.edu.itba.paw.homehelper.exceptions.ProviderNotFoundException;
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
-import ar.edu.itba.paw.homehelper.form.ImageForm;
-import ar.edu.itba.paw.homehelper.form.SearchForm;
-import ar.edu.itba.paw.homehelper.validators.EqualsUsernameValidator;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
-import ar.edu.itba.paw.homehelper.form.SignUpForm;
-import ar.edu.itba.paw.interfaces.services.MailService;
-import ar.edu.itba.paw.interfaces.services.NeighborhoodService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
-import ar.edu.itba.paw.interfaces.services.UserService;
-import ar.edu.itba.paw.model.SProvider;
+import ar.edu.itba.paw.homehelper.form.CreateSProviderForm;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import ar.edu.itba.paw.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +16,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.List;
 
 
 @Controller
@@ -43,24 +29,19 @@ public class ClientController {
     private SProviderService sProviderService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private ChatService chatService;
-
 
     @Autowired
     private HHUserDetailsService userDetailsService;
 
     @Autowired
-    private MailService mailService;
-
-    @Autowired
-    private EqualsUsernameValidator equalsUsernameValidator;
-
-    @Autowired
     private AppointmentService appointmentService;
 
+
+    @ModelAttribute("createSProviderForm")
+    public CreateSProviderForm createSProviderForm() {
+        return new CreateSProviderForm();
+    }
 
 
    /* Este metodo no andaa */
@@ -116,58 +97,42 @@ public class ClientController {
         return new ModelAndView("redirect:/client/messages/" + chatService.getLastMsgThread(userId));
     }
 
-    @RequestMapping("/signup")
-    public ModelAndView signup(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("signUpForm") final SignUpForm form) {
-        final ModelAndView mav = new ModelAndView("signup");
+
+    @RequestMapping(value = "/client/createSProvider", method = {RequestMethod.GET})
+    public ModelAndView createProvider(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "n") final String error) {
+        final ModelAndView mav = new ModelAndView("createSProvider");
 
         mav.addObject("user", loggedInUser);
+        mav.addObject("serviceTypes",sProviderService.getServiceTypes());
+
+        if(error.equals("n")) {
+            mav.addObject("hasError", 0);
+        } else {
+            mav.addObject("hasError", 1);
+        }
+
         return mav;
     }
 
-
-    @RequestMapping(value = "/createUser", method = { RequestMethod.POST })
-    public ModelAndView createUser(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("signUpForm") final SignUpForm form, final BindingResult errors) {
-
-
-        User invalidUser =  userService.findByUsername(form.getUsername());
-
-
-        if(invalidUser != null) {
-
-            equalsUsernameValidator.validate(EqualsUsernameValidator.buildUserNamePair(form.getUsername(),invalidUser.getUsername()), errors);
+    @RequestMapping(value = "/client/createSProvider", method = RequestMethod.POST)
+    public ModelAndView postCreateProvider(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("createSProviderForm") final CreateSProviderForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
+        if(errors.hasErrors()) {
+            redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.createSProviderForm", errors);
+            redrAttr.addFlashAttribute("createSProviderForm", form);
+            return new ModelAndView("redirect:/client/createSProvider?error=y");
         }
 
-        if (errors.hasErrors()) {
-            return signup(loggedInUser, form);
-        }
+        /* Save as service provider and add service provider privilages */
+        sProviderService.create(loggedInUser.getId(), form.getProfileDesc());
+        sProviderService.addAptitude(loggedInUser.getId(), form.getServiceTypeId(), form.getAptDesc());
+        //update user
 
-        //User user = userService.create(form.getUsername(),form.getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone());
-        byte[] image;
-        try{
-            image =form.getProfilePicture().getBytes();
-        }catch (Exception e){
-            e.printStackTrace();
-            image = null;
-        }
-        User user = userService.create(form.getUsername(),form.getPasswordForm().getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone(),form.getEmail(),image);
-
-        mailService.sendConfirmationEmail(user.getEmail(),user.getId());
-
-
-        UserDetails userDetails =userDetailsService.loadUserByUsername(user.getUsername());
-
-        Authentication auth =
-                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
+        UserDetails userDetails = userDetailsService.loadUserByUsername(loggedInUser.getUsername());
+        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/sprovider");
     }
-
-
-
-
 
     private int getUserId(User user) {
         if(user == null) {

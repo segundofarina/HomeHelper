@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface SProviderService {
+
     SProvider create(int userId, String description);
 
     List<SProvider> getServiceProviders();

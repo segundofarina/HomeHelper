@@ -74,7 +74,6 @@ create TABLE if NOT EXISTS verifyUsers(
   keyCode VARCHAR(1000)
 );
 
-
 CREATE TABLE IF NOT EXISTS neighborhoods(
   ngId SERIAL PRIMARY KEY
 );

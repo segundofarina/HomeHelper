@@ -30,7 +30,7 @@ public class AptitudeJdbcDao implements AptitudeDao {
     @Autowired
     public AptitudeJdbcDao(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
-        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("aptitudes");
+        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("aptitudes").usingGeneratedKeyColumns("aptitudeId");
     }
 
     private static class Row {

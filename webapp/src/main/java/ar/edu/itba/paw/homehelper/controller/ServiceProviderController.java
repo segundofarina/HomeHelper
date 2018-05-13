@@ -3,17 +3,13 @@ package ar.edu.itba.paw.homehelper.controller;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
-import ar.edu.itba.paw.model.AptitudeForm;
 import ar.edu.itba.paw.model.Status;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
 
 @Controller
 public class ServiceProviderController {
