@@ -50,7 +50,6 @@ public class SignUpForm {
         this.profilePicture = profilePicture;
     }
 
-
     public String getFirstname() {
         return firstname;
     }

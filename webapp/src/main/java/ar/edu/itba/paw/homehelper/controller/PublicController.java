@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -55,6 +56,11 @@ public class PublicController {
     @ModelAttribute("appointmentForm")
     public AppointmentForm appointmentForm() {
         return new AppointmentForm();
+    }
+
+    @ModelAttribute("signUpForm")
+    public SignUpForm signUpForm() {
+        return new SignUpForm();
     }
 
 
@@ -142,7 +148,7 @@ public class PublicController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/profile/{userId}/profileimage",produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    @RequestMapping(value = "/profile/{userId}/profileimage", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public byte[] providerProfileImage(@PathVariable("userId") int userId) {
         return userService.getProfileImage(userId);
     }
@@ -170,48 +176,56 @@ public class PublicController {
     }
 
     @RequestMapping("/signup")
-    public ModelAndView signup(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("signUpForm") final SignUpForm form) {
+    public ModelAndView signup(@ModelAttribute("loggedInUser") final User loggedInUser/*, @ModelAttribute("signUpForm") final SignUpForm signUpForm*/) {
         final ModelAndView mav = new ModelAndView("signup");
 
         mav.addObject("user", loggedInUser);
+
+        /*if (signUpForm != null && signUpForm.getProfilePicture() != null) {
+            try {
+                mav.addObject("profilePicture", signUpForm.getProfilePicture().getBytes());
+            } catch (IOException e) {
+                mav.addObject("profilePicture", null);
+            }
+        } else {
+            mav.addObject("profilePicture", null);
+        }*/
+
         return mav;
     }
 
 
     @RequestMapping(value = "/createUser", method = { RequestMethod.POST })
-    public ModelAndView createUser(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("signUpForm") final SignUpForm form, final BindingResult errors) {
-
-
+    public ModelAndView createUser(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("signUpForm") final SignUpForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
+        byte[] image;
         User invalidUser =  userService.findByUsername(form.getUsername());
 
-
+        /* Check for duplicate username */
         if(invalidUser != null) {
-
             equalsUsernameValidator.validate(EqualsUsernameValidator.buildUserNamePair(form.getUsername(),invalidUser.getUsername()), errors);
         }
 
         if (errors.hasErrors()) {
-            return signup(loggedInUser, form);
+            /* Back to form */
+            redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.signUpForm", errors);
+            redrAttr.addFlashAttribute("signUpForm", form);
+
+            return new ModelAndView("redirect:/signup");
         }
 
-        byte[] image;
         try{
             image =form.getProfilePicture().getBytes();
         }catch (Exception e){
             e.printStackTrace();
             image = null;
         }
-        User user = userService.create(form.getUsername(),form.getPasswordForm().getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone(),form.getEmail(),image);
 
-        mailService.sendConfirmationEmail(user.getEmail(),user.getId());
+        User user = userService.create(form.getUsername(), form.getPasswordForm().getPassword(), form.getFirstname(), form.getLastname(), form.getEmail(), form.getPhone(), form.getEmail(), image);
+        mailService.sendConfirmationEmail(user.getEmail(), user.getId());
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-
-        Authentication auth =
-                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
+        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
-
 
         return new ModelAndView("redirect:/");
     }

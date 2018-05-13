@@ -43,13 +43,20 @@
                 <form:form modelAttribute="signUpForm" action="${postPath}" method="Post" enctype="multipart/form-data">
 
 
-
-                    <div class="profileImgEdit" id="image-preview">
-                        <form:label path="profilePicture" id="image-label">
-                            <div class="cover">
-                                <p class="coverTxt"><spring:message code="sprovider.change-pic"/></p>
-                            </div>
-                        </form:label>
+                    <div class="profileImgEdit">
+                        <div id="image-preview"></div><!-- si tiene foto de perfil se agrega con un style="background-image: url('');" -->
+                        <%--<c:choose>
+                            <c:when test="${profilePicture != null}">
+                                <c:url value="${profilePicture}" var="img" />
+                                <div id="image-preview" style="background-image: url(<c:out value='${img}' />);"></div>
+                            </c:when>
+                            <c:otherwise>
+                                <div id="image-preview"></div>
+                            </c:otherwise>
+                        </c:choose>--%>
+                        <div class="cover">
+                            <p class="coverTxt"><spring:message code="sprovider.change-pic"/></p>
+                        </div>
                         <form:input type="file" path="profilePicture" id="image-upload" accept="image/*"/>
 
                     </div>
