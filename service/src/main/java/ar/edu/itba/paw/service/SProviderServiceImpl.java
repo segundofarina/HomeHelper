@@ -7,10 +7,8 @@ import ar.edu.itba.paw.interfaces.daos.SProviderDao;
 import ar.edu.itba.paw.interfaces.daos.STypeDao;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.Aptitude;
-import ar.edu.itba.paw.model.Review;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.ServiceType;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

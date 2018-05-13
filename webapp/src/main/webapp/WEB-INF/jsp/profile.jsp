@@ -42,7 +42,15 @@
                 <div class="container">
                     <div class="content">
                         <div class="profileImg">
-                            <img src="<c:url value="/resources/img/img.jpg" />" alt="profile picture" />
+                            <c:choose>
+                                <c:when test="${provider.image == null}">
+                                    <img src="<c:url value="/resources/img/img.jpg" />" alt="profile picture" />
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="<c:url value="/profile/${provider.id}/profileimage" />" alt="profile picture" />
+                                </c:otherwise>
+                            </c:choose>
+
                         </div>
                         <div class="name">
                             <h3><c:out value="${provider.firstname}"/> <c:out value="${provider.lastname}"/></h3>
@@ -81,8 +89,8 @@
                     <div class="col-xs-12 col-sm-4 col-md-3 panel-appointment">
                         <div class="panel panel-shadow">
                             <div class="panel-body">
-                                <c:url value="/setAppointment" var="postPath"/>
-                                <form:form modelAttribute="appointmentForm" action="${postPath}" method="get">
+                                <c:url value="/client/setAppointment" var="postPath"/>
+                                <form:form modelAttribute="appointmentForm" action="${postPath}" method="post">
                                     <div class="form-group">
                                         <form:label path="serviceType"><spring:message code="general.service-type"/>:</form:label>
                                         <form:select class="form-control" path="serviceType">
