@@ -3,6 +3,7 @@ package ar.edu.itba.paw.homehelper.controller;
 import ar.edu.itba.paw.homehelper.exceptions.ProviderNotFoundException;
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
+import ar.edu.itba.paw.homehelper.validators.EqualsUsernameValidator;
 import ar.edu.itba.paw.interfaces.services.ChatService;
 
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
@@ -43,6 +44,9 @@ public class ClientController {
 
     @Autowired
     MailService mailService;
+
+    @Autowired
+    private EqualsUsernameValidator equalsUsernameValidator;
 
 
     @RequestMapping("/")
@@ -174,9 +178,21 @@ public class ClientController {
             return signup(loggedInUser, form);
         }
 
-        //User user = userService.create(form.getUsername(),form.getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone());
-       
-        User user = userService.create(form.getUsername(),form.getPasswordForm().getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone());
+        User invalidUser =  userService.findByUsername(form.getUsername());
+
+        User user = null;
+
+        if(invalidUser != null) {
+
+            equalsUsernameValidator.validate(EqualsUsernameValidator.buildUserNamePair(form.getUsername(),invalidUser.getUsername()), errors);
+        }
+
+        if (errors.hasErrors()) {
+            return signup(loggedInUser, form);
+        }
+
+        user = userService.create(form.getUsername(), form.getPasswordForm().getPassword(), form.getFirstname(), form.getLastname(), form.getEmail(), form.getPhone());
+
 
         mailService.sendConfirmationEmail(user.getEmail(),user.getId());
 
