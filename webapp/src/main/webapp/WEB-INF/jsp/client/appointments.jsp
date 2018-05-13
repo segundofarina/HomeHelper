@@ -59,39 +59,12 @@
                                     <th>
                                         <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
                                     </th>
-                                    <td><c:out value="${appointment.client.firstname}" /></td>
-                                    <td><c:out value="${appointment.client.firstname}" /></td>
+                                    <td><c:out value="${appointment.serviceType.name}" /></td>
+                                    <td><c:out value="${appointment.provider.firstname}" /></td>
                                     <td><c:out value="${appointment.date}" /></td>
                                     <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
                                 </tr>
                             </c:forEach>
-                            <!--<tr>
-                                <th>
-                                    <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                </th>
-                                <td>Pintor</td>
-                                <td>Mark</td>
-                                <td>May 20, 2018</td>
-                                <td><span class="label label-info">Confirmed</span></td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                </th>
-                                <td>Pintor</td>
-                                <td>Mark</td>
-                                <td>May 20, 2018</td>
-                                <td><span class="label label-warning">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                </th>
-                                <td>Pintor</td>
-                                <td>Mark</td>
-                                <td>May 20, 2018</td>
-                                <td><span class="label label-info">Confirmed</span></td>
-                            </tr>-->
                         </tbody>
                     </table>
                 </div>
@@ -119,8 +92,8 @@
                                 <th>
                                     <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
                                 </th>
-                                <td><c:out value="${appointment.client.firstname}" /></td>
-                                <td><c:out value="${appointment.client.firstname}" /></td>
+                                <td><c:out value="${appointment.serviceType.name}" /></td>
+                                <td><c:out value="${appointment.provider.firstname}" /></td>
                                 <td><c:out value="${appointment.date}" /></td>
                                 <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
                                 <td>
@@ -130,48 +103,6 @@
                                 </td>
                             </tr>
                         </c:forEach>
-                        <!--<tr>
-                            <th>
-                                <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                            </th>
-                            <td>Pintor</td>
-                            <td>Mark</td>
-                            <td>May 20, 2018</td>
-                            <td><span class="label label-info">Confirmed</span></td>
-                            <td>
-                                <a href="#" class="btn btn-primary btn-xs">
-                                    <i class="fa fa-edit"></i> Escribir una reseña
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                            </th>
-                            <td>Pintor</td>
-                            <td>Mark</td>
-                            <td>May 20, 2018</td>
-                            <td><span class="label label-warning">Pending</span></td>
-                            <td>
-                                <a href="#" class="btn btn-primary btn-xs">
-                                    <i class="fa fa-edit"></i> Escribir una reseña
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                            </th>
-                            <td>Pintor</td>
-                            <td>Mark</td>
-                            <td>May 20, 2018</td>
-                            <td><span class="label label-success">Done</span></td>
-                            <td>
-                                <a href="#" class="btn btn-primary btn-xs">
-                                    <i class="fa fa-edit"></i> Escribir una reseña
-                                </a>
-                            </td>
-                        </tr>-->
                         </tbody>
                     </table>
                 </div>

@@ -25,7 +25,7 @@ public class ClientController {
     private AppointmentService appointmentService;
 
     @Autowired
-    ChatService chatService;
+    private ChatService chatService;
 
 
    /* Este metodo no andaa */
@@ -49,6 +49,7 @@ public class ClientController {
        }
 
        appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
+       chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId());
 
        String redirect = "redirect:/client/appointmentConfirmed?appt=" + 1;
 
