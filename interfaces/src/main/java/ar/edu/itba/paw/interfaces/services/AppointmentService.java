@@ -20,10 +20,14 @@ public interface AppointmentService {
 
     Integer getAppointmentId(int clientId, int providerId, Timestamp date, String address);
 
-    Appointment addAppointment(int clientId, int providerId, int serviceTypeId, Timestamp date, String address, String jobDescripcion);
+    Appointment addAppointment(int clientId, int providerId, int serviceTypeId, String date, String address, String jobDescripcion);
+
 
     boolean confirmAppointment(int appointmentId);
 
     boolean completedAppointment(int appointmentId);
+
+    /* Returns pending and confirmed */
+    List<Appointment> getPendingAppointmentWithProviderId(int providerId);
 
 }

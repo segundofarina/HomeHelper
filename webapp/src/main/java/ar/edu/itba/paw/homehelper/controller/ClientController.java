@@ -5,6 +5,7 @@ import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.ImageForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.homehelper.validators.EqualsUsernameValidator;
+import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
 import ar.edu.itba.paw.homehelper.form.SignUpForm;
@@ -16,6 +17,9 @@ import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import ar.edu.itba.paw.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +28,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -34,117 +40,53 @@ import java.util.List;
 public class ClientController {
 
     @Autowired
-    SProviderService sProviderService;
+    private SProviderService sProviderService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    ChatService chatService;
-
-    @Autowired
-    NeighborhoodService neighborhoodService;
+    private ChatService chatService;
 
 
     @Autowired
-    HHUserDetailsService userDetailsService;
+    private HHUserDetailsService userDetailsService;
 
     @Autowired
-    MailService mailService;
+    private MailService mailService;
 
     @Autowired
     private EqualsUsernameValidator equalsUsernameValidator;
 
-
-    @RequestMapping("/")
-    public ModelAndView index(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("searchForm") final SearchForm form) {
-        final ModelAndView mav = new ModelAndView("index");
-
-        mav.addObject("user", loggedInUser);
-        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
-        mav.addObject("serviceTypes", sProviderService.getServiceTypes());
-        mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
-        return mav;
-    }
-
-    @RequestMapping("/login") public ModelAndView login(HttpServletRequest request) {
-        String referer = request.getHeader("Referer");
-        request.getSession().setAttribute("url_prior_login", referer);
-
-        return new ModelAndView("login");
-    }
-
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public ModelAndView processSearchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors, @RequestParam(required = false, defaultValue = "y", value = "redr") final String redr, @RequestParam(required = false, defaultValue = "none", value = "st") final String st) {
-        if(errors.hasErrors()) {
-            if(redr.equals("y")) {
-                return index(loggedInUser, form);
-            }
-            return searchProfile(loggedInUser, form, st);
-        }
-        return searchProfile(loggedInUser, form, String.valueOf(form.getServiceTypeId()));
-    }
-
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, @RequestParam(required = false, defaultValue = "none", value = "st") final String st) {
-        final ModelAndView mav = new ModelAndView("profileSearch");
-        final int serviceTypeId;
-        final List<SProvider> list;
-
-        if(st.equals("none")) {
-            serviceTypeId = form.getServiceTypeId();
-        } else {
-            serviceTypeId = Integer.parseInt(st);
-        }
-
-        list = sProviderService.getServiceProvidersWithServiceType(serviceTypeId);
-      
-
-        mav.addObject("user", loggedInUser);
-        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
-
-       // List<SProvider> list = sProviderService.getServiceProvidersWithServiceType(form.getServiceTypeId());
-        mav.addObject("list",list);
-        mav.addObject("serviceTypes",sProviderService.getServiceTypes());
-        mav.addObject("serviceTypeId", serviceTypeId);
-        mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
-        return mav;
-    }
-    
-
-    @RequestMapping("/profile/{providerId}")
-    public ModelAndView providerProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId,@ModelAttribute("appointmentForm") final AppointmentForm form) {
-        final ModelAndView mav = new ModelAndView("profile");
-
-        final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
-
-        if(provider == null) {
-            throw new ProviderNotFoundException();
-        }
-
-        mav.addObject("user", loggedInUser);
-        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
-        mav.addObject("provider", provider);
-
-        return mav;
-    }
-    @ResponseBody
-    @RequestMapping(value = "/profile/{userId}/profileimage",produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-    public byte[] providerProfileImage(@PathVariable("userId") int userId) {
-        return userService.getProfileImage(userId);
-    }
+    @Autowired
+    private AppointmentService appointmentService;
 
 
-    @RequestMapping(value = "/client/setAppointment", method = { RequestMethod.POST })
-    public ModelAndView create(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors) {
 
-        if (errors.hasErrors()) {
-            return providerProfile(loggedInUser, 4,form);
-        }
-        final ModelAndView mav = new ModelAndView("profile");
+   /* Este metodo no andaa */
+   @RequestMapping(value = "/client/getSendAppointment", method = RequestMethod.GET)
+   public ModelAndView getSendAppointment(@ModelAttribute("appointmentForm") final AppointmentForm form, RedirectAttributes redrAttr, HttpServletRequest request) {
+       if(form == null) {
+           //throw new ForbiddenException();
+       }
 
-        return mav;
-    }
+       System.out.println(form.getDate());
+
+       redrAttr.addFlashAttribute("appointmentForm", form);
+       //request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
+       return new ModelAndView("forward:/client/sendAppointment");
+   }
+
+   @RequestMapping(value = "/client/sendAppointment", method = RequestMethod.POST)
+   public ModelAndView sendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("appointmentForm") final AppointmentForm form) {
+       if(form == null) {
+           //throw exception
+       }
+
+       appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
+
+       return new ModelAndView("redirect:/client/appointmentConfirmed");
+   }
 
     @RequestMapping(value = "/client/messages/{providerId}", method = { RequestMethod.POST })
     public ModelAndView sendMessagePost(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId, @RequestParam("msg") String msg) {
@@ -181,6 +123,7 @@ public class ClientController {
         mav.addObject("user", loggedInUser);
         return mav;
     }
+
 
     @RequestMapping(value = "/createUser", method = { RequestMethod.POST })
     public ModelAndView createUser(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("signUpForm") final SignUpForm form, final BindingResult errors) {
@@ -222,35 +165,9 @@ public class ClientController {
         return new ModelAndView("redirect:/");
     }
 
-    @RequestMapping(value = "/upload",method = {RequestMethod.GET})
-    public ModelAndView formCompletion(@ModelAttribute("imageForm") final ImageForm form) {
 
-        final ModelAndView mav = new ModelAndView("upload");
-        return mav;
-    }
 
-    @RequestMapping("/sendEmail")
-    public ModelAndView sendEmail(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("signUpForm") final SignUpForm form) {
-        mailService.sendConfirmationEmail("afarina@itba.edu.ar",1);
-        return new ModelAndView("redirect:/");
-    }
 
-    @RequestMapping(value = "/upload",method = {RequestMethod.POST})
-    public ModelAndView formCompletion2(@ModelAttribute("imageForm") final ImageForm form) {
-
-        User user= null;
-        try {
-            user =userService.create("segundo","123456","segundo","farina","segundo","23","cuba 2546",form.getProfilePicture().getBytes());
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        SProvider sProvider = sProviderService.create(user.getId(),"hola que tal");
-
-        final ModelAndView mav = new ModelAndView("redirect:/profile/"+sProvider.getId());
-        return mav;
-    }
 
     private int getUserId(User user) {
         if(user == null) {
@@ -259,3 +176,8 @@ public class ClientController {
         return user.getId();
     }
 }
+
+
+
+
+

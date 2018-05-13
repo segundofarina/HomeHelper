@@ -24,8 +24,8 @@
                 </c:when>
                 <c:otherwise>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="<c:url value="/client/messages" />">Messages</a></li>
-                        <li><a href="<c:url value="/client/appointments" />">Appointments</a></li>
+                        <li class="active"><a href="<c:url value="/client/messages" />" class="hvr-underline-from-center">Messages</a></li>
+                        <li><a href="<c:url value="/client/appointments" />" class="hvr-underline-from-center">Appointments</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile picture" />

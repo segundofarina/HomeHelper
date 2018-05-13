@@ -42,7 +42,8 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="<c:url value="/resources/img/img.jpg"/>" alt=""><c:out value="${provider.firstname}"/><c:out value="${provider.lastname}"/>
+                                <img src="<c:url value="/resources/img/img.jpg"/>" alt="">
+                                <c:out value="${providerName}"/>
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">

@@ -20,9 +20,14 @@
     <link href="<c:url value="/resources/adminTemplate/vendors/font-awesome/css/font-awesome.min.css"/>" rel="stylesheet" />
     <!-- NProgress --
     <link href="<c:url value="/resources/adminTemplate/vendors/nprogress/nprogress.css"/>" rel="stylesheet">-->
+    <!-- bootstrap-daterangepicker -->
+    <link href="<c:url value="/resources/adminTemplate/vendors/bootstrap-daterangepicker/daterangepicker.css"/>" rel="stylesheet">
+    <!-- bootstrap-datetimepicker -->
+    <link href="<c:url value="/resources/adminTemplate/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css"/>" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="<c:url value="/resources/css/clientNavbarStyles.css" />" rel="stylesheet" />
+    <link href="<c:url value="/resources/css/generalStyles.css" />" rel="stylesheet" />
     <link href="<c:url value="/resources/css/profileStyles.css" />" rel="stylesheet" />
 </head>
 
@@ -89,19 +94,28 @@
                     <div class="col-xs-12 col-sm-4 col-md-3 panel-appointment">
                         <div class="panel panel-shadow">
                             <div class="panel-body">
-                                <c:url value="/client/setAppointment" var="postPath"/>
+                                <c:url value="/profile/sendAppointment" var="postPath"/>
                                 <form:form modelAttribute="appointmentForm" action="${postPath}" method="post">
+                                    <form:input type="hidden" value="${provider.id}" path="providerId" />
                                     <div class="form-group">
                                         <form:label path="serviceType"><spring:message code="general.service-type"/>:</form:label>
                                         <form:select class="form-control" path="serviceType">
+                                            <form:option value="none">Select service type...</form:option>
                                             <c:forEach items="${provider.aptitudes}" var="aptitude">
-                                                <option value="<c:out value="${aptitude.service.serviceTypeId}"/>"> <c:out value="${aptitude.service.name}"/></option>
+                                                <form:option value="${aptitude.service.serviceTypeId}"> <c:out value="${aptitude.service.name}"/></form:option>
                                             </c:forEach>
                                         </form:select>
+                                        <form:errors path="serviceType" element="p" cssClass="form-error" />
                                     </div>
                                     <div class="form-group">
                                         <form:label path="date"><spring:message code="general.date"/>:</form:label>
-                                        <form:input type="text" name="date" path="date" class="form-control" placeholder="Select a date..." />
+                                        <div class='input-group date' id='datepicker'>
+                                            <form:input type="text" name="date" path="date" class="form-control" placeholder="Select a date..." />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        <form:errors path="date" element="p" cssClass="form-error" />
                                     </div>
                                     <div class="form-group">
                                         <form:label path="description"><spring:message code="general.description"/>:</form:label>
@@ -250,6 +264,11 @@
 <script src="<c:url value="/resources/adminTemplate/vendors/fastclick/lib/fastclick.js"/>"></script>
 <!-- NProgress --
 <script src="<c:url value="/resources/adminTemplate/vendors/nprogress/nprogress.js"/>"></script>-->
+<!-- bootstrap-daterangepicker -->
+<script src="<c:url value="/resources/adminTemplate/vendors/moment/min/moment.min.js"/>"></script>
+<script src="<c:url value="/resources/adminTemplate/vendors/bootstrap-daterangepicker/daterangepicker.js"/>"></script>
+<!-- bootstrap-datetimepicker -->
+<script src="<c:url value="/resources/adminTemplate/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"/>"></script>
 
 <!-- Custom Theme Scripts -->
 <script src="<c:url value="/resources/js/customJs.js"/>"></script>
@@ -257,6 +276,19 @@
 <script>
     $(document).ready(function () {
         generateStars();
+
+        $('#datepicker').datetimepicker({
+            format: 'DD/MM/YYYY',
+            minDate: new Date()-1
+        });
+
+        $('#date').focus(function () {
+            $('#datepicker').data("DateTimePicker").show();
+        });
+
+        $('#date').blur(function () {
+            $('#datepicker').data("DateTimePicker").hide();
+        });
 
 
         $(window).scroll(function () {

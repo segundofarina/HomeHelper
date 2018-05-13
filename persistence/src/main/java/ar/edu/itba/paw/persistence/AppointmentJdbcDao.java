@@ -37,7 +37,7 @@ public class AppointmentJdbcDao implements AppointmentDao {
     @Autowired
     public AppointmentJdbcDao(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
-        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("appointments").usingGeneratedKeyColumns("appointmentId");
+        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("appointments").usingGeneratedKeyColumns("appointmentid");
     }
 
     private static class Row {
@@ -135,7 +135,11 @@ public class AppointmentJdbcDao implements AppointmentDao {
         args.put("status", "Pending");
         args.put("jobDescription", jobDescripcion);
 
-        return new Appointment((Integer) jdbcInsert.executeAndReturnKey(args),userDao.findById(clientId).get(),sProviderDao.getServiceProviderWithUserId(providerId).get(),serviceTypeDao.getServiceTypeWithId(serviceTypeId).get(),date,address,Status.Pending,jobDescripcion);
+        int appointmentId = jdbcInsert.executeAndReturnKey(args).intValue();
+
+        //jdbcInsert.execute(args);
+
+        return new Appointment(appointmentId ,userDao.findById(clientId).get(),sProviderDao.getServiceProviderWithUserId(providerId).get(),serviceTypeDao.getServiceTypeWithId(serviceTypeId).get(),date,address,Status.Pending,jobDescripcion);
 
 
     }
