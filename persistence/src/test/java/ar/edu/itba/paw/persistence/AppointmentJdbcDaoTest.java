@@ -55,36 +55,31 @@ public class AppointmentJdbcDaoTest {
     }
     @Test
     public void getAppointmentIdTest(){
-//        Optional<Integer> id = appointmentDao.getAppointmentId(1,3,Timestamp.from(Instant.now()) ,"cuba 2546 6p");
-//
-//        assertTrue(id.isPresent());
 
-//        assertEquals(1,id.get().intValue());
-//
-//        assertEquals(Optional.empty(),appointmentDao.getAppointmentId(2,3,Timestamp.from(Instant.now()),"cuba 2546 6p"));
-//
-//        assertEquals(Optional.empty(),appointmentDao.getAppointmentId(1,30,Timestamp.from(Instant.now()),"cuba 2546 6p"));
-//
-//        assertEquals(Optional.empty(),appointmentDao.getAppointmentId(1,3,Timestamp.from(Instant.now()),"cuba 2546 6p"));
-//
-//        assertEquals(Optional.empty(),appointmentDao.getAppointmentId(1,3,Timestamp.from(Instant.now()),"cuba 2546 12p"));
+        assertEquals(Optional.empty(),appointmentDao.getAppointmentId(2,3,Timestamp.from(Instant.now()),"cuba 2546 6p"));
+
+        assertEquals(Optional.empty(),appointmentDao.getAppointmentId(1,30,Timestamp.from(Instant.now()),"cuba 2546 6p"));
+
+        assertEquals(Optional.empty(),appointmentDao.getAppointmentId(1,3,Timestamp.from(Instant.now()),"cuba 2546 6p"));
+
+        assertEquals(Optional.empty(),appointmentDao.getAppointmentId(1,3,Timestamp.from(Instant.now()),"cuba 2546 12p"));
     }
     @Test
     public void addAppointmentTest(){
 
-        assertTrue(appointmentDao.addAppointment(1,4,3,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
+        //assertTrue(null != appointmentDao.addAppointment(1,4,3,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
 
-        assertFalse(appointmentDao.addAppointment(1,4,40,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
+        assertEquals(null,appointmentDao.addAppointment(1,4,40,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
 
-        assertFalse(appointmentDao.addAppointment(1,1,3,Timestamp.from(Instant.now()),"aguilar 2547 12A","Segundo, soy segundo no me rehaces para pared??"));
+        assertEquals(null,appointmentDao.addAppointment(1,1,3,Timestamp.from(Instant.now()),"aguilar 2547 12A","Segundo, soy segundo no me rehaces para pared??"));
 
-        assertTrue(appointmentDao.addAppointment(1,4,1,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me pintas para pared??"));
+        //assertTrue(null !=appointmentDao.addAppointment(1,4,1,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me pintas para pared??"));
 
-        assertFalse(appointmentDao.addAppointment(100,4,3,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
+        assertEquals(null,appointmentDao.addAppointment(100,4,3,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
 
-        assertFalse(appointmentDao.addAppointment(1,100,3,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
+        assertEquals(null,appointmentDao.addAppointment(1,100,3,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
 
-        assertFalse(appointmentDao.addAppointment(1,4,100,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
+        assertEquals(null,appointmentDao.addAppointment(1,4,100,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
     }
 
     @Test

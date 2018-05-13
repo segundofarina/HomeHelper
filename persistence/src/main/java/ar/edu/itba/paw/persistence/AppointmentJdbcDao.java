@@ -37,7 +37,7 @@ public class AppointmentJdbcDao implements AppointmentDao {
     @Autowired
     public AppointmentJdbcDao(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
-        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("appointments");
+        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("appointments").usingGeneratedKeyColumns("appointmentId");
     }
 
     private static class Row {
@@ -121,9 +121,9 @@ public class AppointmentJdbcDao implements AppointmentDao {
     }
 
     @Override
-    public boolean addAppointment(int clientId, int providerId, int serviceTypeId, Timestamp date, String address, String jobDescripcion) {
+    public Appointment addAppointment(int clientId, int providerId, int serviceTypeId, Timestamp date, String address, String jobDescripcion){
         if (!userDao.findById(clientId).isPresent() || !sProviderDao.getServiceProviderWithUserId(providerId).isPresent() || !serviceTypeDao.getServiceTypeWithId(serviceTypeId).isPresent()) {
-            return false;
+           return null;
         }
 
         final Map<String, Object> args = new HashMap<String, Object>();
@@ -135,9 +135,8 @@ public class AppointmentJdbcDao implements AppointmentDao {
         args.put("status", "Pending");
         args.put("jobDescription", jobDescripcion);
 
-        jdbcInsert.execute(args);
+        return new Appointment((Integer) jdbcInsert.executeAndReturnKey(args),userDao.findById(clientId).get(),sProviderDao.getServiceProviderWithUserId(providerId).get(),serviceTypeDao.getServiceTypeWithId(serviceTypeId).get(),date,address,Status.Pending,jobDescripcion);
 
-        return true;
 
     }
 

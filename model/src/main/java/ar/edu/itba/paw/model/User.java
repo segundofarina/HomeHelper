@@ -3,6 +3,7 @@ package ar.edu.itba.paw.model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Blob;
+import java.util.Arrays;
 
 public class User {
 
@@ -14,8 +15,11 @@ public class User {
     private String email;
     private String phone;
     private byte[] image;
+    private String address;
 
-    public User(String username, int id, String password, String firstname, String lastname, String email, String phone, byte[] image) {
+
+
+    public User(String username, int id, String password, String firstname, String lastname, String email, String phone, String address,byte[] image) {
         this.username = username;
         this.id = id;
         this.password = password;
@@ -24,6 +28,7 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.image = image;
+        this.address = address;
     }
 
     public String getPhone() {
@@ -58,8 +63,12 @@ public class User {
         this.email = email;
     }
 
-    public byte[] getImage(){
+
+    public byte[] getImage() {
         return this.image;
+    }
+    public String getAddress() {
+        return address;
     }
 
     public String getUsername() {
@@ -100,8 +109,10 @@ public class User {
             return false;
         if (getLastname() != null ? !getLastname().equals(user.getLastname()) : user.getLastname() != null)
             return false;
-        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null) return false;
-        return getPhone() != null ? getPhone().equals(user.getPhone()) : user.getPhone() == null;
+        if (!getEmail().equals(user.getEmail())) return false;
+        if (getPhone() != null ? !getPhone().equals(user.getPhone()) : user.getPhone() != null) return false;
+        if (!Arrays.equals(getImage(), user.getImage())) return false;
+        return getAddress() != null ? getAddress().equals(user.getAddress()) : user.getAddress() == null;
     }
 
     @Override
@@ -111,8 +122,10 @@ public class User {
         result = 31 * result + getPassword().hashCode();
         result = 31 * result + (getFirstname() != null ? getFirstname().hashCode() : 0);
         result = 31 * result + (getLastname() != null ? getLastname().hashCode() : 0);
-        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
+        result = 31 * result + getEmail().hashCode();
         result = 31 * result + (getPhone() != null ? getPhone().hashCode() : 0);
+        result = 31 * result + Arrays.hashCode(getImage());
+        result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
         return result;
     }
 }

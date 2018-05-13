@@ -6,6 +6,9 @@ drop table if exists reviews CASCADE;
 drop table if exists aptitudes CASCADE;
 DROP TABLE IF EXISTS appointments CASCADE;
 drop table if EXISTS verifyUsers CASCADE;
+drop table if exists neighborhoods CASCADE;
+drop table if exists workingzone CASCADE;
+
 
 CREATE TABLE IF NOT EXISTS users (
   userid SERIAL PRIMARY KEY,
@@ -15,7 +18,8 @@ CREATE TABLE IF NOT EXISTS users (
   lastname varchar(100),
   email varchar(100),
   phone varchar(100),
-  image bytea
+  image bytea,
+  address varchar(100)
 );
 
 CREATE TABLE IF NOT EXISTS serviceTypes (
@@ -70,22 +74,84 @@ create TABLE if NOT EXISTS verifyUsers(
   keyCode VARCHAR(1000)
 );
 
-insert into users VALUES (1,'sfarina','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Segundo Augusto','Fariña','afarina@itba.edu.ar','1541234567',null);
-insert into users VALUES (2,'mvictory','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Martin','Victory','mvictory@itba.edu.ar','1563498751',null);
-insert into users VALUES (3,'fcavallin','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Florencia','Cavallin','fcavallin@itba.edu.ar','1563287519',null);
-insert into users VALUES (4,'marcemiozzo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcelo','Miozzo','marcemiozzo@google.com','1532357421',null);
-insert into users VALUES (5,'nadimer','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nadine','Merlino','nadimer@fibertel.com.ar','1561182277',null);
-insert into users VALUES (6,'scavallin','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Sergio Eduardo','Cavallin','scavallin@pluspetrol.net','1540910023',null);
-insert into users VALUES (7,'bianq','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Bianca','Fallace','bianqfallace@google.com','1542366653',null);
-insert into users VALUES (8,'alvarocrespo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Alvaro','Crespo','acrespo@itba.edu.ar','1563325569',null);
-insert into users VALUES (9,'mfallone','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marco','Fallone','mfallon@itba.edu.ar','1562009879',null);
-insert into users VALUES (10,'mtessino','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Mario','Tessino','maritotessino@outlook.com','1562341209',null);
-insert into users VALUES (11,'lynch','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcelo','Lynch','marchusL@google.com','1563277639',null);
-insert into users VALUES (12,'tomicerda','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Tomás','Cerda','tcerda@itba.edu.ar','1562874621',null);
-insert into users VALUES (13,'carlubarru','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Carla','Barrufaldi','carlabarrufaldi@outlook.com','1539098798',null);
-insert into users VALUES (14,'axelf','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Axel','Fratoni','axfratoni@itba.edu.ar','1563880943',null);
-insert into users VALUES (15,'feroviedo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Fernan','Oviedo','foviedo@google.com','1542548790',null);
-insert into users VALUES (16,'ndonof','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nicolas','Donofrio','ndonofrio@outlook.com','1534890542',null);
+
+CREATE TABLE IF NOT EXISTS neighborhoods(
+  ngId SERIAL PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS workingzones(
+  ngId INTEGER REFERENCES neighborhoods(ngId),
+  userId INTEGER REFERENCES serviceProviders(userId)
+);
+
+insert into users VALUES (1,'sfarina','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Segundo Augusto','Fariña','afarina@itba.edu.ar','1541234567',null,'cuba 2546');
+insert into users VALUES (2,'mvictory','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Martin','Victory','mvictory@itba.edu.ar','1563498751',null,'cuba 2546');
+insert into users VALUES (3,'fcavallin','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Florencia','Cavallin','fcavallin@itba.edu.ar','1563287519',null,'cuba 2546');
+insert into users VALUES (4,'marcemiozzo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcelo','Miozzo','marcemiozzo@google.com','1532357421',null,'cuba 2546');
+insert into users VALUES (5,'nadimer','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nadine','Merlino','nadimer@fibertel.com.ar','1561182277',null,'cuba 2546');
+insert into users VALUES (6,'scavallin','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Sergio Eduardo','Cavallin','scavallin@pluspetrol.net','1540910023',null,'cuba 2546');
+insert into users VALUES (7,'bianq','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Bianca','Fallace','bianqfallace@google.com','1542366653',null,'cuba 2546');
+insert into users VALUES (8,'alvarocrespo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Alvaro','Crespo','acrespo@itba.edu.ar','1563325569',null,'cuba 2546');
+insert into users VALUES (9,'mfallone','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marco','Fallone','mfallon@itba.edu.ar','1562009879',null,'cuba 2546');
+insert into users VALUES (10,'mtessino','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Mario','Tessino','maritotessino@outlook.com','1562341209',null,'cuba 2546');
+insert into users VALUES (11,'lynch','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcelo','Lynch','marchusL@google.com','1563277639',null,'cuba 2546');
+insert into users VALUES (12,'tomicerda','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Tomás','Cerda','tcerda@itba.edu.ar','1562874621',null,'cuba 2546');
+insert into users VALUES (13,'carlubarru','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Carla','Barrufaldi','carlabarrufaldi@outlook.com','1539098798',null,'cuba 2546');
+insert into users VALUES (14,'axelf','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Axel','Fratoni','axfratoni@itba.edu.ar','1563880943',null,'cuba 2546');
+insert into users VALUES (15,'feroviedo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Fernan','Oviedo','foviedo@google.com','1542548790',null,'cuba 2546');
+insert into users VALUES (16,'ndonof','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nicolas','Donofrio','ndonofrio@outlook.com','1534890542',null,'cuba 2546');
+
+
+
+
+insert into neighborhoods VALUES (1);
+insert into neighborhoods VALUES (2);
+insert into neighborhoods VALUES (3);
+insert into neighborhoods VALUES (4);
+insert into neighborhoods VALUES (5);
+insert into neighborhoods VALUES (6);
+insert into neighborhoods VALUES (7);
+insert into neighborhoods VALUES (8);
+insert into neighborhoods VALUES (9);
+insert into neighborhoods VALUES (10);
+insert into neighborhoods VALUES (11);
+insert into neighborhoods VALUES (12);
+insert into neighborhoods VALUES (13);
+insert into neighborhoods VALUES (14);
+insert into neighborhoods VALUES (15);
+insert into neighborhoods VALUES (16);
+insert into neighborhoods VALUES (17);
+insert into neighborhoods VALUES (18);
+insert into neighborhoods VALUES (19);
+insert into neighborhoods VALUES (20);
+insert into neighborhoods VALUES (21);
+insert into neighborhoods VALUES (22);
+insert into neighborhoods VALUES (23);
+insert into neighborhoods VALUES (24);
+insert into neighborhoods VALUES (25);
+insert into neighborhoods VALUES (26);
+insert into neighborhoods VALUES (27);
+insert into neighborhoods VALUES (28);
+insert into neighborhoods VALUES (29);
+insert into neighborhoods VALUES (30);
+insert into neighborhoods VALUES (31);
+insert into neighborhoods VALUES (32);
+insert into neighborhoods VALUES (33);
+insert into neighborhoods VALUES (34);
+insert into neighborhoods VALUES (35);
+insert into neighborhoods VALUES (36);
+insert into neighborhoods VALUES (37);
+insert into neighborhoods VALUES (38);
+insert into neighborhoods VALUES (39);
+insert into neighborhoods VALUES (40);
+insert into neighborhoods VALUES (41);
+insert into neighborhoods VALUES (42);
+insert into neighborhoods VALUES (43);
+insert into neighborhoods VALUES (44);
+insert into neighborhoods VALUES (45);
+insert into neighborhoods VALUES (46);
+insert into neighborhoods VALUES (47);
+insert into neighborhoods VALUES (48);
 
 
 
@@ -465,10 +531,11 @@ insert into messages VALUES (2,9,'Este tambien es un chat',DEFAULT );
 insert into messages VALUES (9,2,'AAA mira que bueno',DEFAULT );
 insert into messages VALUES (2,9,'Jajaja',DEFAULT );
 
-
--- updating serial sequence numbers
 SELECT setval('users_userid_seq', (SELECT MAX(userid) from users));
 SELECT setval('serviceTypes_serviceTypeId_seq', (SELECT MAX(serviceTypeId) from serviceTypes));
 SELECT setval('aptitudes_aptitudeId_seq', (SELECT MAX(aptitudeId) from aptitudes));
 SELECT setval('appointments_appointmentId_seq', (SELECT MAX(appointmentId) from appointments));
+
+
+insert into workingzones VALUES (1,3);
 

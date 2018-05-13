@@ -6,10 +6,10 @@ import ar.edu.itba.paw.homehelper.form.ImageForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.homehelper.validators.EqualsUsernameValidator;
 import ar.edu.itba.paw.interfaces.services.ChatService;
-
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
 import ar.edu.itba.paw.homehelper.form.SignUpForm;
 import ar.edu.itba.paw.interfaces.services.MailService;
+import ar.edu.itba.paw.interfaces.services.NeighborhoodService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.interfaces.services.UserService;
 import ar.edu.itba.paw.model.SProvider;
@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
+
 @Controller
 public class ClientController {
 
@@ -40,6 +41,9 @@ public class ClientController {
 
     @Autowired
     ChatService chatService;
+
+    @Autowired
+    NeighborhoodService neighborhoodService;
 
 
     @Autowired
@@ -59,6 +63,7 @@ public class ClientController {
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
         mav.addObject("serviceTypes", sProviderService.getServiceTypes());
+        mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
         return mav;
     }
 
@@ -91,7 +96,9 @@ public class ClientController {
         } else {
             serviceTypeId = Integer.parseInt(st);
         }
+
         list = sProviderService.getServiceProvidersWithServiceType(serviceTypeId);
+      
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
@@ -100,6 +107,7 @@ public class ClientController {
         mav.addObject("list",list);
         mav.addObject("serviceTypes",sProviderService.getServiceTypes());
         mav.addObject("serviceTypeId", serviceTypeId);
+        mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
         return mav;
     }
     
@@ -198,7 +206,7 @@ public class ClientController {
             e.printStackTrace();
             image = null;
         }
-        User user = userService.create(form.getUsername(),form.getPasswordForm().getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone(),image);
+        User user = userService.create(form.getUsername(),form.getPasswordForm().getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone(),form.getEmail(),image);
 
         mailService.sendConfirmationEmail(user.getEmail(),user.getId());
 
@@ -232,7 +240,7 @@ public class ClientController {
 
         User user= null;
         try {
-            user =userService.create("segundo","123456","segundo","farina","segundo","23",form.getProfilePicture().getBytes());
+            user =userService.create("segundo","123456","segundo","farina","segundo","23","cuba 2546",form.getProfilePicture().getBytes());
 
         }catch (Exception e){
             e.printStackTrace();

@@ -47,9 +47,12 @@
                                 <div class="form-group">
                                     <form:label path="city"><spring:message code="general.city"/>:</form:label>
                                     <form:select class="form-control" path="city">
-                                        <form:option value="NONE"><spring:message code="index.select-city"/>...</form:option>
-                                        <form:option value="1">Buenos Aires</form:option>
+                                        <form:option value="none"><spring:message code="index.select-city"/>...</form:option>
+                                        <c:forEach items="${neighborhoods}" var="ng">
+                                            <form:option value="${ng.ngId}"><spring:message code="neighborhood.${ng.ngId}"/></form:option>
+                                        </c:forEach>
                                     </form:select>
+                                    <form:errors path="city" element="p" cssClass="form-error" />
                                 </div>
                                 <div class="form-group">
                                     <form:label path="serviceType"><spring:message code="general.service-type"/>:</form:label>

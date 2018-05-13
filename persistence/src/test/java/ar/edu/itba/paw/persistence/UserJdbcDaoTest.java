@@ -37,6 +37,7 @@ import static junit.framework.Assert.*;
         private static final String EMAIL = "jorgito@yo.com";
         private static final String PHONE = "1123453421";
         private static final byte[] IMAGE = new byte[]{1, 0, 1, 0};
+        private static final String ADDRESS = "cuba 2546";
 
     @Autowired
         private DataSource ds;
@@ -53,7 +54,7 @@ import static junit.framework.Assert.*;
         @Test
         public void testCreate() throws SQLException {
             int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "users");
-            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE,IMAGE);
+            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE,ADDRESS,IMAGE);
             assertNotNull(user);
             assertEquals(USERNAME, user.getUsername());
             assertEquals(PASSWORD, user.getPassword());
@@ -78,7 +79,7 @@ import static junit.framework.Assert.*;
 
 
         public static User insertDummyUser(UserDao userDao) throws SQLException {
-            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE,IMAGE);
+            final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE,ADDRESS,IMAGE);
             return user;
         }
 

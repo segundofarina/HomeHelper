@@ -2,11 +2,12 @@ package ar.edu.itba.paw.persistence;
 
 
 import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
+import ar.edu.itba.paw.interfaces.daos.WZoneDao;
 import ar.edu.itba.paw.interfaces.daos.SProviderDao;
 import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.model.Aptitude;
+import ar.edu.itba.paw.model.Neighborhood;
 import ar.edu.itba.paw.model.SProvider;
-import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -29,6 +30,9 @@ public class SProviderJdbcDao implements SProviderDao {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    WZoneDao wZoneDao;
 
     @Autowired
     public SProviderJdbcDao(final DataSource ds) {
@@ -71,7 +75,7 @@ public class SProviderJdbcDao implements SProviderDao {
 
         jdbcInsert.execute(args);
 
-        return Optional.of(new SProvider(userDao.findById(userId).get(),description, new ArrayList<Aptitude>() ));
+        return Optional.of(new SProvider(userDao.findById(userId).get(),description, new ArrayList<Aptitude>() , new HashSet<Neighborhood>()));
 
     }
 
@@ -81,7 +85,7 @@ public class SProviderJdbcDao implements SProviderDao {
         List<SProvider> list = new ArrayList<SProvider>();
 
         for(Row row : dbRowsList) {
-            list.add(new SProvider(userDao.findById(row.id).get(),row.description,aptitudeDao.getAptitudesOfUser(row.id)));
+            list.add(new SProvider(userDao.findById(row.id).get(),row.description,aptitudeDao.getAptitudesOfUser(row.id),wZoneDao.getWorkingZonesOfProvider(row.id)));
         }
 
         return list;
@@ -92,7 +96,7 @@ public class SProviderJdbcDao implements SProviderDao {
 
 
         if(dbRowsList.size() == 1) {
-            return Optional.of(new SProvider(userDao.findById(userId).get(),dbRowsList.get(0).description,aptitudeDao.getAptitudesOfUser(userId)));
+            return Optional.of(new SProvider(userDao.findById(userId).get(),dbRowsList.get(0).description,aptitudeDao.getAptitudesOfUser(userId),wZoneDao.getWorkingZonesOfProvider(userId)));
         }else{
             return Optional.empty();
         }

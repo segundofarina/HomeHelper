@@ -16,7 +16,7 @@ public interface UserDao {
      * @param phone
      * @return Created User or null if it's a duplicate
      */
-    User create(String username, String password, String firstName, String lastName, String email, String phone, byte[] image);
+    User create(String username, String password, String firstName, String lastName, String email, String phone, String address, byte[] image);
 
 
     /**
@@ -28,8 +28,5 @@ public interface UserDao {
 
 
     Optional<User> findById(int id);
-
-
-
 
 }

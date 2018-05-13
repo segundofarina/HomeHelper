@@ -36,9 +36,9 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    public User create(String username, String password, String firstname, String lastname, String email, String phone,String address,byte[] image) {
+        return userDao.create(username, password, firstname, lastname, email,  phone,address ,image);
 
-    public User create(String username, String password, String firstname, String lastname, String email, String phone,byte[] image) {
-        return userDao.create(username, password, firstname, lastname, email,  phone, image);
     }
 
     @Override

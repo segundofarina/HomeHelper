@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS users (
   lastname varchar(100),
   email varchar(100),
   phone varchar(100),
-  image bytea
+  image bytea,
+  address varchar(100)
 );
 
 CREATE TABLE IF NOT EXISTS serviceTypes (
@@ -44,13 +45,22 @@ CREATE TABLE IF NOT EXISTS messages(
   messageDate TIMESTAMP  default CURRENT_DATE
 );
 
-CREATE TABLE IF NOT EXISTS appointments(
-  appointmentId SERIAL PRIMARY KEY,
-  userId INTEGER REFERENCES users(userId),
-  providerId INTEGER REFERENCES serviceProviders(userId),
-  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
+CREATE TABLE IF NOT EXISTS appointments (
+  appointmentId   SERIAL PRIMARY KEY,
+  userId          INTEGER REFERENCES users (userId),
+  providerId      INTEGER REFERENCES serviceProviders (userId),
+  serviceTypeId   INTEGER REFERENCES serviceTypes (serviceTypeId),
   appointmentDate VARCHAR(100),
-  address VARCHAR(10000),
-  status VARCHAR(20),
-  jobDescription VARCHAR(10000)
+  address         VARCHAR(10000),
+  status          VARCHAR(20),
+  jobDescription  VARCHAR(10000)
+);
+
+CREATE TABLE IF NOT EXISTS neighborhoods(
+  ngId SERIAL PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS workingzones(
+   ngId INTEGER REFERENCES neighborhoods(ngId),
+   userId INTEGER REFERENCES serviceProviders(userId)
 );

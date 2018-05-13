@@ -50,8 +50,10 @@
                             <div class="form-group">
                                 <form:label path="city"><spring:message code="general.city"/>:</form:label>
                                 <form:select class="form-control" path="city">
-                                    <form:option value="NONE"><spring:message code="index.select-city"/>...</form:option>
-                                    <form:option value="1">Buenos Aires</form:option>
+                                    <form:option value=""><spring:message code="index.select-city"/>...</form:option>
+                                    <c:forEach items="${neighborhoods}" var="ng">
+                                        <form:option value="${ng.ngId}"><spring:message code="neighborhood.${ng.ngId}"/></form:option>
+                                    </c:forEach>
                                 </form:select>
                                 <form:errors path="city" element="p" cssClass="form-error" />
                             </div>
@@ -60,7 +62,7 @@
                                 <form:select path="serviceType" class="form-control" >
                                     <form:option value=""><spring:message code="index.select-serviceType"/>...</form:option>
                                     <c:forEach items="${serviceTypes}" var="st">
-                                        <form:option value="${st.serviceTypeId}"><c:out value="${st.name}"/></form:option>
+                                        <form:option value="${st.serviceTypeId}"><spring:message code="service-type.${st.serviceTypeId}"/></form:option>
                                     </c:forEach>
                                 </form:select>
                                 <form:errors path="serviceType" element="p" cssClass="form-error" />
