@@ -170,22 +170,23 @@ public class ClientController {
         return mav;
     }
 
-    @RequestMapping("/sendEmail")
-    public ModelAndView sendEmail(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("signUpForm") final SignUpForm form) {
-        mailService.sendConfirmationEmail("afarina@itba.edu.ar",1);
-        return new ModelAndView("redirect:/");
-    }
-
     @RequestMapping(value = "/createUser", method = { RequestMethod.POST })
     public ModelAndView createUser(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("signUpForm") final SignUpForm form, final BindingResult errors) {
 
         if (errors.hasErrors()) {
+            System.out.println(errors.getAllErrors());
             return signup(loggedInUser, form);
         }
 
         //User user = userService.create(form.getUsername(),form.getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone());
-       
-        User user = userService.create(form.getUsername(),form.getPasswordForm().getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone(),null);
+        byte[] image;
+        try{
+            image =form.getProfilePicture().getBytes();
+        }catch (Exception e){
+            e.printStackTrace();
+            image = null;
+        }
+        User user = userService.create(form.getUsername(),form.getPasswordForm().getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone(),image);
 
         mailService.sendConfirmationEmail(user.getEmail(),user.getId());
 
@@ -206,6 +207,12 @@ public class ClientController {
 
         final ModelAndView mav = new ModelAndView("upload");
         return mav;
+    }
+
+    @RequestMapping("/sendEmail")
+    public ModelAndView sendEmail(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("signUpForm") final SignUpForm form) {
+        mailService.sendConfirmationEmail("afarina@itba.edu.ar",1);
+        return new ModelAndView("redirect:/");
     }
 
     @RequestMapping(value = "/upload",method = {RequestMethod.POST})
