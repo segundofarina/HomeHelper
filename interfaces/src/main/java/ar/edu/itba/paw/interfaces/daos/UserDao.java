@@ -2,6 +2,7 @@ package ar.edu.itba.paw.interfaces.daos;
 
 import ar.edu.itba.paw.model.User;
 
+import java.sql.Blob;
 import java.util.Optional;
 
 public interface UserDao {
@@ -15,7 +16,8 @@ public interface UserDao {
      * @param phone
      * @return Created User or null if it's a duplicate
      */
-    User create(String username, String password, String firstName, String lastName, String email, String phone);
+    User create(String username, String password, String firstName, String lastName, String email, String phone, byte[] image);
+
 
     /**
      * Returns an {@link User} given it's username
@@ -26,6 +28,7 @@ public interface UserDao {
 
 
     Optional<User> findById(int id);
+
 
 
 

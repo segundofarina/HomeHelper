@@ -2,6 +2,7 @@ package ar.edu.itba.paw.homehelper.form;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.AssertTrue;
@@ -39,6 +40,16 @@ public class SignUpForm {
     @Pattern(regexp = "[0-9+]*")
     private String phone;
 
+    private MultipartFile profilePicture;
+
+    public MultipartFile getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(MultipartFile profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
 
     public String getFirstname() {
         return firstname;
@@ -63,23 +74,7 @@ public class SignUpForm {
     public void setUsername(String username) {
         this.username = username;
     }
-/*
-    public String getPassword() {
-        return passwordForm.getPassword();
-    }
 
-    public void setPassword(String password) {
-        passwordForm.setPassword(password);
-    }
-
-    public String getRepeatPassword() {
-        return passwordForm.getRepeatPassword();
-    }
-/*
-    public void setRepeatPassword(String repeatPassword) {
-        passwordForm.setPassword(repeatPassword);
-    }
-*/
     public PasswordForm getPasswordForm() {
         return passwordForm;
     }

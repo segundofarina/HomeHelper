@@ -1,5 +1,9 @@
 package ar.edu.itba.paw.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import java.sql.Blob;
+
 public class User {
 
     private String username;
@@ -9,8 +13,9 @@ public class User {
     private String lastname;
     private String email;
     private String phone;
+    private byte[] image;
 
-    public User(String username, int id, String password, String firstname, String lastname, String email, String phone) {
+    public User(String username, int id, String password, String firstname, String lastname, String email, String phone, byte[] image) {
         this.username = username;
         this.id = id;
         this.password = password;
@@ -18,6 +23,7 @@ public class User {
         this.lastname = lastname;
         this.email = email;
         this.phone = phone;
+        this.image = image;
     }
 
     public String getPhone() {
@@ -52,7 +58,9 @@ public class User {
         this.email = email;
     }
 
-
+    public byte[] getImage(){
+        return this.image;
+    }
 
     public String getUsername() {
         return username;

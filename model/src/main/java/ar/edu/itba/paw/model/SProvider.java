@@ -8,7 +8,7 @@ public class SProvider extends User{
     private List<Aptitude> aptitudes;
 
     public SProvider(User user, String description, List<Aptitude> aptitudes) {
-        super(user.getUsername(),user.getId(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone());
+        super(user.getUsername(),user.getId(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getImage());
         this.description = description;
         this.aptitudes = aptitudes;
     }

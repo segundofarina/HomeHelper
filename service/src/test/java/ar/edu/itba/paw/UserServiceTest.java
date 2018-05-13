@@ -25,4 +25,9 @@ public class UserServiceTest {
 
     }
 
+    @Test
+    public void testGetProfileImage(){
+
+    }
+
 }

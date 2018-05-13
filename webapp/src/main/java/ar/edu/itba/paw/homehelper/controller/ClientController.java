@@ -2,6 +2,7 @@ package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.homehelper.exceptions.ProviderNotFoundException;
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
+import ar.edu.itba.paw.homehelper.form.ImageForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.homehelper.validators.EqualsUsernameValidator;
 import ar.edu.itba.paw.interfaces.services.ChatService;
@@ -14,13 +15,14 @@ import ar.edu.itba.paw.interfaces.services.UserService;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,10 +36,11 @@ public class ClientController {
     SProviderService sProviderService;
 
     @Autowired
-    ChatService chatService;
+    UserService userService;
 
     @Autowired
-    UserService userService;
+    ChatService chatService;
+
 
     @Autowired
     HHUserDetailsService userDetailsService;
@@ -117,6 +120,12 @@ public class ClientController {
 
         return mav;
     }
+    @ResponseBody
+    @RequestMapping(value = "/profile/{userId}/profileimage",produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    public byte[] providerProfileImage(@PathVariable("userId") int userId) {
+        return userService.getProfileImage(userId);
+    }
+
 
     @RequestMapping(value = "/client/setAppointment", method = { RequestMethod.POST })
     public ModelAndView create(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors) {
@@ -165,22 +174,12 @@ public class ClientController {
         return mav;
     }
 
-    @RequestMapping("/sendEmail")
-    public ModelAndView sendEmail(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("signUpForm") final SignUpForm form) {
-        mailService.sendConfirmationEmail("afarina@itba.edu.ar",1);
-        return new ModelAndView("redirect:/");
-    }
-
     @RequestMapping(value = "/createUser", method = { RequestMethod.POST })
     public ModelAndView createUser(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("signUpForm") final SignUpForm form, final BindingResult errors) {
 
-        if (errors.hasErrors()) {
-            return signup(loggedInUser, form);
-        }
 
         User invalidUser =  userService.findByUsername(form.getUsername());
 
-        User user = null;
 
         if(invalidUser != null) {
 
@@ -191,8 +190,15 @@ public class ClientController {
             return signup(loggedInUser, form);
         }
 
-        user = userService.create(form.getUsername(), form.getPasswordForm().getPassword(), form.getFirstname(), form.getLastname(), form.getEmail(), form.getPhone());
-
+        //User user = userService.create(form.getUsername(),form.getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone());
+        byte[] image;
+        try{
+            image =form.getProfilePicture().getBytes();
+        }catch (Exception e){
+            e.printStackTrace();
+            image = null;
+        }
+        User user = userService.create(form.getUsername(),form.getPasswordForm().getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone(),image);
 
         mailService.sendConfirmationEmail(user.getEmail(),user.getId());
 
@@ -206,6 +212,36 @@ public class ClientController {
 
 
         return new ModelAndView("redirect:/");
+    }
+
+    @RequestMapping(value = "/upload",method = {RequestMethod.GET})
+    public ModelAndView formCompletion(@ModelAttribute("imageForm") final ImageForm form) {
+
+        final ModelAndView mav = new ModelAndView("upload");
+        return mav;
+    }
+
+    @RequestMapping("/sendEmail")
+    public ModelAndView sendEmail(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("signUpForm") final SignUpForm form) {
+        mailService.sendConfirmationEmail("afarina@itba.edu.ar",1);
+        return new ModelAndView("redirect:/");
+    }
+
+    @RequestMapping(value = "/upload",method = {RequestMethod.POST})
+    public ModelAndView formCompletion2(@ModelAttribute("imageForm") final ImageForm form) {
+
+        User user= null;
+        try {
+            user =userService.create("segundo","123456","segundo","farina","segundo","23",form.getProfilePicture().getBytes());
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        SProvider sProvider = sProviderService.create(user.getId(),"hola que tal");
+
+        final ModelAndView mav = new ModelAndView("redirect:/profile/"+sProvider.getId());
+        return mav;
     }
 
     private int getUserId(User user) {

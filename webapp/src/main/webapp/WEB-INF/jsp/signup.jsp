@@ -40,7 +40,21 @@
         <div class="panel searchForm">
             <div class="panel-body">
                 <c:url value="/createUser" var="postPath"/>
-                <form:form modelAttribute="signUpForm" action="${postPath}" method="Post">
+                <form:form modelAttribute="signUpForm" action="${postPath}" method="Post" enctype="multipart/form-data">
+
+
+
+                    <div class="profileImgEdit" id="image-preview">
+                        <form:label path="profilePicture" id="image-label">
+                            <div class="cover">
+                                <p class="coverTxt"><spring:message code="sprovider.change-pic"/></p>
+                            </div>
+                        </form:label>
+                        <form:input type="file" path="profilePicture" id="image-upload" accept="image/*"/>
+
+                    </div>
+
+
                     <div class="row">
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
@@ -112,6 +126,18 @@
 <script src="<c:url value="/resources/adminTemplate/vendors/jquery/dist/jquery.min.js"/>"></script>
 <!-- Bootstrap -->
 <script src="<c:url value="/resources/adminTemplate/vendors/bootstrap/dist/js/bootstrap.min.js"/>"></script>
+
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.uploadPreview.min.js"/>"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+$.uploadPreview({
+input_field: "#image-upload",
+preview_box: "#image-preview",
+label_field: "#image-label"
+});
+});
+</script>
 
 </body>
 </html>

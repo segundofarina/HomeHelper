@@ -116,49 +116,6 @@
             text-decoration: underline;
         }
     </style>
-    <div style="margin:0px auto;max-width:640px;background:transparent;">
-        <table role="presentation" cellpadding="0" cellspacing="0"
-               style="font-size:0px;width:100%;background:transparent;" align="center" border="0">
-            <tbody>
-            <tr>
-                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:40px 0px;">
-                    <!--[if mso | IE]>
-                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td style="vertical-align:top;width:640px;">
-                    <![endif]-->
-                    <div aria-labelledby="mj-column-per-100" class="mj-column-per-100 outlook-group-fix"
-                         style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
-                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                            <tbody>
-                            <tr>
-                                <td style="word-break:break-word;font-size:0px;padding:0px;" align="center">
-                                    <table role="presentation" cellpadding="0" cellspacing="0"
-                                           style="border-collapse:collapse;border-spacing:0px;" align="center"
-                                           border="0">
-                                        <tbody>
-                                        <tr>
-                                            <td style="width:138px;"><a href="https://discordapp.com/"
-                                                                        target="_blank"><img alt="" title=""
-                                                                                             height="38px"
-                                                                                             src="https://cdn.discordapp.com/email_assets/2ec94ed90b8e95d764f2a1c96f33139e.png"
-                                                                                             style="border:none;border-radius:;display:block;outline:none;text-decoration:none;width:100%;height:38px;"
-                                                                                             width="138"></a></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!--[if mso | IE]>
-                    </td></tr></table>
-                    <![endif]--></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
     <!--[if mso | IE]>
     </td></tr></table>
     <![endif]-->

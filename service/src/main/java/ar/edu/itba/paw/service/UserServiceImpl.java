@@ -7,6 +7,12 @@ import ar.edu.itba.paw.interfaces.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.Optional;
 
 
@@ -30,8 +36,9 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    public User create(String username, String password, String firstname, String lastname, String email, String phone) {
-        return userDao.create(username, password, firstname, lastname, email,  phone);
+
+    public User create(String username, String password, String firstname, String lastname, String email, String phone,byte[] image) {
+        return userDao.create(username, password, firstname, lastname, email,  phone, image);
     }
 
     @Override
@@ -47,6 +54,16 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
+    public byte[] getProfileImage(int id) {
+
+        if(userDao.findById(id).isPresent()) {
+
+            return userDao.findById(id).get().getImage();
+        }
+        return null;
+
+    }
 
 
 }

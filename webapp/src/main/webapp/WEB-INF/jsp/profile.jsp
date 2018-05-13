@@ -42,7 +42,15 @@
                 <div class="container">
                     <div class="content">
                         <div class="profileImg">
-                            <img src="<c:url value="/resources/img/img.jpg" />" alt="profile picture" />
+                            <c:choose>
+                                <c:when test="${provider.image == null}">
+                                    <img src="<c:url value="/resources/img/img.jpg" />" alt="profile picture" />
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="<c:url value="/profile/${provider.id}/profileimage" />" alt="profile picture" />
+                                </c:otherwise>
+                            </c:choose>
+
                         </div>
                         <div class="name">
                             <h3><c:out value="${provider.firstname}"/> <c:out value="${provider.lastname}"/></h3>
