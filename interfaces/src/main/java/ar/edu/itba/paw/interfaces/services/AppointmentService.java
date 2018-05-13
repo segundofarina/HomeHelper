@@ -30,4 +30,7 @@ public interface AppointmentService {
     /* Returns pending and confirmed */
     List<Appointment> getPendingAppointmentWithProviderId(int providerId);
 
+    /* Returns pending and confirmed */
+    List<Appointment> getPendingAppointmentWithUserId(int userId);
+
 }

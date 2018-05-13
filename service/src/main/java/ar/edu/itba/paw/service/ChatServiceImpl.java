@@ -2,6 +2,7 @@ package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.interfaces.daos.ChatDao;
 import ar.edu.itba.paw.interfaces.services.ChatService;
+import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.Chat;
 import ar.edu.itba.paw.model.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,5 +76,11 @@ public class ChatServiceImpl implements ChatService{
         }
         return list.get(0).getGrey().getId();
 
+    }
+
+    @Override
+    public boolean sendAppointmentMsg(int from, int to) {
+        String msg = "New appointment request";
+        return sendMsg(from, to, msg);
     }
 }

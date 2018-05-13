@@ -104,6 +104,20 @@ public class AppointmentServiceImpl implements AppointmentService {
         return ans;
     }
 
+    @Override
+    public List<Appointment> getPendingAppointmentWithUserId(int userId) {
+        List<Appointment> appointments = getAppointmentsByUserId(userId);
+        List<Appointment> ans = new ArrayList<>();
+
+        for(Appointment appointment : appointments) {
+            if(appointment.getStatus().equals(Status.Pending) || appointment.getStatus().equals(Status.Confirmed)){
+                ans.add(appointment);
+            }
+        }
+
+        return ans;
+    }
+
     private Timestamp stringToTimestamp(String str) {
         return new Timestamp(tryParse(str).getTime());
     }

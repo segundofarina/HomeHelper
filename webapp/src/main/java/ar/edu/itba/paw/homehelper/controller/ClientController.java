@@ -6,6 +6,7 @@ import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.homehelper.form.CreateSProviderForm;
+import ar.edu.itba.paw.model.Status;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,8 +66,21 @@ public class ClientController {
        }
 
        appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
+       chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId());
 
-       return new ModelAndView("redirect:/client/appointmentConfirmed");
+       String redirect = "redirect:/client/appointmentConfirmed?appt=" + 1;
+
+       return new ModelAndView(redirect);
+   }
+
+   @RequestMapping("/client/appointmentConfirmed")
+   public ModelAndView appointmentConfirmed(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "appt") final int apId) {
+       final ModelAndView mav = new ModelAndView("appointmentConfirmed");
+       mav.addObject("user", loggedInUser);
+       mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+
+       mav.addObject("appointment", appointmentService.getAppointment(apId));
+       return mav;
    }
 
     @RequestMapping(value = "/client/messages/{providerId}", method = { RequestMethod.POST })
@@ -97,7 +111,6 @@ public class ClientController {
         return new ModelAndView("redirect:/client/messages/" + chatService.getLastMsgThread(userId));
     }
 
-
     @RequestMapping(value = "/client/createSProvider", method = {RequestMethod.GET})
     public ModelAndView createProvider(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "n") final String error) {
         final ModelAndView mav = new ModelAndView("createSProvider");
@@ -116,7 +129,7 @@ public class ClientController {
 
     @RequestMapping(value = "/client/createSProvider", method = RequestMethod.POST)
     public ModelAndView postCreateProvider(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("createSProviderForm") final CreateSProviderForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.createSProviderForm", errors);
             redrAttr.addFlashAttribute("createSProviderForm", form);
             return new ModelAndView("redirect:/client/createSProvider?error=y");
@@ -132,6 +145,19 @@ public class ClientController {
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         return new ModelAndView("redirect:/sprovider");
+    }
+
+    @RequestMapping("/client/appointments")
+    public ModelAndView appointments(@ModelAttribute("loggedInUser") final User loggedInUser) {
+       final ModelAndView mav = new ModelAndView("client/appointments");
+
+        mav.addObject("user", loggedInUser);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+
+        mav.addObject("appointmentsPending", appointmentService.getPendingAppointmentWithUserId(loggedInUser.getId()));
+        mav.addObject("appointmentsDone", appointmentService.getAppointmentsByUserId(loggedInUser.getId(), Status.Done));
+
+       return mav;
     }
 
     private int getUserId(User user) {

@@ -1,0 +1,29 @@
+.panel {
+    padding: 10px 17px;
+}
+
+.panel-title {
+    border-bottom: 2px solid #E6E9ED;
+    padding: 1px 5px 6px;
+    margin-bottom: 10px;
+}
+
+.panel-title h3 {
+    margin: 5px 0 6px;
+    font-size: 18px;
+    color: #73879C;
+}
+
+.panel-body {
+    overflow: scroll;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table img.profileImage {
+    height: 38px;
+    width: 38px;
+    border-radius: 100%;
+}
