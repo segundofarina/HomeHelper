@@ -24,6 +24,7 @@
     <!-- Custom Theme Style -->
     <link href="<c:url value="/resources/css/clientNavbarStyles.css" />" rel="stylesheet" />
     <link href="<c:url value="/resources/css/generalStyles.css" />" rel="stylesheet" />
+    <link href="<c:url value="/resources/css/clientAppointmentsStyles.css" />" rel="stylesheet" />
 </head>
 
 <body>
@@ -37,6 +38,144 @@
 
         <div class="container">
 
+            <div class="panel">
+                <div class="panel-title">
+                    <h3>Pending Appointments</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Service Type</th>
+                                <th><spring:message code="general.name"/></th>
+                                <th><spring:message code="general.date"/></th>
+                                <th><spring:message code="general.status"/></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${appointmentsPending}" var="appointment">
+                                <tr>
+                                    <th>
+                                        <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                    </th>
+                                    <td><c:out value="${appointment.client.firstname}" /></td>
+                                    <td><c:out value="${appointment.client.firstname}" /></td>
+                                    <td><c:out value="${appointment.date}" /></td>
+                                    <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
+                                </tr>
+                            </c:forEach>
+                            <!--<tr>
+                                <th>
+                                    <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                </th>
+                                <td>Pintor</td>
+                                <td>Mark</td>
+                                <td>May 20, 2018</td>
+                                <td><span class="label label-info">Confirmed</span></td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                </th>
+                                <td>Pintor</td>
+                                <td>Mark</td>
+                                <td>May 20, 2018</td>
+                                <td><span class="label label-warning">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                </th>
+                                <td>Pintor</td>
+                                <td>Mark</td>
+                                <td>May 20, 2018</td>
+                                <td><span class="label label-info">Confirmed</span></td>
+                            </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">
+                    <h3>Completed Appointments</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Service Type</th>
+                            <th><spring:message code="general.name"/></th>
+                            <th><spring:message code="general.date"/></th>
+                            <th><spring:message code="general.status"/></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${appointmentsDone}" var="appointment">
+                            <tr>
+                                <th>
+                                    <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                </th>
+                                <td><c:out value="${appointment.client.firstname}" /></td>
+                                <td><c:out value="${appointment.client.firstname}" /></td>
+                                <td><c:out value="${appointment.date}" /></td>
+                                <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
+                                <td>
+                                    <a href="#" class="btn btn-primary btn-xs">
+                                        <i class="fa fa-edit"></i> Escribir una reseña
+                                    </a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        <!--<tr>
+                            <th>
+                                <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                            </th>
+                            <td>Pintor</td>
+                            <td>Mark</td>
+                            <td>May 20, 2018</td>
+                            <td><span class="label label-info">Confirmed</span></td>
+                            <td>
+                                <a href="#" class="btn btn-primary btn-xs">
+                                    <i class="fa fa-edit"></i> Escribir una reseña
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                            </th>
+                            <td>Pintor</td>
+                            <td>Mark</td>
+                            <td>May 20, 2018</td>
+                            <td><span class="label label-warning">Pending</span></td>
+                            <td>
+                                <a href="#" class="btn btn-primary btn-xs">
+                                    <i class="fa fa-edit"></i> Escribir una reseña
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                            </th>
+                            <td>Pintor</td>
+                            <td>Mark</td>
+                            <td>May 20, 2018</td>
+                            <td><span class="label label-success">Done</span></td>
+                            <td>
+                                <a href="#" class="btn btn-primary btn-xs">
+                                    <i class="fa fa-edit"></i> Escribir una reseña
+                                </a>
+                            </td>
+                        </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
 
         </div><!-- /main content -->

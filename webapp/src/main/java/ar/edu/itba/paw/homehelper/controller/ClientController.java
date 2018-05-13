@@ -4,18 +4,15 @@ import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
+import ar.edu.itba.paw.model.Status;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 
 @Controller
@@ -99,6 +96,12 @@ public class ClientController {
     @RequestMapping("/client/appointments")
     public ModelAndView appointments(@ModelAttribute("loggedInUser") final User loggedInUser) {
        final ModelAndView mav = new ModelAndView("client/appointments");
+
+        mav.addObject("user", loggedInUser);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+
+        mav.addObject("appointmentsPending", appointmentService.getPendingAppointmentWithUserId(loggedInUser.getId()));
+        mav.addObject("appointmentsDone", appointmentService.getAppointmentsByUserId(loggedInUser.getId(), Status.Done));
 
        return mav;
     }
