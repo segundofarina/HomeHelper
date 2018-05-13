@@ -96,6 +96,13 @@ public class ClientController {
         return new ModelAndView("redirect:/client/messages/" + chatService.getLastMsgThread(userId));
     }
 
+    @RequestMapping("/client/appointments")
+    public ModelAndView appointments(@ModelAttribute("loggedInUser") final User loggedInUser) {
+       final ModelAndView mav = new ModelAndView("client/appointments");
+
+       return mav;
+    }
+
     private int getUserId(User user) {
         if(user == null) {
             return -1;
