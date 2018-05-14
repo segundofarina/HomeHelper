@@ -167,6 +167,9 @@ insert into messages VALUES (2,4,'Jajaja',DEFAULT );
 insert into appointments VALUES (1,1,3,1,DEFAULT ,'cuba 2546 6p','Pending','soy flor cavallin, tincho haceme un mueble nuevo');
 
 insert into workingzones VALUES (1,3);
+insert into workingzones VALUES (2,3);
+insert into workingzones VALUES (3,3);
+
 
 
 

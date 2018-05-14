@@ -75,7 +75,7 @@ public class SProviderJdbcDao implements SProviderDao {
 
         jdbcInsert.execute(args);
 
-        return Optional.of(new SProvider(userDao.findById(userId).get(),description, new ArrayList<Aptitude>() , new HashSet<Neighborhood>()));
+        return Optional.of(new SProvider(userDao.findById(userId).get(),description, new ArrayList<Aptitude>() , new ArrayList<Neighborhood>()));
 
     }
 

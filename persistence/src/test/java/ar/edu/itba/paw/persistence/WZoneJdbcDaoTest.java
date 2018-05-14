@@ -18,6 +18,7 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 
 import javax.sql.DataSource;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -53,7 +54,7 @@ public class WZoneJdbcDaoTest{
     @Test
     public void getWorkingZonesOfProvider() {
 
-        Set<Neighborhood> ans;
+        List<Neighborhood> ans;
 
         ans = wZoneDao.getWorkingZonesOfProvider(4);
 
@@ -61,7 +62,7 @@ public class WZoneJdbcDaoTest{
 
         ans = wZoneDao.getWorkingZonesOfProvider(3);
 
-        assertEquals(1,ans.size());
+        assertEquals(3,ans.size());
 
         ans = wZoneDao.getWorkingZonesOfProvider(100);
 
