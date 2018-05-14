@@ -12,6 +12,8 @@ import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.interfaces.services.UserService;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,6 +48,8 @@ public class PublicController {
 
     @Autowired
     private HHUserDetailsService userDetailsService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PublicController.class);
 
     @ModelAttribute("searchForm")
     public SearchForm searchForm() {
@@ -86,11 +90,14 @@ public class PublicController {
                 redirect += "/";
             }
 
+            LOGGER.info("User {} search had the following errors {} ",getUserString(loggedInUser),errors);
+
             return new ModelAndView(redirect);
         }
 
         redrAttr.addFlashAttribute("searchForm", form);
         String redirect = "redirect:/searchResults?st=" + form.getServiceTypeId() + "&cty=" + form.getCityId();
+        LOGGER.info("User {} searched for service type [{}] in city [{}]",getUserString(loggedInUser),form.getServiceTypeId(),form.getCityId());
         return new ModelAndView(redirect);
     }
 
@@ -128,6 +135,7 @@ public class PublicController {
         final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
 
         if(provider == null) {
+            LOGGER.info("{} tried to access to provider with id {} which does not exist.",getUserString(loggedInUser),providerId);
             throw new ProviderNotFoundException();
         }
 
@@ -136,7 +144,7 @@ public class PublicController {
         mav.addObject("provider",provider);
 
 
-
+        LOGGER.info("{} accessed to provider's profile with id {} .",getUserString(loggedInUser),providerId);
         return mav;
     }
 
@@ -156,6 +164,7 @@ public class PublicController {
             redrAttr.addFlashAttribute("appointmentForm", form);
 
             String redirect = "redirect:/profile/" + form.getProviderId();
+            LOGGER.info("user {} tried to make an appointment and had the following errors in form {}",getUserString(loggedInUser),errors);
             return new ModelAndView(redirect);
         }
 
@@ -163,6 +172,7 @@ public class PublicController {
 
         if(loggedInUser == null) {
             String redirect = "redirect:/login";
+            LOGGER.info("user {} tried to make an appointment but was not logged in.",getUserString(loggedInUser));
             return new ModelAndView(redirect);
         }
 
@@ -203,6 +213,8 @@ public class PublicController {
         }
         User user = userService.create(form.getUsername(),form.getPasswordForm().getPassword(),form.getFirstname(),form.getLastname(),form.getEmail(),form.getPhone(),form.getEmail(),image);
 
+        LOGGER.info("{} user was created.",getUserString(loggedInUser));
+
         mailService.sendConfirmationEmail(user.getEmail(),user.getId());
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
@@ -221,5 +233,13 @@ public class PublicController {
             return -1;
         }
         return user.getId();
+    }
+
+    private String getUserString(User user){
+        if (user == null){
+            return "Annonymous";
+        }else{
+            return user.getUsername()+"["+user.getId()+"]";
+        }
     }
 }

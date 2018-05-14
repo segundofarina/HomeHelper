@@ -7,8 +7,11 @@ import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.homehelper.form.CreateSProviderForm;
 import ar.edu.itba.paw.model.Appointment;
+import ar.edu.itba.paw.model.Chat;
 import ar.edu.itba.paw.model.Status;
 import ar.edu.itba.paw.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 
 @Controller
@@ -39,6 +43,8 @@ public class ClientController {
     @Autowired
     private AppointmentService appointmentService;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(PublicController.class);
+
 
     @ModelAttribute("createSProviderForm")
     public CreateSProviderForm createSProviderForm() {
@@ -53,7 +59,7 @@ public class ClientController {
            //throw new ForbiddenException();
        }
 
-       System.out.println(form.getDate());
+       //System.out.println(form.getDate());
 
        redrAttr.addFlashAttribute("appointmentForm", form);
        //request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
@@ -100,7 +106,11 @@ public class ClientController {
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
-        mav.addObject("chats", chatService.getChatsOf(loggedInUser.getId()));
+        List<Chat> list= chatService.getChatsOf(loggedInUser.getId());
+        mav.addObject("chats", list);
+
+        LOGGER.debug("List of chats size: {} for user {}",list.size(),getUserString(loggedInUser));
+
         mav.addObject("currentChat", chatService.getChat(loggedInUser.getId(), providerId));
 
         return mav;
@@ -166,6 +176,14 @@ public class ClientController {
             return -1;
         }
         return user.getId();
+    }
+
+    private String getUserString(User user){
+        if (user == null){
+            return "Annonymous";
+        }else{
+            return user.getUsername()+"["+user.getId()+"]";
+        }
     }
 }
 

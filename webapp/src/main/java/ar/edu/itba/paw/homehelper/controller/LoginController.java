@@ -18,7 +18,7 @@ public class LoginController {
 
         if(referer !=null && referer.contains("/profile")) {
             redrAttr.addFlashAttribute("appointmentForm", appointmentForm);
-            System.out.println(appointmentForm.getDate());
+            //System.out.println(appointmentForm.getDate());
             redirect = "/client/getSendAppointment";
         }
 
