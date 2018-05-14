@@ -13,12 +13,14 @@ import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.awt.*;
 
 
 @Controller
@@ -47,12 +49,12 @@ public class ServiceProviderController {
     public AptitudeForm aptitudeForm() {
         return new AptitudeForm();
     }
-
+/*
     @ModelAttribute("updateAptitudeForm")
     public UpdateAptitudeForm updateAptitudeForm() {
         return new UpdateAptitudeForm();
     }
-
+*/
     @RequestMapping("/sprovider")
     public ModelAndView provider(@ModelAttribute("loggedInUser") final User loggedInUser) {
         final ModelAndView mav = new ModelAndView("serviceProviderControlPanel");
@@ -160,12 +162,15 @@ public class ServiceProviderController {
     }
 
     @RequestMapping("/sprovider/editProfile")
-    public ModelAndView providerPosts(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "-1") final int elemErrorId) {
+    public ModelAndView providerPosts(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "-1") final int elemErrorId, Model model) {
         final ModelAndView mav = new ModelAndView("serviceProviderCPEditProfile");
         if(loggedInUser == null) {
             //Exception
         }
         final int providerId = loggedInUser.getId();
+
+        /* Empty model attribute since its not uses in this view */
+        model.addAttribute("updateAptitudeForm", new UpdateAptitudeForm());
 
         mav.addObject("providerId", providerId);
         mav.addObject("providerName", loggedInUser.getFirstname());
@@ -173,7 +178,7 @@ public class ServiceProviderController {
         mav.addObject("serviceTypes",sProviderService.getServiceTypes());
 
         mav.addObject("errorElemId", elemErrorId);
-        mav.addObject("editAptitude", 0);
+        mav.addObject("editAptitude", -1);
 
         return mav;
     }
@@ -208,7 +213,7 @@ public class ServiceProviderController {
 
 
     @RequestMapping("/sprovider/editProfile/updateAptitude/{aptitudeId}")
-    public ModelAndView updateAptitudeId(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("updateAptitudeForm") UpdateAptitudeForm form, @PathVariable("aptitudeId") final int aptitudeId) {
+    public ModelAndView updateAptitudeId(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("aptitudeId") final int aptitudeId, Model model) {
         final ModelAndView mav = new ModelAndView("serviceProviderCPEditProfile");
         if(loggedInUser == null) {
             //Exception
@@ -216,25 +221,31 @@ public class ServiceProviderController {
         final int providerId = loggedInUser.getId();
         final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
 
+        if(!model.containsAttribute("updateAptitudeForm")) {
+            UpdateAptitudeForm updateAptitudeForm = new UpdateAptitudeForm();
+            updateAptitudeForm.setAptDescription(aptitudeService.getAptitude(aptitudeId).getDescription());
+            model.addAttribute("updateAptitudeForm", updateAptitudeForm);
+        }
+
         mav.addObject("providerId", providerId);
         mav.addObject("providerName", loggedInUser.getFirstname());
+
         mav.addObject("provider", provider);
         mav.addObject("serviceTypes",sProviderService.getServiceTypes());
 
         mav.addObject("errorElemId", -1);
-        mav.addObject("editAptitude", 1);
-
-        form.setAptDescription(aptitudeService.getAptitude(aptitudeId).getDescription());
+        mav.addObject("editAptitude", aptitudeId);
 
         return mav;
     }
 
     @RequestMapping(value = "/sprovider/editProfile/updateAptitude", method = RequestMethod.POST)
-    public ModelAndView updateAptitude(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("updateAptitudeForm") final UpdateAptitudeForm form, final BindingResult errors, RedirectAttributes redrAttr) {
+    public ModelAndView updateAptitude(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("updateAptitudeForm") final UpdateAptitudeForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
         if(errors.hasErrors()) {
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.updateAptitudeForm", errors);
             redrAttr.addFlashAttribute("updateAptitudeForm", form);
-            String redirect = "redirect:/sprovider/editProfile/updateAptitude/" + form.getAptitutdeId();
+
+            String redirect = "redirect:/sprovider/editProfile/updateAptitude/" + form.getAptitutdeId() + "?error=y";
             return new ModelAndView(redirect);
         }
 

@@ -12,7 +12,7 @@ public class AptitudeForm {
     private String serviceType;
 
     @NotBlank
-    @Size(max = 500)
+    @Size(max = 1000)
     private String aptDescription;
 
     public int getElemId() {

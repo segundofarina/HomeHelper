@@ -142,7 +142,7 @@
                                                 <div class="form-group">
                                                     <form:label path="aptDescription"><spring:message code="general.description"/>:</form:label>
                                                     <form:textarea path="aptDescription" class="form-control" placeholder="Write some description..." />
-                                                    <form:errors path="aptDescription" cssClass="form-error" element="p" />
+                                                    <form:errors path="aptDescription" cssClass="form-error edit-visible" element="p" />
                                                 </div>
                                                 <div class="divider-dashed"></div>
                                                 <div class="form-group">
@@ -160,7 +160,7 @@
                                             <c:url value="/sprovider/editProfile/updateAptitude" var="postUrl" />
                                             <form:form modelAttribute="updateAptitudeForm" method="post" action="${postUrl}">
                                                 <c:choose>
-                                                    <c:when test="${editAptitude == 1}">
+                                                    <c:when test="${editAptitude == aptitude.id}">
                                                         <div class="editable edit-no-dyn edit">
                                                     </c:when>
                                                     <c:otherwise>
@@ -168,7 +168,7 @@
                                                     </c:otherwise>
                                                     </c:choose>
                                                     <form:input type="hidden" class="action-field" path="action" value="none" />
-                                                    <form:input type="hidden" class="action-field" path="aptitutdeId" value="${aptitude.id}" />
+                                                    <form:input type="hidden" path="aptitutdeId" value="${aptitude.id}" />
                                                     <div class="form-group">
                                                         <label><spring:message code="general.service-type"/>:</label>
                                                         <form:input path="serviceType" type="hidden" value="${aptitude.service.serviceTypeId}" />
@@ -177,12 +177,12 @@
                                                     <div class="form-group">
                                                         <form:label path="aptDescription"><spring:message code="general.description"/>:</form:label>
                                                         <form:textarea path="aptDescription" class="form-control edit-visible" placeholder="Write some description..." />
-                                                        <form:errors path="aptDescription" cssClass="form-error" element="p" />
+                                                        <form:errors path="aptDescription" cssClass="form-error edit-visible" element="p" />
                                                         <p class="edit-hidden"><c:out value="${aptitude.description}"/></p>
                                                     </div>
                                                     <div class="divider-dashed"></div>
                                                     <div class="form-group">
-                                                        <button type="button" class="btn btn-danger btn-xs disabled deleteApt pull-left edit-visible"><i class="fa fa-trash"></i><spring:message code="aptitude.delete"/></button>
+                                                        <button type="button" class="btn btn-danger btn-xs disabled deleteApt pull-left edit-visible"><i class="fa fa-trash"></i> <spring:message code="aptitude.delete"/></button>
                                                         <a href="<c:url value="/sprovider/editProfile" />" class="btn btn-danger btn-sm pull-right edit-visible btn-cancel"><i class="fa fa-close"></i> Cancel</a>
                                                         <form:button type="submit" class="btn btn-success btn-sm pull-right edit-visible"><i class="fa fa-circle-check"></i> <spring:message code="general.update"/></form:button>
                                                         <a href="<c:url value="/sprovider/editProfile/updateAptitude/${aptitude.id}" />" class="btn btn-primary btn-sm pull-right edit-hidden btn-edit"><i class="fa fa-edit"></i> Edit</a>
@@ -247,7 +247,7 @@
     $(document).ready(function () {
 
         /* A provider cant remove an aptitude if it's de only one */
-        if($(document).find('.dynamic-element.saved-element') > 1) {
+        if($(document).find('.dynamic-element.saved-element').length > 1) {
             $('.btn.deleteApt').removeClass('disabled');
         }
 

@@ -9,7 +9,7 @@ public class ProfileGeneralInfo {
     private int elemId;
 
     @NotBlank
-    @Size(max = 500)
+    @Size(max = 1000)
     private String generalDescription;
 
     public String getGeneralDescription() {
