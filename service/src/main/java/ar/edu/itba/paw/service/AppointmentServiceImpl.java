@@ -66,14 +66,6 @@ public class AppointmentServiceImpl implements AppointmentService {
        return null;
     }
 
-    @Override
-    public Integer getAppointmentId(int clientId, int providerId, Timestamp date, String address) {
-        Optional<Integer> id = appointmentDao.getAppointmentId(clientId, providerId, date, address);
-        if(id.isPresent()){
-            return id.get();
-        }
-        return null;
-    }
 
     @Override
     public Appointment addAppointment(int clientId, int providerId, int serviceTypeId, String date, String address, String jobDescripcion) {
@@ -116,6 +108,15 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
 
         return ans;
+    }
+
+    @Override
+    public boolean updateDateOfAppointment(int appointmentId, String date) {
+        Date appointmentDate = tryParse(date);
+        if(appointmentDate==null){
+            return false;
+        }
+        return appointmentDao.updateDateOfAppointment(appointmentId, (Timestamp) appointmentDate);
     }
 
     private Timestamp stringToTimestamp(String str) {

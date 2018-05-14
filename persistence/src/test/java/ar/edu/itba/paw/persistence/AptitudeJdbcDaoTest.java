@@ -61,8 +61,8 @@ public class AptitudeJdbcDaoTest {
 
     @Test
     public void updateAptitudeTest(){
-        assertTrue( aptitudeDao.updateAptitude(2,"Martin es pintor"));
+        assertTrue( aptitudeDao.updateDescriptionOfAptitude(2,"Martin es pintor"));
 
-        assertFalse(aptitudeDao.updateAptitude(402,"Martin es pintor"));
+        assertFalse(aptitudeDao.updateDescriptionOfAptitude(402,"Martin es pintor"));
     }
 }

@@ -6,6 +6,7 @@ import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.homehelper.form.CreateSProviderForm;
+import ar.edu.itba.paw.interfaces.services.STypeService;
 import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.Status;
 import ar.edu.itba.paw.model.User;
@@ -38,6 +39,9 @@ public class ClientController {
 
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private STypeService sTypeService;
 
 
     @ModelAttribute("createSProviderForm")
@@ -117,7 +121,7 @@ public class ClientController {
         final ModelAndView mav = new ModelAndView("createSProvider");
 
         mav.addObject("user", loggedInUser);
-        mav.addObject("serviceTypes",sProviderService.getServiceTypes());
+        mav.addObject("serviceTypes",sTypeService.getServiceTypes());
 
         if(error.equals("n")) {
             mav.addObject("hasError", 0);

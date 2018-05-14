@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.daos.UserDao;
+import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -45,6 +46,76 @@ public class UserJdbcDao implements UserDao {
             return Optional.empty();
         }
         return Optional.of(list.get(0));
+    }
+
+    @Override
+    public boolean updatePasswordOfUser(int userId, String password) {
+        Optional<User> user = findById(userId);
+        if (!user.isPresent()) {
+            return false;
+        }
+        jdbcTemplate.update("UPDATE users SET password =? WHERE userid =?", password, userId);
+        return true;
+    }
+
+    @Override
+    public boolean updateFirstNameOfUser(int userId, String firstname) {
+        Optional<User> user = findById(userId);
+        if (!user.isPresent()) {
+            return false;
+        }
+        jdbcTemplate.update("UPDATE users SET firstname =? WHERE userid =?", firstname, userId);
+        return true;
+    }
+
+    @Override
+    public boolean updateLastNameOfUser(int userId, String lastname) {
+        Optional<User> user = findById(userId);
+        if (!user.isPresent()) {
+            return false;
+        }
+        jdbcTemplate.update("UPDATE users SET lastname =? WHERE userid =?", lastname, userId);
+        return true;
+    }
+
+    @Override
+    public boolean updateEmailOfUser(int userId, String email) {
+        Optional<User> user = findById(userId);
+        if (!user.isPresent()) {
+            return false;
+        }
+        jdbcTemplate.update("UPDATE users SET email =? WHERE userid =?", email, userId);
+        return true;
+    }
+
+    @Override
+    public boolean updatePhoneOfUser(int userId, String phone) {
+        Optional<User> user = findById(userId);
+        if (!user.isPresent()) {
+            return false;
+        }
+        jdbcTemplate.update("UPDATE users SET phone =? WHERE userid =?", phone, userId);
+        return true;
+    }
+
+    @Override
+    public boolean updateImageOfUser(int userId, int[] image) {
+        Optional<User> user = findById(userId);
+        if (!user.isPresent()) {
+            return false;
+        }
+        jdbcTemplate.update("UPDATE users SET image =? WHERE userid =?", image, userId);
+        return true;
+    }
+
+    @Override
+    public boolean updateAddressOfUser(int userId, String address) {
+        Optional<User> user = findById(userId);
+        if (!user.isPresent()) {
+            return false;
+        }
+        jdbcTemplate.update("UPDATE users SET address =? WHERE userid =?", address, userId);
+        return true;
     }
 
     @Override

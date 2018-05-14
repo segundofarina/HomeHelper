@@ -11,6 +11,12 @@ public interface AptitudeDao {
 
     boolean insertAptitude(int sProviderId, int serviceId, String description);
 
-    boolean updateAptitude(int aptId, String description);
+    boolean updateDescriptionOfAptitude(int aptId, String description);
+
+    boolean updateServiceTypeOfAptitude(int aptId, int stId);
+
+    boolean removeAptitude(int aptId);
+
+    int getAptitudeId(int aptId, int stId);
 
 }

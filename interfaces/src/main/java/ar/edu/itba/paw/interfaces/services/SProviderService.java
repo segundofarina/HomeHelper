@@ -1,13 +1,13 @@
 package ar.edu.itba.paw.interfaces.services;
 
-import ar.edu.itba.paw.model.AptitudeForm;
-import ar.edu.itba.paw.model.SProvider;
-import ar.edu.itba.paw.model.ServiceType;
+import ar.edu.itba.paw.model.*;
 
 import java.util.List;
 import java.util.Set;
 
 public interface SProviderService {
+
+
 
     SProvider create(int userId, String description);
 
@@ -17,15 +17,7 @@ public interface SProviderService {
 
     SProvider getServiceProviderWithUserId(int userId);
 
-    boolean addReviewToAptitude(int userId, int serviceType, int quality,int cleanness, int price, int punctuality, int treatment, String comment);
-
-    boolean addAptitude(int userId, int serviceType, String description);
-
-    List<ServiceType> getServiceTypes();
-
-    boolean updateAptitude(int aptId,String newDescription);
-
-    boolean updateAptitudes(int spId, List<AptitudeForm> list);
+    boolean insertReview(int userId, int aptitudeId, int quality,int cleanness, int price, int punctuality, int treatment, String comment);
 
     int getServiceProviderId(int userId);
 
@@ -34,5 +26,21 @@ public interface SProviderService {
     boolean insertWorkingZoneOfProvider(int userId, int ngId);
 
     Set<SProvider> getServiceProvidersWorkingIn(int neighborhood);
+
+    List<Review> getReviewsOfServiceProvider(int sproviderId);
+
+    List<Aptitude> getAptitudesOfUser(int id);
+
+    boolean updateDescriptionOfAptitude(int aptId, String description);
+
+    boolean updateServiceTypeOfAptitude(int aptId, int stId);
+
+    boolean removeWorkingZoneOfProvider(int userId, int ngId);
+
+    boolean addAptitude(int userId, int serviceType, String description);
+
+    boolean removeAptitude(int userId, int serviceType);
+
+
 
 }

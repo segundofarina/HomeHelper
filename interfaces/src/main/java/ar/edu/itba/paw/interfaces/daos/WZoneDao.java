@@ -13,4 +13,5 @@ public interface WZoneDao {
 
     Set<SProvider> getServiceProvidersWorkingIn(int ngId);
 
+    boolean removeWorkingZoneOfProvider(int userId, int ngId);
 }

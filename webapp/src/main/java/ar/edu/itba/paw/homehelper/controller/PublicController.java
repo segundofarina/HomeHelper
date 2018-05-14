@@ -6,10 +6,7 @@ import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.homehelper.form.SignUpForm;
 import ar.edu.itba.paw.homehelper.validators.EqualsUsernameValidator;
-import ar.edu.itba.paw.interfaces.services.MailService;
-import ar.edu.itba.paw.interfaces.services.NeighborhoodService;
-import ar.edu.itba.paw.interfaces.services.SProviderService;
-import ar.edu.itba.paw.interfaces.services.UserService;
+import ar.edu.itba.paw.interfaces.services.*;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +44,9 @@ public class PublicController {
     @Autowired
     private HHUserDetailsService userDetailsService;
 
+    @Autowired
+    private STypeService sTypeService;
+
     @ModelAttribute("searchForm")
     public SearchForm searchForm() {
         return new SearchForm();
@@ -64,7 +64,7 @@ public class PublicController {
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
-        mav.addObject("serviceTypes", sProviderService.getServiceTypes());
+        mav.addObject("serviceTypes", sTypeService.getServiceTypes());
         mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
         return mav;
     }
@@ -107,7 +107,7 @@ public class PublicController {
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
         mav.addObject("list",list);
-        mav.addObject("serviceTypes",sProviderService.getServiceTypes());
+        mav.addObject("serviceTypes",sTypeService.getServiceTypes());
 
         /* Current params showing */
         mav.addObject("serviceTypeId", serviceTypeId);

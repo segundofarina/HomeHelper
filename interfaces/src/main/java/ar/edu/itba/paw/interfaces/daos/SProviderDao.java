@@ -14,4 +14,6 @@ public interface SProviderDao {
 
     Optional<SProvider> getServiceProviderWithUserId(int userId);
 
+    boolean updateDescriptionOfServiceProvider(int userId, String description);
+
 }

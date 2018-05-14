@@ -63,10 +63,10 @@ public class User {
         this.email = email;
     }
 
-
     public byte[] getImage() {
         return this.image;
     }
+
     public String getAddress() {
         return address;
     }
