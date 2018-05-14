@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,34 +56,40 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                <form method="post" action="#">
-                                    <div class="row">
-                                        <div class="col-md-4 col-sm-4 col-xs-12">
-                                            <div class="profileImgEdit">
-                                                <img src="<c:url value="/resources/img/img.jpg"/>" alt="profileImg" />
-                                                <div class="cover">
-                                                    <p class="coverTxt"><spring:message code="sprovider.change-pic"/></p>
+                                <c:url value="/sprovider/editProfile/editGeneralInfo" var="postUrl" />
+                                <form:form modelAttribute="profileGeneralInfo" method="post" action="${postUrl}">
+                                    <div class="editable">
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                                <div class="profileImgEdit">
+                                                    <img src="<c:url value="/resources/img/img.jpg"/>" alt="profileImg" />
+                                                    <div class="cover">
+                                                        <p class="coverTxt"><spring:message code="sprovider.change-pic"/></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                <div class="form-group">
+                                                    <label><spring:message code="sprovider.full-name"/>:</label>
+                                                    <!--<input id="fullName" type="text" name="fullName" class="form-control" readonly="readonly" placeholder="<c:out value="${provider.firstname}"/> <c:out value="${provider.lastname}"/> " />-->
+                                                    <p data-ref="fullName"><c:out value="${provider.firstname}" /> <c:out value="${provider.lastname}" /></p>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="generalDescription"><spring:message code="general.description"/>:</label>
+                                                    <textarea id="generalDescription" name="generalDescription" class="form-control edit-visible" placeholder="Write some description..."><c:out value="${provider.description}" /></textarea>
+                                                    <p class="edit-hidden" data-ref="generalDescription"><c:out value="${provider.description}" /></p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-8 col-sm-8 col-xs-12">
-                                            <div class="form-group">
-                                                <label for="fullName"><spring:message code="sprovider.full-name"/>:</label>
-                                                <input id="fullName" type="text" name="fullName" class="form-control" readonly="readonly" placeholder="<c:out value="${provider.firstname}"/> <c:out value="${provider.lastname}"/> " />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="generalDescription"><spring:message code="general.description"/>:</label>
-                                                <textarea id="generalDescription" name="generalDescription" class="form-control" placeholder="Write some description..."><c:out value="${provider.description}" /></textarea>
-                                            </div>
+                                        <div class="divider-dashed"></div>
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-danger btn-sm pull-right edit-visible btn-cancel"><i class="fa fa-close"></i> Cancel</button>
+                                            <button type="submit" class="btn btn-success btn-sm pull-right edit-visible"><i class="fa fa-circle-check"></i> <spring:message code="general.update"/></button>
+                                            <button type="button" class="btn btn-primary btn-sm pull-right edit-hidden btn-edit"><i class="fa fa-edit"></i> Edit</button>
+                                            <div class="clearfix"></div>
                                         </div>
                                     </div>
-                                    <div class="divider-dashed"></div>
-                                    <div class="form-group">
-                                        <div class="clearfix">
-                                            <button type="submit" class="btn btn-success btnAction"><i class="fa fa-edit"></i><spring:message code="general.update"/></button>
-                                        </div>
-                                    </div>
-                                </form>
+                                </form:form>
                             </div>
                         </div>
                     </div>
@@ -93,77 +100,73 @@
                         <div class="x_panel">
                             <div class="x_title">
                                 <h2><spring:message code="general.aptitudes"/></h2>
+                                <button type="button" class="btn btn-default btn-sm add-one pull-right"><i class="fa fa-plus"></i><spring:message code="aptitude.add"/></button>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
 
-                                <!-- HIDDEN Aptitudes template -->
 
+                                <div class="dynamic-stuff">
 
-
-                                <div class="dynamic-element" style="display: none">
-                                    <div class="form-group">
-                                        <label for="serviceType[]"><spring:message code="general.service-type"/>:</label>
-                                        <select id="serviceType[]" name="serviceType[]" class="form-control">
-                                            <option value=""><spring:message code="service-type.select"/></option>
-                                            <c:forEach items="${serviceTypes}" var="st">
-                                                <option value="<c:out value="${st.serviceTypeId}"/>"><c:out value="${st.name}"/></option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="aptDescription[]"><spring:message code="general.description"/>:</label>
-                                        <textarea id="aptDescription[]" name="aptDescription[]" class="form-control" placeholder="Write some description..."><c:out value="${st.name}"/></textarea>
-                                    </div>
-                                    <button type="button" class="btn btn-danger btn-sm disabled deleteApt"><i class="fa fa-trash"></i><spring:message code="aptitude.delete"/></button>
-                                </div>
-
-                                <!-- End aptitudes template -->
-
-                                <form method="post" action="#">
-                                    <fieldset>
-                                        <div class="dynamic-stuff">
-                                            <!-- Dynamic element will be cloned here -->
-
-                                            <c:forEach items="${provider.aptitudes}" var="aptitude">
-
-
-
-                                            <div class="dynamic-element" >
+                                    <div class="dynamic-element new-element new-element-hidden">
+                                        <form method="post" action="#">
+                                            <div class="editable">
                                                 <div class="form-group">
-                                                    <label for="serviceType[]"><spring:message code="general.service-type"/>:</label>
-                                                    <select id="serviceType[]" name="serviceType[]" class="form-control" disabled="disabled">
-                                                        <option value="<c:out value="${aptitude.service.serviceTypeId}"/>"><c:out value="${aptitude.service.name}"/></option>
+                                                    <label for="serviceType"><spring:message code="general.service-type"/>:</label>
+                                                    <select id="serviceType" name="serviceType" class="form-control">
+                                                        <option value=""><spring:message code="service-type.select"/></option>
+                                                        <c:forEach items="${serviceTypes}" var="st">
+                                                            <option value="<c:out value="${st.serviceTypeId}"/>"><c:out value="${st.name}"/></option>
+                                                        </c:forEach>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="aptDescription[]"><spring:message code="general.description"/>:</label>
-                                                    <textarea id="aptDescription[]" name="aptDescription[]" class="form-control" placeholder="Write some description..."><c:out value="${aptitude.description}"/></textarea>
+                                                    <label for="aptDescription"><spring:message code="general.description"/>:</label>
+                                                    <textarea id="aptDescription" name="aptDescription" class="form-control" placeholder="Write some description..."></textarea>
                                                 </div>
-                                                <button type="button" class="btn btn-danger btn-sm disabled deleteApt"><i class="fa fa-trash"></i><spring:message code="aptitude.delete"/></button>
-                                            </div>
-
-                                            </c:forEach>
-
-                                        </div>
-
-                                        <div class="divider-dashed"></div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-sm-6 col-xs-12">
-                                                    <div class="clearfix">
-                                                        <button type="button" class="btn btn-default add-one"><i class="fa fa-plus"></i><spring:message code="aptitude.add"/></button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-6 col-xs-6">
-                                                    <div class="clearfix">
-                                                        <button type="submit" class="btn btn-success btnAction"><i class="fa fa-edit"></i><spring:message code="general.update"/></button>
-                                                    </div>
+                                                <div class="divider-dashed"></div>
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-danger btn-sm pull-right btn-cancel"><i class="fa fa-close"></i> Cancel</button>
+                                                    <button type="submit" class="btn btn-success btn-sm pull-right"><i class="fa fa-circle-check"></i> <spring:message code="general.update"/></button>
+                                                    <div class="clearfix"></div>
                                                 </div>
                                             </div>
+                                        </form>
+                                    </div>
+
+                                    <c:forEach items="${provider.aptitudes}" var="aptitude">
+
+                                        <div class="dynamic-element saved-element">
+                                            <form method="post" action="#">
+                                                <div class="editable">
+                                                    <input type="hidden" class="action-field" name="action" value="none" />
+                                                    <div class="form-group">
+                                                        <label><spring:message code="general.service-type"/>:</label>
+                                                        <input name="serviceType" type="hidden" value="<c:out value="${aptitude.service.serviceTypeId}" />" />
+                                                        <p><c:out value="${aptitude.service.name}" /></p>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="aptDescription"><spring:message code="general.description"/>:</label>
+                                                        <textarea id="aptDescription" name="aptDescription" class="form-control edit-visible" placeholder="Write some description..."><c:out value="${aptitude.description}"/></textarea>
+                                                        <p class="edit-hidden"><c:out value="${aptitude.description}"/></p>
+                                                    </div>
+                                                    <div class="divider-dashed"></div>
+                                                    <div class="form-group">
+                                                        <button type="button" class="btn btn-danger btn-xs disabled deleteApt pull-left edit-visible"><i class="fa fa-trash"></i><spring:message code="aptitude.delete"/></button>
+                                                        <button type="button" class="btn btn-danger btn-sm pull-right edit-visible btn-cancel"><i class="fa fa-close"></i> Cancel</button>
+                                                        <button type="submit" class="btn btn-success btn-sm pull-right edit-visible"><i class="fa fa-circle-check"></i> <spring:message code="general.update"/></button>
+                                                        <button type="button" class="btn btn-primary btn-sm pull-right edit-hidden btn-edit"><i class="fa fa-edit"></i> Edit</button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
-                                    </fieldset>
-                                </form>
+
+                                    </c:forEach>
+
+
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
@@ -212,35 +215,57 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        //addElement();
 
-        //Clone the hidden element and shows it
-        $('.add-one').click(function(e) {
-            e.preventDefault();
-            addElement();
-            $('.deleteApt').removeClass('disabled');
-        });
+        /* A provider cant remove an aptitude if it's de only one */
+        if($(document).find('.dynamic-element.saved-element') > 1) {
+            $('.btn.deleteApt').removeClass('disabled');
+        }
 
-
-        $(document).on('click', '.deleteApt', function(e) {
-            e.preventDefault();
-
-            var dynamicElementAdded = $('.dynamic-element.added').length;
-
-            if(dynamicElementAdded > 1) {
-                $(this).closest('.dynamic-element').remove();
-            }
-            if(dynamicElementAdded === 2) {
-                $('.deleteApt').addClass('disabled');
+        /* Show edit action btns (Accept, cancel) when pressing edit and disabeling all edit-btn */
+        $('.btn-edit').click(function() {
+            if($(this).hasClass('disabled')) {
+                return;
             }
 
+            $(this).closest('.editable').addClass('edit');
+            $('.btn-edit, .btn.add-one').addClass('disabled');
         });
+
+        /* Hide edit action btns (Accept, cancel) when pressing cancel and enabeling all edit-btn */
+        $('.btn-cancel').click(function() {
+            const editable = $(this).closest('.editable');
+            if(editable.closest('.dynamic-element').hasClass('new-element')) {
+                $('.new-element').addClass('new-element-hidden');
+            }
+            $('.btn-edit, .btn.add-one').removeClass('disabled');
+            editable.removeClass('edit');
+        });
+
+        /* Show new aptitude when pressing  */
+        $('.btn.add-one').click(function() {
+            if($(this).hasClass('disabled')) {
+                return;
+            }
+
+            $('.new-element').removeClass('new-element-hidden');
+            $('.btn-edit, .btn.add-one').addClass('disabled');
+        });
+
+        /* Delete aptitude */
+        $('.btn.deleteApt').click(function(){
+            if($(this).hasClass('disabled')) {
+                return;
+            }
+
+            const form = $(this).closest('form');
+            form.find('.action-field').val('delete');
+
+            form.submit();
+        });
+
 
     });
 
-    function addElement() {
-        $('.dynamic-element').first().clone().addClass('added').appendTo('.dynamic-stuff').show();
-    }
 </script>
 </body>
 </html>

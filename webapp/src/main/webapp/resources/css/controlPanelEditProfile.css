@@ -44,12 +44,29 @@ textarea.form-control {
     text-align: center;
 }
 
-.btnAction {
-    float: right;
+.dynamic-element:not(:last-of-type) {
+    padding-bottom: 3em;
+    margin-bottom: 3em;
+    border-bottom: 1px solid #e6e9ed;
 }
 
-.dynamic-element.added:not(:last-of-type) {
-    padding-bottom: 2em;
-    margin-bottom: 3em;
-    border-bottom: 1px solid #e7eaec;
+select.form-control {
+    max-width: 20em;
+}
+
+.edit-visible {
+    display: none;
+}
+.edit-hidden {
+    display: block;
+}
+.edit .edit-hidden {
+    display: none;
+}
+.edit .edit-visible {
+    display: block;
+}
+
+.new-element-hidden {
+    display: none;
 }
