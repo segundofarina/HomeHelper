@@ -45,12 +45,13 @@ public class MailServiceImpl implements MailService{
     @Autowired
     VerifyEmailDao verifyEmailDao;
 
+
     @Override
     @Async
     public void sendConfirmationEmail(String email, int userId) {
         Optional<User> user = userDao.findById(userId);
         if(!user.isPresent()){
-            System.out.println("Tried to send email but user with id "+userId+"does not exist");
+            //System.out.println("Tried to send email but user with id "+userId+"does not exist");
             return;
         }
 
@@ -59,10 +60,11 @@ public class MailServiceImpl implements MailService{
         try {
             mailSender.send(preparator);
             verifyEmailDao.insert(userId,""+userId);
-            System.out.println("Message has been sent.............................");
+
+            //System.out.println("Message has been sent.............................");
         }
         catch (MailException ex) {
-            System.err.println(ex.getMessage());
+           // System.err.println(ex.getMessage());
         }
     }
 
@@ -83,7 +85,7 @@ public class MailServiceImpl implements MailService{
             model.put("verifyurl","http://localhost:8080/users/verify/"+user.getId());
 
             String text = geFreeMarkerTemplateContent(model);//Use Freemarker or Velocity
-            System.out.println("Template content : "+text);
+            //System.out.println("Template content : "+text);
 
             // use the true flag to indicate you need a multipart message
             helper.setText(text, true);
@@ -105,7 +107,7 @@ public class MailServiceImpl implements MailService{
                     freemarkerConfiguration.getTemplate("confirmation.ftl"),model));
             return content.toString();
         }catch(Exception e){
-            System.out.println("Exception occured while processing fmtemplate:"+e.getMessage());
+            //System.out.println("Exception occured while processing fmtemplate:"+e.getMessage());
         }
         return "";
     }

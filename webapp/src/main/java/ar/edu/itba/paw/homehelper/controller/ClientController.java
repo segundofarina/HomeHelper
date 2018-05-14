@@ -6,6 +6,7 @@ import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.homehelper.form.CreateSProviderForm;
+import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.Status;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,10 +66,10 @@ public class ClientController {
            //throw exception
        }
 
-       appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
+       Appointment ap= appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
        chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId());
 
-       String redirect = "redirect:/client/appointmentConfirmed?appt=" + 1;
+       String redirect = "redirect:/client/appointmentConfirmed?appt=" + ap.getAppointmentId();
 
        return new ModelAndView(redirect);
    }

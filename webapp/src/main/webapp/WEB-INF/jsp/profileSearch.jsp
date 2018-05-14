@@ -84,7 +84,8 @@
                                         <div class="profileImg">
                                             <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile picture" />
                                             <div class="profileBtn hidden-xs">
-                                                <a href="/profile/<c:out value="${provider.id}"/>" class="btn btn-success btn-sm"><spring:message code="profile.view-profile"/></a>
+
+                                                <a href="<c:url value="/profile/${provider.id}" />" class="btn btn-success btn-sm"><spring:message code="profile.view-profile"/></a>
                                             </div>
                                         </div>
                                     </div>
@@ -114,7 +115,7 @@
                                     </div>
                                 </div>
                                 <div class="profileBtn visible-xs">
-                                    <a href="/profile/<c:out value="${provider.id}"/>" class="btn btn-success btn-sm btn-full-width"><spring:message code="profile.view-profile"/></a>
+                                    <a href="<c:url value="/profile/${provider.id}" />" class="btn btn-success btn-sm btn-full-width"><spring:message code="profile.view-profile"/></a>
                                 </div>
                             </div>
                         </div>

@@ -42,18 +42,24 @@ CREATE TABLE IF NOT EXISTS messages(
   userFrom INTEGER REFERENCES users(userId),
   userTo  INTEGER REFERENCES users(userId),
   message VARCHAR(10000),
-  messageDate TIMESTAMP  default CURRENT_DATE
+  messageDate TIMESTAMP  default CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS appointments (
-  appointmentId   SERIAL PRIMARY KEY,
-  userId          INTEGER REFERENCES users (userId),
-  providerId      INTEGER REFERENCES serviceProviders (userId),
-  serviceTypeId   INTEGER REFERENCES serviceTypes (serviceTypeId),
+CREATE TABLE IF NOT EXISTS appointments(
+  appointmentId SERIAL PRIMARY KEY,
+  userId INTEGER REFERENCES users(userId),
+  providerId INTEGER REFERENCES serviceProviders(userId),
+  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
   appointmentDate VARCHAR(100),
-  address         VARCHAR(10000),
-  status          VARCHAR(20),
-  jobDescription  VARCHAR(10000)
+  address VARCHAR(10000),
+  status VARCHAR(20),
+  jobDescription VARCHAR(10000)
+);
+
+
+create TABLE if NOT EXISTS verifyUsers(
+  userId INTEGER PRIMARY KEY REFERENCES users(userId),
+  keyCode VARCHAR(1000)
 );
 
 CREATE TABLE IF NOT EXISTS neighborhoods(
@@ -61,6 +67,6 @@ CREATE TABLE IF NOT EXISTS neighborhoods(
 );
 
 CREATE TABLE IF NOT EXISTS workingzones(
-   ngId INTEGER REFERENCES neighborhoods(ngId),
-   userId INTEGER REFERENCES serviceProviders(userId)
+  ngId INTEGER REFERENCES neighborhoods(ngId),
+  userId INTEGER REFERENCES serviceProviders(userId)
 );
