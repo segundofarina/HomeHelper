@@ -22,6 +22,11 @@ public class LoginController {
             redirect = "/client/getSendAppointment";
         }
 
+        /* Avoid redirecting to login after login error */
+        if(referer.contains("/login")) {
+            redirect = (String) request.getSession().getAttribute("url_prior_login");
+        }
+
         request.getSession().setAttribute("url_prior_login", redirect);
 
         return new ModelAndView("login");
