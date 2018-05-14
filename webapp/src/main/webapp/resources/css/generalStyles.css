@@ -58,3 +58,7 @@ footer.footer {
     margin-top: 5px;
     color: #e60000;
 }
+
+.resize-vertical {
+    resize: vertical;
+}

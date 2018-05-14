@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.homehelper.config;
+/*package ar.edu.itba.paw.homehelper.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -18,3 +18,4 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
         return new String[]{"/"};
     }
 }
+*/
