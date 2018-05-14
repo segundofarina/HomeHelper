@@ -153,8 +153,22 @@ public class SProviderServiceImpl implements SProviderService {
     }
 
     @Override
-    public Set<SProvider> getServiceProvidersWorkingIn(int neighborhood) {
+    public List<SProvider> getServiceProvidersWorkingIn(int neighborhood) {
             return wZoneDao.getServiceProvidersWorkingIn(neighborhood);
+    }
+
+    @Override
+    public List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId) {
+        List<SProvider> inNg = getServiceProvidersWorkingIn(ngId);
+        List<SProvider> inSt = getServiceProvidersWithServiceType(stId);
+        List<SProvider> ans = new ArrayList<>();
+        for(SProvider provider: inSt){
+            if(inNg.contains(provider)){
+                ans.add(provider);
+            }
+        }
+
+       return ans;
     }
 
 

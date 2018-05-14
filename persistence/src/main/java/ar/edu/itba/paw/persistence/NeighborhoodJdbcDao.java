@@ -50,9 +50,9 @@ public class NeighborhoodJdbcDao implements NeighborhoodDao {
     }
 
     @Override
-    public Set<Neighborhood> getAllNeighborhoods() {
+    public List<Neighborhood> getAllNeighborhoods() {
         List<Neighborhood> dbRowsList = jdbcTemplate.query("SELECT * FROM neighborhoods", ROW_MAPPER);
-        Set<Neighborhood> ans = new HashSet<>();
+        List<Neighborhood> ans = new ArrayList<>();
         ans.addAll(dbRowsList);
         return ans;
     }
