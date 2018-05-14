@@ -201,7 +201,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="aptDescription[]"><spring:message code="general.description"/>:</label>
-                                                    <textarea id="aptDescription[]" name="aptDescription[]" class="form-control" placeholder="Write some description..."><c:out value="${aptitude.description}"/></textarea>
+                                                    <textarea id="aptDescription[]" name="aptDescription[]" class="form-control" placeholder="<spring:message code="placeholder.write-description"/>"><c:out value="${aptitude.description}"/></textarea>
                                                 </div>
                                                 <button type="button" class="btn btn-danger btn-sm disabled deleteApt"><i class="fa fa-trash"></i><spring:message code="aptitude.delete"/></button>
                                             </div>

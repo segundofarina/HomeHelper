@@ -26,10 +26,10 @@
         </div>
         <h2>Home-Helper</h2>
         <div class="form-group">
-            <input class="form-control" type="text" name="username" placeholder="<spring:message code="general.email"/>">
+            <input class="form-control" type="text" name="username" placeholder="<spring:message code="general.email"/>"/>
         </div>
         <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="<spring:message code="general.password"/>">
+            <input class="form-control" type="password" name="password" placeholder="<spring:message code="general.password"/>"/>
         </div>
         <div class="checkbox">
             <label>

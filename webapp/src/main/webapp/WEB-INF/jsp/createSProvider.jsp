@@ -98,10 +98,12 @@
                                                     <form:label path="firstname"><spring:message code="general.firstname"/>:</form:label>
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
-                                                            <form:input path="firstname" value="${user.firstname}" type="text" cssClass="form-control" placeholder='<spring:message code="general.firstname"/>'></form:input>
+                                                            <form:input path="firstname" value="${user.firstname}" type="text" cssClass="form-control" placeholder=""/>
+                                                            <%--<form:input path="firstname" value="${user.firstname}" type="text" cssClass="form-control" placeholder="<spring:message code="general.firstname"/>"/>--%>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <form:input path="firstname" type="text" cssClass="form-control" placeholder='<spring:message code="general.firstname"/>' ></form:input>
+                                                            <form:input path="firstname" type="text" cssClass="form-control" placeholder=""/>
+                                                            <%--<form:input path="firstname" type="text" cssClass="form-control" placeholder="<spring:message code="general.firstname"/>"/>--%>
                                                         </c:otherwise>
                                                     </c:choose>
 
@@ -111,10 +113,12 @@
                                                     <form:label path="lastname"><spring:message code="general.lastname"/>:</form:label>
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
-                                                            <form:input path="lastname" value="${user.lastname}" type="text" cssClass="form-control" placeholder='<spring:message code="general.lastname"/>'></form:input>
+                                                            <form:input path="lastname" value="${user.lastname}" type="text" cssClass="form-control" placeholder=""/>
+                                                            <%--<form:input path="lastname" value="${user.lastname}" type="text" cssClass="form-control" placeholder="<spring:message code="general.lastname"/>"/>--%>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <form:input path="lastname" type="text" cssClass="form-control" placeholder='<spring:message code="general.lastname"/>'></form:input>
+                                                            <form:input path="lastname" type="text" cssClass="form-control" placeholder=""/>
+                                                            <%--<form:input path="lastname" type="text" cssClass="form-control" placeholder="<spring:message code="general.lastname"/>"/>--%>
                                                         </c:otherwise>
                                                     </c:choose>
                                                     <form:errors path="lastname" element="p" cssClass="form-error" />
@@ -125,10 +129,12 @@
                                                     <form:label path="email"><spring:message code="general.email"/>:</form:label>
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
-                                                            <form:input path="email" value="${user.email}" type="text" cssClass="form-control" placeholder='<spring:message code="general.email"/>'></form:input>
+                                                            <form:input path="email" value="${user.email}" type="text" cssClass="form-control" placeholder=""/>
+                                                            <%--<form:input path="email" value="${user.email}" type="text" cssClass="form-control" placeholder="<spring:message code="general.email"/>"/>--%>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <form:input path="email" type="text" cssClass="form-control" placeholder='<spring:message code="general.email"/>'></form:input>
+                                                            <form:input path="email" type="text" cssClass="form-control" placeholder=""/>
+                                                            <%--<form:input path="email" type="text" cssClass="form-control" placeholder="<spring:message code="general.email"/>"/>--%>
                                                         </c:otherwise>
                                                     </c:choose>
                                                     <form:errors path="email" element="p" cssClass="form-error" />
@@ -137,10 +143,12 @@
                                                     <form:label path="phone"><spring:message code="general.phone"/>:</form:label>
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
-                                                            <form:input path="phone" value="${user.phone}" type="text" cssClass="form-control" placeholder='<spring:message code="general.phone"/>'></form:input>
+                                                            <form:input path="phone" value="${user.phone}" type="text" cssClass="form-control" placeholder=""/>
+                                                            <%--<form:input path="phone" value="${user.phone}" type="text" cssClass="form-control" placeholder="<spring:message code="general.phone"/>"/>--%>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <form:input path="phone" type="text" cssClass="form-control" placeholder='<spring:message code="general.phone"/>'></form:input>
+                                                            <form:input path="phone" type="text" cssClass="form-control" placeholder=""/>
+                                                            <%--<form:input path="phone" type="text" cssClass="form-control" placeholder="<spring:message code="general.phone"/>"/>--%>
                                                         </c:otherwise>
                                                     </c:choose>
                                                     <form:errors path="phone" element="p" cssClass="form-error" />
@@ -164,7 +172,8 @@
                                         <div>
                                             <div class="form-group">
                                                 <form:label path="profileDesc"><spring:message code="sprovider.about-yourself"/>:</form:label>
-                                                <form:textarea path="profileDesc" cssClass="form-control resize-vertical" placeholder='<spring:message code="sprovider.write-description"/>'></form:textarea>
+                                                <form:textarea path="profileDesc" cssClass="form-control resize-vertical" placeholder=""/>
+                                                <%--<form:textarea path="profileDesc" cssClass="form-control resize-vertical" placeholder="<spring:message code="sprovider.write-description"/>"/>--%>
                                                 <form:errors path="profileDesc" element="p" cssClass="form-error" />
                                             </div>
                                         </div>
@@ -201,7 +210,8 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <form:label path="aptDesc"><spring:message code="general.description"/>:</form:label>
-                                                    <form:textarea path="aptDesc" cssClass="form-control resize-vertical" placeholder='<spring:message code="sprovider.write-about-skills"/>'></form:textarea>
+                                                    <form:textarea path="aptDesc" cssClass="form-control resize-vertical" placeholder=""/>
+                                                    <%--<form:textarea path="aptDesc" cssClass="form-control resize-vertical" placeholder="<spring:message code="sprovider.write-about-skills"/>"/>--%>
                                                     <form:errors path="aptDesc" element="p" cssClass="form-error" />
                                                 </div>
                                             </div>

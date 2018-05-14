@@ -162,7 +162,7 @@
                                             <c:url value="/sprovider/${providerId}/messages/${currentChat.grey.id}" var="msgPostPath" />
                                             <form action="<c:out value="${msgPostPath}" />" method="POST">
                                                 <div>
-                                                    <textarea name="msg" placeholder="Write a message..."></textarea>
+                                                    <textarea name="msg" placeholder="<spring:message code="placeholder.write-message"/>"></textarea>
                                                 </div>
                                                 <div>
                                                     <input type="submit" value="send" class="btn btn-success" />

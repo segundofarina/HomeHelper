@@ -87,7 +87,7 @@
                                 <c:url value="/client/messages/${currentChat.grey.id}" var="msgPostPath" />
                                 <form action="<c:out value="${msgPostPath}" />" method="POST">
                                     <div>
-                                        <textarea name="msg" placeholder='<spring:message code="placeholder.write-message"/>...'></textarea>
+                                        <textarea name="msg" placeholder="<spring:message code="placeholder.write-message"/>"></textarea>
                                     </div>
                                     <div>
                                         <input type="submit" value="send" class="btn btn-success pull-right" />
