@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class PublicController {
@@ -100,20 +101,20 @@ public class PublicController {
 
         /* Lanzar excepcion cuando serviceTypeId es -1 o cuando cityId es -1 */
 
-        final List<SProvider> list = sProviderService.getServiceProvidersWithServiceType(serviceTypeId);;
-
+        final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId);
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
         mav.addObject("list",list);
         mav.addObject("serviceTypes",sProviderService.getServiceTypes());
+        mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
 
         /* Current params showing */
         mav.addObject("serviceTypeId", serviceTypeId);
         mav.addObject("cityId", cityId);
 
-        mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
+
 
 
 

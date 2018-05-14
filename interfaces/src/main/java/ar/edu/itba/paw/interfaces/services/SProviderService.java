@@ -33,6 +33,8 @@ public interface SProviderService {
 
     boolean insertWorkingZoneOfProvider(int userId, int ngId);
 
-    Set<SProvider> getServiceProvidersWorkingIn(int neighborhood);
+    List<SProvider> getServiceProvidersWorkingIn(int ngId);
+
+    List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId);
 
 }

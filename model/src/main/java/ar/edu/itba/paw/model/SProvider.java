@@ -7,9 +7,9 @@ import java.util.Set;
 public class SProvider extends User{
     private String description;
     private List<Aptitude> aptitudes;
-    private Set<Neighborhood> neighborhoods;
+    private List<Neighborhood> neighborhoods;
 
-    public SProvider(User user, String description, List<Aptitude> aptitudes, Set<Neighborhood> neighborhoods) {
+    public SProvider(User user, String description, List<Aptitude> aptitudes, List<Neighborhood> neighborhoods) {
         super(user.getUsername(),user.getId(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getAddress(),user.getImage());
 
         this.description = description;
@@ -121,8 +121,10 @@ public class SProvider extends User{
         return false;
     }
 
-    public Set<Neighborhood> getNeighborhoods() {
+    public List<Neighborhood> getNeighborhoods() {
         return this.neighborhoods;
     }
+
+
 
 }

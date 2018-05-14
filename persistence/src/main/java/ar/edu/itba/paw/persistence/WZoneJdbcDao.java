@@ -75,25 +75,30 @@ public class WZoneJdbcDao implements WZoneDao {
     }
 
     @Override
-    public Set<Neighborhood> getWorkingZonesOfProvider(int providerId) {
+    public List<Neighborhood> getWorkingZonesOfProvider(int providerId) {
         List<Row> list = jdbcTemplate.query("SELECT * FROM workingzones WHERE userId = ?;", ROW_MAPPER, providerId);
         if (list.isEmpty()) {
             return null;
         }
-        Set<Neighborhood> neighborhoods = new HashSet<>();
+        List<Neighborhood> neighborhoods = new ArrayList<>();
         for(Row row : list){
-            neighborhoods.add(new Neighborhood(row.ngId));
+            if(!neighborhoods.contains(new Neighborhood(row.ngId))) {
+                neighborhoods.add(new Neighborhood(row.ngId));
+            }
         }
 
         return neighborhoods;
     }
 
     @Override
-    public Set<SProvider> getServiceProvidersWorkingIn(int ngId) {
+    public List<SProvider> getServiceProvidersWorkingIn(int ngId) {
         List<Row> list = jdbcTemplate.query("SELECT * FROM workingzones WHERE ngId = ?;", ROW_MAPPER, ngId);
-        Set<SProvider> providers = new HashSet<>();
+        List<SProvider> providers = new ArrayList<>();
         for(Row row : list){
-            providers.add(sProviderDao.getServiceProviderWithUserId(row.userId).get());
+            SProvider provider = sProviderDao.getServiceProviderWithUserId(row.userId).get();
+            if(!providers.contains(provider)) {
+                providers.add(provider);
+            }
         }
         return providers;
     }
