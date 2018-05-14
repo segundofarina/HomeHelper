@@ -119,7 +119,30 @@ public class ServiceProviderController {
         mav.addObject("providerId", providerId);
         mav.addObject("providerName", loggedInUser.getFirstname());
 
+        //mav.addObject("reviews", );
+
         return mav;
+    }
+
+    @RequestMapping("/sprovider/acceptAppointment")
+    public ModelAndView acceptAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "appointmentId") final int appointmentId) {
+        appointmentService.confirmAppointment(appointmentId);
+
+        return new ModelAndView("redirect:/sprovider/appointments");
+    }
+
+    @RequestMapping("/sprovider/rejectAppointment")
+    public ModelAndView rejectAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "appointmentId") final int appointmentId) {
+        //appointmentService.rejectAppointment(appointmentId);
+
+        return new ModelAndView("redirect:/sprovider/appointments");
+    }
+
+    @RequestMapping("/sprovider/completeAppointment")
+    public ModelAndView completeAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "appointmentId") final int appointmentId) {
+        appointmentService.completedAppointment(appointmentId);
+
+        return new ModelAndView("redirect:/sprovider/appointments");
     }
 
 
