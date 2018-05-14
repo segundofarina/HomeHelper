@@ -38,7 +38,7 @@
     <div class="main-content">
         <div class="container">
             <div class="title">
-                <h2>Register as Service Provider</h2>
+                <h2><spring:message code="sprovider.register"/></h2>
             </div>
             <div class="row">
                 <section>
@@ -87,34 +87,34 @@
                                 <div class="step1">
                                     <div class="form-container">
                                         <c:if test="${hasError == 1}">
-                                            <div class="alert alert-danger">There are invalid fields in the form. Please fix them.</div>
+                                            <div class="alert alert-danger"><spring:message code="form.invalid-fields"/></div>
                                         </c:if>
                                         <div class="subtitle">
-                                            <h4>User details</h4>
+                                            <h4><spring:message code="user.details"/></h4>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-6">
                                                 <div class="form-group">
-                                                    <form:label path="firstname">First Name:</form:label>
+                                                    <form:label path="firstname"><spring:message code="general.firstname"/>:</form:label>
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
-                                                            <form:input path="firstname" value="${user.firstname}" type="text" cssClass="form-control" placeholder="First name..." />
+                                                            <form:input path="firstname" value="${user.firstname}" type="text" cssClass="form-control" placeholder='<spring:message code="general.firstname"/>'></form:input>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <form:input path="firstname" type="text" cssClass="form-control" placeholder="First name..." />
+                                                            <form:input path="firstname" type="text" cssClass="form-control" placeholder='<spring:message code="general.firstname"/>' ></form:input>
                                                         </c:otherwise>
                                                     </c:choose>
 
                                                     <form:errors path="firstname" element="p" cssClass="form-error" />
                                                 </div>
                                                 <div class="form-group">
-                                                    <form:label path="lastname">Last Name:</form:label>
+                                                    <form:label path="lastname"><spring:message code="general.lastname"/>:</form:label>
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
-                                                            <form:input path="lastname" value="${user.lastname}" type="text" cssClass="form-control" placeholder="Last name..." />
+                                                            <form:input path="lastname" value="${user.lastname}" type="text" cssClass="form-control" placeholder='<spring:message code="general.lastname"/>'></form:input>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <form:input path="lastname" type="text" cssClass="form-control" placeholder="Last name..." />
+                                                            <form:input path="lastname" type="text" cssClass="form-control" placeholder='<spring:message code="general.lastname"/>'></form:input>
                                                         </c:otherwise>
                                                     </c:choose>
                                                     <form:errors path="lastname" element="p" cssClass="form-error" />
@@ -122,25 +122,25 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-6">
                                                 <div class="form-group">
-                                                    <form:label path="email">Email:</form:label>
+                                                    <form:label path="email"><spring:message code="general.email"/>:</form:label>
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
-                                                            <form:input path="email" value="${user.email}" type="text" cssClass="form-control" placeholder="Email..." />
+                                                            <form:input path="email" value="${user.email}" type="text" cssClass="form-control" placeholder='<spring:message code="general.email"/>'></form:input>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <form:input path="email" type="text" cssClass="form-control" placeholder="Email..." />
+                                                            <form:input path="email" type="text" cssClass="form-control" placeholder='<spring:message code="general.email"/>'></form:input>
                                                         </c:otherwise>
                                                     </c:choose>
                                                     <form:errors path="email" element="p" cssClass="form-error" />
                                                 </div>
                                                 <div class="form-group">
-                                                    <form:label path="phone">First Name:</form:label>
+                                                    <form:label path="phone"><spring:message code="general.phone"/>:</form:label>
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
-                                                            <form:input path="phone" value="${user.phone}" type="text" cssClass="form-control" placeholder="Phone..." />
+                                                            <form:input path="phone" value="${user.phone}" type="text" cssClass="form-control" placeholder='<spring:message code="general.phone"/>'></form:input>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <form:input path="phone" type="text" cssClass="form-control" placeholder="Phone..." />
+                                                            <form:input path="phone" type="text" cssClass="form-control" placeholder='<spring:message code="general.phone"/>'></form:input>
                                                         </c:otherwise>
                                                     </c:choose>
                                                     <form:errors path="phone" element="p" cssClass="form-error" />
@@ -148,7 +148,7 @@
                                             </div>
                                         </div>
                                         <div class="pull-right btn-container">
-                                            <button type="button" class="btn btn-success next-step">Save and continue</button>
+                                            <button type="button" class="btn btn-success next-step"><spring:message code="sprovider.save-continue"/></button>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
@@ -159,21 +159,21 @@
                                 <div class="step2">
                                     <div class="form-container">
                                         <div class="subtitle">
-                                            <h4>Provider Description</h4>
+                                            <h4><spring:message code="sprovider.provider-description"/></h4>
                                         </div>
                                         <div>
                                             <div class="form-group">
-                                                <form:label path="profileDesc">Tell us about your job:</form:label>
-                                                <form:textarea path="profileDesc" cssClass="form-control resize-vertical" placeholder="Write some description..."></form:textarea>
+                                                <form:label path="profileDesc"><spring:message code="sprovider.about-yourself"/>:</form:label>
+                                                <form:textarea path="profileDesc" cssClass="form-control resize-vertical" placeholder='<spring:message code="sprovider.write-description"/>'></form:textarea>
                                                 <form:errors path="profileDesc" element="p" cssClass="form-error" />
                                             </div>
                                         </div>
                                         <div class="btn-container">
                                             <div class="pull-left">
-                                                <button type="button" class="btn btn-default prev-step">Previous</button>
+                                                <button type="button" class="btn btn-default prev-step"><spring:message code="general.previus"/></button>
                                             </div>
                                             <div class="pull-right">
-                                                <button type="button" class="btn btn-success next-step">Save and continue</button>
+                                                <button type="button" class="btn btn-success next-step"><spring:message code="sprovider.save-continue"/></button>
                                             </div>
                                         </div>
                                         <div class="clearfix"></div>
@@ -185,14 +185,14 @@
                                 <div class="step3">
                                     <div class="form-container">
                                         <div class="subtitle">
-                                            <h4>Add your first apptitude</h4><h6>(You can add more later)</h6>
+                                            <h4><spring:message code="sprovider.add-aptitude"/></h4><h6><spring:message code="sprovider.add-later"/></h6>
                                         </div>
                                         <div>
                                             <div class="apptitude-row">
                                                 <div class="form-group">
-                                                    <form:label path="serviceType">Service Type:</form:label>
+                                                    <form:label path="serviceType"><spring:message code="general.service-type"/>:</form:label>
                                                     <form:select path="serviceType" cssClass="form-control">
-                                                        <form:option value="">Select a service type</form:option>
+                                                        <form:option value=""><spring:message code="sprovider.select-service-type"/></form:option>
                                                         <c:forEach items="${serviceTypes}" var="st">
                                                             <form:option value="${st.serviceTypeId}"><c:out value="${st.name}" /></form:option>
                                                         </c:forEach>
@@ -200,18 +200,18 @@
                                                     <form:errors path="serviceType" element="p" cssClass="form-error" />
                                                 </div>
                                                 <div class="form-group">
-                                                    <form:label path="aptDesc">Description:</form:label>
-                                                    <form:textarea path="aptDesc" cssClass="form-control resize-vertical" placeholder="Write about your skill..."></form:textarea>
+                                                    <form:label path="aptDesc"><spring:message code="general.description"/>:</form:label>
+                                                    <form:textarea path="aptDesc" cssClass="form-control resize-vertical" placeholder='<spring:message code="sprovider.write-about-skills"/>'></form:textarea>
                                                     <form:errors path="aptDesc" element="p" cssClass="form-error" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="btn-container">
                                             <div class="pull-left">
-                                                <button type="button" class="btn btn-default prev-step">Previous</button>
+                                                <button type="button" class="btn btn-default prev-step"><spring:message code="general.previus"/></button>
                                             </div>
                                             <div class="pull-right">
-                                                <button type="button" class="btn btn-success next-step">Save and continue</button>
+                                                <button type="button" class="btn btn-success next-step"><spring:message code="sprovider.save-continue"/></button>
                                             </div>
                                         </div>
                                         <div class="clearfix"></div>
@@ -223,15 +223,15 @@
                                 <div class="step4">
                                     <div class="form-container">
                                         <div class="finish">
-                                            <h3>You are ready to start using as service provider</h3>
+                                            <h3><spring:message code="sprovider.ready"/></h3>
                                             <div class="img"></div>
                                         </div>
                                         <div class="btn-container">
                                             <div class="pull-left">
-                                                <button type="button" class="btn btn-default prev-step">Previous</button>
+                                                <button type="button" class="btn btn-default prev-step"><spring:message code="general.previus"/></button>
                                             </div>
                                             <div class="pull-right">
-                                                <form:button type="submit" class="btn btn-success">Save and use as provider</form:button>
+                                                <form:button type="submit" class="btn btn-success"><spring:message code="sprovider.save-use"/></form:button>
                                             </div>
                                         </div>
                                         <div class="clearfix"></div>
@@ -247,7 +247,7 @@
     </div>
     <footer class="footer">
         <div class="pull-right">
-            © 2018 All rights reserved Home-Helper.com
+            <spring:message code="index.rights-reserved"/>
         </div>
         <div class="clearfix"></div>
     </footer><!-- /footer content -->

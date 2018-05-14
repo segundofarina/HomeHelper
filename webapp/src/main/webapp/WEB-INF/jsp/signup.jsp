@@ -102,8 +102,7 @@
 
 
 
-                    <form:button type="submit" class="btn btn-success"><spring:message
-                            code="singup.submit"/></form:button>
+                    <form:button type="submit" class="btn btn-success"><spring:message code="singup.submit"/></form:button>
                 </form:form>
             </div>
         </div>
@@ -115,7 +114,7 @@
     <!-- footer content -->
     <footer class="footer">
         <div class="pull-right">
-            © 2018 All rights reserved Home-Helper.com
+            <spring:message code="index.rights-reserved"/>
         </div>
         <div class="clearfix"></div>
     </footer><!-- /footer content -->

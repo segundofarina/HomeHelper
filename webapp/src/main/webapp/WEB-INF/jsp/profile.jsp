@@ -100,7 +100,7 @@
                                     <div class="form-group">
                                         <form:label path="serviceType"><spring:message code="general.service-type"/>:</form:label>
                                         <form:select class="form-control" path="serviceType">
-                                            <form:option value="none">Select service type...</form:option>
+                                            <form:option value="none"><spring:message code="index.select-serviceType"/>...</form:option>
                                             <c:forEach items="${provider.aptitudes}" var="aptitude">
                                                 <form:option value="${aptitude.service.serviceTypeId}"> <c:out value="${aptitude.service.name}"/></form:option>
                                             </c:forEach>
@@ -119,7 +119,7 @@
                                     </div>
                                     <div class="form-group">
                                         <form:label path="description"><spring:message code="general.description"/>:</form:label>
-                                        <form:textarea path="description" class="form-control" placeholder="Describe your situation"></form:textarea>
+                                        <form:textarea path="description" class="form-control" placeholder='<spring:message code="placeholder.describe-situation"/>'></form:textarea>
                                     </div>
                                     <form:button type="submit" class="btn btn-success btn-full-width"><spring:message code="general.contact"/></form:button>
                                 </form:form>
@@ -211,7 +211,7 @@
                                         </div>
                                         <div class="col-xs-6 col-sm-9 col-md-10 divider-left">
                                             <div class="name visible-xs">
-                                                <h5>Martin Victory</h5>
+                                                <h5><c:out value="${review.user.username}" /></h5>
                                             </div>
                                             <div class="date"><c:out value="${review.date}" /></div>
                                             <div class="dotDivider hidden-xs">&#x25CF;</div>

@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home-Helper | Login</title>
+    <title>Home-Helper | <spring:message code="general.login"/></title>
 
     <!-- Bootstrap -->
     <link href="<c:url value="/resources/adminTemplate/vendors/bootstrap/dist/css/bootstrap.min.css"/>" rel="stylesheet" />
@@ -26,20 +26,20 @@
         </div>
         <h2>Home-Helper</h2>
         <div class="form-group">
-            <input class="form-control" type="text" name="username" placeholder="Email">
+            <input class="form-control" type="text" name="username" placeholder="<spring:message code="general.email"/>">
         </div>
         <div class="form-group">
-            <input class="form-control" type="password" name="password" placeholder="Password">
+            <input class="form-control" type="password" name="password" placeholder="<spring:message code="general.password"/>">
         </div>
         <div class="checkbox">
             <label>
-                <input type="checkbox" name="rememberme" /> Remember me!
+                <input type="checkbox" name="rememberme" /> <spring:message code="user.rememberme"/>
             </label>
         </div>
         <div class="form-group">
-            <button class="btn btn-primary btn-block" type="submit">Log In</button>
+            <button class="btn btn-primary btn-block" type="submit"><spring:message code="general.login"/></button>
         </div>
-        <div class="forgot">New user? <a href="/signup">Sign up!</a></div>
+        <div class="forgot"><spring:message code="user.new-user"/>? <a href="/signup"><spring:message code="general.signup"/>!</a></div>
     </form>
 </div>
 <!-- jQuery -->

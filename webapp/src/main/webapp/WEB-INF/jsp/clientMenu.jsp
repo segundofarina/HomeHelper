@@ -24,8 +24,8 @@
                 </c:when>
                 <c:otherwise>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="<c:url value="/client/messages" />" class="hvr-underline-from-center">Messages</a></li>
-                        <li><a href="<c:url value="/client/appointments" />" class="hvr-underline-from-center">Appointments</a></li>
+                        <li class="active"><a href="<c:url value="/client/messages" />" class="hvr-underline-from-center"><spring:message code="general.messages"/></a></li>
+                        <li><a href="<c:url value="/client/appointments" />" class="hvr-underline-from-center"><spring:message code="general.appointments"/></a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile picture" />
@@ -35,14 +35,14 @@
                             <ul class="dropdown-menu">
                                 <c:choose>
                                     <c:when test="${userProviderId != -1}">
-                                        <li><a href="<c:url value="/sprovider" />">Use as provider</a></li>
+                                        <li><a href="<c:url value="/sprovider"/>"><spring:message code="general.switchToProvider"/></a></li>
                                     </c:when>
                                     <c:otherwise>
-                                        <li><a href="<c:url value="/client/createSProvider" />">Create provider profile</a></li>
+                                        <li><a href="<c:url value="/client/createSProvider"/>"><spring:message code="sprovider.create-profile"/></a></li>
                                     </c:otherwise>
                                 </c:choose>
-                                <li><a href="<c:url value="/client/settings" />">Settings</a></li>
-                                <li><a href="<c:url value="/logout" />"><i class="fa fa-sign-out pull-right"></i>Log out</a></li>
+                                <li><a href="<c:url value="/client/settings" />"><spring:message code="general.settings"/></a></li>
+                                <li><a href="<c:url value="/logout"/>"><i class="fa fa-sign-out pull-right"></i><spring:message code="general.logout"/></a></li>
                             </ul>
                         </li>
                     </ul>
