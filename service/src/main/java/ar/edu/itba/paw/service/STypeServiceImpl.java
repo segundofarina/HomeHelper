@@ -4,10 +4,11 @@ import ar.edu.itba.paw.interfaces.daos.STypeDao;
 import ar.edu.itba.paw.interfaces.services.STypeService;
 import ar.edu.itba.paw.model.ServiceType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class STypeServiceImpl implements STypeService {
 
     @Autowired

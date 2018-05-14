@@ -65,6 +65,41 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public boolean updatePasswordOfUser(int userId, String password) {
+        return userDao.updatePasswordOfUser(userId,password);
+    }
+
+    @Override
+    public boolean updateFirstNameOfUser(int userId, String firstname) {
+        return userDao.updateFirstNameOfUser(userId,firstname);
+    }
+
+    @Override
+    public boolean updateLastNameOfUser(int userId, String lastname) {
+        return userDao.updateLastNameOfUser(userId,lastname);
+    }
+
+    @Override
+    public boolean updateEmailOfUser(int userId, String email) {
+        return userDao.updateEmailOfUser(userId,email);
+    }
+
+    @Override
+    public boolean updatePhoneOfUser(int userId, String phone) {
+        return userDao.updatePhoneOfUser(userId,phone);
+    }
+
+    @Override
+    public boolean updateImageOfUser(int userId, int[] image) {
+        return userDao.updateImageOfUser(userId,image);
+    }
+
+    @Override
+    public boolean updateAddressOfUser(int userId, String address) {
+        return userDao.updateAddressOfUser(userId,address);
+    }
+
 
 }
 

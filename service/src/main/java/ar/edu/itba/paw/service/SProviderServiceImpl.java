@@ -1,11 +1,8 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.interfaces.daos.*;
-import ar.edu.itba.paw.model.AptitudeForm;
+import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
-import ar.edu.itba.paw.model.Aptitude;
-import ar.edu.itba.paw.model.SProvider;
-import ar.edu.itba.paw.model.ServiceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,23 +64,22 @@ public class SProviderServiceImpl implements SProviderService {
     }
 
     @Override
-    public boolean addReviewToAptitude(int userId, int serviceType, int quality,int cleanness, int price, int punctuality, int treatment, String comment) {
-        List<Aptitude> list = aptitudeDao.getAptitudesOfUser(userId);
-        for(Aptitude a : list){
-            if(a.getService().getServiceTypeId() == serviceType){
-                return reviewDao.insertReview(userId,a.getId(),quality,cleanness,price,punctuality,treatment,comment);
-            }
-        }
-
-        return false;
+    public boolean insertReview(int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+        return reviewDao.insertReview(userId,aptitudeId,quality,cleanness,price,punctuality,treatment,comment);
     }
-
-
-
 
     @Override
     public boolean addAptitude(int userId, int serviceType, String description) {
         return aptitudeDao.insertAptitude(userId,serviceType,description);
+    }
+
+    @Override
+    public boolean removeAptitude(int userId, int serviceType) {
+        int aptitudeId = aptitudeDao.getAptitudeId(userId,serviceType);
+        if(aptitudeId==-1){
+            return false;
+        }
+        return aptitudeDao.removeAptitude(aptitudeId);
     }
 
     public List<ServiceType> getServiceTypes(){
@@ -91,33 +87,18 @@ public class SProviderServiceImpl implements SProviderService {
     }
 
     @Override
-    public boolean updateAptitude(int aptId, String newDescription) {
-        return aptitudeDao.updateAptitude(aptId,newDescription);
+    public boolean updateDescriptionOfAptitude(int aptId, String description) {
+        return aptitudeDao.updateDescriptionOfAptitude(aptId,description);
     }
 
+    @Override
+    public boolean updateServiceTypeOfAptitude(int aptId, int stId){
+        return aptitudeDao.updateServiceTypeOfAptitude(aptId,stId);
+    }
 
     @Override
-    public boolean updateAptitudes(int spId, List<AptitudeForm> list) {
-        SProvider provider = getServiceProviderWithUserId(spId);
-        if(provider == null){
-            return false;
-        }
-
-        for(Aptitude apt : provider.getAptitudes()){
-            AptitudeForm newApt = getApt(list,apt.getService().getServiceTypeId());
-            boolean ans;
-            if(newApt != null){
-                ans =aptitudeDao.updateAptitude(apt.getId(),newApt.getDescription());
-            }else{
-                ans =aptitudeDao.insertAptitude(spId,newApt.getServiceTypeid(),newApt.getDescription());
-            }
-            if(ans == false){
-                return ans;
-            }
-        }
-
-        return true;
-
+    public boolean removeWorkingZoneOfProvider(int userId, int ngId) {
+        return wZoneDao.removeWorkingZoneOfProvider(userId,ngId);
     }
 
     @Override
@@ -169,6 +150,25 @@ public class SProviderServiceImpl implements SProviderService {
         }
 
        return ans;
+    }
+    @Override
+    public List<Review> getReviewsOfServiceProvider(int sproviderId) {
+        Optional<SProvider> provider = sProviderDao.getServiceProviderWithUserId(sproviderId);
+        if(!provider.isPresent()){
+            return null;
+        }
+        List<Review> reviews = new ArrayList<>();
+
+        for(Aptitude aptitude : aptitudeDao.getAptitudesOfUser(provider.get().getId())){
+            reviews.addAll(aptitude.getReviews());
+        }
+
+        return reviews;
+    }
+
+    @Override
+    public List<Aptitude> getAptitudesOfUser(int id) {
+        return aptitudeDao.getAptitudesOfUser(id);
     }
 
 

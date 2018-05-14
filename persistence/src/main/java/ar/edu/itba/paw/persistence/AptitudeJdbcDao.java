@@ -45,6 +45,22 @@ public class AptitudeJdbcDao implements AptitudeDao {
             this.serviceTypeId = serviceTypeId;
             this.description = description;
         }
+
+        public int getAptitudeId() {
+            return aptitudeId;
+        }
+
+        public int getUserId() {
+            return userId;
+        }
+
+        public int getServiceTypeId() {
+            return serviceTypeId;
+        }
+
+        public String getDescription() {
+            return description;
+        }
     }
 
     private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
@@ -84,7 +100,50 @@ public class AptitudeJdbcDao implements AptitudeDao {
     }
 
     @Override
-    public boolean updateAptitude(int aptId, String description) {
+    public boolean updateServiceTypeOfAptitude(int aptId, int stId) {
+        try {
+            jdbcTemplate.update("UPDATE aptitudes SET serviceTypeId = ? WHERE aptitudeId = ?", stId, aptId);
+        } catch (Exception e) {
+            return false;
+        }
+        List<Row> list;
+
+        try {
+            list = jdbcTemplate.query("SELECT * FROM aptitudes WHERE aptitudeId = ?", ROW_MAPPER, aptId);
+        } catch (Exception e) {
+            return false;
+        }
+        if (list.size() == 0) {
+            return false;
+        }
+        if (list.get(0).getServiceTypeId() == stId) {
+            return true;
+        }
+        return false;
+
+    }
+
+    @Override
+    public boolean removeAptitude(int aptId) {
+        try {
+            jdbcTemplate.update("DELETE FROM aptitudes WHERE aptitudeId = ?", ROW_MAPPER, aptId);
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int getAptitudeId(int userId, int stId) {
+        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM aptitudes WHERE userId =? AND serviceTypeId =?", ROW_MAPPER, userId,stId);
+        if(dbRowsList.size() == 0){
+            return -1;
+        }
+        return dbRowsList.get(0).aptitudeId;
+    }
+
+    @Override
+    public boolean updateDescriptionOfAptitude(int aptId, String description) {
         try {
             jdbcTemplate.update("UPDATE aptitudes SET description = ? WHERE aptitudeId = ?", description, aptId);
         } catch (Exception e) {

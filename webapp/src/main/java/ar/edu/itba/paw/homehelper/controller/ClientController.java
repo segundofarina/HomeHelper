@@ -7,10 +7,8 @@ import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.homehelper.form.CreateSProviderForm;
-import ar.edu.itba.paw.model.Appointment;
-import ar.edu.itba.paw.model.Chat;
-import ar.edu.itba.paw.model.Status;
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.interfaces.services.STypeService;
+import ar.edu.itba.paw.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +41,10 @@ public class ClientController {
 
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private STypeService sTypeService;
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
 
@@ -133,7 +135,7 @@ public class ClientController {
         final ModelAndView mav = new ModelAndView("createSProvider");
 
         mav.addObject("user", loggedInUser);
-        mav.addObject("serviceTypes",sProviderService.getServiceTypes());
+        mav.addObject("serviceTypes",sTypeService.getServiceTypes());
 
         if(error.equals("n")) {
             mav.addObject("hasError", 0);
@@ -206,8 +208,7 @@ public class ClientController {
        if(ap == null) {
            //exception
        }
-       sProviderService.addReviewToAptitude(ap.getProvider().getId(), ap.getServiceType().getServiceTypeId(), form.getQualityInt(), form.getCleannesInt(), form.getPriceInt(), form.getPunctualityInt(), form.getTreatmentInt(), form.getMsg());
-
+       sProviderService.insertReview(ap.getProvider().getId(), ap.getServiceType().getServiceTypeId(), form.getQualityInt(), form.getCleannesInt(), form.getPriceInt(), form.getPunctualityInt(), form.getTreatmentInt(), form.getMsg());
        return new ModelAndView("redirect:/client/appointments");
     }
 

@@ -109,18 +109,6 @@ public class AppointmentJdbcDao implements AppointmentDao {
     }
 
     @Override
-    public Optional<Integer> getAppointmentId(int clientId, int providerId, Timestamp date, String address) {
-        List<Row> dbId = jdbcTemplate.query("SELECT * FROM appointments WHERE userId =? and providerId =? and appointmentDate =? and address =?", ROW_MAPPER, clientId, providerId, date, address);
-
-        if (dbId.size() == 1) {
-            Integer ans = dbId.get(0).appointmentId;
-            return Optional.of(ans);
-        }
-
-        return Optional.empty();
-    }
-
-    @Override
     public Appointment addAppointment(int clientId, int providerId, int serviceTypeId, Timestamp date, String address, String jobDescripcion){
         if (!userDao.findById(clientId).isPresent() || !sProviderDao.getServiceProviderWithUserId(providerId).isPresent() || !serviceTypeDao.getServiceTypeWithId(serviceTypeId).isPresent()) {
            return null;
@@ -151,6 +139,16 @@ public class AppointmentJdbcDao implements AppointmentDao {
             return false;
         }
         jdbcTemplate.update("UPDATE appointments SET status =? WHERE appointmentId =?", status.toString(), appointmentId);
+        return true;
+    }
+
+    @Override
+    public boolean updateDateOfAppointment(int appointmentId, Timestamp date) {
+        Optional<Appointment> appointment = getAppointment(appointmentId);
+        if (!appointment.isPresent()) {
+            return false;
+        }
+        jdbcTemplate.update("UPDATE appointments SET appointmentDate =? WHERE appointmentId =?", date, appointmentId);
         return true;
     }
 }

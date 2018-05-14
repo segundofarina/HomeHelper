@@ -3,6 +3,8 @@ package ar.edu.itba.paw.homehelper.controller;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
+import ar.edu.itba.paw.interfaces.services.STypeService;
+import ar.edu.itba.paw.model.ServiceType;
 import ar.edu.itba.paw.model.Status;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,8 @@ public class ServiceProviderController {
     private SProviderService sProviderService;
     @Autowired
     private ChatService chatService;
-
+    @Autowired
+    private STypeService sTypeService;
     @Autowired
     private AppointmentService appointmentService;
 
@@ -48,7 +51,7 @@ public class ServiceProviderController {
         mav.addObject("providerId", providerId);
         mav.addObject("providerName", loggedInUser.getFirstname());
         mav.addObject("provider", sProviderService.getServiceProviderWithUserId(providerId));
-        mav.addObject("serviceTypes",sProviderService.getServiceTypes());
+        mav.addObject("serviceTypes",sTypeService.getServiceTypes());
 
         return mav;
     }

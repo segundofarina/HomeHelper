@@ -15,11 +15,11 @@ public interface AppointmentDao {
 
     Optional<Appointment> getAppointment(int appointmentId);
 
-    Optional<Integer> getAppointmentId(int clientId, int providerId, Timestamp date, String address);
-
     Appointment addAppointment(int clientId, int providerId, int serviceTypeId, Timestamp date, String address, String jobDescripcion);
 
     boolean updateStatusOfAppointment(int appointmentId, Status status);
+
+    boolean updateDateOfAppointment(int appointmentId, Timestamp date);
 
 
 }
