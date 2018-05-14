@@ -39,7 +39,7 @@
         <div class="form-group">
             <button class="btn btn-primary btn-block" type="submit">Log In</button>
         </div>
-        <div class="forgot">New user? <a href="/signup">Sign up!</a></div>
+        <div class="forgot">New user? <a href="<c:url value="/signup"/>">Sign up!</a></div>
     </form>
 </div>
 <!-- jQuery -->
