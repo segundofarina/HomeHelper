@@ -121,56 +121,7 @@
                 <div class="clearfix"></div>
 
                 <div class="row">
-                    <div class="col-md-6 col-sm-12 col-xs-12">
-                        <div class="x_panel">
-                            <div class="x_title">
-                                <h2><spring:message code="sprovider.pending-reviews"/></h2>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="x_content">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th><spring:message code="general.name"/></th>
-                                        <th><spring:message code="general.date"/></th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th>
-                                            <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                        </th>
-                                        <td>Mark</td>
-                                        <td>May 20, 2018</td>
-                                        <td><a href="#" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i><spring:message code="client.write-review"/></a></td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                        </th>
-                                        <td>Mark</td>
-                                        <td>May 20, 2018</td>
-                                        <td><a href="#" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i><spring:message code="client.write-review"/></a></td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                        </th>
-                                        <td>Mark</td>
-                                        <td>May 20, 2018</td>
-                                        <td><a href="#" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i><spring:message code="client.write-review"/></a></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-               <!-- </div>
-
-                <div class="row">-->
-                    <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
                                 <h2><spring:message code="sprovider.last-reviews"/></h2>
@@ -187,48 +138,18 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <th>
-                                            <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                        </th>
-                                        <td>Mark</td>
-                                        <td>May 20, 2018</td>
-                                        <td>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-empty"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                        </th>
-                                        <td>Mark</td>
-                                        <td>May 20, 2018</td>
-                                        <td>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-empty"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                        </th>
-                                        <td>Mark</td>
-                                        <td>May 20, 2018</td>
-                                        <td>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-empty"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </td>
-                                    </tr>
+                                    <c:forEach items="${reviews}" var="review">
+                                        <tr>
+                                            <th>
+                                                <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                            </th>
+                                            <td>Mark</td>
+                                            <td>May 20, 2018</td>
+                                            <td>
+                                                <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>">
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -261,5 +182,11 @@
 
 <!-- Custom Theme Scripts -->
 <script src="<c:url value="/resources/adminTemplate/build/js/custom.min.js"/>"></script>
+<script src="<c:url value="/resources/js/customJs.js"/>"></script>
+<script>
+    $(document).ready(function(){
+        generateStars();
+    });
+</script>
 </body>
 </html>

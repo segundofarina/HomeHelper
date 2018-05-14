@@ -33,6 +33,10 @@
         .label {
             font-size: 85%;
         }
+
+        form {
+            display: inline-block;
+        }
     </style>
 </head>
 
@@ -136,6 +140,7 @@
                                         <th><spring:message code="general.date"/></th>
                                         <th><spring:message code="general.address"/></th>
                                         <th><spring:message code="general.status"/></th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -148,36 +153,30 @@
                                                 <td><c:out value="${appointment.date}" /></td>
                                                 <td><c:out value="${appointment.address}" /> </td>
                                                 <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
+                                                <c:choose>
+                                                    <c:when test="${appointment.status.numVal == 1}">
+                                                        <td>
+                                                            <form action="<c:url value="/sprovider/acceptAppointment" />" method="post">
+                                                                <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
+                                                                <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                                                            </form>
+                                                            <form action="<c:url value="/sprovider/rejectAppointment" />" method="post">
+                                                                <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
+                                                                <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                                            </form>
+                                                        </td>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <td>
+                                                            <form action="<c:url value="/sprovider/completeAppointment" />" method="post">
+                                                                <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
+                                                                <button type="submit" class="btn btn-warning btn-sm">Complete</button>
+                                                            </form>
+                                                        </td>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </tr>
                                         </c:forEach>
-
-                                        <!--<tr>
-                                            <th>
-                                                <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                            </th>
-                                            <td>Mark</td>
-                                            <td>May 20, 2018</td>
-                                            <td>Santa Fe 1000, Buenos Aires</td>
-                                            <td><span class="label label-info">Confirmed</span></td>
-                                        </tr>
-                                        <tr>
-                                            <th>
-                                                <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                            </th>
-                                            <td>Mark</td>
-                                            <td>May 20, 2018</td>
-                                            <td>Santa Fe 1000, Buenos Aires</td>
-                                            <td><span class="label label-warning">Pending</span></td>
-                                        </tr>
-                                        <tr>
-                                            <th>
-                                                <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                            </th>
-                                            <td>Mark</td>
-                                            <td>May 20, 2018</td>
-                                            <td>Santa Fe 1000, Buenos Aires</td>
-                                            <td><span class="label label-info">Confirmed</span></td>
-                                        </tr>-->
                                     </tbody>
                                 </table>
                             </div>
@@ -216,35 +215,6 @@
                                             <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
                                         </tr>
                                     </c:forEach>
-<!--
-                                    <tr>
-                                        <th>
-                                            <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                        </th>
-                                        <td>Mark</td>
-                                        <td>May 20, 2018</td>
-                                        <td>Santa Fe 1000, Buenos Aires</td>
-                                        <td><span class="label label-success">Done</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                        </th>
-                                        <td>Mark</td>
-                                        <td>May 20, 2018</td>
-                                        <td>Santa Fe 1000, Buenos Aires</td>
-                                        <td><span class="label label-success">Done</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                        </th>
-                                        <td>Mark</td>
-                                        <td>May 20, 2018</td>
-                                        <td>Santa Fe 1000, Buenos Aires</td>
-                                        <td><span class="label label-success">Done</span></td>
-                                    </tr>
-                                    -->
                                     </tbody>
                                 </table>
                             </div>
