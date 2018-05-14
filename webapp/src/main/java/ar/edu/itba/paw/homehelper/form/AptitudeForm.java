@@ -38,4 +38,8 @@ public class AptitudeForm {
     public void setAptDescription(String aptDescription) {
         this.aptDescription = aptDescription;
     }
+
+    public int getServiceTypeId() {
+        return Integer.parseInt(serviceType);
+    }
 }

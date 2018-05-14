@@ -49,12 +49,7 @@ public class ServiceProviderController {
     public AptitudeForm aptitudeForm() {
         return new AptitudeForm();
     }
-/*
-    @ModelAttribute("updateAptitudeForm")
-    public UpdateAptitudeForm updateAptitudeForm() {
-        return new UpdateAptitudeForm();
-    }
-*/
+
     @RequestMapping("/sprovider")
     public ModelAndView provider(@ModelAttribute("loggedInUser") final User loggedInUser) {
         final ModelAndView mav = new ModelAndView("serviceProviderControlPanel");
@@ -206,7 +201,7 @@ public class ServiceProviderController {
             return new ModelAndView(redirect);
         }
 
-        //insert
+        sProviderService.addAptitude(loggedInUser.getId(), form.getServiceTypeId(), form.getAptDescription());
 
         return new ModelAndView("redirect:/sprovider/editProfile");
     }
@@ -252,7 +247,7 @@ public class ServiceProviderController {
         if(form.getAction().equals("delete")) {
             //delete aptitude
         } else {
-            //update aptitude
+            sProviderService.updateAptitude(form.getAptitutdeId(), form.getAptDescription());
         }
 
         return new ModelAndView("redirect:/sprovider/editProfile");
