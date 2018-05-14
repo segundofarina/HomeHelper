@@ -13,4 +13,6 @@ public interface AptitudeDao {
 
     boolean updateAptitude(int aptId, String description);
 
+    Aptitude getAptitude(int id);
+
 }

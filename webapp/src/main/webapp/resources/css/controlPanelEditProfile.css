@@ -70,3 +70,8 @@ select.form-control {
 .new-element-hidden {
     display: none;
 }
+
+.form-error {
+    margin-top: 5px;
+    color: #e60000;
+}

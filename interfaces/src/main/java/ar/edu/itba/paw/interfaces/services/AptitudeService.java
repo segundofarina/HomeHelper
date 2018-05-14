@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface AptitudeService {
 
-    List<Aptitude> getAptitudesOfUser(int id);
+    //List<Aptitude> getAptitudesOfUser(int id);
 
-    boolean insertAptitude(int sProviderId, int serviceId, String description);
+    //boolean insertAptitude(int sProviderId, int serviceId, String description);
+
+    Aptitude getAptitude(int aptitudeId);
 }

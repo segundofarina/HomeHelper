@@ -107,5 +107,16 @@ public class AptitudeJdbcDao implements AptitudeDao {
 
     }
 
+    @Override
+    public Aptitude getAptitude(int id) {
+        List<Row> dbRowList = jdbcTemplate.query("SELECT * FROM aptitudes WHERE aptitudeId =? ", ROW_MAPPER, id);
+        if(dbRowList.isEmpty()) {
+            return null;
+        }
+        Row row = dbRowList.get(0);
+
+        return new Aptitude(row.aptitudeId,sTypeDao.getServiceTypeWithId(row.serviceTypeId).get(),row.description,reviewDao.getReviewsOfAptitude(row.aptitudeId));
+    }
+
 
 }
