@@ -85,6 +85,7 @@ insert into users VALUES(2,'florcavallin','dulcedeleche','Florencia','Cavallin',
 insert into users VALUES(3,'tinchovictory','dulcedeleche','Martin','Victory','martin@victory.com.ar','1159540388',null,'cuba 2546');
 insert into users VALUES(4,'carlosrodriguez','dulcedeleche','Carlos','Rodriguez','carlosrod@gmail.com','1156984231',null,'cuba 2546');
 insert into users VALUES(5,'juliovelez','dulcedeleche','Julio','Velez','julitogallina@hotmail.com','1148526584',null,'cuba 2546');
+insert into users VALUES(6,'elnue','dulcedeleche','nuevo','usuario','julitogallina@hotmail.com','2323232323',null,'cuba 2546');
 
 insert into neighborhoods VALUES (1);
 insert into neighborhoods VALUES (2);
@@ -160,6 +161,8 @@ insert into messages VALUES (2,5,'Necesito hacer un aramrio para zapatillas',DEF
 insert into messages VALUES (2,4,'Este tambien es un chat',DEFAULT );
 insert into messages VALUES (4,2,'AAA mira que bueno',DEFAULT );
 insert into messages VALUES (2,4,'Jajaja',DEFAULT );
+
+
 
 insert into appointments VALUES (1,1,3,1,DEFAULT ,'cuba 2546 6p','Pending','soy flor cavallin, tincho haceme un mueble nuevo');
 

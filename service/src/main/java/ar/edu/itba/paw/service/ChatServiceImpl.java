@@ -5,6 +5,8 @@ import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.Chat;
 import ar.edu.itba.paw.model.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ public class ChatServiceImpl implements ChatService{
     @Autowired
     ChatDao chatDao;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChatServiceImpl.class);
+
     @Override
     public boolean sendMsg(int from,int to, String msg) {
         if(msg.isEmpty() || msg.equals("")) {
@@ -30,6 +34,10 @@ public class ChatServiceImpl implements ChatService{
     @Override
     public List<Chat> getChatsOf(int userId) {
         List<Chat> chatList = chatDao.getChatsOf(userId);
+
+        LOGGER.debug("[Method : getChatsOf()]chatLIst size:{}",chatList.size());
+
+        System.out.println("[Method : getChatsOf()] chatLIst size:"+chatList.size());
 
         Collections.sort(chatList, new Comparator<Chat>() {
             @Override
@@ -54,6 +62,10 @@ public class ChatServiceImpl implements ChatService{
                 return lastMsg2.getDate().compareTo(lastMsg1.getDate());
             }
         });
+
+        LOGGER.debug("[Method : getChatsOf()]chatLIst sorted size:{}",chatList.size());
+
+        System.out.println("[Method : getChatsOf()]chatLIst sorted size:"+chatList.size());
 
         return chatList;
     }

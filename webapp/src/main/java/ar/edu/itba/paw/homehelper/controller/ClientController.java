@@ -43,7 +43,7 @@ public class ClientController {
     @Autowired
     private AppointmentService appointmentService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PublicController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
 
 
     @ModelAttribute("createSProviderForm")

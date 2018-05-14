@@ -66,7 +66,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
-  //  @Profile("dev")
+    @Profile("dev")
     @Bean
     public DataSource dataSource() {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();
@@ -78,17 +78,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
 
-//
-//    @Profile("prod")
-//    @Bean
-//    public DataSource prodDataSource() {
-//        final SimpleDriverDataSource ds = new SimpleDriverDataSource();
-//        ds.setDriverClass(org.postgresql.Driver.class);
-//        ds.setUrl("jdbc:postgresql://localhost/paw-2018a-4");
-//        ds.setUsername("paw-2018a-4");
-//        ds.setPassword("zmjTo52wS");
-//        return ds;
-//    }
+
+    @Profile("prod")
+    @Bean
+    public DataSource prodDataSource() {
+        final SimpleDriverDataSource ds = new SimpleDriverDataSource();
+        ds.setDriverClass(org.postgresql.Driver.class);
+        ds.setUrl("jdbc:postgresql://localhost/paw-2018a-4");
+        ds.setUsername("paw-2018a-4");
+        ds.setPassword("zmjTo52wS");
+        return ds;
+    }
 
 
 
