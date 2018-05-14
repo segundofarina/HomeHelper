@@ -90,7 +90,7 @@
                                         <textarea name="msg" placeholder="<spring:message code="placeholder.write-message"/>"></textarea>
                                     </div>
                                     <div>
-                                        <input type="submit" value="send" class="btn btn-success pull-right" />
+                                        <input type="submit" value="<spring:message code="general.send"/>" class="btn btn-success pull-right" />
                                         <div class="clearfix"></div>
                                     </div>
                                 </form>

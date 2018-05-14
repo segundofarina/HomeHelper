@@ -95,11 +95,11 @@
                                                         <td>
                                                             <form action="<c:url value="/sprovider/acceptAppointment" />" method="post">
                                                                 <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
-                                                                <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                                                                <button type="submit" class="btn btn-success btn-sm"><spring:message code="general.accept" /></button>
                                                             </form>
                                                             <form action="<c:url value="/sprovider/rejectAppointment" />" method="post">
                                                                 <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
-                                                                <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                                                <button type="submit" class="btn btn-danger btn-sm"><spring:message code="general.reject" /></button>
                                                             </form>
                                                         </td>
                                                     </c:when>
@@ -107,7 +107,7 @@
                                                         <td>
                                                             <form action="<c:url value="/sprovider/completeAppointment" />" method="post">
                                                                 <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
-                                                                <button type="submit" class="btn btn-warning btn-sm">Complete</button>
+                                                                <button type="submit" class="btn btn-warning btn-sm"><spring:message code="general.complete" /></button>
                                                             </form>
                                                         </td>
                                                     </c:otherwise>

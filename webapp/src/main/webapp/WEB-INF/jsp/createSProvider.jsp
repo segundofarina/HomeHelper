@@ -95,7 +95,7 @@
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-6">
                                                 <div class="form-group">
-                                                    <form:label path="firstname"><spring:message code="general.firstname"/>:</form:label>
+                                                    <form:label path="firstname"><spring:message code="form.firstname"/></form:label>
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
                                                             <form:input path="firstname" value="${user.firstname}" type="text" cssClass="form-control" placeholder=""/>
@@ -110,7 +110,7 @@
                                                     <form:errors path="firstname" element="p" cssClass="form-error" />
                                                 </div>
                                                 <div class="form-group">
-                                                    <form:label path="lastname"><spring:message code="general.lastname"/>:</form:label>
+                                                    <form:label path="lastname"><spring:message code="form.lastname"/></form:label>
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
                                                             <form:input path="lastname" value="${user.lastname}" type="text" cssClass="form-control" placeholder=""/>
@@ -126,7 +126,7 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-6">
                                                 <div class="form-group">
-                                                    <form:label path="email"><spring:message code="general.email"/>:</form:label>
+                                                    <form:label path="email"><spring:message code="form.email"/></form:label>
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
                                                             <form:input path="email" value="${user.email}" type="text" cssClass="form-control" placeholder=""/>
@@ -140,7 +140,7 @@
                                                     <form:errors path="email" element="p" cssClass="form-error" />
                                                 </div>
                                                 <div class="form-group">
-                                                    <form:label path="phone"><spring:message code="general.phone"/>:</form:label>
+                                                    <form:label path="phone"><spring:message code="form.phone"/></form:label>
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
                                                             <form:input path="phone" value="${user.phone}" type="text" cssClass="form-control" placeholder=""/>
@@ -171,7 +171,7 @@
                                         </div>
                                         <div>
                                             <div class="form-group">
-                                                <form:label path="profileDesc"><spring:message code="sprovider.about-yourself"/>:</form:label>
+                                                <form:label path="profileDesc"><spring:message code="form.about-yourself"/></form:label>
                                                 <form:textarea path="profileDesc" cssClass="form-control resize-vertical" placeholder=""/>
                                                 <%--<form:textarea path="profileDesc" cssClass="form-control resize-vertical" placeholder="<spring:message code="sprovider.write-description"/>"/>--%>
                                                 <form:errors path="profileDesc" element="p" cssClass="form-error" />
@@ -199,7 +199,7 @@
                                         <div>
                                             <div class="apptitude-row">
                                                 <div class="form-group">
-                                                    <form:label path="serviceType"><spring:message code="general.service-type"/>:</form:label>
+                                                    <form:label path="serviceType"><spring:message code="form.service-type"/></form:label>
                                                     <form:select path="serviceType" cssClass="form-control">
                                                         <form:option value=""><spring:message code="sprovider.select-service-type"/></form:option>
                                                         <c:forEach items="${serviceTypes}" var="st">
@@ -209,7 +209,7 @@
                                                     <form:errors path="serviceType" element="p" cssClass="form-error" />
                                                 </div>
                                                 <div class="form-group">
-                                                    <form:label path="aptDesc"><spring:message code="general.description"/>:</form:label>
+                                                    <form:label path="aptDesc"><spring:message code="form.description"/></form:label>
                                                     <form:textarea path="aptDesc" cssClass="form-control resize-vertical" placeholder=""/>
                                                     <%--<form:textarea path="aptDesc" cssClass="form-control resize-vertical" placeholder="<spring:message code="sprovider.write-about-skills"/>"/>--%>
                                                     <form:errors path="aptDesc" element="p" cssClass="form-error" />

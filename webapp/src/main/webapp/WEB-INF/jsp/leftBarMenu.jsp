@@ -20,7 +20,7 @@
                 <img src="<c:url value="/resources/img/img.jpg"/>" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
-                <span><spring:message code="leftBarMenu.welcome" />,</span>
+                <span><spring:message code="leftBarMenu.welcome" /></span>
                 <h2><c:out value="${providerName}"/></h2>
             </div>
             <div class="clearfix"></div>

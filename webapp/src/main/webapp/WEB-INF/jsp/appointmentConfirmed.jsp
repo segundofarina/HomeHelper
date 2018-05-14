@@ -45,19 +45,19 @@
                             <h3><spring:message code="appointment.confirmed"/></h3>
                             <div class="apt-content">
                                 <div class="apt-group">
-                                    <h5><spring:message code="general.service-type"/>:</h5>
+                                    <h5><spring:message code="form.service-type"/></h5>
                                     <p><c:out value="${appointment.serviceType.name}" /></p>
                                 </div>
                                 <div class="apt-group">
-                                    <h5><spring:message code="general.date"/>:</h5>
+                                    <h5><spring:message code="form.date"/></h5>
                                     <p><c:out value="${appointment.date}" /></p>
                                 </div>
                                 <div class="apt-group">
-                                    <h5>D<spring:message code="general.description"/>:</h5>
+                                    <h5>D<spring:message code="form.description"/></h5>
                                     <p><c:out value="${appointment.jobDescripcion}" /></p>
                                 </div>
                                 <div class="apt-group">
-                                    <p class="info"><spring:message code="general.remember"/> ...</p>
+                                    <p class="info"><spring:message code="appointment.remember"/></p>
                                 </div>
                             </div>
                         </div>

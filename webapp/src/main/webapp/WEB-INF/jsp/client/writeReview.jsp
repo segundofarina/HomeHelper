@@ -57,15 +57,15 @@
                                     </div>
                                 </div>
                                 <div class="app-section">
-                                    <h5>Service Type:</h5>
+                                    <h5><spring:message code="form.service-type"/></h5>
                                     <p><c:out value="${appointment.serviceType.name}" /></p>
                                 </div>
                                 <div class="app-section">
-                                    <h5>Date:</h5>
+                                    <h5><spring:message code="form.date"/></h5>
                                     <p><c:out value="${appointment.date.day}" />/<c:out value="${appointment.date.month}" />/<c:out value="${appointment.date.year}" /></p>
                                 </div>
                                 <div class="app-section">
-                                    <h5>Description:</h5>
+                                    <h5><spring:message code="form.description"/></h5>
                                     <p><c:out value="${appointment.jobDescripcion}" /></p>
                                 </div>
                             </div>
@@ -77,10 +77,10 @@
                         <div class="panel-body">
                             <div class="review">
                                 <div class="review-header">
-                                    <h3>Write a review</h3>
+                                    <h3><spring:message code="client.write-review"/></h3>
                                 </div>
                                 <div class="review-content">
-                                    <h5>Califica el desempe&ntilde;o del proveedor:</h5>
+                                    <h5><spring:message code="client.rate-provider"/></h5>
                                     <c:url value="/client/sendReview" var="postPath"/>
                                     <form:form modelAttribute="reviewForm" action="${postPath}" method="post">
                                         <form:input path="appointmentId" type="hidden" value="${appointment.appointmentId}" />
@@ -89,19 +89,19 @@
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-6">
                                                     <div class="star-item">
-                                                        <h5>Calidad:</h5>
+                                                        <h5><spring:message code="form.quality"/></h5>
                                                         <div class="starrr"></div>
                                                         <form:input path="quality" type="hidden" value="" />
                                                         <form:errors path="quality" cssClass="form-error" element="p" />
                                                     </div>
                                                     <div class="star-item">
-                                                        <h5>Precio:</h5>
+                                                        <h5><spring:message code="form.price"/></h5>
                                                         <div class="starrr"></div>
                                                         <form:input path="price" type="hidden" value="" />
                                                         <form:errors path="price" cssClass="form-error" element="p" />
                                                     </div>
                                                     <div class="star-item">
-                                                        <h5>Puntualidad:</h5>
+                                                        <h5><spring:message code="form.punctuality"/></h5>
                                                         <div class="starrr"></div>
                                                         <form:input path="punctuality" type="hidden" value="" />
                                                         <form:errors path="punctuality" cssClass="form-error" element="p" />
@@ -109,13 +109,13 @@
                                                 </div>
                                                 <div class="col-xs-12 col-sm-6">
                                                     <div class="star-item">
-                                                        <h5>Trato:</h5>
+                                                        <h5><spring:message code="form.treatment"/></h5>
                                                         <div class="starrr"></div>
                                                         <form:input path="treatment" type="hidden" value="" />
                                                         <form:errors path="treatment" cssClass="form-error" element="p" />
                                                     </div>
                                                     <div class="star-item">
-                                                        <h5>Limpieza:</h5>
+                                                        <h5><spring:message code="form.cleanness"/></h5>
                                                         <div class="starrr"></div>
                                                         <form:input path="cleannes" type="hidden" value="" />
                                                         <form:errors path="cleannes" cssClass="form-error" element="p" />
@@ -125,11 +125,11 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <form:label path="msg">Write your review:</form:label>
+                                            <form:label path="msg"><spring:message code="client.write-review"/></form:label>
                                             <form:textarea path="msg" cssClass="form-control resize-vertical"></form:textarea>
                                             <form:errors path="msg" cssClass="form-error" element="p" />
                                         </div>
-                                        <form:button type="submit" class="btn btn-success pull-right">Send</form:button>
+                                        <form:button type="submit" class="btn btn-success pull-right"><spring:message code="general.send"/></form:button>
                                         <div class="clearfix"></div>
                                     </form:form>
                                 </div>

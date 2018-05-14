@@ -39,7 +39,7 @@
         <div class="form-group">
             <button class="btn btn-primary btn-block" type="submit"><spring:message code="general.login"/></button>
         </div>
-        <div class="forgot"><spring:message code="user.new-user"/>?<a href="<c:url value="/signup"/>"><spring:message code="general.signup"/>!</a></div>
+        <div class="forgot"><spring:message code="user.new-user"/>?<a href="<c:url value="/signup"/>"><spring:message code="general.signup"/></a></div>
     </form>
 </div>
 <!-- jQuery -->

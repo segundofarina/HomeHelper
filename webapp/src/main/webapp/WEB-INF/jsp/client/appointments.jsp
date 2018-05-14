@@ -40,14 +40,14 @@
 
             <div class="panel">
                 <div class="panel-title">
-                    <h3>Pending Appointments</h3>
+                    <h3><spring:message code="client.pending-appointments"/></h3>
                 </div>
                 <div class="panel-body">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Service Type</th>
+                                <th><spring:message code="general.service-type"/></th>
                                 <th><spring:message code="general.name"/></th>
                                 <th><spring:message code="general.date"/></th>
                                 <th><spring:message code="general.status"/></th>
@@ -72,7 +72,7 @@
 
             <div class="panel">
                 <div class="panel-title">
-                    <h3>Completed Appointments</h3>
+                    <h3><spring:message code="client.completed-appointments"/></h3>
                 </div>
                 <div class="panel-body">
                     <table class="table">
@@ -98,7 +98,7 @@
                                 <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
                                 <td>
                                     <a href="<c:url value="/client/writeReview/${appointment.appointmentId}" />" class="btn btn-primary btn-xs">
-                                        <i class="fa fa-edit"></i> Escribir una reseña
+                                        <i class="fa fa-edit"></i><spring:message code="client.write-review"/>
                                     </a>
                                 </td>
                             </tr>

@@ -67,12 +67,13 @@
                                         </div>
                                         <div class="col-md-8 col-sm-8 col-xs-12">
                                             <div class="form-group">
-                                                <label for="fullName"><spring:message code="sprovider.full-name"/>:</label>
+                                                <label for="fullName"><spring:message code="form.full-name"/></label>
                                                 <input id="fullName" type="text" name="fullName" class="form-control" readonly="readonly" placeholder="<c:out value="${provider.firstname}"/> <c:out value="${provider.lastname}"/> " />
                                             </div>
                                             <div class="form-group">
-                                                <label for="generalDescription"><spring:message code="general.description"/>:</label>
-                                                <textarea id="generalDescription" name="generalDescription" class="form-control" placeholder="Write some description..."><c:out value="${provider.description}" /></textarea>
+                                                <label for="generalDescription"><spring:message code="form.description"/></label>
+                                                <textarea id="generalDescription" name="generalDescription" class="form-control" placeholder=""><c:out value="${provider.description}" /></textarea>
+                                                <%--<textarea id="generalDescription" name="generalDescription" class="form-control" placeholder="<spring:message code="sprovider.write-description"/>"><c:out value="${provider.description}" /></textarea>--%>
                                             </div>
                                         </div>
                                     </div>
@@ -103,7 +104,7 @@
 
                                 <div class="dynamic-element" style="display: none">
                                     <div class="form-group">
-                                        <label for="serviceType[]"><spring:message code="general.service-type"/>:</label>
+                                        <label for="serviceType[]"><spring:message code="form.service-type"/></label>
                                         <select id="serviceType[]" name="serviceType[]" class="form-control">
                                             <option value=""><spring:message code="service-type.select"/></option>
                                             <c:forEach items="${serviceTypes}" var="st">
@@ -112,7 +113,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="aptDescription[]"><spring:message code="general.description"/>:</label>
+                                        <label for="aptDescription[]"><spring:message code="form.description"/></label>
                                         <textarea id="aptDescription[]" name="aptDescription[]" class="form-control" placeholder="Write some description..."><c:out value="${st.name}"/></textarea>
                                     </div>
                                     <button type="button" class="btn btn-danger btn-sm disabled deleteApt"><i class="fa fa-trash"></i><spring:message code="aptitude.delete"/></button>
@@ -131,13 +132,13 @@
 
                                             <div class="dynamic-element" >
                                                 <div class="form-group">
-                                                    <label for="serviceType[]"><spring:message code="general.service-type"/>:</label>
+                                                    <label for="serviceType[]"><spring:message code="form.service-type"/></label>
                                                     <select id="serviceType[]" name="serviceType[]" class="form-control" disabled="disabled">
                                                         <option value="<c:out value="${aptitude.service.serviceTypeId}"/>"><c:out value="${aptitude.service.name}"/></option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="aptDescription[]"><spring:message code="general.description"/>:</label>
+                                                    <label for="aptDescription[]"><spring:message code="form.description"/></label>
                                                     <textarea id="aptDescription[]" name="aptDescription[]" class="form-control" placeholder="<spring:message code="placeholder.write-description"/>"><c:out value="${aptitude.description}"/></textarea>
                                                 </div>
                                                 <button type="button" class="btn btn-danger btn-sm disabled deleteApt"><i class="fa fa-trash"></i><spring:message code="aptitude.delete"/></button>
@@ -173,11 +174,11 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Working Details</h2>
+                                <h2><spring:message code="general.working-details"/></h2>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                Some working details
+                                <spring:message code="sprovider.write-details"/>
                             </div>
                         </div>
                     </div>
