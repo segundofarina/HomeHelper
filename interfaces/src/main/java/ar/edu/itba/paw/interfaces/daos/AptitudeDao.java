@@ -17,6 +17,6 @@ public interface AptitudeDao {
 
     boolean removeAptitude(int aptId);
 
-    int getAptitudeId(int aptId, int stId);
+    int getAptitudeId(int userId, int stId);
 
 }

@@ -134,8 +134,8 @@ public class AptitudeJdbcDao implements AptitudeDao {
     }
 
     @Override
-    public int getAptitudeId(int aptId, int stId) {
-        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM aptitudes WHERE aptitudeId =? AND serviceTypeId =?", ROW_MAPPER, aptId,stId);
+    public int getAptitudeId(int userId, int stId) {
+        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM aptitudes WHERE userId =? AND serviceTypeId =?", ROW_MAPPER, userId,stId);
         if(dbRowsList.size() == 0){
             return -1;
         }
