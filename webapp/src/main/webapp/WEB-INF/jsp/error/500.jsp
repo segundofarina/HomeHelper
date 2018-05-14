@@ -44,7 +44,7 @@
                 <div class="error-desc">
                     <h3><c:out value="${errorDesc}" /></h3>
                 </div>
-                <a href="/" class="btn btn-success"><spring:message code="error.backBtnMsg" /></a>
+                <a href="<c:url value="/"/>" class="btn btn-success"><spring:message code="error.backBtnMsg" /></a>
             </div>
         </div>
 
