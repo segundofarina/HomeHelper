@@ -1,8 +1,11 @@
 package ar.edu.itba.paw.persistence;
 
+import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
 import ar.edu.itba.paw.interfaces.daos.ReviewDao;
+import ar.edu.itba.paw.interfaces.daos.SProviderDao;
 import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.model.Review;
+import ar.edu.itba.paw.model.SProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

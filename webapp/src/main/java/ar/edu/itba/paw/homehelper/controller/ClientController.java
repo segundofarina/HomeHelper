@@ -1,13 +1,16 @@
 package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
+import ar.edu.itba.paw.homehelper.form.ReviewForm;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.homehelper.form.CreateSProviderForm;
-import ar.edu.itba.paw.model.Status;
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.interfaces.services.STypeService;
+import ar.edu.itba.paw.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 
 @Controller
@@ -38,10 +42,21 @@ public class ClientController {
     @Autowired
     private AppointmentService appointmentService;
 
+    @Autowired
+    private STypeService sTypeService;
+
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
+
 
     @ModelAttribute("createSProviderForm")
     public CreateSProviderForm createSProviderForm() {
         return new CreateSProviderForm();
+    }
+
+    @ModelAttribute("reviewForm")
+    public ReviewForm reviewForm() {
+        return new ReviewForm();
     }
 
 
@@ -52,7 +67,7 @@ public class ClientController {
            //throw new ForbiddenException();
        }
 
-       System.out.println(form.getDate());
+       //System.out.println(form.getDate());
 
        redrAttr.addFlashAttribute("appointmentForm", form);
        //request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
@@ -65,10 +80,10 @@ public class ClientController {
            //throw exception
        }
 
-       appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
+       Appointment ap= appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
        chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId());
 
-       String redirect = "redirect:/client/appointmentConfirmed?appt=" + 1;
+       String redirect = "redirect:/client/appointmentConfirmed?appt=" + ap.getAppointmentId();
 
        return new ModelAndView(redirect);
    }
@@ -99,7 +114,11 @@ public class ClientController {
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
-        mav.addObject("chats", chatService.getChatsOf(loggedInUser.getId()));
+        List<Chat> list= chatService.getChatsOf(loggedInUser.getId());
+        mav.addObject("chats", list);
+
+        LOGGER.debug("List of chats size: {} for user {}",list.size(),getUserString(loggedInUser));
+
         mav.addObject("currentChat", chatService.getChat(loggedInUser.getId(), providerId));
 
         return mav;
@@ -116,7 +135,7 @@ public class ClientController {
         final ModelAndView mav = new ModelAndView("createSProvider");
 
         mav.addObject("user", loggedInUser);
-        mav.addObject("serviceTypes",sProviderService.getServiceTypes());
+        mav.addObject("serviceTypes",sTypeService.getServiceTypes());
 
         if(error.equals("n")) {
             mav.addObject("hasError", 0);
@@ -160,11 +179,52 @@ public class ClientController {
        return mav;
     }
 
+    @RequestMapping("/client/writeReview/{appointmentId}")
+    public ModelAndView writeReview(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("appointmentId") final int appointmentId) {
+       final ModelAndView mav = new ModelAndView("client/writeReview");
+
+        mav.addObject("user", loggedInUser);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+
+        mav.addObject("appointment", appointmentService.getAppointment(appointmentId));
+
+       return mav;
+    }
+
+    @RequestMapping("/client/sendReview")
+    public ModelAndView sendReview(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("reviewForm") final ReviewForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
+       if(form == null) {
+           // exception
+       }
+
+       if(errors.hasErrors()) {
+           redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.reviewForm", errors);
+           redrAttr.addFlashAttribute("reviewForm", form);
+           String redirect = "redirect:/client/writeReview/" + form.getAppointmentId();
+           return new ModelAndView(redirect);
+       }
+
+       Appointment ap = appointmentService.getAppointment(form.getAppointmentId());
+       if(ap == null) {
+           //exception
+       }
+       sProviderService.insertReview(ap.getProvider().getId(), ap.getServiceType().getServiceTypeId(), form.getQualityInt(), form.getCleannesInt(), form.getPriceInt(), form.getPunctualityInt(), form.getTreatmentInt(), form.getMsg());
+       return new ModelAndView("redirect:/client/appointments");
+    }
+
     private int getUserId(User user) {
         if(user == null) {
             return -1;
         }
         return user.getId();
+    }
+
+    private String getUserString(User user){
+        if (user == null){
+            return "Annonymous";
+        }else{
+            return user.getUsername()+"["+user.getId()+"]";
+        }
     }
 }
 

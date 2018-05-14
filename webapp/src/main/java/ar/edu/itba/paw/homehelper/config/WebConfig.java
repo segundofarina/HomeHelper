@@ -5,6 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
@@ -65,6 +66,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
+    @Profile("dev")
     @Bean
     public DataSource dataSource() {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();
@@ -74,6 +76,21 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         ds.setPassword("root");
         return ds;
     }
+
+
+
+    @Profile("prod")
+    @Bean
+    public DataSource prodDataSource() {
+        final SimpleDriverDataSource ds = new SimpleDriverDataSource();
+        ds.setDriverClass(org.postgresql.Driver.class);
+        ds.setUrl("jdbc:postgresql://localhost/paw-2018a-4");
+        ds.setUsername("paw-2018a-4");
+        ds.setPassword("zmjTo52wS");
+        return ds;
+    }
+
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

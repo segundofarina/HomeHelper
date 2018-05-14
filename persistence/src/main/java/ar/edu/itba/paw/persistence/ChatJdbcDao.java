@@ -66,7 +66,7 @@ public class ChatJdbcDao implements ChatDao{
                 List<Integer> list = new ArrayList<Integer>();
 
                 list.add(rs.getInt("userfrom"));
-                list.add(rs.getInt("userfrom"));
+                list.add(rs.getInt("userto"));
                 return list;
             }
         };
@@ -75,10 +75,12 @@ public class ChatJdbcDao implements ChatDao{
 
         Set<Integer> set = new HashSet<Integer>();
 
+
         for(List<Integer> l :list){
             set.add(l.get(0));
             set.add(l.get(1));
         }
+
         set.remove(userId);
 
         List<Chat> response = new ArrayList<Chat>();

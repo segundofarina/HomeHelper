@@ -44,7 +44,6 @@ label {
     font-size: 13px;
 }
 
-
 footer.footer {
     background: #fff;
     padding: 15px 20px;
@@ -52,54 +51,26 @@ footer.footer {
     margin-top: 2em;
 }
 
-#image-preview {
+.profileImgEdit {
     width: 150px;
     height: 150px;
-    border-radius: 100%;
-    position: relative;
-    overflow: hidden;
-    background-color: #ffffff;
-    color: #ecf0f1;
-}
-#image-preview input {
-    line-height: 200px;
-    font-size: 200px;
-    position: absolute;
-    opacity: 0;
-    z-index: 10;
-}
-#image-preview label {
-    position: absolute;
-    z-index: 5;
-    opacity: 0.8;
-    cursor: pointer;
-    background-color: #bdc3c7;
-    font-size: 20px;
-    line-height: 50px;
-    text-transform: uppercase;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    text-align: center;
-}
-
-.profileImgEdit {
-    width: 14em;
-    height: 14em;
     margin: auto;
     border-radius: 100%;
     margin-top: 1em;
     position: relative;
     cursor: pointer;
+    overflow: hidden;
+    border: 6px solid #73879C;
+    margin-bottom: 3em;
 }
 
-.profileImgEdit img {
+.profileImgEdit #image-preview {
     width: 100%;
     height: 100%;
-    border-radius: 100%;
-    border: 6px solid;
+    background-image: url("/resources/img/defaultProfile.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
 }
 
 .profileImgEdit .cover {
@@ -120,7 +91,20 @@ footer.footer {
 .profileImgEdit .cover .coverTxt {
     color: #ffffff;
     font-weight: bold;
+    top: 55px;
     width: 100%;
     position: relative;
     text-align: center;
+    padding: 0 0.5em;
+}
+
+.profileImgEdit input {
+    position: absolute;
+    opacity: 0;
+    z-index: 10;
+    width: 138px;
+    height: 138px;
+    border-radius: 100%;
+    cursor: pointer;
+    top: 0;
 }

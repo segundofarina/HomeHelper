@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -23,6 +24,7 @@ import static junit.framework.TestCase.assertTrue;
 @Sql("classpath:schema.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
+@Rollback
 
 public class ChatJdbcDaoTest {
 
@@ -70,6 +72,19 @@ public class ChatJdbcDaoTest {
         List<Chat> list = chatDao.getChatsOf(Const.USER2_ID);
 
         assertEquals(2,list.size());
+
+
+        chatDao.writeMessage(6,Const.SERVICETYPE3_ID,"Hola");
+        chatDao.writeMessage(6,Const.SERVICETYPE3_ID,"Hola");
+        chatDao.writeMessage(6,Const.SERVICETYPE3_ID,"Hola");
+        chatDao.writeMessage(Const.SERVICETYPE3_ID,6,"Hola");
+
+        list = chatDao.getChatsOf(6);
+        assertEquals(1,list.size());
+
+        
+
+
 
     }
 

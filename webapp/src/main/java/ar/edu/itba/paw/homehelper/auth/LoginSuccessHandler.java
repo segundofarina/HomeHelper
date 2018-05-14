@@ -16,6 +16,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         setDefaultTargetUrl(defaultTargetUrl);
     }
 
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         HttpSession session = request.getSession();

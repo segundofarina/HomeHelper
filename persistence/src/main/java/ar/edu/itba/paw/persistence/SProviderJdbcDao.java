@@ -5,6 +5,7 @@ import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
 import ar.edu.itba.paw.interfaces.daos.WZoneDao;
 import ar.edu.itba.paw.interfaces.daos.SProviderDao;
 import ar.edu.itba.paw.interfaces.daos.UserDao;
+import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.Neighborhood;
 import ar.edu.itba.paw.model.SProvider;
@@ -75,7 +76,7 @@ public class SProviderJdbcDao implements SProviderDao {
 
         jdbcInsert.execute(args);
 
-        return Optional.of(new SProvider(userDao.findById(userId).get(),description, new ArrayList<Aptitude>() , new HashSet<Neighborhood>()));
+        return Optional.of(new SProvider(userDao.findById(userId).get(),description, new ArrayList<Aptitude>() , new ArrayList<Neighborhood>()));
 
     }
 
@@ -100,6 +101,16 @@ public class SProviderJdbcDao implements SProviderDao {
         }else{
             return Optional.empty();
         }
+    }
+
+    @Override
+    public boolean updateDescriptionOfServiceProvider(int userId, String description) {
+        Optional<SProvider> provider = getServiceProviderWithUserId(userId);
+        if (!provider.isPresent()) {
+            return false;
+        }
+        jdbcTemplate.update("UPDATE serviceProviders SET description =? WHERE appointmentId =?", description, userId);
+        return true;
     }
 
 }

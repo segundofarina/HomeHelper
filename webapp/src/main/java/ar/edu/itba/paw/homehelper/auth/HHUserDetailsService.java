@@ -4,6 +4,8 @@ package ar.edu.itba.paw.homehelper.auth;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.interfaces.services.UserService;
 import ar.edu.itba.paw.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +25,8 @@ public class HHUserDetailsService implements UserDetailsService {
     @Autowired
     private SProviderService sp;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(HHUserDetailsService.class);
+
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         final User user = us.findByUsername(username);
         if (user == null) {
@@ -34,6 +38,8 @@ public class HHUserDetailsService implements UserDetailsService {
         if(sp.isServiceProvider(user.getId())){
             authorities.add((new SimpleGrantedAuthority("ROLE_PROVIDER")));
         }
+
+        LOGGER.info("{} logged in", user.getUsername());
 
         return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
     }

@@ -10,7 +10,7 @@
     width: 80%;
     height: 15em;
     margin: auto;
-    background-image: url("/resources/img/yellowHat.png");
+    background-image: url("../img/yellowHat.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;

@@ -286,7 +286,7 @@ textarea.form-control {
     background-position: center center;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url("/resources/img/bgProviderSuccess.png");
+    background-image: url("../img/bgProviderSuccess.png");
     margin: auto;
 }
 

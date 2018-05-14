@@ -97,7 +97,7 @@
                                 <td><c:out value="${appointment.date}" /></td>
                                 <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
                                 <td>
-                                    <a href="#" class="btn btn-primary btn-xs">
+                                    <a href="<c:url value="/client/writeReview/${appointment.appointmentId}" />" class="btn btn-primary btn-xs">
                                         <i class="fa fa-edit"></i> Escribir una reseña
                                     </a>
                                 </td>

@@ -55,7 +55,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-9">
-                                            <h4><c:out value="${chat.grey.firstname}" /> <c:out value="${chat.grey.lastname}" /></h4>
+                                            <h4><c:out value="${chat.grey.firstname}"/> <c:out value="${chat.grey.lastname}" /></h4>
                                             <p><c:out value="${chat.preview}" /></p>
                                         </div>
                                     </div>
