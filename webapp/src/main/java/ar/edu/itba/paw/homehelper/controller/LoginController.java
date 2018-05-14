@@ -16,14 +16,14 @@ public class LoginController {
         String referer = request.getHeader("Referer");
         String redirect = referer;
 
-        if(referer.contains("/profile")) {
+        if(referer !=null && referer.contains("/profile")) {
             redrAttr.addFlashAttribute("appointmentForm", appointmentForm);
             System.out.println(appointmentForm.getDate());
             redirect = "/client/getSendAppointment";
         }
 
         /* Avoid redirecting to login after login error */
-        if(referer.contains("/login")) {
+        if(referer !=null && referer.contains("/login")) {
             redirect = (String) request.getSession().getAttribute("url_prior_login");
         }
 
