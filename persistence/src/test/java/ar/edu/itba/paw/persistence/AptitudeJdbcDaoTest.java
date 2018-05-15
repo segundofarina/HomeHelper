@@ -1,20 +1,26 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
+import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.model.Aptitude;
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 
 @Sql("classpath:schema.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -23,46 +29,109 @@ import static org.junit.Assert.assertFalse;
 public class AptitudeJdbcDaoTest {
 
     @Autowired
-    AptitudeDao aptitudeDao;
+    private DataSource ds;
 
+    @Autowired
+    private AptitudeDao aptitudeDao;
+
+    private JdbcTemplate jdbcTemplate;
     @Before
     public void setUp() {
-
+        jdbcTemplate = new JdbcTemplate(ds);
     }
-
     @Test
-    public void getByIdTest(){
-        List<Aptitude> martinAptitudes = aptitudeDao.getAptitudesOfUser(3);
-        assertEquals(2,martinAptitudes.size());
+    public void getAptitudesOfUserTest(){
 
-        List<Aptitude> carlosAptitudes = aptitudeDao.getAptitudesOfUser(4);
-        assertEquals(2,carlosAptitudes.size());
+        assertEquals(Const.SERVICETYPE_ID,aptitudeDao.getAptitudesOfUser(Const.USER3_ID).get(0).getId());
 
-        List<Aptitude> julioAptitudes = aptitudeDao.getAptitudesOfUser(5);
-        assertEquals(0,julioAptitudes.size());
+        assertNotEquals(Const.SERVICETYPE2_ID,aptitudeDao.getAptitudesOfUser(Const.USER3_ID).get(0).getId());
 
-        List<Aptitude> florenciaAptitudes = aptitudeDao.getAptitudesOfUser(2);
-        assertEquals(0,florenciaAptitudes.size());
+        assertEquals(null,aptitudeDao.getAptitudesOfUser(Const.INVALIDAD_USER_ID));
 
     }
+
     @Test
     public void insertAptitudeTest(){
 
-        assertTrue(aptitudeDao.insertAptitude(3,3,"Tambien soy Obrero"));
+        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes");
 
-        assertFalse(aptitudeDao.insertAptitude(40,3,"Este proveedor no existe"));
+        assertTrue(aptitudeDao.insertAptitude(Const.SPROVIDER_ID,Const.SERVICETYPE3_ID,Const.VALID_DESCRIPTION));
 
-        assertFalse(aptitudeDao.insertAptitude(3,40,"esta aptitud no existe"));
+        assertEquals(++count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
 
-        assertFalse(aptitudeDao.insertAptitude(1,3,"Segundo no es proveedor"));
+        assertFalse(aptitudeDao.insertAptitude(Const.INVALID_SERVICE_PROVIDER_ID,Const.SERVICETYPE3_ID,Const.VALID_DESCRIPTION));
 
+        assertFalse(aptitudeDao.insertAptitude(Const.SPROVIDER_ID,Const.INVALID_SERVICE_TYPE_ID,Const.VALID_DESCRIPTION));
+
+        assertFalse(aptitudeDao.insertAptitude(Const.SPROVIDER_ID,Const.SERVICETYPE3_ID,Const.INVALID_DESCRIPTION));
+
+        assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
 
     }
 
     @Test
-    public void updateAptitudeTest(){
-        assertTrue( aptitudeDao.updateDescriptionOfAptitude(2,"Martin es pintor"));
+    public void updateDescriptionOfAptitudeTest(){
 
-        assertFalse(aptitudeDao.updateDescriptionOfAptitude(402,"Martin es pintor"));
+        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes");
+
+        assertTrue(aptitudeDao.updateDescriptionOfAptitude(Const.VALID_APTITUDE_ID,Const.VALID_DESCRIPTION));
+
+        assertFalse(aptitudeDao.updateDescriptionOfAptitude(Const.INVALID_APTITUDE_ID,Const.VALID_DESCRIPTION));
+
+        assertFalse(aptitudeDao.updateDescriptionOfAptitude(Const.VALID_APTITUDE_ID,Const.INVALID_DESCRIPTION));
+
+        assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
+
     }
+
+    @Test
+    public void updateServiceTypeOfAptitudeTest(){
+
+        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes");
+
+        assertTrue(aptitudeDao.updateServiceTypeOfAptitude(Const.VALID_APTITUDE_ID,Const.SERVICETYPE_ID));
+
+        assertTrue(aptitudeDao.updateServiceTypeOfAptitude(Const.VALID_APTITUDE_ID,Const.SERVICETYPE2_ID));
+
+        assertFalse(aptitudeDao.updateServiceTypeOfAptitude(Const.VALID_APTITUDE_ID,Const.INVALID_SERVICE_TYPE_ID));
+
+        assertFalse(aptitudeDao.updateServiceTypeOfAptitude(Const.INVALID_APTITUDE_ID,Const.SERVICETYPE2_ID));
+
+        assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
+
+    }
+
+    @Test
+    public void removeAptitudeTest(){
+
+        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes");
+
+        assertTrue(aptitudeDao.removeAptitude(Const.VALID_APTITUDE_ID));
+
+        assertFalse(aptitudeDao.removeAptitude(Const.INVALID_APTITUDE_ID));
+
+        assertEquals(--count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
+
+    }
+
+    @Test
+    public void getAptitudeIdTest(){
+
+        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes");
+
+        assertEquals(1,aptitudeDao.getAptitudeId(Const.USER3_ID,Const.SERVICETYPE_ID));
+
+        assertEquals(2,aptitudeDao.getAptitudeId(Const.USER3_ID,Const.SERVICETYPE2_ID));
+
+        assertEquals(-1,aptitudeDao.getAptitudeId(Const.USER3_ID,Const.SERVICETYPE3_ID));
+
+        assertEquals(-1,aptitudeDao.getAptitudeId(Const.USER_ID,Const.SERVICETYPE2_ID));
+
+        assertEquals(-1,aptitudeDao.getAptitudeId(Const.INVALIDAD_USER_ID,Const.SERVICETYPE2_ID));
+
+        assertEquals(-1,aptitudeDao.getAptitudeId(Const.USER3_ID,Const.INVALID_SERVICE_TYPE_ID));
+
+        assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
+    }
+
 }

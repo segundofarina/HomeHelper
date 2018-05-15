@@ -105,12 +105,14 @@ public class SProviderJdbcDao implements SProviderDao {
 
     @Override
     public boolean updateDescriptionOfServiceProvider(int userId, String description) {
+        if(description == null){
+            return false;
+        }
         Optional<SProvider> provider = getServiceProviderWithUserId(userId);
         if (!provider.isPresent()) {
             return false;
         }
-        jdbcTemplate.update("UPDATE serviceProviders SET description =? WHERE appointmentId =?", description, userId);
-        return true;
+        return jdbcTemplate.update("UPDATE serviceProviders SET description =? WHERE userId =?", description, userId)==1;
     }
 
 }

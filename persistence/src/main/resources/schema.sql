@@ -63,7 +63,8 @@ create TABLE if NOT EXISTS verifyUsers(
 );
 
 CREATE TABLE IF NOT EXISTS neighborhoods(
-  ngId SERIAL PRIMARY KEY
+  ngId SERIAL PRIMARY KEY,
+  ngname VARCHAR(100)
 );
 
 CREATE TABLE IF NOT EXISTS workingzones(

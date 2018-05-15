@@ -39,7 +39,6 @@ public class STypeJdbcDaoTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
-        //JdbcTestUtils.deleteFromTables(jdbcTemplate, "messages","posts","serviceProviders","serviceTypes","users");
     }
 
     @After

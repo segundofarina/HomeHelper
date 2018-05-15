@@ -75,7 +75,8 @@ create TABLE if NOT EXISTS verifyUsers(
 );
 
 CREATE TABLE IF NOT EXISTS neighborhoods(
-  ngId SERIAL PRIMARY KEY
+  ngId SERIAL PRIMARY KEY,
+  ngname VARCHAR(100) DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS workingzones(
@@ -684,4 +685,8 @@ insert into workingzones VALUES (2,16);
 insert into workingzones VALUES (3,16);
 insert into workingzones VALUES (4,16);
 
-
+SELECT setval('users_userid_seq', (SELECT MAX(userid) from users));
+SELECT setval('serviceTypes_serviceTypeId_seq', (SELECT MAX(serviceTypeId) from serviceTypes));
+SELECT setval('aptitudes_aptitudeId_seq', (SELECT MAX(aptitudeId) from aptitudes));
+SELECT setval('appointments_appointmentId_seq', (SELECT MAX(appointmentId) from appointments));
+SELECT setval('neighborhoods_ngid_seq', (SELECT MAX(ngid) from neighborhoods));

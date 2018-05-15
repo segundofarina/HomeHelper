@@ -66,6 +66,10 @@ public class ReviewJdbcDao implements ReviewDao {
     public List<Review> getReviewsOfAptitude(int aptitudeId){
         List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM reviews WHERE aptitudeId =?", ROW_MAPPER,aptitudeId);
 
+        if(dbRowsList.isEmpty()){
+            return null;
+        }
+
         List<Review> reviews = new ArrayList<Review>();
 
         for(Row row : dbRowsList){
@@ -77,6 +81,15 @@ public class ReviewJdbcDao implements ReviewDao {
 
     @Override
     public boolean insertReview(int userId, int aptitudeId, int quality,int cleanness, int price, int punctuality, int treatment, String comment) {
+
+        if(comment==null){
+            return false;
+        }
+
+       if(!isValidCalification(quality) || !isValidCalification(cleanness) || !isValidCalification(price) || !isValidCalification(punctuality) || !isValidCalification(treatment)){
+           return false;
+       }
+
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("userId", userId);
         args.put("aptitudeId",aptitudeId);
@@ -94,5 +107,19 @@ public class ReviewJdbcDao implements ReviewDao {
         }
 
         return true;
+    }
+
+    private boolean isValidCalification(int calification) {
+
+        if(calification>0 && calification<6){
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean removeReviewsOfAptitude(int aptId) {
+        return jdbcTemplate.update("DELETE FROM reviews WHERE aptitudeId = ?", aptId) != 0;
     }
 }
