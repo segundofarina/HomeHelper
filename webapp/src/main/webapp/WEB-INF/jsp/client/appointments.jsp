@@ -97,6 +97,9 @@
                                 <td><c:out value="${appointment.date}" /></td>
                                 <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
                                 <td>
+                                    <%--<c:if test="${appointment.hasPendingReview == true}">
+
+                                    </c:if>--%>
                                     <a href="<c:url value="/client/writeReview/${appointment.appointmentId}" />" class="btn btn-primary btn-xs">
                                         <i class="fa fa-edit"></i><spring:message code="client.write-review"/>
                                     </a>
