@@ -79,7 +79,7 @@
                         <thead>
                         <tr>
                             <th></th>
-                            <th>Service Type</th>
+                            <th><spring:message code="general.service-type"/></th>
                             <th><spring:message code="general.name"/></th>
                             <th><spring:message code="general.date"/></th>
                             <th><spring:message code="general.status"/></th>

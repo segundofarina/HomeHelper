@@ -27,7 +27,7 @@ public class NeighborhoodJdbcDao implements NeighborhoodDao {
     @Autowired
     public NeighborhoodJdbcDao(final DataSource ds) {
         jdbcTemplate = new JdbcTemplate(ds);
-        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("neigborhoods").usingGeneratedKeyColumns("ngId");
+        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("neighborhoods").usingGeneratedKeyColumns("ngid");
     }
 
     /* Row mapper for every row in the table */
@@ -38,15 +38,11 @@ public class NeighborhoodJdbcDao implements NeighborhoodDao {
     };
 
     @Override
-    public void insertNeighborhood(int ngId) {
+    public int insertNeighborhood(String ngname) {
 
         final Map<String, Object> args = new HashMap<String, Object>();
-        args.put("ngId", ngId);
-        try {
-            jdbcInsert.execute(args);
-        } catch (Exception e) {
-            //do something
-        }
+        args.put("ngname",ngname);
+        return  jdbcInsert.executeAndReturnKey(args).intValue();
     }
 
     @Override

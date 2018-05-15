@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface NeighborhoodDao {
 
-    void insertNeighborhood(int ngId);
+    int insertNeighborhood(String ngname);
 
     List<Neighborhood> getAllNeighborhoods();
 }
