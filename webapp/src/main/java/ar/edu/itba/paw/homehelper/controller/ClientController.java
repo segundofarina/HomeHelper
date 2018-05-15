@@ -160,6 +160,11 @@ public class ClientController {
         sProviderService.create(loggedInUser.getId(), form.getProfileDesc());
         sProviderService.addAptitude(loggedInUser.getId(), form.getServiceTypeId(), form.getAptDesc());
         //update user
+        final int userId = loggedInUser.getId();
+        userService.updateFirstNameOfUser(userId, form.getFirstname());
+        userService.updateLastNameOfUser(userId, form.getLastname());
+        userService.updateEmailOfUser(userId, form.getEmail());
+        userService.updatePhoneOfUser(userId, form.getPhone());
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(loggedInUser.getUsername());
         Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

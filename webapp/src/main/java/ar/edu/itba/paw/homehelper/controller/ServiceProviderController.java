@@ -122,7 +122,7 @@ public class ServiceProviderController {
         mav.addObject("providerId", providerId);
         mav.addObject("providerName", loggedInUser.getFirstname());
 
-        //mav.addObject("reviews", );
+        mav.addObject("reviews", sProviderService.getReviewsOfServiceProvider(loggedInUser.getId()));
 
         return mav;
     }
@@ -149,19 +149,5 @@ public class ServiceProviderController {
     }
 
 
-/*
-    @RequestMapping(value = "/sprovider/{providerId}/editProfile/updateAptitudes", method = { RequestMethod.POST })
-    public ModelAndView updateAptitudes(@Valid @ModelAttribute("registerForm") final AptitudeForm form, final BindingResult errors) {
-        if (errors.hasErrors()) { return providerPosts(form.getServiceProviderId());
-        }
-        ArrayList<AptitudeForm> list =new ArrayList<AptitudeForm>();
-        list.add(form);
-        sProviderService.updateAptitudes(form.getServiceProviderId(),list);
-       // final User u = us.create(form.getUsername(), form .getPassword());
-
-
-        return providerPosts(form.getServiceProviderId());
-    }
-    */
 
 }
