@@ -16,10 +16,11 @@ public class User {
     private String phone;
     private byte[] image;
     private String address;
+    private boolean verified;
 
 
 
-    public User(String username, int id, String password, String firstname, String lastname, String email, String phone, String address,byte[] image) {
+    public User(String username, int id, String password, String firstname, String lastname, String email, String phone, String address, byte[] image,boolean verified) {
         this.username = username;
         this.id = id;
         this.password = password;
@@ -29,6 +30,11 @@ public class User {
         this.phone = phone;
         this.image = image;
         this.address = address;
+        this.verified=verified;
+    }
+
+    public boolean isVerified() {
+        return verified;
     }
 
     public String getPhone() {

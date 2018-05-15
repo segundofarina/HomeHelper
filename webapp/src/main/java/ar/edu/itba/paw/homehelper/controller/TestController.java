@@ -38,7 +38,7 @@ public class TestController {
 
     @RequestMapping("/sendEmail")
     public ModelAndView sendEmail(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("signUpForm") final SignUpForm form) {
-        mailService.sendConfirmationEmail("afarina@itba.edu.ar",1);
+        mailService.sendConfirmationEmail(1,"dummykey");
         return new ModelAndView("redirect:/");
     }
 

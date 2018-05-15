@@ -19,4 +19,6 @@ public interface AptitudeDao {
 
     int getAptitudeId(int userId, int stId);
 
+    Aptitude getAptitude(int id);
+
 }

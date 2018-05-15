@@ -10,7 +10,7 @@ public class SProvider extends User{
     private List<Neighborhood> neighborhoods;
 
     public SProvider(User user, String description, List<Aptitude> aptitudes, List<Neighborhood> neighborhoods) {
-        super(user.getUsername(),user.getId(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getAddress(),user.getImage());
+        super(user.getUsername(),user.getId(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getAddress(),user.getImage(),user.isVerified());
 
         this.description = description;
         this.aptitudes = aptitudes;

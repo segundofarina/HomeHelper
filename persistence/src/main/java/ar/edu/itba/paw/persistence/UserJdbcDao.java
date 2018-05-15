@@ -29,7 +29,7 @@ public class UserJdbcDao implements UserDao {
 
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-        return new User(rs.getString("username"), rs.getInt("userid"),rs.getString("password"),rs.getString("firstname"),rs.getString("lastname"),rs.getString("email"),rs.getString("phone"),rs.getString("address"),rs.getBytes("image"));
+        return new User(rs.getString("username"), rs.getInt("userid"),rs.getString("password"),rs.getString("firstname"),rs.getString("lastname"),rs.getString("email"),rs.getString("phone"),rs.getString("address"),rs.getBytes("image"),rs.getBoolean("verified"));
 
         }
     };
@@ -140,9 +140,20 @@ public class UserJdbcDao implements UserDao {
         args.put("phone",phone);
         args.put("image",image);
         args.put("address", address);
+        args.put("verified",false);
         final Number userId = jdbcInsert.executeAndReturnKey(args);
-        return new User(username,userId.intValue(), password, firstname, lastname, email, phone,address,image);
+        return new User(username,userId.intValue(), password, firstname, lastname, email, phone,address,image,false);
 
+    }
+
+    @Override
+    public User verifyUser(int userId) {
+        Optional<User> user = findById(userId);
+        if (!user.isPresent()) {
+            return null;
+        }
+        jdbcTemplate.update("UPDATE users SET verified =? WHERE userid =?", true, userId);
+        return user.get();
     }
 
 

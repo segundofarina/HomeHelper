@@ -24,12 +24,13 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import freemarker.template.Configuration;
 
+import javax.swing.text.html.Option;
+
 @Service
 public class MailServiceImpl implements MailService{
 
 
-    private final String serverEmail ="noreply.homehelper";
-    private final String serverPassword ="dulcedeleche";
+    private final String serverEmail ="Home-Helper";
     private final String subject ="Confirm your account at HomeHelper";
 
     @Autowired
@@ -48,18 +49,18 @@ public class MailServiceImpl implements MailService{
 
     @Override
     @Async
-    public void sendConfirmationEmail(String email, int userId) {
+    public void sendConfirmationEmail(int userId, String key) {
         Optional<User> user = userDao.findById(userId);
         if(!user.isPresent()){
             //System.out.println("Tried to send email but user with id "+userId+"does not exist");
             return;
         }
 
-        MimeMessagePreparator preparator = getMessagePreparator(email,user.get());
+        MimeMessagePreparator preparator = getMessagePreparator(user.get(),key);
 
         try {
             mailSender.send(preparator);
-            verifyEmailDao.insert(userId,""+userId);
+            verifyEmailDao.insert(userId,key);
 
             //System.out.println("Message has been sent.............................");
         }
@@ -68,21 +69,33 @@ public class MailServiceImpl implements MailService{
         }
     }
 
+    @Override
+    public User verifyUserKey(String key) {
+        Optional<Integer> id =verifyEmailDao.getUserId(key);
+        if(id.isPresent()){
+            verifyEmailDao.deleteEntry(key);
 
-    private MimeMessagePreparator getMessagePreparator(final String email, final User user){
+            return userDao.verifyUser(id.get());
+        }else{
+            return null;
+        }
+    }
+
+
+    private MimeMessagePreparator getMessagePreparator(final User user,final String key){
 
         MimeMessagePreparator preparator = mimeMessage -> {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
             helper.setSubject(subject);
             helper.setFrom(serverEmail);
-            helper.setTo(email);
+            helper.setTo(user.getEmail());
 
 
 
             Map<String, Object> model = new HashMap<String, Object>();
             model.put("user", user);
-            model.put("verifyurl","http://pawserver.it.itba.edu.ar/paw-2018a-4/users/verify/"+user.getId());
+            model.put("verifyurl","http://pawserver.it.itba.edu.ar/paw-2018a-4/users/verify/"+key);
 
             String text = geFreeMarkerTemplateContent(model);//Use Freemarker or Velocity
             //System.out.println("Template content : "+text);

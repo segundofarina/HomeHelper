@@ -2,17 +2,16 @@ package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.ReviewForm;
-import ar.edu.itba.paw.interfaces.services.AppointmentService;
-import ar.edu.itba.paw.interfaces.services.ChatService;
+import ar.edu.itba.paw.homehelper.form.SettingsForm;
+import ar.edu.itba.paw.interfaces.services.*;
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
-import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.homehelper.form.CreateSProviderForm;
-import ar.edu.itba.paw.interfaces.services.STypeService;
 import ar.edu.itba.paw.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,6 +43,9 @@ public class ClientController {
 
     @Autowired
     private STypeService sTypeService;
+
+    @Autowired
+    private UserService userService;
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
@@ -158,6 +160,11 @@ public class ClientController {
         sProviderService.create(loggedInUser.getId(), form.getProfileDesc());
         sProviderService.addAptitude(loggedInUser.getId(), form.getServiceTypeId(), form.getAptDesc());
         //update user
+        final int userId = loggedInUser.getId();
+        userService.updateFirstNameOfUser(userId, form.getFirstname());
+        userService.updateLastNameOfUser(userId, form.getLastname());
+        userService.updateEmailOfUser(userId, form.getEmail());
+        userService.updatePhoneOfUser(userId, form.getPhone());
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(loggedInUser.getUsername());
         Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -210,6 +217,48 @@ public class ClientController {
        }
        sProviderService.insertReview(ap.getProvider().getId(), ap.getServiceType().getServiceTypeId(), form.getQualityInt(), form.getCleannesInt(), form.getPriceInt(), form.getPunctualityInt(), form.getTreatmentInt(), form.getMsg());
        return new ModelAndView("redirect:/client/appointments");
+    }
+
+    @RequestMapping("/client/settings")
+    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model) {
+       final ModelAndView mav = new ModelAndView("settings");
+
+        mav.addObject("user", loggedInUser);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+
+        if(!model.containsAttribute("settingsForm")) {
+            SettingsForm settingsForm = new SettingsForm();
+            settingsForm.setFirstname(loggedInUser.getFirstname());
+            settingsForm.setLastname(loggedInUser.getLastname());
+            settingsForm.setEmail(loggedInUser.getEmail());
+            settingsForm.setPhone(loggedInUser.getPhone());
+            model.addAttribute("settingsForm", settingsForm);
+        }
+
+        mav.addObject("username", loggedInUser.getUsername());
+
+       return mav;
+    }
+
+    @RequestMapping("/client/settings/update")
+    public ModelAndView settingsUpdate(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("settingsForm") final SettingsForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
+        if(errors.hasErrors()) {
+            redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.settingsForm", errors);
+            redrAttr.addFlashAttribute("settingsForm", form);
+            return new ModelAndView("redirect:/client/settings");
+        }
+
+        final int userId = loggedInUser.getId();
+
+        userService.updateFirstNameOfUser(userId, form.getFirstname());
+        userService.updateLastNameOfUser(userId, form.getLastname());
+        userService.updateEmailOfUser(userId, form.getEmail());
+        userService.updatePhoneOfUser(userId, form.getPhone());
+        userService.updatePasswordOfUser(userId, form.getPasswordForm().getPassword());
+
+        //update profile picture
+
+        return new ModelAndView("redirect:/");
     }
 
     private int getUserId(User user) {
