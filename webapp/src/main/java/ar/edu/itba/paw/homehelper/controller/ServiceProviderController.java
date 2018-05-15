@@ -175,6 +175,9 @@ public class ServiceProviderController {
         mav.addObject("errorElemId", elemErrorId);
         mav.addObject("editAptitude", -1);
 
+        /* Profile picture */
+
+
         return mav;
     }
 

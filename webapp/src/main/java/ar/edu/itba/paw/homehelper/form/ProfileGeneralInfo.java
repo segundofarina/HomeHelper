@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper.form;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Size;
 
@@ -11,6 +12,8 @@ public class ProfileGeneralInfo {
     @NotBlank
     @Size(max = 1000)
     private String generalDescription;
+
+    private MultipartFile profilePicture;
 
     public String getGeneralDescription() {
         return generalDescription;
@@ -26,5 +29,13 @@ public class ProfileGeneralInfo {
 
     public void setElemId(int elemId) {
         this.elemId = elemId;
+    }
+
+    public MultipartFile getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(MultipartFile profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }

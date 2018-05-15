@@ -137,13 +137,13 @@
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.uploadPreview.min.js"/>"></script>
 
 <script type="text/javascript">
-$(document).ready(function() {
-$.uploadPreview({
-input_field: "#image-upload",
-preview_box: "#image-preview",
-label_field: "#image-label"
-});
-});
+    $(document).ready(function() {
+        $.uploadPreview({
+        input_field: "#image-upload",
+        preview_box: "#image-preview",
+        label_field: "#image-label"
+        });
+    });
 </script>
 
 </body>

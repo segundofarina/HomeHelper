@@ -71,10 +71,24 @@
                                         <div class="row">
                                             <div class="col-md-4 col-sm-4 col-xs-12">
                                                 <div class="profileImgEdit">
-                                                    <img src="<c:url value="/resources/img/img.jpg"/>" alt="profileImg" />
+                                                    <!--<img src="<c:url value="/resources/img/img.jpg"/>" alt="profileImg" />
+                                                    <div class="cover">
+                                                        <p class="coverTxt"><spring:message code="sprovider.change-pic"/></p>
+                                                    </div>-->
+                                                    <div id="image-preview"></div><!-- si tiene foto de perfil se agrega con un style="background-image: url('');" -->
+                                                        <%--<c:choose>
+                                                            <c:when test="${profilePicture != null}">
+                                                                <c:url value="${profilePicture}" var="img" />
+                                                                <div id="image-preview" style="background-image: url(<c:out value='${img}' />);"></div>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <div id="image-preview"></div>
+                                                            </c:otherwise>
+                                                        </c:choose>--%>
                                                     <div class="cover">
                                                         <p class="coverTxt"><spring:message code="sprovider.change-pic"/></p>
                                                     </div>
+                                                    <form:input type="file" path="profilePicture" cssClass="edit-visible" id="image-upload" accept="image/*"/>
                                                 </div>
                                             </div>
                                             <div class="col-md-8 col-sm-8 col-xs-12">
@@ -240,6 +254,8 @@
 <!-- NProgress -->
 <script src="<c:url value="/resources/adminTemplate/vendors/nprogress/nprogress.js"/>"></script>
 
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.uploadPreview.min.js"/>"></script>
+
 <!-- Custom Theme Scripts -->
 <script src="<c:url value="/resources/adminTemplate/build/js/custom.min.js"/>"></script>
 
@@ -255,6 +271,12 @@
         if($(document).find('.editable.edit').length > 0) {
             $('.btn-edit, .btn.add-one').addClass('disabled');
         }
+
+        $.uploadPreview({
+            input_field: "#image-upload",
+            preview_box: "#image-preview",
+            label_field: "#image-label"
+        });
 
         /* Show edit action btns (Accept, cancel) when pressing edit and disabeling all edit-btn */
         $('.btn-edit').click(function() {
