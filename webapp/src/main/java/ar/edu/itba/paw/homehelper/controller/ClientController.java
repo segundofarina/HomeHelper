@@ -21,8 +21,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -62,18 +66,26 @@ public class ClientController {
     }
 
 
-   /* Este metodo no andaa */
-   @RequestMapping(value = "/client/getSendAppointment", method = RequestMethod.GET)
-   public ModelAndView getSendAppointment(@ModelAttribute("appointmentForm") final AppointmentForm form, RedirectAttributes redrAttr, HttpServletRequest request) {
+    /* Este metodo deberia ser post pero solo post no puedo hacerle la redireccion */
+   @RequestMapping(value = "/client/getSendAppointment", method ={RequestMethod.POST, RequestMethod.GET})
+   public ModelAndView getSendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, final HttpServletRequest request, final HttpServletResponse response) {
+
+       LOGGER.debug("User in getSendAppointment");
+
+       AppointmentForm form = getAppointmentFromCookies(request);
+       removeFormCookies(response);
+
        if(form == null) {
-           //throw new ForbiddenException();
+           //exception
+           LOGGER.debug("Cookies failed");
        }
 
-       //System.out.println(form.getDate());
+       Appointment ap= appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
+       chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId());
 
-       redrAttr.addFlashAttribute("appointmentForm", form);
-       //request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
-       return new ModelAndView("forward:/client/sendAppointment");
+       String redirect = "redirect:/client/appointmentConfirmed?appt=" + ap.getAppointmentId();
+
+       return new ModelAndView(redirect);
    }
 
    @RequestMapping(value = "/client/sendAppointment", method = RequestMethod.POST)
@@ -273,6 +285,49 @@ public class ClientController {
             return "Annonymous";
         }else{
             return user.getUsername()+"["+user.getId()+"]";
+        }
+    }
+
+    private AppointmentForm getAppointmentFromCookies(HttpServletRequest request) {
+       boolean provId = false, sType = false, date = false, desc = false;
+       AppointmentForm form = new AppointmentForm();
+
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            System.out.println(cookie.getValue());
+            if (cookie.getName().equals("ApForm-ProviderId")) {
+                form.setProviderId( Integer.parseInt(cookie.getValue()) );
+                provId = true;
+            }
+            if (cookie.getName().equals("ApForm-ServiceType")) {
+                form.setServiceType( cookie.getValue() );
+                sType = true;
+            }
+            if (cookie.getName().equals("ApForm-Date")) {
+                form.setDate( cookie.getValue() );
+                date = true;
+            }
+            if (cookie.getName().equals("ApForm-Description")) {
+                form.setDescription( cookie.getValue() );
+                desc = true;
+            }
+        }
+
+        if(provId && sType && date && desc) {
+            return form;
+        }
+
+        return null;
+    }
+
+    private void removeFormCookies(HttpServletResponse response) {
+        List<String> cookies = new ArrayList<>(Arrays.asList("ApForm-ProviderId", "ApForm-ServiceType", "ApForm-Date", "ApForm-Description"));
+
+        for(String cookieName : cookies) {
+            Cookie cookie = new Cookie(cookieName, "");
+            cookie.setPath("/");
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
         }
     }
 }

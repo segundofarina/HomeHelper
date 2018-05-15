@@ -24,7 +24,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -166,7 +171,7 @@ public class PublicController {
 
 
     @RequestMapping(value = "/profile/sendAppointment", method = RequestMethod.POST)
-    public ModelAndView sendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
+    public ModelAndView sendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors, final RedirectAttributes redrAttr, final HttpServletResponse response) {
         if(errors.hasErrors()) {
             /* Back to form */
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.appointmentForm", errors);
@@ -180,6 +185,15 @@ public class PublicController {
         redrAttr.addFlashAttribute("appointmentForm", form);
 
         if(loggedInUser == null) {
+            /* Save form as cookies for persistence */
+            /*Cookie cookie = new Cookie("ApForm-ProviderId", String.valueOf(form.getProviderId()));
+            cookie.setPath("/");
+            response.addCookie(cookie);
+            response.addCookie(new Cookie("ApForm-ServiceType", form.getServiceType() ));
+            response.addCookie(new Cookie("ApForm-Date", form.getDate() ));
+            response.addCookie(new Cookie("ApForm-Description", form.getDescription() ));*/
+            saveFormAsCookies(form, response);
+
             String redirect = "redirect:/login";
             LOGGER.info("user {} tried to make an appointment but was not logged in.",getUserString(loggedInUser));
             return new ModelAndView(redirect);
@@ -275,5 +289,24 @@ public class PublicController {
         }else{
             return user.getUsername()+"["+user.getId()+"]";
         }
+    }
+
+    private void saveFormAsCookies(AppointmentForm form, HttpServletResponse response) {
+        Cookie cookie = new Cookie("ApForm-ProviderId", String.valueOf(form.getProviderId()));
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        cookie = new Cookie("ApForm-ServiceType", form.getServiceType() );
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        cookie = new Cookie("ApForm-Date", form.getDate() );
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        cookie = new Cookie("ApForm-Description", form.getDescription() );
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
     }
 }
