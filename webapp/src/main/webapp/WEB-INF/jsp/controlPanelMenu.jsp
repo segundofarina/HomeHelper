@@ -18,7 +18,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
                         <li><a href="<c:url value="/" />"><spring:message code="general.switchToClient" /></a></li>
-                        <li><a href="javascript:;"><spring:message code="general.settings"/></a></li>
+                        <li><a href="<c:url value="/client/settings" />"><spring:message code="general.settings"/></a></li>
                         <li><a href="<c:url value="/logout"/>"><i class="fa fa-sign-out pull-right"></i> <spring:message code="general.logout"/></a></li>
                     </ul>
                 </li>
