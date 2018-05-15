@@ -40,7 +40,9 @@ public class UserJdbcDao implements UserDao {
         jdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("users").usingGeneratedKeyColumns("userid");
     }
 
+    @Override
     public Optional<User> findById(int id) {
+        System.out.println("--------------------------------ID IS "+id);
         final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?;", ROW_MAPPER, id);
         if (list.isEmpty()) {
             return Optional.empty();
