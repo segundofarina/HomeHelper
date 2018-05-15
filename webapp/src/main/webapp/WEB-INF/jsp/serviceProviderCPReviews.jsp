@@ -83,7 +83,7 @@
                                             <td>Mark</td>
                                             <td>May 20, 2018</td>
                                             <td>
-                                                <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>">
+                                                <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>"/>
                                             </td>
                                         </tr>
                                     </c:forEach>

@@ -25,10 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 public class PublicController {
@@ -55,6 +53,7 @@ public class PublicController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PublicController.class);
 
@@ -236,10 +235,11 @@ public class PublicController {
 
         LOGGER.info("{} user was created.",getUserString(loggedInUser));
 
-        User user = userService.create(form.getUsername(), form.getPasswordForm().getPassword(), form.getFirstname(), form.getLastname(), form.getEmail(), form.getPhone(), form.getEmail(), image);
+        User user = userService.create(form.getUsername(), passwordEncoder.encode(form.getPasswordForm().getPassword()), form.getFirstname(), form.getLastname(), form.getEmail(), form.getPhone(), form.getEmail(), image);
 
         String key = Base64.getUrlEncoder().encodeToString(passwordEncoder.encode(user.getId()+user.getUsername()+"CRONOS").getBytes());
         mailService.sendConfirmationEmail( user.getId(),key);
+
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
         Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

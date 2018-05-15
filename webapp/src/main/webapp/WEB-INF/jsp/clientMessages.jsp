@@ -77,8 +77,7 @@
                                             <div class="otherMsg">
                                         </c:otherwise>
                                     </c:choose>
-
-                                                <p><c:out value="${msg.message}" /></p>
+                                            <p><c:out value="${msg.message}" /></p>
                                             </div>
                                 </div>
                                 </c:forEach>
@@ -88,10 +87,10 @@
                                 <c:url value="/client/messages/${currentChat.grey.id}" var="msgPostPath" />
                                 <form action="<c:out value="${msgPostPath}" />" method="POST">
                                     <div>
-                                        <textarea name="msg" placeholder="Write a message..."></textarea>
+                                        <textarea name="msg" placeholder="<spring:message code="placeholder.write-message"/>"></textarea>
                                     </div>
                                     <div>
-                                        <input type="submit" value="send" class="btn btn-success pull-right" />
+                                        <input type="submit" value="<spring:message code="general.send"/>" class="btn btn-success pull-right" />
                                         <div class="clearfix"></div>
                                     </div>
                                 </form>

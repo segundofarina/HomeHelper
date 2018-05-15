@@ -65,40 +65,40 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
-                                <form:label path="firstname"><spring:message code="general.firstname"/>:</form:label>
+                                <form:label path="firstname"><spring:message code="form.firstname"/></form:label>
                                 <form:input type="text" path="firstname" cssClass="form-control"/>
                                 <form:errors path="firstname" element="p" cssClass="form-error"/>
                             </div>
 
                             <div class="form-group">
-                                <form:label path="lastname"><spring:message code="general.lastname"/>:</form:label>
+                                <form:label path="lastname"><spring:message code="form.lastname"/></form:label>
                                 <form:input type="text" path="lastname" cssClass="form-control"/>
                                 <form:errors path="lastname" element="p" cssClass="form-error"/>
                             </div>
                             <div class="form-group">
-                                <form:label path="email"><spring:message code="signup.email"/>:</form:label>
+                                <form:label path="email"><spring:message code="form.email"/></form:label>
                                 <form:input type="text" path="email" cssClass="form-control"/>
                                 <form:errors path="email" element="p" cssClass="form-error"/>
                             </div>
                             <div class="form-group">
-                                <form:label path="phone"><spring:message code="signup.phone"/>:</form:label>
+                                <form:label path="phone"><spring:message code="form.phone"/></form:label>
                                 <form:input type="text" path="phone" cssClass="form-control"/>
                                 <form:errors path="phone" element="p" cssClass="form-error"/>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
-                                <form:label path="username"><spring:message code="signup.username"/>:</form:label>
+                                <form:label path="username"><spring:message code="form.username"/></form:label>
                                 <form:input type="text" path="username" cssClass="form-control"/>
                                 <form:errors path="username" element="p" cssClass="form-error"/>
                             </div>
                             <div class="form-group">
-                                <form:label path="passwordForm.password"><spring:message code="signup.password"/>:</form:label>
+                                <form:label path="passwordForm.password"><spring:message code="form.password"/></form:label>
                                 <form:input type="password" path="passwordForm.password" cssClass="form-control"/>
                                 <form:errors path="passwordForm.password" element="p" cssClass="form-error"/>
                             </div>
                             <div class="form-group">
-                                <form:label path="passwordForm.repeatPassword"><spring:message code="signup.repeatPassword"/>:</form:label>
+                                <form:label path="passwordForm.repeatPassword"><spring:message code="form.repeat-password"/></form:label>
                                 <form:input type="password" path="passwordForm.repeatPassword" cssClass="form-control"/>
                                 <form:errors path="passwordForm" element="p" cssClass="form-error"/>
                             </div>
@@ -109,8 +109,7 @@
 
 
 
-                    <form:button type="submit" class="btn btn-success"><spring:message
-                            code="singup.submit"/></form:button>
+                    <form:button type="submit" class="btn btn-success"><spring:message code="singup.submit"/></form:button>
                 </form:form>
             </div>
         </div>
@@ -122,7 +121,7 @@
     <!-- footer content -->
     <footer class="footer">
         <div class="pull-right">
-            © 2018 All rights reserved Home-Helper.com
+            <spring:message code="index.rights-reserved"/>
         </div>
         <div class="clearfix"></div>
     </footer><!-- /footer content -->
@@ -137,13 +136,13 @@
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.uploadPreview.min.js"/>"></script>
 
 <script type="text/javascript">
-$(document).ready(function() {
-$.uploadPreview({
-input_field: "#image-upload",
-preview_box: "#image-preview",
-label_field: "#image-label"
-});
-});
+    $(document).ready(function() {
+        $.uploadPreview({
+        input_field: "#image-upload",
+        preview_box: "#image-preview",
+        label_field: "#image-label"
+        });
+    });
 </script>
 
 </body>

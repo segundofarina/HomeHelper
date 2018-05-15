@@ -42,22 +42,22 @@
                 <div class="col-xs-12 col-sm-6">
                     <div class="panel">
                         <div class="panel-body">
-                            <h3>Appointment Confirmed</h3>
+                            <h3><spring:message code="appointment.confirmed"/></h3>
                             <div class="apt-content">
                                 <div class="apt-group">
-                                    <h5>Service Type:</h5>
+                                    <h5><spring:message code="form.service-type"/></h5>
                                     <p><c:out value="${appointment.serviceType.name}" /></p>
                                 </div>
                                 <div class="apt-group">
-                                    <h5>Date:</h5>
+                                    <h5><spring:message code="form.date"/></h5>
                                     <p><c:out value="${appointment.date}" /></p>
                                 </div>
                                 <div class="apt-group">
-                                    <h5>Description:</h5>
+                                    <h5>D<spring:message code="form.description"/></h5>
                                     <p><c:out value="${appointment.jobDescripcion}" /></p>
                                 </div>
                                 <div class="apt-group">
-                                    <p class="info">Remember ...</p>
+                                    <p class="info"><spring:message code="appointment.remember"/></p>
                                 </div>
                             </div>
                         </div>

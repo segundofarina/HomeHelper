@@ -98,9 +98,9 @@
                                 <form:form modelAttribute="appointmentForm" action="${postPath}" method="post">
                                     <form:input type="hidden" value="${provider.id}" path="providerId" />
                                     <div class="form-group">
-                                        <form:label path="serviceType"><spring:message code="general.service-type"/>:</form:label>
+                                        <form:label path="serviceType"><spring:message code="form.service-type"/></form:label>
                                         <form:select class="form-control" path="serviceType">
-                                            <form:option value="none">Select service type...</form:option>
+                                            <form:option value="none"><spring:message code="profile.select-serviceType"/></form:option>
                                             <c:forEach items="${provider.aptitudes}" var="aptitude">
                                                 <form:option value="${aptitude.service.serviceTypeId}"> <c:out value="${aptitude.service.name}"/></form:option>
                                             </c:forEach>
@@ -108,9 +108,10 @@
                                         <form:errors path="serviceType" element="p" cssClass="form-error" />
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="date"><spring:message code="general.date"/>:</form:label>
+                                        <form:label path="date"><spring:message code="form.date"/></form:label>
                                         <div class='input-group date' id='datepicker'>
-                                            <form:input type="text" name="date" path="date" class="form-control" placeholder="Select a date..." />
+                                            <form:input type="text" name="date" path="date" class="form-control" placeholder="" />
+                                            <%--<form:input type="text" name="date" path="date" class="form-control" placeholder="<spring:message code="placeholder.select-date"/>" />--%>
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -118,8 +119,9 @@
                                         <form:errors path="date" element="p" cssClass="form-error" />
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="description"><spring:message code="general.description"/>:</form:label>
-                                        <form:textarea path="description" class="form-control" placeholder="Describe your situation"></form:textarea>
+                                        <form:label path="description"><spring:message code="form.description"/></form:label>
+                                        <form:textarea path="description" class="form-control" placeholder=""/>
+                                        <%--<form:textarea path="description" class="form-control" placeholder="<spring:message code="placeholder.describe-situation"/>"/>--%>
                                     </div>
                                     <form:button type="submit" class="btn btn-success btn-full-width"><spring:message code="general.contact"/></form:button>
                                 </form:form>
@@ -153,32 +155,32 @@
                                         <h4><spring:message code="profile.general-reviews"/></h4>
                                         <div class="stars dyn-stars" data-rating="<c:out value="${aptitude.generalCalification}"/>"></div>
                                         <div class="progressBars">
-                                            <h5><spring:message code="general.quality"/>:</h5>
+                                            <h5><spring:message code="form.quality"/></h5>
                                             <div class="progress">
 
                                                 <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.qualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.qualityCalification*20}"/>%;">
                                                     <c:out value="${aptitude.qualityCalification}"/>
                                                 </div>
                                             </div>
-                                            <h5><spring:message code="general.price"/>:</h5>
+                                            <h5><spring:message code="form.price"/></h5>
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.priceCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.priceCalification*20}"/>%;">
                                                     <c:out value="${aptitude.priceCalification}"/>
                                                 </div>
                                             </div>
-                                            <h5><spring:message code="general.punctuality"/>:</h5>
+                                            <h5><spring:message code="form.punctuality"/></h5>
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.punctualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.punctualityCalification*20}"/>%;">
                                                     <c:out value="${aptitude.punctualityCalification}"/>
                                                 </div>
                                             </div>
-                                            <h5><spring:message code="general.treatment"/>:</h5>
+                                            <h5><spring:message code="form.treatment"/></h5>
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.treatmentCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.treatmentCalification*20}"/>%;">
                                                     <c:out value="${aptitude.treatmentCalification}"/>
                                                 </div>
                                             </div>
-                                            <h5><spring:message code="general.cleanness"/>:</h5>
+                                            <h5><spring:message code="form.cleanness"/></h5>
                                             <div class="progress">
                                                 <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.cleannessCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.cleannessCalification*20}"/>%;">
                                                     <c:out value="${aptitude.cleannessCalification}"/>
@@ -211,7 +213,7 @@
                                         </div>
                                         <div class="col-xs-6 col-sm-9 col-md-10 divider-left">
                                             <div class="name visible-xs">
-                                                <h5>Martin Victory</h5>
+                                                <h5><c:out value="${review.user.username}" /></h5>
                                             </div>
                                             <div class="date"><c:out value="${review.date}" /></div>
                                             <div class="dotDivider hidden-xs">&#x25CF;</div>
