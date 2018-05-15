@@ -9,6 +9,7 @@ drop table if exists aptitudes CASCADE;
 drop table if exists appointments CASCADE;
 drop table if exists neighborhoods CASCADE;
 drop table if exists workingzone CASCADE;
+drop table if EXISTS temporaryImages CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
   userid INTEGER IDENTITY PRIMARY KEY,
@@ -78,6 +79,11 @@ CREATE TABLE IF NOT EXISTS appointments(
 CREATE TABLE IF NOT EXISTS workingzones(
   ngId INTEGER REFERENCES neighborhoods(ngId),
   userId INTEGER REFERENCES serviceProviders(userId)
+);
+
+CREATE TABLE IF NOT EXISTS temporaryImages (
+  imageid INTEGER IDENTITY PRIMARY KEY,
+  image   BYTEA
 );
 
 

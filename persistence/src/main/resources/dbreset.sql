@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS appointments CASCADE;
 drop table if EXISTS verifyUsers CASCADE;
 drop table if exists neighborhoods CASCADE;
 drop table if exists workingzone CASCADE;
+DROP TABLE if EXISTS temporaryImages CASCADE ;
 
 
 CREATE TABLE IF NOT EXISTS users (
@@ -82,6 +83,11 @@ CREATE TABLE IF NOT EXISTS neighborhoods(
 CREATE TABLE IF NOT EXISTS workingzones(
   ngId INTEGER REFERENCES neighborhoods(ngId),
   userId INTEGER REFERENCES serviceProviders(userId)
+);
+
+CREATE TABLE IF NOT EXISTS temporaryImages (
+  imageid SERIAL PRIMARY KEY,
+  image   BYTEA
 );
 
 insert into users VALUES (1,'sfarina','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Segundo Augusto','Fariña','afarina@itba.edu.ar','1541234567',null,'cuba 2546',FALSE );
