@@ -294,7 +294,6 @@ public class ClientController {
 
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
-            System.out.println(cookie.getValue());
             if (cookie.getName().equals("ApForm-ProviderId")) {
                 form.setProviderId( Integer.parseInt(cookie.getValue()) );
                 provId = true;

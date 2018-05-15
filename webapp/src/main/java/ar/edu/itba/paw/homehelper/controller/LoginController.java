@@ -17,7 +17,6 @@ public class LoginController {
         String redirect = referer;
 
         if(referer !=null && referer.contains("/profile")) {
-            System.out.println("redirect to getSendAppointment");
             redirect = "/client/getSendAppointment";
         }
 
