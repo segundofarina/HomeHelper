@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS users (
   email varchar(100),
   phone varchar(100),
   image blob,
-  address varchar(100)
+  address varchar(100),
+  verified boolean
 );
 
 CREATE TABLE IF NOT EXISTS neighborhoods(
@@ -80,12 +81,12 @@ CREATE TABLE IF NOT EXISTS workingzones(
 );
 
 
-insert into users VALUES(1,'segundofarina','dulcedeleche','Segundo','Farina','segundofarina@me.com','1134373920','1010101010','cuba 2546');
-insert into users VALUES(2,'florcavallin','dulcedeleche','Florencia','Cavallin','fcavallin@itba.edu.ar','1140910035',null,'cuba 2546');
-insert into users VALUES(3,'tinchovictory','dulcedeleche','Martin','Victory','martin@victory.com.ar','1159540388',null,'cuba 2546');
-insert into users VALUES(4,'carlosrodriguez','dulcedeleche','Carlos','Rodriguez','carlosrod@gmail.com','1156984231',null,'cuba 2546');
-insert into users VALUES(5,'juliovelez','dulcedeleche','Julio','Velez','julitogallina@hotmail.com','1148526584',null,'cuba 2546');
-insert into users VALUES(6,'elnue','dulcedeleche','nuevo','usuario','julitogallina@hotmail.com','2323232323',null,'cuba 2546');
+insert into users VALUES(1,'segundofarina','dulcedeleche','Segundo','Farina','segundofarina@me.com','1134373920','1010101010','cuba 2546',FALSE );
+insert into users VALUES(2,'florcavallin','dulcedeleche','Florencia','Cavallin','fcavallin@itba.edu.ar','1140910035',null,'cuba 2546',FALSE);
+insert into users VALUES(3,'tinchovictory','dulcedeleche','Martin','Victory','martin@victory.com.ar','1159540388',null,'cuba 2546',FALSE);
+insert into users VALUES(4,'carlosrodriguez','dulcedeleche','Carlos','Rodriguez','carlosrod@gmail.com','1156984231',null,'cuba 2546',FALSE);
+insert into users VALUES(5,'juliovelez','dulcedeleche','Julio','Velez','julitogallina@hotmail.com','1148526584',null,'cuba 2546',FALSE);
+insert into users VALUES(6,'elnue','dulcedeleche','nuevo','usuario','julitogallina@hotmail.com','2323232323',null,'cuba 2546',FALSE);
 
 insert into neighborhoods VALUES (1);
 insert into neighborhoods VALUES (2);

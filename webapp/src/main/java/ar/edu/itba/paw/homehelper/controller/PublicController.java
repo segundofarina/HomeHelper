@@ -17,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Set;
 
@@ -50,6 +52,9 @@ public class PublicController {
 
     @Autowired
     private STypeService sTypeService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PublicController.class);
 
@@ -232,13 +237,29 @@ public class PublicController {
         LOGGER.info("{} user was created.",getUserString(loggedInUser));
 
         User user = userService.create(form.getUsername(), form.getPasswordForm().getPassword(), form.getFirstname(), form.getLastname(), form.getEmail(), form.getPhone(), form.getEmail(), image);
-        mailService.sendConfirmationEmail(user.getEmail(), user.getId());
+
+        String key = Base64.getUrlEncoder().encodeToString(passwordEncoder.encode(user.getId()+user.getUsername()+"CRONOS").getBytes());
+        mailService.sendConfirmationEmail( user.getId(),key);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
         Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         return new ModelAndView("redirect:/");
+    }
+
+    @RequestMapping("/users/verify/{key}")
+    public ModelAndView verifyAccount(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("key") final String key) {
+        final ModelAndView mav = new ModelAndView("userVerify");
+
+
+        User user = mailService.verifyUserKey(key);
+
+        LOGGER.debug("Tried to verify account");
+        LOGGER.debug("MailService verifyUserKey was:{}",getUserString(user));
+        mav.addObject("user",user);
+
+        return mav;
     }
 
     private int getUserId(User user) {

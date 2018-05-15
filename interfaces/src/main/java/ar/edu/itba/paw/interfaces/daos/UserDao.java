@@ -19,6 +19,8 @@ public interface UserDao {
     User create(String username, String password, String firstName, String lastName, String email, String phone, String address, byte[] image);
 
 
+    User verifyUser(int userId);
+
     /**
      * Returns an {@link User} given it's username
      * @param username - username User is registered with
