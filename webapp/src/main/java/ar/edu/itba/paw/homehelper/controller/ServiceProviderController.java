@@ -184,6 +184,8 @@ public class ServiceProviderController {
     @RequestMapping(value = "/sprovider/editProfile/editGeneralInfo", method = RequestMethod.POST)
     public ModelAndView editGeneralInfo(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("profileGeneralInfo") final ProfileGeneralInfo form, BindingResult errors, RedirectAttributes redrAttr) {
         if(errors.hasErrors()) {
+            System.out.println("has errors");
+            System.out.println(form.getGeneralDescription());
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.profileGeneralInfo", errors);
             redrAttr.addFlashAttribute("profileGeneralInfo", form);
             String redirect = "redirect:/sprovider/editProfile?error=" + form.getElemId();
