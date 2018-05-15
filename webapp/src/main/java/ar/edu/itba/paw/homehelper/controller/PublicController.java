@@ -17,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 public class PublicController {
@@ -50,6 +49,9 @@ public class PublicController {
 
     @Autowired
     private STypeService sTypeService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PublicController.class);
 
@@ -231,7 +233,7 @@ public class PublicController {
 
         LOGGER.info("{} user was created.",getUserString(loggedInUser));
 
-        User user = userService.create(form.getUsername(), form.getPasswordForm().getPassword(), form.getFirstname(), form.getLastname(), form.getEmail(), form.getPhone(), form.getEmail(), image);
+        User user = userService.create(form.getUsername(), passwordEncoder.encode(form.getPasswordForm().getPassword()), form.getFirstname(), form.getLastname(), form.getEmail(), form.getPhone(), form.getEmail(), image);
         mailService.sendConfirmationEmail(user.getEmail(), user.getId());
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
