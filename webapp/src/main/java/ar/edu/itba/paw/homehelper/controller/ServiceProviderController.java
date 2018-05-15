@@ -3,11 +3,7 @@ package ar.edu.itba.paw.homehelper.controller;
 import ar.edu.itba.paw.homehelper.form.AptitudeForm;
 import ar.edu.itba.paw.homehelper.form.ProfileGeneralInfo;
 import ar.edu.itba.paw.homehelper.form.UpdateAptitudeForm;
-import ar.edu.itba.paw.interfaces.services.AppointmentService;
-import ar.edu.itba.paw.interfaces.services.AptitudeService;
-import ar.edu.itba.paw.interfaces.services.ChatService;
-import ar.edu.itba.paw.interfaces.services.SProviderService;
-import ar.edu.itba.paw.interfaces.services.STypeService;
+import ar.edu.itba.paw.interfaces.services.*;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.Status;
 import ar.edu.itba.paw.model.User;
@@ -253,12 +249,12 @@ public class ServiceProviderController {
             return new ModelAndView(redirect);
         }
 
-        if(form.getAction().equals("delete")) {
-            //delete aptitude
-        } else {
-            //sProviderService.updateAptitude(form.getAptitutdeId(), form.getAptDescription());
+        final int providerId = loggedInUser.getId();
 
-            // lo borraron??
+        if(form.getAction().equals("delete")) {
+            sProviderService.removeAptitude(providerId, form.getServiceType());//cambaiar a aptitude id
+        } else {
+            sProviderService.updateDescriptionOfAptitude(form.getAptitutdeId(), form.getAptDescription());
         }
 
         return new ModelAndView("redirect:/sprovider/editProfile");
