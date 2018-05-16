@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LoginController {
 
-    @RequestMapping("/login") public ModelAndView login(HttpServletRequest request, @RequestParam(required = false, value = "error", defaultValue = "n") final String error, @RequestParam(required = false, value = "sAp", defaultValue = "false") final boolean sAp) {
+    @RequestMapping("/login")
+    public ModelAndView login(HttpServletRequest request, @RequestParam(required = false, value = "error", defaultValue = "n") final String error, @RequestParam(required = false, value = "sAp", defaultValue = "false") final boolean sAp) {
         String referer = request.getHeader("Referer");
         String redirect = referer;
 
@@ -22,7 +23,7 @@ public class LoginController {
         }
 
         /* Avoid redirecting to login after login error */
-        if(referer !=null && referer.contains("/login")) {
+        if(referer != null && referer.contains("/login")) {
             redirect = (String) request.getSession().getAttribute("url_prior_login");
         }
 

@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.homehelper.controller;
 
+import ar.edu.itba.paw.homehelper.exceptions.InvalidQueryException;
+import ar.edu.itba.paw.homehelper.exceptions.InvalidUsernameException;
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.ReviewForm;
 import ar.edu.itba.paw.homehelper.form.SettingsForm;
@@ -68,7 +70,7 @@ public class ClientController {
 
     /* Este metodo deberia ser post pero solo post no puedo hacerle la redireccion */
    @RequestMapping(value = "/client/getSendAppointment", method ={RequestMethod.POST, RequestMethod.GET})
-   public ModelAndView getSendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, final HttpServletRequest request, final HttpServletResponse response) {
+   public ModelAndView getSendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, final HttpServletRequest request, final HttpServletResponse response) throws InvalidQueryException {
 
        LOGGER.debug("User in getSendAppointment");
 
@@ -76,11 +78,11 @@ public class ClientController {
        removeFormCookies(response);
 
        if(form == null) {
-           //exception
            LOGGER.debug("Cookies failed");
+           throw new InvalidQueryException();
        }
 
-       Appointment ap= appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
+       Appointment ap= appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  loggedInUser.getAddress(), form.getDescription());
        chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId(), form.getDate(), form.getDescription());
 
        String redirect = "redirect:/client/appointmentConfirmed?appt=" + ap.getAppointmentId();
@@ -89,12 +91,12 @@ public class ClientController {
    }
 
    @RequestMapping(value = "/client/sendAppointment", method = RequestMethod.POST)
-   public ModelAndView sendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("appointmentForm") final AppointmentForm form) {
+   public ModelAndView sendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("appointmentForm") final AppointmentForm form) throws InvalidQueryException {
        if(form == null) {
-           //throw exception
+           throw new InvalidQueryException();
        }
 
-       Appointment ap= appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
+       Appointment ap= appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  loggedInUser.getAddress(), form.getDescription());
        chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId(), form.getDate(), form.getDescription());
 
        String redirect = "redirect:/client/appointmentConfirmed?appt=" + ap.getAppointmentId();
@@ -171,7 +173,7 @@ public class ClientController {
         /* Save as service provider and add service provider privilages */
         sProviderService.create(loggedInUser.getId(), form.getProfileDesc());
         sProviderService.addAptitude(loggedInUser.getId(), form.getServiceTypeId(), form.getAptDesc());
-        //update user
+
         final int userId = loggedInUser.getId();
         userService.updateFirstNameOfUser(userId, form.getFirstname());
         userService.updateLastNameOfUser(userId, form.getLastname());
@@ -211,9 +213,9 @@ public class ClientController {
     }
 
     @RequestMapping("/client/sendReview")
-    public ModelAndView sendReview(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("reviewForm") final ReviewForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
+    public ModelAndView sendReview(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("reviewForm") final ReviewForm form, final BindingResult errors, final RedirectAttributes redrAttr) throws InvalidQueryException {
        if(form == null) {
-           // exception
+           throw new InvalidQueryException();
        }
 
        if(errors.hasErrors()) {
@@ -225,7 +227,7 @@ public class ClientController {
 
        Appointment ap = appointmentService.getAppointment(form.getAppointmentId());
        if(ap == null) {
-           //exception
+           throw new InvalidQueryException();
        }
 
        appointmentService.reviewAppointment(ap.getAppointmentId(),loggedInUser.getId(), ap.getServiceType().getServiceTypeId(), form.getQualityInt(), form.getCleannesInt(), form.getPriceInt(), form.getPunctualityInt(), form.getTreatmentInt(), form.getMsg());

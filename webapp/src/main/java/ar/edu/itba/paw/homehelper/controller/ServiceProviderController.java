@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.homehelper.controller;
 
+import ar.edu.itba.paw.homehelper.exceptions.InvalidUsernameException;
 import ar.edu.itba.paw.homehelper.form.AddWZForm;
 import ar.edu.itba.paw.homehelper.form.AptitudeForm;
 import ar.edu.itba.paw.homehelper.form.ProfileGeneralInfo;
@@ -59,11 +60,11 @@ public class ServiceProviderController {
     }
 
     @RequestMapping("/sprovider")
-    public ModelAndView provider(@ModelAttribute("loggedInUser") final User loggedInUser) {
+    public ModelAndView provider(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
         final ModelAndView mav = new ModelAndView("serviceProviderControlPanel");
 
         if(loggedInUser == null) {
-            //exception 403
+            throw new InvalidUsernameException();
         }
 
         final int providerId = loggedInUser.getId();
@@ -86,9 +87,9 @@ public class ServiceProviderController {
     }
 
     @RequestMapping(value = "/sprovider/messages/{clientId}", method = { RequestMethod.POST })
-    public ModelAndView sendMessagePost(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("clientId") int clientId, @RequestParam("msg") String msg) {
+    public ModelAndView sendMessagePost(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("clientId") int clientId, @RequestParam("msg") String msg) throws InvalidUsernameException {
         if(loggedInUser == null) {
-            //Exception
+            throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
 
@@ -98,9 +99,9 @@ public class ServiceProviderController {
     }
 
     @RequestMapping(value = "/sprovider/messages/{clientId}", method = { RequestMethod.GET })
-    public ModelAndView providerMessages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("clientId") int clientId) {
+    public ModelAndView providerMessages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("clientId") int clientId) throws InvalidUsernameException {
         if(loggedInUser == null) {
-            //Exception
+            throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
         final ModelAndView mav = new ModelAndView("serviceProviderCPMessages");
@@ -115,9 +116,9 @@ public class ServiceProviderController {
     }
 
     @RequestMapping(value = "/sprovider/messages", method = { RequestMethod.GET })
-    public ModelAndView providerMessagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser) {
+    public ModelAndView providerMessagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
         if(loggedInUser == null) {
-            //Exception
+            throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
 
@@ -125,9 +126,9 @@ public class ServiceProviderController {
     }
 
     @RequestMapping("/sprovider/appointments")
-    public ModelAndView providerAppointments(@ModelAttribute("loggedInUser") final User loggedInUser) {
+    public ModelAndView providerAppointments(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
         if(loggedInUser == null) {
-            //Exception
+            throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
         final ModelAndView mav = new ModelAndView("serviceProviderCPAppointments");
@@ -141,9 +142,9 @@ public class ServiceProviderController {
     }
 
     @RequestMapping("/sprovider/reviews")
-    public ModelAndView providerReviews(@ModelAttribute("loggedInUser") final User loggedInUser) {
+    public ModelAndView providerReviews(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
         if(loggedInUser == null) {
-            //Exception
+            throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
         final ModelAndView mav = new ModelAndView("serviceProviderCPReviews");
@@ -178,10 +179,10 @@ public class ServiceProviderController {
     }
 
     @RequestMapping("/sprovider/editProfile")
-    public ModelAndView providerPosts(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "-1") final int elemErrorId, Model model) {
+    public ModelAndView providerPosts(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "-1") final int elemErrorId, Model model) throws InvalidUsernameException {
         final ModelAndView mav = new ModelAndView("serviceProviderCPEditProfile");
         if(loggedInUser == null) {
-            //Exception
+            throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
 
@@ -237,10 +238,10 @@ public class ServiceProviderController {
 
 
     @RequestMapping("/sprovider/editProfile/updateAptitude/{aptitudeId}")
-    public ModelAndView updateAptitudeId(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("aptitudeId") final int aptitudeId, Model model) {
+    public ModelAndView updateAptitudeId(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("aptitudeId") final int aptitudeId, Model model) throws InvalidUsernameException {
         final ModelAndView mav = new ModelAndView("serviceProviderCPEditProfile");
         if(loggedInUser == null) {
-            //Exception
+            throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
         final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
