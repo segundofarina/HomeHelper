@@ -227,7 +227,7 @@ public class ClientController {
        if(ap == null) {
            //exception
        }
-       sProviderService.insertReview(ap.getProvider().getId(), ap.getServiceType().getServiceTypeId(), form.getQualityInt(), form.getCleannesInt(), form.getPriceInt(), form.getPunctualityInt(), form.getTreatmentInt(), form.getMsg());
+       sProviderService.insertReview(loggedInUser.getId(), ap.getServiceType().getServiceTypeId(), form.getQualityInt(), form.getCleannesInt(), form.getPriceInt(), form.getPunctualityInt(), form.getTreatmentInt(), form.getMsg());
        return new ModelAndView("redirect:/client/appointments");
     }
 

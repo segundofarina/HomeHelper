@@ -82,6 +82,11 @@ public class SProviderServiceImpl implements SProviderService {
         return aptitudeDao.removeAptitude(aptitudeId);
     }
 
+    @Override
+    public boolean updateDescriptionOfServiceProvider(int userId, String description) {
+        return sProviderDao.updateDescriptionOfServiceProvider(userId,description);
+    }
+
     public List<ServiceType> getServiceTypes(){
         return sTypeDao.getServiceTypes();
     }

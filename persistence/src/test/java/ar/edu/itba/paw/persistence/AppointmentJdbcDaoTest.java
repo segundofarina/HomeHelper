@@ -1,20 +1,21 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.daos.AppointmentDao;
+import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
 import ar.edu.itba.paw.model.Status;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
-import java.sql.Time;
+import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Date;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -28,9 +29,14 @@ public class AppointmentJdbcDaoTest {
     @Autowired
     AppointmentDao appointmentDao;
 
+    @Autowired
+    private DataSource ds;
+
+
+    private JdbcTemplate jdbcTemplate;
     @Before
     public void setUp() {
-
+        jdbcTemplate = new JdbcTemplate(ds);
     }
     @Test
     public void getAppointmentsByProviderIdTest(){
@@ -91,5 +97,18 @@ public class AppointmentJdbcDaoTest {
         assertTrue(appointmentDao.updateDateOfAppointment(Const.VALID_APPOINTMENT_ID1, date));
 
         assertFalse(appointmentDao.updateDateOfAppointment(Const.INVALID_APPOINTMENT_ID,date));
+    }
+
+    @Test
+    public void removeAppointmentTest(){
+
+        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments");
+
+        assertTrue(appointmentDao.removeAppointment(Const.VALID_APPOINTMENT_ID1));
+
+        assertFalse(appointmentDao.removeAppointment(Const.INVALID_APPOINTMENT_ID));
+
+        assertEquals(--count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
+
     }
 }

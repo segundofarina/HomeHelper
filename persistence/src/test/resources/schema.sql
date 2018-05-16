@@ -55,7 +55,8 @@ CREATE TABLE IF NOT EXISTS reviews(
   price INTEGER,
   punctuality INTEGER,
   treatment INTEGER,
-  comment VARCHAR(1000)
+  comment VARCHAR(1000),
+  clientReview boolean DEFAULT FALSE
 );
 
 CREATE TABLE IF NOT EXISTS messages(
@@ -109,9 +110,9 @@ insert into aptitudes VALUES (2,3,2,'Martinsulis tambien es Pintor');
 insert into aptitudes VALUES (3,4,1,'Carlos el carpintero');
 insert into aptitudes VALUES (4,4,3,'Carlos obrero');
 
-insert into reviews VALUES (1,1,default,4,5,3,4,4,'Soy Segundo me encanto tu trabajo de carpinteria Martin');
-insert into reviews VALUES (1,1,default,4,5,3,4,44,'Soy Segundo me encanto tu segundo trabajo de carpinteria Martin');
-insert into reviews VALUES (2,2,default,4,5,3,4,4,'Soy Florencia me encanto el empapelado Martin');
+insert into reviews VALUES (1,1,default,4,5,3,4,4,'Soy Segundo me encanto tu trabajo de carpinteria Martin',true);
+insert into reviews VALUES (1,1,default,4,5,3,4,44,'Soy Segundo me encanto tu segundo trabajo de carpinteria Martin',true);
+insert into reviews VALUES (2,2,default,4,5,3,4,4,'Soy Florencia me encanto el empapelado Martin',true);
 
 insert into messages VALUES (2,5,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
 insert into messages VALUES (5,2,'Hola Florencia si que necesitas?',DEFAULT );

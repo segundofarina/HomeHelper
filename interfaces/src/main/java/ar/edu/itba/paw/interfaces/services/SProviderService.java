@@ -43,6 +43,8 @@ public interface SProviderService {
 
     boolean removeAptitude(int userId, int serviceType);
 
+    boolean updateDescriptionOfServiceProvider(int userId, String description);
+
 
 
 }

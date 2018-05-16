@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.*;
 
 @Repository
@@ -44,8 +45,9 @@ public class ReviewJdbcDao implements ReviewDao {
         int punctuality;
         int treatment;
         String comment;
+        boolean clientReview;
 
-        public Row(int userId, int aptitudeId, Timestamp reviewdate, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+        public Row(int userId, int aptitudeId, Timestamp reviewdate, int quality, int cleanness, int price, int punctuality, int treatment, String comment, boolean clientReview) {
             this.userId = userId;
             this.aptitudeId = aptitudeId;
             this.reviewdate = reviewdate;
@@ -55,11 +57,12 @@ public class ReviewJdbcDao implements ReviewDao {
             this.punctuality = punctuality;
             this.treatment = treatment;
             this.comment = comment;
+            this.clientReview=clientReview;
         }
     }
     private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
         public Row mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Row(rs.getInt("userId"),rs.getInt("aptitudeId"),rs.getTimestamp("reviewdate"),rs.getInt("quality"),rs.getInt("cleanness"),rs.getInt("price"),rs.getInt("punctuality"),rs.getInt("treatment"),rs.getString("comment"));
+            return new Row(rs.getInt("userId"),rs.getInt("aptitudeId"),rs.getTimestamp("reviewdate"),rs.getInt("quality"),rs.getInt("cleanness"),rs.getInt("price"),rs.getInt("punctuality"),rs.getInt("treatment"),rs.getString("comment"),rs.getBoolean("clientReview"));
         }
     };
 
@@ -73,7 +76,7 @@ public class ReviewJdbcDao implements ReviewDao {
         List<Review> reviews = new ArrayList<Review>();
 
         for(Row row : dbRowsList){
-            reviews.add(new Review(row.quality,row.cleanness,row.price,row.punctuality,row.treatment,row.comment,row.reviewdate,userDao.findById(row.userId).get()));
+            reviews.add(new Review(row.quality,row.cleanness,row.price,row.punctuality,row.treatment,row.comment,row.reviewdate,userDao.findById(row.userId).get(),row.clientReview));
         }
 
         return reviews;
@@ -99,6 +102,8 @@ public class ReviewJdbcDao implements ReviewDao {
         args.put("punctuality", punctuality);
         args.put("treatment", treatment);
         args.put("comment", comment);
+        args.put("clientReview",true);
+        args.put("reviewdate",Timestamp.from(Instant.now()));
 
         try {
             jdbcInsert.execute(args);
