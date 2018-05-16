@@ -190,12 +190,16 @@ public class PublicController {
 
         redrAttr.addFlashAttribute("appointmentForm", form);
 
-        if(loggedInUser == null || !loggedInUser.isVerified()) {
+        if(loggedInUser == null) {
             saveFormAsCookies(form, response);
 
-            String redirect = "redirect:/login";
+            String redirect = "redirect:/login?sAp=true";
             LOGGER.info("user {} tried to make an appointment but was not logged in.", getUserString(loggedInUser));
             return new ModelAndView(redirect);
+        }
+
+        if(!loggedInUser.isVerified()) {
+            return new ModelAndView("redirect:/unverified/user");
         }
 
         return new ModelAndView("forward:/client/sendAppointment");

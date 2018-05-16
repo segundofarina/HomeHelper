@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LoginController {
 
-    @RequestMapping("/login") public ModelAndView login(HttpServletRequest request, @RequestParam(required = false, value = "error", defaultValue = "n") final String error) {
+    @RequestMapping("/login") public ModelAndView login(HttpServletRequest request, @RequestParam(required = false, value = "error", defaultValue = "n") final String error, @RequestParam(required = false, value = "sAp", defaultValue = "false") final boolean sAp) {
         String referer = request.getHeader("Referer");
         String redirect = referer;
 
-        if(referer !=null && referer.contains("/profile")) {
-            redirect = "/client/getSendAppointment";//no siempre hay que redirigir puedo poner un param que me diga si o no
+        if(referer !=null && referer.contains("/profile") && sAp) {
+            redirect = "/client/getSendAppointment";
         }
 
         /* Avoid redirecting to login after login error */
