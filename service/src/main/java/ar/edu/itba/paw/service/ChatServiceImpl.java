@@ -22,8 +22,6 @@ public class ChatServiceImpl implements ChatService{
     @Autowired
     ApplicationContext context;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChatServiceImpl.class);
-
     @Override
     public boolean sendMsg(int from,int to, String msg) {
         if(msg.isEmpty() || msg.equals("")) {
@@ -36,9 +34,6 @@ public class ChatServiceImpl implements ChatService{
     public List<Chat> getChatsOf(int userId) {
         List<Chat> chatList = chatDao.getChatsOf(userId);
 
-        LOGGER.debug("[Method : getChatsOf()]chatLIst size:{}",chatList.size());
-
-        System.out.println("[Method : getChatsOf()] chatLIst size:"+chatList.size());
 
         Collections.sort(chatList, new Comparator<Chat>() {
             @Override
@@ -64,9 +59,6 @@ public class ChatServiceImpl implements ChatService{
             }
         });
 
-        LOGGER.debug("[Method : getChatsOf()]chatLIst sorted size:{}",chatList.size());
-
-        System.out.println("[Method : getChatsOf()]chatLIst sorted size:"+chatList.size());
 
         return chatList;
     }
