@@ -10,6 +10,7 @@ import ar.edu.itba.paw.interfaces.services.*;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.TemporaryImage;
 import ar.edu.itba.paw.model.User;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -175,9 +178,41 @@ public class PublicController {
     @ResponseBody
     @RequestMapping(value = "/profile/{userId}/profileimage", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public byte[] providerProfileImage(@PathVariable("userId") int userId) {
-        return userService.getProfileImage(userId);
-    }
+        byte[] img = null;
+        if(userId != -1) {
+            img = userService.getProfileImage(userId);
+        }
+/*
+        if(img == null) {
+            try {
+                img = IOUtils.toByteArray(this.getClass().getResourceAsStream("/defaultProfile.png"));
+            } catch (IOException e) {
+                img = null;
+            }
+        }
+*//*
+        try {
+            //Class cls = Class.forName("PublicController");
+            Class cls = this.getClass();
 
+            // returns the ClassLoader object associated with this Class
+            ClassLoader cLoader = cls.getClassLoader();
+
+            // input stream
+            InputStream i = cLoader.getResourceAsStream("/defaultProfile.png");
+
+            if(i != null) {
+                System.out.println("Not null");
+                img = IOUtils.toByteArray(i);
+            }
+
+
+        } catch(Exception e) {
+            System.out.println(e);
+        }*/
+
+        return img;
+    }
 
     @RequestMapping(value = "/profile/sendAppointment", method = RequestMethod.POST)
     public ModelAndView sendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors, final RedirectAttributes redrAttr, final HttpServletResponse response) {
@@ -205,12 +240,11 @@ public class PublicController {
     }
 
     @RequestMapping("/signup")
-    public ModelAndView signup(@ModelAttribute("loggedInUser") final User loggedInUser,@RequestParam(required = false,value="img",defaultValue = "-1")final int img) {
+    public ModelAndView signup(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false,value="img",defaultValue = "-1")final int img) {
         final ModelAndView mav = new ModelAndView("signup");
 
         mav.addObject("user", loggedInUser);
-
-        mav.addObject("img",img);
+        mav.addObject("img", img);
 
         return mav;
     }
@@ -218,7 +252,7 @@ public class PublicController {
 
     @RequestMapping(value = "/createUser", method = { RequestMethod.POST })
     public ModelAndView createUser(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("signUpForm") final SignUpForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
-        byte[] image;
+        byte[] image = null;
         User invalidUser =  userService.findByUsername(form.getUsername());
 
         /* Check for duplicate username */
@@ -226,40 +260,58 @@ public class PublicController {
             equalsUsernameValidator.validate(EqualsUsernameValidator.buildUserNamePair(form.getUsername(),invalidUser.getUsername()), errors);
         }
 
+        /* Check for error in form */
         if (errors.hasErrors()) {
             /* Back to form */
-            try {
-                image = form.getProfilePicture().getBytes();
+            String redirect = "redirect:/signup";
 
-            }catch (Exception e){
-                e.printStackTrace();
-                image = null;
-            }
-            if(image.length !=0) {
-                TemporaryImage img = tempImagesService.insertImage(image);
+            /* If image was uploaded keep it in a table of temporary img */
+            if(form.getProfilePicture().getSize() > 0) {
+                try {
+                    image = form.getProfilePicture().getBytes();
+                }catch (Exception e){
+                    image = null;
+                }
+
+                if(image != null && image.length !=0) {
+                    TemporaryImage img = tempImagesService.insertImage(image);
+                    redirect += "?img=" + img.getImageId();
+                }
+            } else if(form.getSavedImgId() != -1) {
+                redirect += "?img=" + form.getSavedImgId();
             }
 
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.signUpForm", errors);
             redrAttr.addFlashAttribute("signUpForm", form);
 
-            return new ModelAndView("redirect:/signup");
+            return new ModelAndView(redirect);
         }
 
-        try{
-            image =form.getProfilePicture().getBytes();
-        }catch (Exception e){
-            e.printStackTrace();
-            image = null;
+        /* Form without errors */
+
+        /* Check if image is uploaded */
+        if(form.getProfilePicture().getSize() > 0) {
+            try{
+                image = form.getProfilePicture().getBytes();
+            }catch (Exception e){
+                //Handle exception?
+                image = null;
+            }
+        } else if(form.getSavedImgId() != 0) { /* If not check if image was uploaded before */
+            image = tempImagesService.getImage(form.getSavedImgId()).getImage();
+            tempImagesService.deleteImage(form.getSavedImgId());
         }
 
         LOGGER.info("{} user was created.",getUserString(loggedInUser));
 
+        /* Save user */
         User user = userService.create(form.getUsername(), passwordEncoder.encode(form.getPasswordForm().getPassword()), form.getFirstname(), form.getLastname(), form.getEmail(), form.getPhone(), form.getEmail(), image);
 
+        /* Send email */
         String key = Base64.getUrlEncoder().encodeToString(passwordEncoder.encode(user.getId()+user.getUsername()+"CRONOS").getBytes());
         mailService.sendConfirmationEmail( user.getId(),key);
 
-
+        /* Log in user */
         Authentication auth = loginUser(user);
 
         if(isUnverifiedUser(auth)) {
@@ -286,6 +338,21 @@ public class PublicController {
         }
 
         return mav;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/tempImg/{imgId}", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    public byte[] getTempImg(@PathVariable("imgId") final int imgId, @RequestParam(required = false, value = "userId", defaultValue = "-1") final int userId) {
+        if(imgId == -1) {
+            return providerProfileImage(userId);
+        }
+
+        TemporaryImage temp = tempImagesService.getImage(imgId);
+
+        if(temp == null) {
+            return providerProfileImage(userId);
+        }
+        return temp.getImage();
     }
 
     private int getUserId(User user) {
