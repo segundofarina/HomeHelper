@@ -66,40 +66,47 @@
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
                                 <form:label path="firstname"><spring:message code="form.firstname"/></form:label>
-                                <form:input type="text" path="firstname" cssClass="form-control"/>
+                                <spring:message code="placeholder.firstname" var="placeholder" />
+                                <form:input type="text" path="firstname" cssClass="form-control" placeholder="${placeholder}"/>
                                 <form:errors path="firstname" element="p" cssClass="form-error"/>
                             </div>
 
                             <div class="form-group">
                                 <form:label path="lastname"><spring:message code="form.lastname"/></form:label>
-                                <form:input type="text" path="lastname" cssClass="form-control"/>
+                                <spring:message code="placeholder.lastname" var="placeholder" />
+                                <form:input type="text" path="lastname" cssClass="form-control" placeholder="${placeholder}"/>
                                 <form:errors path="lastname" element="p" cssClass="form-error"/>
                             </div>
                             <div class="form-group">
                                 <form:label path="email"><spring:message code="form.email"/></form:label>
-                                <form:input type="text" path="email" cssClass="form-control"/>
+                                <spring:message code="placeholder.email" var="placeholder" />
+                                <form:input type="text" path="email" cssClass="form-control" placeholder="${placeholder}"/>
                                 <form:errors path="email" element="p" cssClass="form-error"/>
                             </div>
                             <div class="form-group">
                                 <form:label path="phone"><spring:message code="form.phone"/></form:label>
-                                <form:input type="text" path="phone" cssClass="form-control"/>
+                                <spring:message code="placeholder.phone" var="placeholder" />
+                                <form:input type="text" path="phone" cssClass="form-control" placeholder="${placeholder}"/>
                                 <form:errors path="phone" element="p" cssClass="form-error"/>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
                                 <form:label path="username"><spring:message code="form.username"/></form:label>
-                                <form:input type="text" path="username" cssClass="form-control"/>
+                                <spring:message code="placeholder.username" var="placeholder" />
+                                <form:input type="text" path="username" cssClass="form-control" placeholder="${placeholder}"/>
                                 <form:errors path="username" element="p" cssClass="form-error"/>
                             </div>
                             <div class="form-group">
                                 <form:label path="passwordForm.password"><spring:message code="form.password"/></form:label>
-                                <form:input type="password" path="passwordForm.password" cssClass="form-control"/>
+                                <spring:message code="placeholder.password" var="placeholder" />
+                                <form:input type="password" path="passwordForm.password" cssClass="form-control" placeholder="${placeholder}" />
                                 <form:errors path="passwordForm.password" element="p" cssClass="form-error"/>
                             </div>
                             <div class="form-group">
                                 <form:label path="passwordForm.repeatPassword"><spring:message code="form.repeat-password"/></form:label>
-                                <form:input type="password" path="passwordForm.repeatPassword" cssClass="form-control"/>
+                                <spring:message code="placeholder.password" var="placeholder" />
+                                <form:input type="password" path="passwordForm.repeatPassword" cssClass="form-control" placeholder="${placeholder}"/>
                                 <form:errors path="passwordForm" element="p" cssClass="form-error"/>
                             </div>
 

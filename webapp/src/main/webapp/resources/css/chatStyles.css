@@ -128,3 +128,7 @@
     font-style: italic;
     color: #989595;
 }
+
+.msg-container {
+    padding: 2em 3em;
+}

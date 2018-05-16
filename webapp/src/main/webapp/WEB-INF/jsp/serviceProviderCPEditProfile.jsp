@@ -98,7 +98,8 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <form:label path="generalDescription"><spring:message code="general.description"/>:</form:label>
-                                                    <form:textarea path="generalDescription" class="form-control edit-visible" placeholder="Write some description..." />
+                                                    <spring:message code="placeholder.write-description" var="placeholder" />
+                                                    <form:textarea path="generalDescription" class="form-control edit-visible" placeholder="${placeholder}" />
                                                     <form:errors path="generalDescription" cssClass="form-error edit-visible" element="p" />
                                                     <p class="edit-hidden" data-ref="generalDescription"><c:out value="${provider.description}" /></p>
                                                 </div>
@@ -153,7 +154,8 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <form:label path="aptDescription"><spring:message code="general.description"/>:</form:label>
-                                                    <form:textarea path="aptDescription" class="form-control" placeholder="Write some description..." />
+                                                    <spring:message code="placeholder.write-description" var="placeholder" />
+                                                    <form:textarea path="aptDescription" class="form-control" placeholder="${placeholder}" />
                                                     <form:errors path="aptDescription" cssClass="form-error edit-visible" element="p" />
                                                 </div>
                                                 <div class="divider-dashed"></div>
@@ -188,7 +190,8 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <form:label path="aptDescription"><spring:message code="general.description"/>:</form:label>
-                                                        <form:textarea path="aptDescription" class="form-control edit-visible" placeholder="Write some description..." />
+                                                        <spring:message code="placeholder.write-description" var="placeholder" />
+                                                        <form:textarea path="aptDescription" class="form-control edit-visible" placeholder="${placeholder}" />
                                                         <form:errors path="aptDescription" cssClass="form-error edit-visible" element="p" />
                                                         <p class="edit-hidden"><c:out value="${aptitude.description}"/></p>
                                                     </div>
