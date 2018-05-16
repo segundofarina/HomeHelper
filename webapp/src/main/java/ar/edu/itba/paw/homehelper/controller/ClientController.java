@@ -10,6 +10,7 @@ import ar.edu.itba.paw.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -51,7 +52,6 @@ public class ClientController {
     @Autowired
     private UserService userService;
 
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
 
 
@@ -81,7 +81,7 @@ public class ClientController {
        }
 
        Appointment ap= appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
-       chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId());
+       chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId(), form.getDate(), form.getDescription());
 
        String redirect = "redirect:/client/appointmentConfirmed?appt=" + ap.getAppointmentId();
 
@@ -95,7 +95,7 @@ public class ClientController {
        }
 
        Appointment ap= appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
-       chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId());
+       chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId(), form.getDate(), form.getDescription());
 
        String redirect = "redirect:/client/appointmentConfirmed?appt=" + ap.getAppointmentId();
 
