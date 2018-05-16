@@ -9,11 +9,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import sun.tools.java.Type;
-
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
@@ -46,13 +44,13 @@ public class AppointmentJdbcDao implements AppointmentDao {
         int userId;
         int providerId;
         int serviceTypeId;
-        Timestamp date;
+        Date date;
         String address;
         Status status;
         String jobDescription;
         boolean clientReview;
 
-        public Row(int appointmentId, int userId, int providerId, int serviceTypeId, Timestamp appointmentDate, String address, Status status, String jobDescription, boolean clientReview) {
+        public Row(int appointmentId, int userId, int providerId, int serviceTypeId, Date appointmentDate, String address, Status status, String jobDescription, boolean clientReview) {
             this.appointmentId = appointmentId;
             this.userId = userId;
             this.providerId = providerId;
@@ -68,7 +66,7 @@ public class AppointmentJdbcDao implements AppointmentDao {
 
     private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
         public Row mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Row(rs.getInt("appointmentId"), rs.getInt("userId"), rs.getInt("providerId"), rs.getInt("serviceTypeId"), rs.getTimestamp("appointmentDate"), rs.getString("address"), Status.getStatus(rs.getString("status")), rs.getString("jobDescription"),rs.getBoolean("clientReview"));
+            return new Row(rs.getInt("appointmentId"), rs.getInt("userId"), rs.getInt("providerId"), rs.getInt("serviceTypeId"), rs.getDate("appointmentDate"), rs.getString("address"), Status.getStatus(rs.getString("status")), rs.getString("jobDescription"),rs.getBoolean("clientReview"));
         }
     };
 
@@ -122,7 +120,7 @@ public class AppointmentJdbcDao implements AppointmentDao {
     }
 
     @Override
-    public Appointment addAppointment(int clientId, int providerId, int serviceTypeId, Timestamp date, String address, String jobDescripcion){
+    public Appointment addAppointment(int clientId, int providerId, int serviceTypeId, Date date, String address, String jobDescripcion){
 
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("userId", clientId);
@@ -146,7 +144,6 @@ public class AppointmentJdbcDao implements AppointmentDao {
 
         return new Appointment(appointmentId ,userDao.findById(clientId).get(),sProviderDao.getServiceProviderWithUserId(providerId).get(),serviceTypeDao.getServiceTypeWithId(serviceTypeId).get(),date,address,Status.Pending,jobDescripcion,false);
 
-
     }
 
     @Override
@@ -155,7 +152,7 @@ public class AppointmentJdbcDao implements AppointmentDao {
     }
 
     @Override
-    public boolean updateDateOfAppointment(int appointmentId, Timestamp date) {
+    public boolean updateDateOfAppointment(int appointmentId, Date date) {
         return jdbcTemplate.update("UPDATE appointments SET appointmentDate =? WHERE appointmentId =?", date, appointmentId)!=0;
     }
 

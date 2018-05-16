@@ -40,7 +40,7 @@ public class ReviewJdbcDao implements ReviewDao {
     private static class Row{
         int userId;
         int aptitudeId;
-        Timestamp reviewdate;
+        Date reviewdate;
         int quality;
         int cleanness;
         int price;
@@ -48,7 +48,7 @@ public class ReviewJdbcDao implements ReviewDao {
         int treatment;
         String comment;
 
-        public Row(int userId, int aptitudeId, Timestamp reviewdate, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+        public Row(int userId, int aptitudeId, Date reviewdate, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
             this.userId = userId;
             this.aptitudeId = aptitudeId;
             this.reviewdate = reviewdate;
@@ -62,7 +62,7 @@ public class ReviewJdbcDao implements ReviewDao {
     }
     private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
         public Row mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Row(rs.getInt("userId"),rs.getInt("aptitudeId"),rs.getTimestamp("reviewdate"),rs.getInt("quality"),rs.getInt("cleanness"),rs.getInt("price"),rs.getInt("punctuality"),rs.getInt("treatment"),rs.getString("comment"));
+            return new Row(rs.getInt("userId"),rs.getInt("aptitudeId"),rs.getDate("reviewdate"),rs.getInt("quality"),rs.getInt("cleanness"),rs.getInt("price"),rs.getInt("punctuality"),rs.getInt("treatment"),rs.getString("comment"));
         }
     };
 
@@ -98,7 +98,7 @@ public class ReviewJdbcDao implements ReviewDao {
         }else{
             args.put("comment", comment);
         }
-        args.put("reviewdate",Timestamp.from(Instant.now()));
+        args.put("reviewdate",Date.from(Instant.now()));
         jdbcInsert.execute(args);
     }
 
