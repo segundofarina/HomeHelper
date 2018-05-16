@@ -1,9 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.daos.AppointmentDao;
-import ar.edu.itba.paw.interfaces.daos.SProviderDao;
-import ar.edu.itba.paw.interfaces.daos.STypeDao;
-import ar.edu.itba.paw.interfaces.daos.UserDao;
+import ar.edu.itba.paw.interfaces.daos.*;
 import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +27,9 @@ public class AppointmentJdbcDao implements AppointmentDao {
 
     @Autowired
     STypeDao serviceTypeDao;
+
+    @Autowired
+    ReviewDao reviewDao;
 
 
     private JdbcTemplate jdbcTemplate;
@@ -165,7 +165,12 @@ public class AppointmentJdbcDao implements AppointmentDao {
     }
 
     @Override
-    public void reviewAppointment(int userId, int providerId, int serviceTypeId, Timestamp appointmentDate){
-        jdbcTemplate.update("UPDATE appointments SET clientReview =? WHERE userId = ? and providerId =? and serviceTypeId=? and appointmentDate =?", true, userId,providerId,serviceTypeId,appointmentDate);
+    public void reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment){
+        reviewDao.insertReview(userId,aptitudeId,quality,cleanness,price,punctuality,treatment,comment);
+        updateReviewClientOfAppointment(appointmentId);
+    }
+
+    private void updateReviewClientOfAppointment(int appointmentId) {
+        jdbcTemplate.update("UPDATE appointments SET clientReview =? WHERE appointmentId =?", true, appointmentId);
     }
 }

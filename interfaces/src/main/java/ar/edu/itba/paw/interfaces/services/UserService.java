@@ -35,6 +35,4 @@ public interface UserService {
     boolean updateImageOfUser(int userId, int [] image);
 
     boolean updateAddressOfUser(int userId, String address);
-
-    void reviewAppointment(int appointmentId);
 }

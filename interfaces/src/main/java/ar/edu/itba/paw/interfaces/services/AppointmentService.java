@@ -36,5 +36,5 @@ public interface AppointmentService {
 
     List<Appointment> getLatestPendingAppointmentWithProviderId(int providerId);
 
-    void reviewAppointment(int userId, int providerId, int serviceTypeId, Timestamp appointmentDate);
+    void reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
 }

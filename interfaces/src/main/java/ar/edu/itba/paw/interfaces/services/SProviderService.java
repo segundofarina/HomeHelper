@@ -16,8 +16,6 @@ public interface SProviderService {
 
     SProvider getServiceProviderWithUserId(int userId);
 
-    void insertReview(int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
-
     int getServiceProviderId(int userId);
 
     boolean isServiceProvider(int userId);
