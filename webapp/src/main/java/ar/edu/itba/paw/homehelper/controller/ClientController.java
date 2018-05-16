@@ -19,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -26,6 +27,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,6 +53,9 @@ public class ClientController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TempImagesService tempImagesService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
 
@@ -234,11 +239,12 @@ public class ClientController {
     }
 
     @RequestMapping("/client/settings")
-    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model) {
+    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model, @RequestParam(required = false,value="img",defaultValue = "-1")final int img) {
        final ModelAndView mav = new ModelAndView("settings");
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+        mav.addObject("img", img);
 
         if(!model.containsAttribute("settingsForm")) {
             SettingsForm settingsForm = new SettingsForm();
@@ -256,13 +262,20 @@ public class ClientController {
 
     @RequestMapping("/client/settings/update")
     public ModelAndView settingsUpdate(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("settingsForm") final SettingsForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
-        if(errors.hasErrors()) {
+       byte[] image = null;
+       if(errors.hasErrors()) {
+
+           String redirect = persistImage(form.getProfilePicture(),"redirect:/client/settings",form.getSavedImgId());
+
+
+
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.settingsForm", errors);
             redrAttr.addFlashAttribute("settingsForm", form);
-            return new ModelAndView("redirect:/client/settings");
+            return new ModelAndView(redirect);
         }
 
         final int userId = loggedInUser.getId();
+
 
         userService.updateFirstNameOfUser(userId, form.getFirstname());
         userService.updateLastNameOfUser(userId, form.getLastname());
@@ -271,6 +284,14 @@ public class ClientController {
         userService.updatePasswordOfUser(userId, form.getPasswordForm().getPassword());
 
         //update profile picture
+
+        /* Check if image is uploaded */
+        image = retriveImage(form.getProfilePicture(),form.getSavedImgId());
+        if(image != null){
+            userService.updateImageOfUser(userId,image);
+        }
+
+
 
         return new ModelAndView("redirect:/");
     }
@@ -331,6 +352,45 @@ public class ClientController {
             response.addCookie(cookie);
         }
     }
+
+    public String persistImage(MultipartFile imageFile,String redirect,int savedId){
+       byte[] image=null;
+        if(imageFile.getSize() > 0) {
+            try {
+                image = imageFile.getBytes();
+            } catch (IOException e) {
+                image = null;
+            }
+
+            if(image != null && image.length !=0) {
+                TemporaryImage img = tempImagesService.insertImage(image);
+                redirect += "?img=" + img.getImageId();
+            }
+        } else if(savedId != -1) {
+            redirect += "?img=" + savedId;
+        }
+
+        return redirect;
+    }
+
+    public byte[] retriveImage(MultipartFile imageFile,int savedId){
+       byte[] image= null;
+        /* Check if image is uploaded */
+        if(imageFile.getSize() > 0) {
+            try{
+                image = imageFile.getBytes();
+            }catch (Exception e){
+                //Handle exception?
+                image = null;
+            }
+        } else if(savedId != 0) { /* If not check if image was uploaded before */
+            image = tempImagesService.getImage(savedId).getImage();
+            tempImagesService.deleteImage(savedId);
+        }
+        return image;
+   }
+
+
 }
 
 
