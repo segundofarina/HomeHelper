@@ -45,7 +45,7 @@ public class ReviewJdbcDaoTest {
 
         assertEquals(1,reviewDao.getReviewsOfAptitude(Const.VALID_APTITUDE2_ID).size());
 
-        assertEquals(null,reviewDao.getReviewsOfAptitude(Const.INVALID_APTITUDE_ID));
+        assertEquals(0,reviewDao.getReviewsOfAptitude(Const.INVALID_APTITUDE_ID).size());
     }
 
     @Test

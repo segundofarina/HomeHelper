@@ -69,11 +69,13 @@ public class ReviewJdbcDao implements ReviewDao {
     public List<Review> getReviewsOfAptitude(int aptitudeId){
         List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM reviews WHERE aptitudeId =?", ROW_MAPPER,aptitudeId);
 
+        List<Review> reviews = new ArrayList<Review>();
+
         if(dbRowsList.isEmpty()){
-            return null;
+            return reviews;
         }
 
-        List<Review> reviews = new ArrayList<Review>();
+
 
         for(Row row : dbRowsList){
             reviews.add(new Review(row.quality,row.cleanness,row.price,row.punctuality,row.treatment,row.comment,row.reviewdate,userDao.findById(row.userId).get(),row.clientReview));

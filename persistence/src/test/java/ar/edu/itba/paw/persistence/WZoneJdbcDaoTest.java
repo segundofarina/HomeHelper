@@ -54,10 +54,11 @@ public class WZoneJdbcDaoTest{
     @Test
     public void getWorkingZonesOfProvider() {
 
-        assertEquals(null,wZoneDao.getWorkingZonesOfProvider(Const.INVALID_SERVICE_PROVIDER_ID));
+        assertEquals(0,wZoneDao.getWorkingZonesOfProvider(Const.INVALID_SERVICE_PROVIDER_ID).size());
 
         assertEquals(3, wZoneDao.getWorkingZonesOfProvider(Const.SPROVIDER3_ID).size());
 
-        assertEquals(null, wZoneDao.getWorkingZonesOfProvider(Const.INVALID_SERVICE_PROVIDER_ID));
+        assertEquals(0, wZoneDao.getWorkingZonesOfProvider(Const.INVALID_SERVICE_PROVIDER_ID).size());
+
     }
 }

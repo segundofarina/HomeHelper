@@ -5,10 +5,7 @@ import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
 import ar.edu.itba.paw.interfaces.daos.WZoneDao;
 import ar.edu.itba.paw.interfaces.daos.SProviderDao;
 import ar.edu.itba.paw.interfaces.daos.UserDao;
-import ar.edu.itba.paw.model.Appointment;
-import ar.edu.itba.paw.model.Aptitude;
-import ar.edu.itba.paw.model.Neighborhood;
-import ar.edu.itba.paw.model.SProvider;
+import ar.edu.itba.paw.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -49,16 +46,28 @@ public class SProviderJdbcDao implements SProviderDao {
     private static class Row{
         int id;
         String description;
+        User user;
 
-        public Row(int id, String description) {
+        public Row(int id, String description, User user) {
             this.id = id;
             this.description = description;
+            this.user = user;
         }
 
     }
     private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
         public Row mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Row(rs.getInt("userId"),rs.getString("description"));
+            return new Row(rs.getInt("userId"),rs.getString("description"),
+                    new User(rs.getString("username"), rs.getInt("userid"),rs.getString("password"),
+                            rs.getString("firstname"),rs.getString("lastname"),rs.getString("email"),
+                            rs.getString("phone"),rs.getString("address"),rs.getBytes("image"),
+                            rs.getBoolean("verified")));
+        }
+    };
+
+    private final static RowMapper<Integer> ROW_MAPPER_ID_NG = new RowMapper<Integer>() {
+        public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return rs.getInt("userid");
         }
     };
 
@@ -81,27 +90,41 @@ public class SProviderJdbcDao implements SProviderDao {
     }
 
     public List<SProvider> getServiceProviders() {
-        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM serviceProviders", ROW_MAPPER);
+        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM serviceProviders NATURAL JOIN users", ROW_MAPPER);
 
         List<SProvider> list = new ArrayList<SProvider>();
 
         for(Row row : dbRowsList) {
-            list.add(new SProvider(userDao.findById(row.id).get(),row.description,aptitudeDao.getAptitudesOfUser(row.id),wZoneDao.getWorkingZonesOfProvider(row.id)));
+            list.add(new SProvider(row.user,row.description,aptitudeDao.getAptitudesOfUser(row.id),wZoneDao.getWorkingZonesOfProvider(row.id)));
         }
 
         return list;
     }
 
     public Optional<SProvider> getServiceProviderWithUserId(int userId) {
-        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM serviceProviders WHERE userId = ?", ROW_MAPPER, userId);
+        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM serviceProviders NATURAL JOIN users WHERE userId = ?", ROW_MAPPER, userId);
 
 
         if(dbRowsList.size() == 1) {
-            return Optional.of(new SProvider(userDao.findById(userId).get(),dbRowsList.get(0).description,aptitudeDao.getAptitudesOfUser(userId),wZoneDao.getWorkingZonesOfProvider(userId)));
+            return Optional.of(new SProvider(dbRowsList.get(0).user,dbRowsList.get(0).description,aptitudeDao.getAptitudesOfUser(userId),wZoneDao.getWorkingZonesOfProvider(userId)));
         }else{
             return Optional.empty();
         }
     }
+
+    @Override
+    public List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId) {
+        List<Integer> dbList = jdbcTemplate.query("select userid from workingzones NATURAL JOIN aptitudes WHERE serviceTypeId = ? AND ngId =?;", ROW_MAPPER_ID_NG,stId,ngId);
+        List<SProvider>list = new ArrayList<SProvider>();
+
+        for(Integer i : dbList){
+            list.add(getServiceProviderWithUserId(i.intValue()).get());
+        }
+
+        return list;
+
+    }
+
 
     @Override
     public boolean updateDescriptionOfServiceProvider(int userId, String description) {
@@ -114,5 +137,7 @@ public class SProviderJdbcDao implements SProviderDao {
         }
         return jdbcTemplate.update("UPDATE serviceProviders SET description =? WHERE userId =?", description, userId)==1;
     }
+
+
 
 }
