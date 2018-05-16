@@ -153,6 +153,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         //invalid date time
         return null;
     }
-    
+
 
 }
