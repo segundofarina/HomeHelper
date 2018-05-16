@@ -47,6 +47,9 @@ public class ServiceProviderController {
     @Autowired
     private TempImagesService tempImagesService;
 
+    @Autowired
+    private UserService userService;
+
     @ModelAttribute("profileGeneralInfo")
     public ProfileGeneralInfo profileGeneralInfo(@ModelAttribute("loggedInUser") final User loggedInUser) {
         ProfileGeneralInfo profileGeneralInfo = new ProfileGeneralInfo();
@@ -185,7 +188,7 @@ public class ServiceProviderController {
     }
 
     @RequestMapping("/sprovider/editProfile")
-    public ModelAndView providerPosts(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "-1") final int elemErrorId, Model model) throws InvalidUsernameException {
+    public ModelAndView providerPosts(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "-1") final int elemErrorId, Model model,@RequestParam(required = false,value="img",defaultValue = "-1")final int img) throws InvalidUsernameException {
         final ModelAndView mav = new ModelAndView("serviceProviderCPEditProfile");
         if(loggedInUser == null) {
             throw new InvalidUsernameException();
@@ -202,6 +205,7 @@ public class ServiceProviderController {
 
         mav.addObject("errorElemId", elemErrorId);
         mav.addObject("editAptitude", -1);
+        mav.addObject("img", img);
 
         mav.addObject("workingZones", workingZonesService.getWorkingZonesOfProvider(providerId));
         mav.addObject("neightbourhoods", neighborhoodService.getAllNeighborhoods());
@@ -218,9 +222,9 @@ public class ServiceProviderController {
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.profileGeneralInfo", errors);
             redrAttr.addFlashAttribute("profileGeneralInfo", form);
 
-            persistImage(form.getProfilePicture(),"redirect:/sprovider/editProfile",form.getSavedImgId());
+            String red =persistImage(form.getProfilePicture(),"",form.getSavedImgId());
 
-            String redirect = "redirect:/sprovider/editProfile?error=" + form.getElemId();
+            String redirect = "redirect:/sprovider/editProfile?error=" + form.getElemId()+red;
             return new ModelAndView(redirect);
         }
 
@@ -228,6 +232,14 @@ public class ServiceProviderController {
 
         sProviderService.updateDescriptionOfServiceProvider(loggedInUser.getId(), form.getGeneralDescription());
         //update Image
+
+        byte[] image =null;
+        /* Check if image is uploaded */
+        image = retriveImage(form.getProfilePicture(),form.getSavedImgId());
+        if(image != null){
+            userService.updateImageOfUser(loggedInUser.getId(),image);
+        }
+
 
         return new ModelAndView("redirect:/sprovider/editProfile");
     }
@@ -326,10 +338,10 @@ public class ServiceProviderController {
 
             if(image != null && image.length !=0) {
                 TemporaryImage img = tempImagesService.insertImage(image);
-                redirect += "?img=" + img.getImageId();
+                redirect += "&img=" + img.getImageId();
             }
         } else if(savedId != -1) {
-            redirect += "?img=" + savedId;
+            redirect += "&img=" + savedId;
         }
 
         return redirect;
