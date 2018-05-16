@@ -57,9 +57,6 @@ public class ServiceProviderController {
         mav.addObject("providerId", loggedInUser.getId());
         mav.addObject("providerName", loggedInUser.getFirstname());
 
-        /*mav.addObject("provider", sProviderService.getServiceProviderWithUserId(providerId));
-        mav.addObject("serviceTypes",sTypeService.getServiceTypes());*/
-
         return mav;
     }
 
@@ -143,7 +140,7 @@ public class ServiceProviderController {
 
     @RequestMapping(value = "/sprovider/rejectAppointment", method = RequestMethod.POST)
     public ModelAndView rejectAppointment(@RequestParam(value = "appointmentId") final int appointmentId) {
-        //appointmentService.rejectAppointment(appointmentId);
+        appointmentService.rejectAppointment(appointmentId);
 
         return new ModelAndView("redirect:/sprovider/appointments");
     }
@@ -191,7 +188,8 @@ public class ServiceProviderController {
             return new ModelAndView(redirect);
         }
 
-        //update
+        sProviderService.updateDescriptionOfServiceProvider(loggedInUser.getId(), form.getGeneralDescription());
+        //update Image
 
         return new ModelAndView("redirect:/sprovider/editProfile");
     }
@@ -249,10 +247,8 @@ public class ServiceProviderController {
             return new ModelAndView(redirect);
         }
 
-        final int providerId = loggedInUser.getId();
-
         if(form.getAction().equals("delete")) {
-            sProviderService.removeAptitude(providerId, form.getServiceType());//cambaiar a aptitude id
+            aptitudeService.removeAptitude(form.getAptitutdeId());
         } else {
             sProviderService.updateDescriptionOfAptitude(form.getAptitutdeId(), form.getAptDescription());
         }

@@ -37,6 +37,10 @@
         form {
             display: inline-block;
         }
+
+        .btn-xs {
+            padding: 2px 10px;
+        }
     </style>
 </head>
 
@@ -93,21 +97,21 @@
                                                 <c:choose>
                                                     <c:when test="${appointment.status.numVal == 1}">
                                                         <td>
-                                                            <form action="<c:url value="/sprovider/acceptAppointment" />" method="post">
+                                                            <form action="<c:url value="/sprovider/acceptAppointment" />" method="post" class="pull-right">
                                                                 <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
-                                                                <button type="submit" class="btn btn-success btn-sm"><spring:message code="general.accept" /></button>
+                                                                <button type="submit" class="btn btn-success btn-xs"><spring:message code="general.accept" /></button>
                                                             </form>
-                                                            <form action="<c:url value="/sprovider/rejectAppointment" />" method="post">
+                                                            <form action="<c:url value="/sprovider/rejectAppointment" />" method="post" class="pull-right">
                                                                 <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
-                                                                <button type="submit" class="btn btn-danger btn-sm"><spring:message code="general.reject" /></button>
+                                                                <button type="submit" class="btn btn-danger btn-xs"><spring:message code="general.reject" /></button>
                                                             </form>
                                                         </td>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <td>
-                                                            <form action="<c:url value="/sprovider/completeAppointment" />" method="post">
+                                                            <form action="<c:url value="/sprovider/completeAppointment" />" method="post" class="pull-right">
                                                                 <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
-                                                                <button type="submit" class="btn btn-warning btn-sm"><spring:message code="general.complete" /></button>
+                                                                <button type="submit" class="btn btn-warning btn-xs"><spring:message code="general.complete" /></button>
                                                             </form>
                                                         </td>
                                                     </c:otherwise>
