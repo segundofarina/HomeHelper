@@ -1,8 +1,6 @@
 package ar.edu.itba.paw.homehelper.controller.controllerAdvice;
 
-import ar.edu.itba.paw.homehelper.exceptions.ForbiddenException;
-import ar.edu.itba.paw.homehelper.exceptions.NotFoundException;
-import ar.edu.itba.paw.homehelper.exceptions.ProviderNotFoundException;
+import ar.edu.itba.paw.homehelper.exceptions.*;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,35 +13,9 @@ public class ExceptionsControllerAdvice {
 
     @Autowired
     SProviderService sProviderService;
-/*
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NotFoundException.class)
-    public ModelAndView notFoundHandler(@ModelAttribute("loggedInUser") final User loggedInUser) {
-        final ModelAndView mav = new ModelAndView("error/404");
-
-        mav.addObject("user", loggedInUser);
-        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
-        mav.addObject("errorNum", "404");
-        mav.addObject("errorDesc", "Page Not Found");
-        
-        return mav;
-    }
-
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler(ForbiddenException.class)
-    public ModelAndView forbiddenHandler(@ModelAttribute("loggedInUser") final User loggedInUser) {
-        final ModelAndView mav = new ModelAndView("error/403");
-
-        mav.addObject("user", loggedInUser);
-        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
-        mav.addObject("errorNum", "403");
-        mav.addObject("errorDesc", "Access Forbidden");
-
-        return mav;
-    }*/
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(ProviderNotFoundException.class)
+    @ExceptionHandler({ProviderNotFoundException.class, InvalidUsernameException.class})
     public ModelAndView providerNotFound(@ModelAttribute("loggedInUser") final User loggedInUser) {
         final ModelAndView mav = new ModelAndView("error/404");
 
@@ -55,8 +27,21 @@ public class ExceptionsControllerAdvice {
         return mav;
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidQueryException.class)
+    public ModelAndView invalidQueryExeption(@ModelAttribute("loggedInUser") final User loggedInUser) {
+        final ModelAndView mav = new ModelAndView("error/500");
+
+        mav.addObject("user", loggedInUser);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+        mav.addObject("errorNum", "400");
+        mav.addObject("errorDesc", "Bad Request");
+
+        return mav;
+    }
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler({Exception.class, UploadException.class})
     public ModelAndView generalFailureHandler(@ModelAttribute("loggedInUser") final User loggedInUser) {
         System.out.println("500 error");
 

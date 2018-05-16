@@ -1,7 +1,9 @@
 package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
+import ar.edu.itba.paw.homehelper.exceptions.InvalidQueryException;
 import ar.edu.itba.paw.homehelper.exceptions.ProviderNotFoundException;
+import ar.edu.itba.paw.homehelper.exceptions.UploadException;
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.homehelper.form.SignUpForm;
@@ -28,6 +30,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -119,31 +122,27 @@ public class PublicController {
     }
 
     @RequestMapping(value = "/searchResults", method = RequestMethod.GET)
-    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId, @RequestParam(required = false, value = "cty", defaultValue = "-1") final int cityId) {
+    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId, @RequestParam(required = false, value = "cty", defaultValue = "-1") final int cityId) throws InvalidQueryException {
         final ModelAndView mav = new ModelAndView("profileSearch");
 
         /* Lanzar excepcion cuando serviceTypeId es -1 o cuando cityId es -1 */
-        System.out.println("Starting methods");
+        if(serviceTypeId == -1 || cityId == -1) {
+            throw new InvalidQueryException();
+        }
 
         final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId);
-        System.out.println("Finished sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId) method");
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
-        System.out.println("Finished sProviderService.getServiceProviderId(getUserId(loggedInUser)) method");
 
         mav.addObject("list",list);
         mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
-        System.out.println("Finished neighborhoodService.getAllNeighborhoods() method");
 
         mav.addObject("serviceTypes",sTypeService.getServiceTypes());
-        System.out.println("Finished sTypeService.getServiceTypes() method");
-
 
         /* Current params showing */
         mav.addObject("serviceTypeId", serviceTypeId);
         mav.addObject("cityId", cityId);
-       // System.out.println("Finished sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId) method");
 
         return mav;
     }
@@ -190,19 +189,23 @@ public class PublicController {
 
         redrAttr.addFlashAttribute("appointmentForm", form);
 
-        if(loggedInUser == null || !loggedInUser.isVerified()) {
+        if(loggedInUser == null) {
             saveFormAsCookies(form, response);
 
-            String redirect = "redirect:/login";
+            String redirect = "redirect:/login?sAp=true";
             LOGGER.info("user {} tried to make an appointment but was not logged in.", getUserString(loggedInUser));
             return new ModelAndView(redirect);
+        }
+
+        if(!loggedInUser.isVerified()) {
+            return new ModelAndView("redirect:/unverified/user");
         }
 
         return new ModelAndView("forward:/client/sendAppointment");
     }
 
     @RequestMapping("/signup")
-    public ModelAndView signup(@ModelAttribute("loggedInUser") final User loggedInUser/*, @ModelAttribute("signUpForm") final SignUpForm signUpForm*/) {
+    public ModelAndView signup(@ModelAttribute("loggedInUser") final User loggedInUser) {
         final ModelAndView mav = new ModelAndView("signup");
 
         mav.addObject("user", loggedInUser);
@@ -212,8 +215,8 @@ public class PublicController {
 
 
     @RequestMapping(value = "/createUser", method = { RequestMethod.POST })
-    public ModelAndView createUser(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("signUpForm") final SignUpForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
-        byte[] image;
+    public ModelAndView createUser(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("signUpForm") final SignUpForm form, final BindingResult errors, final RedirectAttributes redrAttr) throws UploadException {
+        byte[] image = null;
         User invalidUser =  userService.findByUsername(form.getUsername());
 
         /* Check for duplicate username */
@@ -229,11 +232,12 @@ public class PublicController {
             return new ModelAndView("redirect:/signup");
         }
 
-        try{
-            image =form.getProfilePicture().getBytes();
-        }catch (Exception e){
-            e.printStackTrace();
-            image = null;
+        if(form.getProfilePicture().getSize() > 0) {
+            try{
+                image = form.getProfilePicture().getBytes();
+            }catch (IOException e){
+                throw new UploadException();
+            }
         }
 
         LOGGER.info("{} user was created.",getUserString(loggedInUser));

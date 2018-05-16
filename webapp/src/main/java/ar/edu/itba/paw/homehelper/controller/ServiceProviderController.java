@@ -1,5 +1,7 @@
 package ar.edu.itba.paw.homehelper.controller;
 
+import ar.edu.itba.paw.homehelper.exceptions.InvalidUsernameException;
+import ar.edu.itba.paw.homehelper.form.AddWZForm;
 import ar.edu.itba.paw.homehelper.form.AptitudeForm;
 import ar.edu.itba.paw.homehelper.form.ProfileGeneralInfo;
 import ar.edu.itba.paw.homehelper.form.UpdateAptitudeForm;
@@ -33,6 +35,12 @@ public class ServiceProviderController {
     @Autowired
     private AptitudeService aptitudeService;
 
+    @Autowired
+    private WorkingZonesService workingZonesService;
+
+    @Autowired
+    private NeighborhoodService neighborhoodService;
+
     @ModelAttribute("profileGeneralInfo")
     public ProfileGeneralInfo profileGeneralInfo(@ModelAttribute("loggedInUser") final User loggedInUser) {
         ProfileGeneralInfo profileGeneralInfo = new ProfileGeneralInfo();
@@ -46,12 +54,17 @@ public class ServiceProviderController {
         return new AptitudeForm();
     }
 
+    @ModelAttribute("addWZForm")
+    public AddWZForm addWZForm() {
+        return new AddWZForm();
+    }
+
     @RequestMapping("/sprovider")
-    public ModelAndView provider(@ModelAttribute("loggedInUser") final User loggedInUser) {
+    public ModelAndView provider(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
         final ModelAndView mav = new ModelAndView("serviceProviderControlPanel");
 
         if(loggedInUser == null) {
-            //exception 403
+            throw new InvalidUsernameException();
         }
 
         final int providerId = loggedInUser.getId();
@@ -74,9 +87,9 @@ public class ServiceProviderController {
     }
 
     @RequestMapping(value = "/sprovider/messages/{clientId}", method = { RequestMethod.POST })
-    public ModelAndView sendMessagePost(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("clientId") int clientId, @RequestParam("msg") String msg) {
+    public ModelAndView sendMessagePost(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("clientId") int clientId, @RequestParam("msg") String msg) throws InvalidUsernameException {
         if(loggedInUser == null) {
-            //Exception
+            throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
 
@@ -86,9 +99,9 @@ public class ServiceProviderController {
     }
 
     @RequestMapping(value = "/sprovider/messages/{clientId}", method = { RequestMethod.GET })
-    public ModelAndView providerMessages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("clientId") int clientId) {
+    public ModelAndView providerMessages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("clientId") int clientId) throws InvalidUsernameException {
         if(loggedInUser == null) {
-            //Exception
+            throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
         final ModelAndView mav = new ModelAndView("serviceProviderCPMessages");
@@ -103,9 +116,9 @@ public class ServiceProviderController {
     }
 
     @RequestMapping(value = "/sprovider/messages", method = { RequestMethod.GET })
-    public ModelAndView providerMessagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser) {
+    public ModelAndView providerMessagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
         if(loggedInUser == null) {
-            //Exception
+            throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
 
@@ -113,9 +126,9 @@ public class ServiceProviderController {
     }
 
     @RequestMapping("/sprovider/appointments")
-    public ModelAndView providerAppointments(@ModelAttribute("loggedInUser") final User loggedInUser) {
+    public ModelAndView providerAppointments(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
         if(loggedInUser == null) {
-            //Exception
+            throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
         final ModelAndView mav = new ModelAndView("serviceProviderCPAppointments");
@@ -129,9 +142,9 @@ public class ServiceProviderController {
     }
 
     @RequestMapping("/sprovider/reviews")
-    public ModelAndView providerReviews(@ModelAttribute("loggedInUser") final User loggedInUser) {
+    public ModelAndView providerReviews(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
         if(loggedInUser == null) {
-            //Exception
+            throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
         final ModelAndView mav = new ModelAndView("serviceProviderCPReviews");
@@ -166,10 +179,10 @@ public class ServiceProviderController {
     }
 
     @RequestMapping("/sprovider/editProfile")
-    public ModelAndView providerPosts(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "-1") final int elemErrorId, Model model) {
+    public ModelAndView providerPosts(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "-1") final int elemErrorId, Model model) throws InvalidUsernameException {
         final ModelAndView mav = new ModelAndView("serviceProviderCPEditProfile");
         if(loggedInUser == null) {
-            //Exception
+            throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
 
@@ -184,6 +197,9 @@ public class ServiceProviderController {
         mav.addObject("errorElemId", elemErrorId);
         mav.addObject("editAptitude", -1);
 
+        mav.addObject("workingZones", workingZonesService.getWorkingZonesOfProvider(providerId));
+        mav.addObject("neightbourhoods", neighborhoodService.getAllNeighborhoods());
+
         /* Profile picture */
 
 
@@ -193,8 +209,6 @@ public class ServiceProviderController {
     @RequestMapping(value = "/sprovider/editProfile/editGeneralInfo", method = RequestMethod.POST)
     public ModelAndView editGeneralInfo(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("profileGeneralInfo") final ProfileGeneralInfo form, BindingResult errors, RedirectAttributes redrAttr) {
         if(errors.hasErrors()) {
-            System.out.println("has errors");
-            System.out.println(form.getGeneralDescription());
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.profileGeneralInfo", errors);
             redrAttr.addFlashAttribute("profileGeneralInfo", form);
             String redirect = "redirect:/sprovider/editProfile?error=" + form.getElemId();
@@ -224,10 +238,10 @@ public class ServiceProviderController {
 
 
     @RequestMapping("/sprovider/editProfile/updateAptitude/{aptitudeId}")
-    public ModelAndView updateAptitudeId(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("aptitudeId") final int aptitudeId, Model model) {
+    public ModelAndView updateAptitudeId(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("aptitudeId") final int aptitudeId, Model model) throws InvalidUsernameException {
         final ModelAndView mav = new ModelAndView("serviceProviderCPEditProfile");
         if(loggedInUser == null) {
-            //Exception
+            throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
         final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
@@ -265,6 +279,27 @@ public class ServiceProviderController {
         } else {
             sProviderService.updateDescriptionOfAptitude(form.getAptitutdeId(), form.getAptDescription());
         }
+
+        return new ModelAndView("redirect:/sprovider/editProfile");
+    }
+
+    @RequestMapping(value = "/sprovider/editProfile/deleteWorkingZone", method = RequestMethod.POST)
+    public ModelAndView deleteWZ(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "ngId") final int ngId) {
+        workingZonesService.removeWorkingZoneOfProvider(loggedInUser.getId(), ngId);
+
+        return new ModelAndView("redirect:/sprovider/editProfile");
+    }
+
+    @RequestMapping(value = "/sprovider/editProfile/addNg", method = RequestMethod.POST)
+    public ModelAndView addWZ(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("addWZForm") final AddWZForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
+        if(errors.hasErrors()) {
+            redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.addWZForm", errors);
+            redrAttr.addFlashAttribute("addWZForm", form);
+            String redirect = "redirect:/sprovider/editProfile?error=3";
+            return new ModelAndView(redirect);
+        }
+
+        workingZonesService.insertWorkingZoneOfProvider(loggedInUser.getId(), form.getNgId());
 
         return new ModelAndView("redirect:/sprovider/editProfile");
     }
