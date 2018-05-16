@@ -3,7 +3,6 @@ package ar.edu.itba.paw.interfaces.services;
 import ar.edu.itba.paw.model.*;
 
 import java.util.List;
-import java.util.Set;
 
 public interface SProviderService {
 
@@ -17,13 +16,11 @@ public interface SProviderService {
 
     SProvider getServiceProviderWithUserId(int userId);
 
-    boolean insertReview(int userId, int aptitudeId, int quality,int cleanness, int price, int punctuality, int treatment, String comment);
-
     int getServiceProviderId(int userId);
 
     boolean isServiceProvider(int userId);
 
-    boolean insertWorkingZoneOfProvider(int userId, int ngId);
+    void insertWorkingZoneOfProvider(int userId, int ngId);
 
     List<SProvider> getServiceProvidersWorkingIn(int ngId);
 
@@ -39,12 +36,11 @@ public interface SProviderService {
 
     boolean removeWorkingZoneOfProvider(int userId, int ngId);
 
-    boolean addAptitude(int userId, int serviceType, String description);
+    void addAptitude(int userId, int serviceType, String description);
 
     boolean removeAptitude(int userId, int serviceType);
 
-    boolean updateDescriptionOfServiceProvider(int userId, String description);
+    void updateDescriptionOfServiceProvider(int userId, String description);
 
-
-
+    List<Review> getLatestReviewsOfServiceProvider(int providerId);
 }

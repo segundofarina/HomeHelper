@@ -8,7 +8,7 @@ public interface ReviewDao {
 
     List<Review> getReviewsOfAptitude(int aptitudeId);
 
-    boolean insertReview(int userId, int aptitudeId, int quality,int cleanness, int price, int punctuality, int treatment, String comment);
+    void insertReview(int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
 
     boolean removeReviewsOfAptitude(int aptId);
 }

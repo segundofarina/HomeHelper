@@ -107,3 +107,24 @@
     font-style: italic;
 }
 
+.empty-msg {
+    margin-top: 4em;
+}
+
+.empty-msg .img {
+    background-image: url("../img/llaveFija.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    width: 80%;
+    max-width: 15em;
+    margin: auto;
+    height: 15em;
+}
+
+.empty-msg p {
+    text-align: center;
+    margin-top: 2em;
+    font-style: italic;
+    color: #989595;
+}

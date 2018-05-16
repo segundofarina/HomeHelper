@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.interfaces.daos;
 
 import ar.edu.itba.paw.model.SProvider;
-import ar.edu.itba.paw.model.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +15,6 @@ public interface SProviderDao {
 
     List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId);
 
-    boolean updateDescriptionOfServiceProvider(int userId, String description);
+    void updateDescriptionOfServiceProvider(int userId, String description);
 
 }

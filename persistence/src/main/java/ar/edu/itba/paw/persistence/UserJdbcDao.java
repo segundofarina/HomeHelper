@@ -42,7 +42,6 @@ public class UserJdbcDao implements UserDao {
 
     @Override
     public Optional<User> findById(int id) {
-        System.out.println("--------------------------------ID IS "+id);
         final List<User> list = jdbcTemplate.query("SELECT * FROM users WHERE userid = ?;", ROW_MAPPER, id);
         if (list.isEmpty()) {
             return Optional.empty();

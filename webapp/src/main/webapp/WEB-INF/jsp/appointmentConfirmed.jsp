@@ -46,14 +46,14 @@
                             <div class="apt-content">
                                 <div class="apt-group">
                                     <h5><spring:message code="form.service-type"/></h5>
-                                    <p><c:out value="${appointment.serviceType.name}" /></p>
+                                    <p><spring:message code="service-type.${appointment.serviceType.serviceTypeId}"/></p>
                                 </div>
                                 <div class="apt-group">
                                     <h5><spring:message code="form.date"/></h5>
                                     <p><c:out value="${appointment.date}" /></p>
                                 </div>
                                 <div class="apt-group">
-                                    <h5>D<spring:message code="form.description"/></h5>
+                                    <h5><spring:message code="form.description"/></h5>
                                     <p><c:out value="${appointment.jobDescripcion}" /></p>
                                 </div>
                                 <div class="apt-group">

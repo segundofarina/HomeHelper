@@ -34,4 +34,7 @@ public interface AppointmentService {
 
     boolean rejectAppointment(int appointmentId);
 
+    List<Appointment> getLatestPendingAppointmentWithProviderId(int providerId);
+
+    void reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
 }

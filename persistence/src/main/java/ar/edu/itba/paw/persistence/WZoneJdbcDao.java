@@ -36,14 +36,6 @@ public class WZoneJdbcDao implements WZoneDao {
             this.userId = userId;
             this.ngId = ngId;
         }
-
-        public int getUserId() {
-            return userId;
-        }
-
-        public int getNgId() {
-            return ngId;
-        }
     }
 
     private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
@@ -62,16 +54,11 @@ public class WZoneJdbcDao implements WZoneDao {
     }
 
     @Override
-    public boolean insertWorkingZoneOfProvider(int userId, int ngId) {
-        Optional<SProvider> provider = sProviderDao.getServiceProviderWithUserId(userId);
-        if(!provider.isPresent() || !neighborhoodDao.getAllNeighborhoods().contains(new Neighborhood(ngId))){
-            return false;
-        }
+    public void insertWorkingZoneOfProvider(int userId, int ngId) {
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("userId",userId);
         args.put("ngId",ngId);
         jdbcInsert.execute(args);
-        return true;
     }
 
     @Override
@@ -101,11 +88,6 @@ public class WZoneJdbcDao implements WZoneDao {
 
     @Override
     public boolean removeWorkingZoneOfProvider(int userId, int ngId) {
-        try {
-            jdbcTemplate.update("DELETE FROM workingzones WHERE userId = ? AND ngId =?", ROW_MAPPER, userId, ngId);
-        }catch (Exception e) {
-            return false;
-        }
-        return true;
+        return jdbcTemplate.update("DELETE FROM workingzones WHERE userId = ? AND ngId = ?;", userId, ngId) != 0;
     }
 }

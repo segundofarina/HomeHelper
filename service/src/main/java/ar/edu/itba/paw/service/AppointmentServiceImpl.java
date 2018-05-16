@@ -124,6 +124,18 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentDao.removeAppointment(appointmentId);
     }
 
+    @Override
+    public List<Appointment> getLatestPendingAppointmentWithProviderId(int providerId) {
+        final List<Appointment> ap = getPendingAppointmentWithProviderId(providerId);
+        int start = 0, end = ap.size() >= 4 ? 4 : ap.size();
+        return ap.subList(start, end);
+    }
+
+    @Override
+    public void reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+        appointmentDao.reviewAppointment(appointmentId,userId,aptitudeId,quality,cleanness,price,punctuality,treatment,comment);
+    }
+
     private Timestamp stringToTimestamp(String str) {
         return new Timestamp(tryParse(str).getTime());
     }

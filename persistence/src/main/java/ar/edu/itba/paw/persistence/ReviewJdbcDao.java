@@ -1,11 +1,9 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
+import ar.edu.itba.paw.interfaces.daos.AppointmentDao;
 import ar.edu.itba.paw.interfaces.daos.ReviewDao;
-import ar.edu.itba.paw.interfaces.daos.SProviderDao;
 import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.model.Review;
-import ar.edu.itba.paw.model.SProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,6 +14,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.time.Instant;
 import java.util.*;
 
@@ -24,6 +23,9 @@ public class ReviewJdbcDao implements ReviewDao {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    AppointmentDao appointmentDao;
 
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
@@ -45,9 +47,8 @@ public class ReviewJdbcDao implements ReviewDao {
         int punctuality;
         int treatment;
         String comment;
-        boolean clientReview;
 
-        public Row(int userId, int aptitudeId, Timestamp reviewdate, int quality, int cleanness, int price, int punctuality, int treatment, String comment, boolean clientReview) {
+        public Row(int userId, int aptitudeId, Timestamp reviewdate, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
             this.userId = userId;
             this.aptitudeId = aptitudeId;
             this.reviewdate = reviewdate;
@@ -57,12 +58,11 @@ public class ReviewJdbcDao implements ReviewDao {
             this.punctuality = punctuality;
             this.treatment = treatment;
             this.comment = comment;
-            this.clientReview=clientReview;
         }
     }
     private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
         public Row mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Row(rs.getInt("userId"),rs.getInt("aptitudeId"),rs.getTimestamp("reviewdate"),rs.getInt("quality"),rs.getInt("cleanness"),rs.getInt("price"),rs.getInt("punctuality"),rs.getInt("treatment"),rs.getString("comment"),rs.getBoolean("clientReview"));
+            return new Row(rs.getInt("userId"),rs.getInt("aptitudeId"),rs.getTimestamp("reviewdate"),rs.getInt("quality"),rs.getInt("cleanness"),rs.getInt("price"),rs.getInt("punctuality"),rs.getInt("treatment"),rs.getString("comment"));
         }
     };
 
@@ -75,25 +75,15 @@ public class ReviewJdbcDao implements ReviewDao {
             return reviews;
         }
 
-
-
         for(Row row : dbRowsList){
-            reviews.add(new Review(row.quality,row.cleanness,row.price,row.punctuality,row.treatment,row.comment,row.reviewdate,userDao.findById(row.userId).get(),row.clientReview));
+            reviews.add(new Review(row.quality,row.cleanness,row.price,row.punctuality,row.treatment,row.comment,row.reviewdate,userDao.findById(row.userId).get()));
         }
 
         return reviews;
     }
 
     @Override
-    public boolean insertReview(int userId, int aptitudeId, int quality,int cleanness, int price, int punctuality, int treatment, String comment) {
-
-        if(comment==null){
-            return false;
-        }
-
-       if(!isValidCalification(quality) || !isValidCalification(cleanness) || !isValidCalification(price) || !isValidCalification(punctuality) || !isValidCalification(treatment)){
-           return false;
-       }
+    public void insertReview(int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
 
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("userId", userId);
@@ -103,27 +93,15 @@ public class ReviewJdbcDao implements ReviewDao {
         args.put("price", price);
         args.put("punctuality", punctuality);
         args.put("treatment", treatment);
-        args.put("comment", comment);
-        args.put("clientReview",true);
+        if(comment == null) {
+            args.put("comment",Types.NULL);
+        }else{
+            args.put("comment", comment);
+        }
         args.put("reviewdate",Timestamp.from(Instant.now()));
-
-        try {
-            jdbcInsert.execute(args);
-        }catch (Exception e){
-            return false;
-        }
-
-        return true;
+        jdbcInsert.execute(args);
     }
 
-    private boolean isValidCalification(int calification) {
-
-        if(calification>0 && calification<6){
-            return true;
-        }
-
-        return false;
-    }
 
     @Override
     public boolean removeReviewsOfAptitude(int aptId) {

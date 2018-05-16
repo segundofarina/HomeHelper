@@ -28,8 +28,9 @@ public class SettingsForm {
     @NotBlank
     @Pattern(regexp = "[0-9+]*")
     private String phone;
-    
-    private PasswordForm passwordForm = new PasswordForm();
+
+    @Valid
+    private SettingsPassForm passwordForm = new SettingsPassForm();
 
     private MultipartFile profilePicture;
 
@@ -65,11 +66,11 @@ public class SettingsForm {
         this.phone = phone;
     }
 
-    public PasswordForm getPasswordForm() {
+    public SettingsPassForm getPasswordForm() {
         return passwordForm;
     }
 
-    public void setPasswordForm(PasswordForm passwordForm) {
+    public void setPasswordForm(SettingsPassForm passwordForm) {
         this.passwordForm = passwordForm;
     }
 

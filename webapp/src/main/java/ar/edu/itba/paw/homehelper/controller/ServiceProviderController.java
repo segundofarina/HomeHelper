@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.homehelper.controller;
 
+import ar.edu.itba.paw.homehelper.form.AddWZForm;
 import ar.edu.itba.paw.homehelper.form.AptitudeForm;
 import ar.edu.itba.paw.homehelper.form.ProfileGeneralInfo;
 import ar.edu.itba.paw.homehelper.form.UpdateAptitudeForm;
@@ -33,6 +34,12 @@ public class ServiceProviderController {
     @Autowired
     private AptitudeService aptitudeService;
 
+    @Autowired
+    private WorkingZonesService workingZonesService;
+
+    @Autowired
+    private NeighborhoodService neighborhoodService;
+
     @ModelAttribute("profileGeneralInfo")
     public ProfileGeneralInfo profileGeneralInfo(@ModelAttribute("loggedInUser") final User loggedInUser) {
         ProfileGeneralInfo profileGeneralInfo = new ProfileGeneralInfo();
@@ -46,6 +53,11 @@ public class ServiceProviderController {
         return new AptitudeForm();
     }
 
+    @ModelAttribute("addWZForm")
+    public AddWZForm addWZForm() {
+        return new AddWZForm();
+    }
+
     @RequestMapping("/sprovider")
     public ModelAndView provider(@ModelAttribute("loggedInUser") final User loggedInUser) {
         final ModelAndView mav = new ModelAndView("serviceProviderControlPanel");
@@ -54,8 +66,21 @@ public class ServiceProviderController {
             //exception 403
         }
 
-        mav.addObject("providerId", loggedInUser.getId());
+        final int providerId = loggedInUser.getId();
+        final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
+
+        mav.addObject("providerId", providerId);
         mav.addObject("providerName", loggedInUser.getFirstname());
+
+        mav.addObject("chats", chatService.getLatestChatsOf(providerId));
+        mav.addObject("appointments", appointmentService.getLatestPendingAppointmentWithProviderId(providerId));
+        mav.addObject("reviews", sProviderService.getLatestReviewsOfServiceProvider(providerId));
+
+        mav.addObject("totalAp", provider.getAptitudes().size());
+        mav.addObject("generalCal", provider.getGeneralCalification());
+        mav.addObject("pendingAp", appointmentService.getPendingAppointmentWithProviderId(providerId).size());
+        mav.addObject("doneAp", appointmentService.getAppointmentsByProviderId(providerId, Status.Done).size());
+
 
         return mav;
     }
@@ -171,6 +196,9 @@ public class ServiceProviderController {
         mav.addObject("errorElemId", elemErrorId);
         mav.addObject("editAptitude", -1);
 
+        mav.addObject("workingZones", workingZonesService.getWorkingZonesOfProvider(providerId));
+        mav.addObject("neightbourhoods", neighborhoodService.getAllNeighborhoods());
+
         /* Profile picture */
 
 
@@ -180,8 +208,6 @@ public class ServiceProviderController {
     @RequestMapping(value = "/sprovider/editProfile/editGeneralInfo", method = RequestMethod.POST)
     public ModelAndView editGeneralInfo(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("profileGeneralInfo") final ProfileGeneralInfo form, BindingResult errors, RedirectAttributes redrAttr) {
         if(errors.hasErrors()) {
-            System.out.println("has errors");
-            System.out.println(form.getGeneralDescription());
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.profileGeneralInfo", errors);
             redrAttr.addFlashAttribute("profileGeneralInfo", form);
             String redirect = "redirect:/sprovider/editProfile?error=" + form.getElemId();
@@ -221,7 +247,7 @@ public class ServiceProviderController {
 
         if(!model.containsAttribute("updateAptitudeForm")) {
             UpdateAptitudeForm updateAptitudeForm = new UpdateAptitudeForm();
-            updateAptitudeForm.setAptDescription(aptitudeService.getAptitude(aptitudeId).getDescription());
+            updateAptitudeForm.setAptDescription(aptitudeService.getAptitude(aptitudeId).get().getDescription());
             model.addAttribute("updateAptitudeForm", updateAptitudeForm);
         }
 
@@ -252,6 +278,27 @@ public class ServiceProviderController {
         } else {
             sProviderService.updateDescriptionOfAptitude(form.getAptitutdeId(), form.getAptDescription());
         }
+
+        return new ModelAndView("redirect:/sprovider/editProfile");
+    }
+
+    @RequestMapping(value = "/sprovider/editProfile/deleteWorkingZone", method = RequestMethod.POST)
+    public ModelAndView deleteWZ(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "ngId") final int ngId) {
+        workingZonesService.removeWorkingZoneOfProvider(loggedInUser.getId(), ngId);
+
+        return new ModelAndView("redirect:/sprovider/editProfile");
+    }
+
+    @RequestMapping(value = "/sprovider/editProfile/addNg", method = RequestMethod.POST)
+    public ModelAndView addWZ(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("addWZForm") final AddWZForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
+        if(errors.hasErrors()) {
+            redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.addWZForm", errors);
+            redrAttr.addFlashAttribute("addWZForm", form);
+            String redirect = "redirect:/sprovider/editProfile?error=3";
+            return new ModelAndView(redirect);
+        }
+
+        workingZonesService.insertWorkingZoneOfProvider(loggedInUser.getId(), form.getNgId());
 
         return new ModelAndView("redirect:/sprovider/editProfile");
     }

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static junit.framework.TestCase.*;
+import static org.junit.Assert.assertEquals;
 
 @Sql("classpath:schema.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -85,13 +86,16 @@ public class SProviderJdbcDaoTest extends AbstractTransactionalJUnit4SpringConte
     public void updateDescriptionOfServiceProvider(){
         int count = JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "serviceProviders");
 
-        assertTrue(sProviderDao.updateDescriptionOfServiceProvider(Const.SPROVIDER_ID,Const.VALID_DESCRIPTION));
+        sProviderDao.updateDescriptionOfServiceProvider(Const.SPROVIDER_ID,Const.VALID_DESCRIPTION);
 
-        assertFalse(sProviderDao.updateDescriptionOfServiceProvider(Const.INVALIDAD_USER_ID,Const.VALID_DESCRIPTION));
+        sProviderDao.updateDescriptionOfServiceProvider(Const.INVALIDAD_USER_ID,Const.VALID_DESCRIPTION);
 
-        assertFalse(sProviderDao.updateDescriptionOfServiceProvider(Const.SPROVIDER_ID,Const.INVALID_DESCRIPTION));
+        try {
 
-        assertEquals(count,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "serviceProviders"));
+            sProviderDao.updateDescriptionOfServiceProvider(Const.SPROVIDER_ID, Const.INVALID_DESCRIPTION);
+        }catch (Exception e){
+            assertEquals(count,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "serviceProviders"));
+        }
 
     }
 
@@ -103,11 +107,4 @@ public class SProviderJdbcDaoTest extends AbstractTransactionalJUnit4SpringConte
         }
         return false;
     }
-
-
-
-
-
-
-
 }

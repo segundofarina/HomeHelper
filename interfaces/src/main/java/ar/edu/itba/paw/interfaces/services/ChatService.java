@@ -15,5 +15,7 @@ public interface ChatService {
 
     int getLastMsgThread(int providerId);
 
-    boolean sendAppointmentMsg(int from, int to);
+    boolean sendAppointmentMsg(int from, int to, String date, String description);
+
+    List<Chat> getLatestChatsOf(int providerId);
 }

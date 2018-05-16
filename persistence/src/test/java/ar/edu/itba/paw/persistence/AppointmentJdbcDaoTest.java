@@ -45,13 +45,13 @@ public class AppointmentJdbcDaoTest {
 
         assertEquals(0,appointmentDao.getAppointmentsByProviderId(Const.SPROVIDER_ID).size());
 
-        assertEquals(null,appointmentDao.getAppointmentsByProviderId(Const.INVALID_SERVICE_ID));
+        assertEquals(0,appointmentDao.getAppointmentsByProviderId(Const.INVALID_SERVICE_ID).size());
 
     }
     @Test
     public void getAppointmentsByUserIdTest(){
 
-        assertEquals(null,appointmentDao.getAppointmentsByUserId(Const.INVALIDAD_USER_ID));
+        assertEquals(0,appointmentDao.getAppointmentsByUserId(Const.INVALIDAD_USER_ID).size());
 
         assertEquals(0,appointmentDao.getAppointmentsByUserId(Const.USER2_ID).size());
     }
@@ -66,18 +66,35 @@ public class AppointmentJdbcDaoTest {
     @Test
     public void addAppointmentTest(){
 
-        assertEquals(null,appointmentDao.addAppointment(Const.USER_ID,Const.INVALID_SERVICE_PROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION));
+        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments");
 
-        assertEquals(null,appointmentDao.addAppointment(Const.INVALIDAD_USER_ID,Const.SPROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION));
+        appointmentDao.addAppointment(Const.USER_ID,Const.SPROVIDER3_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION);
 
-        assertEquals(null,appointmentDao.addAppointment(Const.USER_ID,Const.INVALID_SERVICE_PROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION));
-
-        assertEquals(null,appointmentDao.addAppointment(Const.USER_ID,Const.SPROVIDER_ID,Const.INVALID_SERVICE_TYPE_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION));
-
-        assertEquals(null,appointmentDao.addAppointment(Const.USER_ID,Const.INVALID_SERVICE_PROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.INVALID_ADDRESS,Const.VALID_JOBDESCRIPTION));
-
-        assertEquals(null,appointmentDao.addAppointment(Const.USER_ID,Const.INVALID_SERVICE_PROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.INVALID_JOBDESCRIPTION));
-
+        assertEquals(++count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
+        try {
+            appointmentDao.addAppointment(Const.USER_ID, Const.INVALID_SERVICE_PROVIDER_ID, Const.SERVICETYPE3_ID, Timestamp.from(Instant.now()), Const.VALID_ADDRESS, Const.VALID_JOBDESCRIPTION);
+        }catch(Exception e){
+            assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
+        }
+        try{
+            appointmentDao.addAppointment(Const.INVALIDAD_USER_ID,Const.SPROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION);
+        }catch(Exception e){
+            assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
+        }
+        try{
+            appointmentDao.addAppointment(Const.USER_ID,Const.INVALID_SERVICE_PROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION);
+        }catch(Exception e){
+            assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
+        }
+        try{
+            appointmentDao.addAppointment(Const.USER_ID,Const.SPROVIDER_ID,Const.INVALID_SERVICE_TYPE_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION);
+        }catch(Exception e){
+            assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
+        }
+//        appointmentDao.addAppointment(Const.USER_ID,Const.SPROVIDER3_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.INVALID_ADDRESS,Const.VALID_JOBDESCRIPTION);
+//        assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
+//        appointmentDao.addAppointment(Const.USER_ID,Const.SPROVIDER3_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.INVALID_JOBDESCRIPTION);
+//        assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
     }
 
     @Test

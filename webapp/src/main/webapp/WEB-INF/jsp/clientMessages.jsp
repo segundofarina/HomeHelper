@@ -42,75 +42,85 @@
                 <div class="panel-body">
                     <!-- Message content -->
 
-                    <div class="row">
-                        <div class="col-sm-3 messageThumbnails">
+                    <c:choose>
+                        <c:when test="${chats.size() == 0}">
+                            <div class="empty-msg">
+                                <div class="img"></div>
+                                <p><spring:message code="emptyMsg" /></p>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="row">
+                                <div class="col-sm-3 messageThumbnails">
 
-                            <c:forEach items="${chats}" var="chat">
-                                <c:url value="/client/messages/${chat.grey.id}" var="chatThreadUrl" />
-                                <a href="${chatThreadUrl}" class="thumbItem">
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <div>
-                                                <img class="roundedImg" src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="profile picture" />
+                                    <c:forEach items="${chats}" var="chat">
+                                        <c:url value="/client/messages/${chat.grey.id}" var="chatThreadUrl" />
+                                        <a href="${chatThreadUrl}" class="thumbItem">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div>
+                                                        <img class="roundedImg" src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="profile picture" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <h4><c:out value="${chat.grey.firstname}"/> <c:out value="${chat.grey.lastname}" /></h4>
+                                                    <p><c:out value="${chat.preview}" /></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <h4><c:out value="${chat.grey.firstname}"/> <c:out value="${chat.grey.lastname}" /></h4>
-                                            <p><c:out value="${chat.preview}" /></p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </c:forEach>
+                                        </a>
+                                    </c:forEach>
 
-                        </div>
-
-                        <div class="col-sm-6 messageContent">
-                            <div class="scrollableContent">
-
-                                <c:forEach items="${currentChat.messages}" var="msg">
-                                <div class="clearfix">
-                                    <c:choose>
-                                        <c:when test="${msg.from == currentChat.green.id}">
-                                            <div class="myMsg">
-                                        </c:when>
-                                        <c:otherwise>
-                                            <div class="otherMsg">
-                                        </c:otherwise>
-                                    </c:choose>
-                                            <p><c:out value="${msg.message}" /></p>
-                                            </div>
                                 </div>
-                                </c:forEach>
 
-                            </div>
-                            <div class="fields">
-                                <c:url value="/client/messages/${currentChat.grey.id}" var="msgPostPath" />
-                                <form action="<c:out value="${msgPostPath}" />" method="POST">
-                                    <div>
-                                        <textarea name="msg" placeholder="<spring:message code="placeholder.write-message"/>"></textarea>
+                                <div class="col-sm-6 messageContent">
+                                    <div class="scrollableContent">
+
+                                        <c:forEach items="${currentChat.messages}" var="msg">
+                                        <div class="clearfix">
+                                            <c:choose>
+                                            <c:when test="${msg.from == currentChat.green.id}">
+                                            <div class="myMsg">
+                                                </c:when>
+                                                <c:otherwise>
+                                                <div class="otherMsg">
+                                                    </c:otherwise>
+                                                    </c:choose>
+                                                    <p><c:out value="${msg.message}" /></p>
+                                                </div>
+                                            </div>
+                                            </c:forEach>
+
+                                        </div>
+                                        <div class="fields">
+                                            <c:url value="/client/messages/${currentChat.grey.id}" var="msgPostPath" />
+                                            <form action="<c:out value="${msgPostPath}" />" method="POST">
+                                                <div>
+                                                    <textarea name="msg" placeholder="<spring:message code="placeholder.write-message"/>"></textarea>
+                                                </div>
+                                                <div>
+                                                    <input type="submit" value="<spring:message code="general.send"/>" class="btn btn-success pull-right" />
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <input type="submit" value="<spring:message code="general.send"/>" class="btn btn-success pull-right" />
-                                        <div class="clearfix"></div>
+                                    <div class="col-sm-3 appointmentDetails">
+                                        <div class="profilePicture">
+                                            <img src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="profile picture" />
+                                        </div>
+                                        <div class="stars">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star-half-empty"></i>
+                                            <i class="fa fa-star-o"></i>
+                                        </div>
+                                        <div class="address">Santa Fe 1000, Buenos Aires</div>
+                                        <div class="calendar"></div>
                                     </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="col-sm-3 appointmentDetails">
-                            <div class="profilePicture">
-                                <img src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="profile picture" />
-                            </div>
-                            <div class="stars">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-half-empty"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <div class="address">Santa Fe 1000, Buenos Aires</div>
-                            <div class="calendar"></div>
-                        </div>
-                    </div>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
 
                     <!-- End Message content  -->
 

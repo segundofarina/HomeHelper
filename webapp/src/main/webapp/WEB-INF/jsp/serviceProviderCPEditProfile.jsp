@@ -146,7 +146,7 @@
                                                     <form:select path="serviceType" class="form-control">
                                                         <form:option value=""><spring:message code="service-type.select"/></form:option>
                                                         <c:forEach items="${serviceTypes}" var="st">
-                                                            <form:option value="${st.serviceTypeId}"><c:out value="${st.name}"/></form:option>
+                                                            <form:option value="${st.serviceTypeId}"><spring:message code="service-type.${st.serviceTypeId}"/></form:option>
                                                         </c:forEach>
                                                     </form:select>
                                                     <form:errors path="serviceType" cssClass="form-error" element="p" />
@@ -184,7 +184,7 @@
                                                     <div class="form-group">
                                                         <label><spring:message code="general.service-type"/>:</label>
                                                         <form:input path="serviceType" type="hidden" value="${aptitude.service.serviceTypeId}" />
-                                                        <p><c:out value="${aptitude.service.name}" /></p>
+                                                        <p><spring:message code="service-type.${aptitude.service.serviceTypeId}"/></p>
                                                     </div>
                                                     <div class="form-group">
                                                         <form:label path="aptDescription"><spring:message code="general.description"/>:</form:label>
@@ -219,10 +219,65 @@
                         <div class="x_panel">
                             <div class="x_title">
                                 <h2><spring:message code="general.working-details"/></h2>
+                                <button type="button" class="btn btn-default btn-sm add-one pull-right"><i class="fa fa-plus"></i> <spring:message code="ng.add"/></button>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                <spring:message code="sprovider.write-details"/>
+
+                                <c:choose>
+                                    <c:when test="${errorElemId == 3}">
+                                        <div class="dynamic-element new-element">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="dynamic-element new-element new-element-hidden">
+                                    </c:otherwise>
+                                </c:choose>
+                                    <div class="editable">
+                                        <c:url value="/sprovider/editProfile/addNg" var="postUrl" />
+                                        <form:form modelAttribute="addWZForm" action="${postUrl}" method="post">
+                                            <form:input path="elemId" type="hidden" value="3" />
+                                            <div class="form-group">
+                                                <form:label path="ng"><spring:message code="general.city"/>:</form:label>
+                                                <form:select path="ng" id="ng" class="form-control">
+                                                    <form:option value=""><spring:message code="service-type.select"/></form:option>
+                                                    <c:forEach items="${neightbourhoods}" var="ng">
+                                                        <form:option value="${ng.ngId}"><spring:message code="neighborhood.${ng.ngId}" /></form:option>
+                                                    </c:forEach>
+                                                </form:select>
+                                                <form:errors path="ng" element="p" cssClass="form-error" />
+                                            </div>
+                                            <div class="divider-dashed"></div>
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-danger btn-sm pull-right btn-cancel"><i class="fa fa-close"></i> Cancel</button>
+                                                <button type="submit" class="btn btn-success btn-sm pull-right"><i class="fa fa-circle-check"></i> <spring:message code="general.update"/></button>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </form:form>
+                                    </div>
+                                </div>
+
+
+                                <div class="editable">
+                                    <div class="form-group">
+                                        <label><spring:message code="editWorkingZone.title" /></label>
+                                        <c:forEach items="${workingZones}" var="wz" >
+                                            <form method="post" action="<c:url value="/sprovider/editProfile/deleteWorkingZone" />">
+                                                <input type="hidden" name="ngId" value="<c:out value="${wz.ngId}" />" />
+                                                <button type="submit" class="btn btn-danger btn-sm edit-visible wz-btn"><spring:message code="neighborhood.${wz.ngId}" /> <i class="fa fa-close"></i></button>
+                                            </form>
+                                        </c:forEach>
+                                        <ul class="edit-hidden">
+                                            <c:forEach items="${workingZones}" var="wz">
+                                                <li><spring:message code="neighborhood.${wz.ngId}" /></li>
+                                            </c:forEach>
+                                        </ul>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-danger btn-sm pull-right edit-visible btn-cancel"><i class="fa fa-close"></i> Cancel</button>
+                                        <button type="button" class="btn btn-primary btn-sm pull-right edit-hidden btn-edit"><i class="fa fa-edit"></i> Edit</button>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -314,7 +369,8 @@
                 return;
             }
 
-            $('.new-element').removeClass('new-element-hidden');
+            //$('.new-element').removeClass('new-element-hidden');
+            $(this).closest('.row').find('.new-element').removeClass('new-element-hidden');
             $('.btn-edit, .btn.add-one').addClass('disabled');
         });
 

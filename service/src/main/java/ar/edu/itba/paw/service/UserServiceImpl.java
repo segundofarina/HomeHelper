@@ -1,7 +1,9 @@
 package ar.edu.itba.paw.service;
 
 
+import ar.edu.itba.paw.interfaces.daos.AppointmentDao;
 import ar.edu.itba.paw.interfaces.daos.UserDao;
+import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.interfaces.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private AppointmentDao appointmentDao;
 
 
     public User findById(int id) {
@@ -99,7 +104,6 @@ public class UserServiceImpl implements UserService {
     public boolean updateAddressOfUser(int userId, String address) {
         return userDao.updateAddressOfUser(userId,address);
     }
-
 
 }
 

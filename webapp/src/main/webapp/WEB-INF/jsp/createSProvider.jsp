@@ -203,7 +203,7 @@
                                                     <form:select path="serviceType" cssClass="form-control">
                                                         <form:option value=""><spring:message code="sprovider.select-service-type"/></form:option>
                                                         <c:forEach items="${serviceTypes}" var="st">
-                                                            <form:option value="${st.serviceTypeId}"><c:out value="${st.name}" /></form:option>
+                                                            <form:option value="${st.serviceTypeId}"><spring:message code="service-type.${st.serviceTypeId}"/></form:option>
                                                         </c:forEach>
                                                     </form:select>
                                                     <form:errors path="serviceType" element="p" cssClass="form-error" />
