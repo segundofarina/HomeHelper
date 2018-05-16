@@ -149,4 +149,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         return null;
     }
 
+    @Override
+    public void reviewAppointment(int userId, int providerId, int serviceTypeId, Timestamp appointmentDate){
+        appointmentDao.reviewAppointment(userId,providerId,serviceTypeId,appointmentDate);
+    }
+
 }

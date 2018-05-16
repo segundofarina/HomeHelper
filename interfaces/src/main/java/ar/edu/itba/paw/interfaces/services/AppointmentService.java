@@ -35,4 +35,6 @@ public interface AppointmentService {
     boolean rejectAppointment(int appointmentId);
 
     List<Appointment> getLatestPendingAppointmentWithProviderId(int providerId);
+
+    void reviewAppointment(int userId, int providerId, int serviceTypeId, Timestamp appointmentDate);
 }

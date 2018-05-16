@@ -37,5 +37,5 @@ public interface UserService {
     boolean updateAddressOfUser(int userId, String address);
 
 
-
+    void reviewAppointment(int appointmentId);
 }
