@@ -10,6 +10,8 @@ import javax.validation.constraints.Size;
 
 public class SettingsForm {
 
+    private int savedImgId;
+
     @NotBlank
     @Size(max = 100)
     @Pattern(regexp = "[a-zA-Z ]*")
@@ -80,5 +82,13 @@ public class SettingsForm {
 
     public void setProfilePicture(MultipartFile profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+    public int getSavedImgId() {
+        return savedImgId;
+    }
+
+    public void setSavedImgId(int savedImgId) {
+        this.savedImgId = savedImgId;
     }
 }
