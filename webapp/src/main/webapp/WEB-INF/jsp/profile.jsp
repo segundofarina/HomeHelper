@@ -147,7 +147,15 @@
                         <h3><c:out value="${aptitude.service.name}"/></h3>
 
                         <div class="row">
-                            <div class="col-xs-12 col-md-8">
+                            <c:choose>
+                                <c:when test="${aptitude.reviews.size() == 0}" >
+                                    <div class="col-xs-12 col-md-12">
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="col-xs-12 col-md-4">
+                                </c:otherwise>
+                            </c:choose>
+
                                 <div class="panel">
                                     <div class="panel-body descriptionTxt">
                                         <p>
@@ -156,56 +164,52 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-md-4">
+                            <c:choose>
+                                <c:when test="${aptitude.reviews.size() == 0}" >
+                                    <div class="col-xs-12 col-md-0" style="display: none;">
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="col-xs-12 col-md-4">
+                                </c:otherwise>
+                            </c:choose>
                                 <div class="panel">
-                                    <c:choose>
-                                        <c:when test="${aptitude.reviews.size() == 0}" >
-                                            <div class="panel-body">
-                                                <div class="empty-reviews">
-                                                    <div class="img"></div>
-                                                </div>
-                                            </div>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <div class="panel-body aptitude-bars">
-                                                <h4><spring:message code="profile.general-reviews"/></h4>
-                                                <div class="stars dyn-stars" data-rating="<c:out value="${aptitude.generalCalification}"/>"></div>
-                                                <div class="progressBars">
-                                                    <h5><spring:message code="form.quality"/></h5>
-                                                    <div class="progress">
+                                    <div class="panel-body aptitude-bars">
+                                        <h4><spring:message code="profile.general-reviews"/></h4>
+                                        <div class="stars dyn-stars" data-rating="<c:out value="${aptitude.generalCalification}"/>"></div>
+                                        <div class="progressBars">
+                                            <h5><spring:message code="form.quality"/></h5>
+                                            <div class="progress">
 
-                                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.qualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.qualityCalification*20}"/>%;">
-                                                            <c:out value="${aptitude.qualityCalification}"/>
-                                                        </div>
-                                                    </div>
-                                                    <h5><spring:message code="form.price"/></h5>
-                                                    <div class="progress">
-                                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.priceCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.priceCalification*20}"/>%;">
-                                                            <c:out value="${aptitude.priceCalification}"/>
-                                                        </div>
-                                                    </div>
-                                                    <h5><spring:message code="form.punctuality"/></h5>
-                                                    <div class="progress">
-                                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.punctualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.punctualityCalification*20}"/>%;">
-                                                            <c:out value="${aptitude.punctualityCalification}"/>
-                                                        </div>
-                                                    </div>
-                                                    <h5><spring:message code="form.treatment"/></h5>
-                                                    <div class="progress">
-                                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.treatmentCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.treatmentCalification*20}"/>%;">
-                                                            <c:out value="${aptitude.treatmentCalification}"/>
-                                                        </div>
-                                                    </div>
-                                                    <h5><spring:message code="form.cleanness"/></h5>
-                                                    <div class="progress">
-                                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.cleannessCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.cleannessCalification*20}"/>%;">
-                                                            <c:out value="${aptitude.cleannessCalification}"/>
-                                                        </div>
-                                                    </div>
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.qualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.qualityCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.qualityCalification}"/>
                                                 </div>
                                             </div>
-                                        </c:otherwise>
-                                    </c:choose>
+                                            <h5><spring:message code="form.price"/></h5>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.priceCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.priceCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.priceCalification}"/>
+                                                </div>
+                                            </div>
+                                            <h5><spring:message code="form.punctuality"/></h5>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.punctualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.punctualityCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.punctualityCalification}"/>
+                                                </div>
+                                            </div>
+                                            <h5><spring:message code="form.treatment"/></h5>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.treatmentCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.treatmentCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.treatmentCalification}"/>
+                                                </div>
+                                            </div>
+                                            <h5><spring:message code="form.cleanness"/></h5>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.cleannessCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.cleannessCalification*20}"/>%;">
+                                                    <c:out value="${aptitude.cleannessCalification}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -219,7 +223,10 @@
                             <div class="panel-body">
                                 <c:choose>
                                     <c:when test="${aptitude.reviews.size() == 0}" >
-                                        <p class="empty-reviews"><spring:message code="emptyStars" /></p>
+                                        <div class="empty-reviews">
+                                            <div class="img"></div>
+                                            <p><spring:message code="emptyStars" /></p>
+                                        </div>
                                     </c:when>
                                     <c:otherwise>
                                         <c:forEach items="${aptitude.reviews}" var="review">
