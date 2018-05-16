@@ -21,6 +21,17 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
+        /* Avoid showing page to unverified users */
+        if(isUnverifiedUser(authentication)) {
+            System.out.println("after login is unverified");
+            getRedirectStrategy().sendRedirect(request, response, "/unverified/user");
+            super.onAuthenticationSuccess(request, response, authentication);
+            return;
+        }
+
+        System.out.println("after login is verified");
+
+
         if(session != null) {
             String redirectUrl = (String) session.getAttribute("url_prior_login");
 
@@ -32,6 +43,9 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         }
 
         super.onAuthenticationSuccess(request, response, authentication);
+    }
 
+    private boolean isUnverifiedUser(Authentication authentication) {
+        return authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_UNVERIFIED_USER"));
     }
 }

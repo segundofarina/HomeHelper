@@ -101,6 +101,10 @@ public class User {
         this.password = password;
     }
 
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -17,7 +17,7 @@ public class LoginController {
         String redirect = referer;
 
         if(referer !=null && referer.contains("/profile")) {
-            redirect = "/client/getSendAppointment";
+            redirect = "/client/getSendAppointment";//no siempre hay que redirigir puedo poner un param que me diga si o no
         }
 
         /* Avoid redirecting to login after login error */
