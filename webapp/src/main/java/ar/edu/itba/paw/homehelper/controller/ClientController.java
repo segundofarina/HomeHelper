@@ -81,7 +81,7 @@ public class ClientController {
        }
 
        Appointment ap= appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
-       chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId());
+       chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId(), form.getDate(), form.getDescription());
 
        String redirect = "redirect:/client/appointmentConfirmed?appt=" + ap.getAppointmentId();
 
@@ -95,7 +95,7 @@ public class ClientController {
        }
 
        Appointment ap= appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  "", form.getDescription());
-       chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId());
+       chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId(), form.getDate(), form.getDescription());
 
        String redirect = "redirect:/client/appointmentConfirmed?appt=" + ap.getAppointmentId();
 

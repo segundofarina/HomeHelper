@@ -92,9 +92,13 @@ public class ChatServiceImpl implements ChatService{
     }
 
     @Override
-    public boolean sendAppointmentMsg(int from, int to) {
-        //String msg = "New appointment request";
-        String msg = context.getMessage("defaultChatMsg", null, Locale.getDefault());
+    public boolean sendAppointmentMsg(int from, int to, String date, String description) {
+        String msg = null;
+        if(description.isEmpty()) {
+            msg = context.getMessage("defaultChatMsg", new Object[] {date}, Locale.getDefault());
+        } else {
+            msg = context.getMessage("defaultChatMsgDesc", new Object[] {date, description}, Locale.getDefault());
+        }
         return sendMsg(from, to, msg);
     }
 
