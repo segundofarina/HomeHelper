@@ -296,7 +296,7 @@ public class ClientController {
             userService.updateImageOfUser(userId,image);
         }
 
-        
+
         return new ModelAndView("redirect:/");
     }
 
