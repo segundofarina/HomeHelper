@@ -77,14 +77,12 @@ public class WZoneJdbcDao implements WZoneDao {
     @Override
     public List<Neighborhood> getWorkingZonesOfProvider(int providerId) {
         List<Row> list = jdbcTemplate.query("SELECT * FROM workingzones WHERE userId = ?;", ROW_MAPPER, providerId);
-        if (list.isEmpty()) {
-            return null;
-        }
         List<Neighborhood> neighborhoods = new ArrayList<>();
+        if (list.isEmpty()) {
+            return neighborhoods;
+        }
         for(Row row : list){
-            if(!neighborhoods.contains(new Neighborhood(row.ngId))) {
-                neighborhoods.add(new Neighborhood(row.ngId));
-            }
+            neighborhoods.add(new Neighborhood(row.ngId));
         }
 
         return neighborhoods;
@@ -96,9 +94,7 @@ public class WZoneJdbcDao implements WZoneDao {
         List<SProvider> providers = new ArrayList<>();
         for(Row row : list){
             SProvider provider = sProviderDao.getServiceProviderWithUserId(row.userId).get();
-            if(!providers.contains(provider)) {
-                providers.add(provider);
-            }
+            providers.add(provider);
         }
         return providers;
     }

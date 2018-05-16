@@ -123,21 +123,27 @@ public class PublicController {
         final ModelAndView mav = new ModelAndView("profileSearch");
 
         /* Lanzar excepcion cuando serviceTypeId es -1 o cuando cityId es -1 */
+        System.out.println("Starting methods");
 
         final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId);
+        System.out.println("Finished sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId) method");
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+        System.out.println("Finished sProviderService.getServiceProviderId(getUserId(loggedInUser)) method");
 
         mav.addObject("list",list);
         mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
+        System.out.println("Finished neighborhoodService.getAllNeighborhoods() method");
 
         mav.addObject("serviceTypes",sTypeService.getServiceTypes());
+        System.out.println("Finished sTypeService.getServiceTypes() method");
+
 
         /* Current params showing */
         mav.addObject("serviceTypeId", serviceTypeId);
         mav.addObject("cityId", cityId);
-
+       // System.out.println("Finished sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId) method");
 
         return mav;
     }
