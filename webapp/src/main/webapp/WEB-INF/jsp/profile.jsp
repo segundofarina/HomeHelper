@@ -117,8 +117,8 @@
                                     <div class="form-group">
                                         <form:label path="date"><spring:message code="form.date"/></form:label>
                                         <div class='input-group date' id='datepicker'>
-                                            <form:input type="text" name="date" path="date" class="form-control" placeholder="" />
-                                            <%--<form:input type="text" name="date" path="date" class="form-control" placeholder="<spring:message code="placeholder.select-date"/>" />--%>
+                                            <spring:message code="placeholder.select-date" var="placeholder"/>
+                                            <form:input type="text" name="date" path="date" class="form-control" placeholder="${placeholder}" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -127,8 +127,8 @@
                                     </div>
                                     <div class="form-group">
                                         <form:label path="description"><spring:message code="form.description"/></form:label>
-                                        <form:textarea path="description" class="form-control" placeholder=""/>
-                                        <%--<form:textarea path="description" class="form-control" placeholder="<spring:message code="placeholder.describe-situation"/>"/>--%>
+                                        <spring:message code="placeholder.describe-situation" var="placeholder"/>
+                                        <form:textarea path="description" class="form-control" placeholder="${placeholder}" />
                                     </div>
                                     <form:button type="submit" class="btn btn-success btn-full-width"><spring:message code="general.contact"/></form:button>
                                 </form:form>

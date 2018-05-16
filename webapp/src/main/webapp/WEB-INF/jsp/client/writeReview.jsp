@@ -126,7 +126,8 @@
 
                                         <div class="form-group">
                                             <form:label path="msg"><spring:message code="client.write-review"/></form:label>
-                                            <form:textarea path="msg" cssClass="form-control resize-vertical"></form:textarea>
+                                            <spring:message code="placeholder.write-review" var="placeholder" />
+                                            <form:textarea path="msg" cssClass="form-control resize-vertical" placeholder="${placeholder}" />
                                             <form:errors path="msg" cssClass="form-error" element="p" />
                                         </div>
                                         <form:button type="submit" class="btn btn-success pull-right"><spring:message code="general.send"/></form:button>
