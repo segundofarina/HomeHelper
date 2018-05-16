@@ -39,7 +39,7 @@
         <div class="container-fluid">
 
             <div class="panel">
-                <div class="panel-body">
+                <div class="panel-body msg-container">
                     <!-- Message content -->
 
                     <c:choose>
@@ -51,7 +51,7 @@
                         </c:when>
                         <c:otherwise>
                             <div class="row">
-                                <div class="col-sm-3 messageThumbnails">
+                                <div class="col-sm-4 messageThumbnails">
 
                                     <c:forEach items="${chats}" var="chat">
                                         <c:url value="/client/messages/${chat.grey.id}" var="chatThreadUrl" />
@@ -72,7 +72,7 @@
 
                                 </div>
 
-                                <div class="col-sm-6 messageContent">
+                                <div class="col-sm-8 messageContent">
                                     <div class="scrollableContent">
 
                                         <c:forEach items="${currentChat.messages}" var="msg">
@@ -103,20 +103,6 @@
                                                 </div>
                                             </form>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-3 appointmentDetails">
-                                        <div class="profilePicture">
-                                            <img src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="profile picture" />
-                                        </div>
-                                        <div class="stars">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-empty"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <div class="address">Santa Fe 1000, Buenos Aires</div>
-                                        <div class="calendar"></div>
                                     </div>
                                 </div>
                             </c:otherwise>
