@@ -52,11 +52,11 @@
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6 tile_stats_count">
                         <span class="count_top"><i class="fa fa-archive"></i>  <spring:message code="dashboard.tiles.completedAp" /></span>
-                        <div class="count green"><c:out value="${pendingAp}" /></div>
+                        <div class="count green"><c:out value="${doneAp}" /></div>
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6 tile_stats_count">
                         <span class="count_top"><i class="fa fa-book"></i>  <spring:message code="dashboard.tiles.pendingAp" /></span>
-                        <div class="count green"><c:out value="${doneAp}" /></div>
+                        <div class="count green"><c:out value="${pendingAp}" /></div>
                     </div>
                 </div>
                 <!-- /top tiles -->
