@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.daos.ReviewDao;
+import ar.edu.itba.paw.interfaces.daos.SProviderDao;
 import ar.edu.itba.paw.model.Review;
+import ar.edu.itba.paw.model.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +11,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -23,6 +29,9 @@ public class ReviewJdbcDaoTest {
 
     @Autowired
     ReviewDao reviewDao;
+
+    @Autowired
+    SProviderDao sProviderDao;
 
     @Before
     public void setUp() {

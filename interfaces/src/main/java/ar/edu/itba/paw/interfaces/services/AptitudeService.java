@@ -7,4 +7,6 @@ import java.util.List;
 public interface AptitudeService {
 
     Aptitude getAptitude(int aptitudeId);
+
+    boolean removeAptitude(int aptId);
 }

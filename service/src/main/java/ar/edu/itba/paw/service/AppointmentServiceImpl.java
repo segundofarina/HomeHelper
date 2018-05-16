@@ -119,6 +119,11 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentDao.updateDateOfAppointment(appointmentId, (Timestamp) appointmentDate);
     }
 
+    @Override
+    public boolean rejectAppointment(int appointmentId) {
+        return appointmentDao.removeAppointment(appointmentId);
+    }
+
     private Timestamp stringToTimestamp(String str) {
         return new Timestamp(tryParse(str).getTime());
     }

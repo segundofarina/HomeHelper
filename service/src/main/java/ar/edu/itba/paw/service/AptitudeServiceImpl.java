@@ -16,4 +16,9 @@ public class AptitudeServiceImpl implements AptitudeService {
     public Aptitude getAptitude(int aptitudeId) {
         return aptitudeDao.getAptitude(aptitudeId);
     }
+
+    @Override
+    public boolean removeAptitude(int aptId) {
+        return aptitudeDao.removeAptitude(aptId);
+    }
 }

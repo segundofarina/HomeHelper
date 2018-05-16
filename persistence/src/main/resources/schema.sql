@@ -36,7 +36,8 @@ CREATE TABLE IF NOT EXISTS reviews(
   price INTEGER CHECK(price > 0 AND price < 6),
   punctuality INTEGER CHECK(punctuality > 0 AND punctuality < 6),
   treatment INTEGER CHECK(treatment > 0 AND treatment < 6),
-  comment varchar(10000)
+  comment varchar(10000),
+  clientReview boolean DEFAULT FALSE
 );
 CREATE TABLE IF NOT EXISTS messages(
   userFrom INTEGER REFERENCES users(userId),

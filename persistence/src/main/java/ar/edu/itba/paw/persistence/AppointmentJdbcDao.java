@@ -164,4 +164,9 @@ public class AppointmentJdbcDao implements AppointmentDao {
         jdbcTemplate.update("UPDATE appointments SET appointmentDate =? WHERE appointmentId =?", date, appointmentId);
         return true;
     }
+
+    @Override
+    public boolean removeAppointment(int appointmentId) {
+        return jdbcTemplate.update("DELETE FROM appointments WHERE appointmentId = ?", appointmentId) != 0;
+    }
 }
