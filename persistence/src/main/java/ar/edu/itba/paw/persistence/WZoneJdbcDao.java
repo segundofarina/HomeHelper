@@ -102,8 +102,9 @@ public class WZoneJdbcDao implements WZoneDao {
     @Override
     public boolean removeWorkingZoneOfProvider(int userId, int ngId) {
         try {
-            jdbcTemplate.update("DELETE FROM workingzones WHERE userId = ? AND ngId =?", ROW_MAPPER, userId, ngId);
+            jdbcTemplate.update("DELETE FROM workingzones WHERE userId = ? AND ngId =? ;", userId, ngId);
         }catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
         return true;
