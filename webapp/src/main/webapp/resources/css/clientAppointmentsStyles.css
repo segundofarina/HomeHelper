@@ -27,3 +27,24 @@
     width: 38px;
     border-radius: 100%;
 }
+
+.empty-list {
+    margin-top: 2em;
+}
+
+.empty-list .img {
+    background-image: url("../img/grua.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    width: 80%;
+    margin: auto;
+    height: 10em;
+}
+
+.empty-list p {
+    text-align: center;
+    margin-top: 2em;
+    font-style: italic;
+    color: #989595;
+}

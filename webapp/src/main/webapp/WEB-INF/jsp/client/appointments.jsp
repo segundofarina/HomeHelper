@@ -43,30 +43,40 @@
                     <h3><spring:message code="client.pending-appointments"/></h3>
                 </div>
                 <div class="panel-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th><spring:message code="general.service-type"/></th>
-                                <th><spring:message code="general.name"/></th>
-                                <th><spring:message code="general.date"/></th>
-                                <th><spring:message code="general.status"/></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${appointmentsPending}" var="appointment">
+                    <c:choose>
+                        <c:when test="${appointmentsPending.size() == 0}" >
+                            <div class="empty-list">
+                                <div class="img"></div>
+                                <p><spring:message code="empty-pendingAppointment" /></p>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <table class="table">
+                                <thead>
                                 <tr>
-                                    <th>
-                                        <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                    </th>
-                                    <td><c:out value="${appointment.serviceType.name}" /></td>
-                                    <td><c:out value="${appointment.provider.firstname}" /></td>
-                                    <td><c:out value="${appointment.date}" /></td>
-                                    <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
+                                    <th></th>
+                                    <th><spring:message code="general.service-type"/></th>
+                                    <th><spring:message code="general.name"/></th>
+                                    <th><spring:message code="general.date"/></th>
+                                    <th><spring:message code="general.status"/></th>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${appointmentsPending}" var="appointment">
+                                    <tr>
+                                        <th>
+                                            <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                        </th>
+                                        <td><c:out value="${appointment.serviceType.name}" /></td>
+                                        <td><c:out value="${appointment.provider.firstname}" /></td>
+                                        <td><c:out value="${appointment.date}" /></td>
+                                        <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
 
@@ -75,39 +85,49 @@
                     <h3><spring:message code="client.completed-appointments"/></h3>
                 </div>
                 <div class="panel-body">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th><spring:message code="general.service-type"/></th>
-                            <th><spring:message code="general.name"/></th>
-                            <th><spring:message code="general.date"/></th>
-                            <th><spring:message code="general.status"/></th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${appointmentsDone}" var="appointment">
-                            <tr>
-                                <th>
-                                    <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                </th>
-                                <td><c:out value="${appointment.serviceType.name}" /></td>
-                                <td><c:out value="${appointment.provider.firstname}" /></td>
-                                <td><c:out value="${appointment.date}" /></td>
-                                <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
-                                <td>
-                                    <%--<c:if test="${appointment.hasPendingReview == true}">
+                    <c:choose>
+                        <c:when test="${appointmentsDone.size() == 0}">
+                            <div class="empty-list">
+                                <div class="img"></div>
+                                <p><spring:message code="empty-doneAppointment" /></p>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th><spring:message code="general.service-type"/></th>
+                                    <th><spring:message code="general.name"/></th>
+                                    <th><spring:message code="general.date"/></th>
+                                    <th><spring:message code="general.status"/></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${appointmentsDone}" var="appointment">
+                                    <tr>
+                                        <th>
+                                            <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                        </th>
+                                        <td><c:out value="${appointment.serviceType.name}" /></td>
+                                        <td><c:out value="${appointment.provider.firstname}" /></td>
+                                        <td><c:out value="${appointment.date}" /></td>
+                                        <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
+                                        <td>
+                                                <%--<c:if test="${appointment.hasPendingReview == true}">
 
-                                    </c:if>--%>
-                                    <a href="<c:url value="/client/writeReview/${appointment.appointmentId}" />" class="btn btn-primary btn-xs">
-                                        <i class="fa fa-edit"></i><spring:message code="client.write-review"/>
-                                    </a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                                                </c:if>--%>
+                                            <a href="<c:url value="/client/writeReview/${appointment.appointmentId}" />" class="btn btn-primary btn-xs">
+                                                <i class="fa fa-edit"></i><spring:message code="client.write-review"/>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
 
