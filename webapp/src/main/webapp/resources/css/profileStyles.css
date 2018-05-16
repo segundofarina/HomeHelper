@@ -45,6 +45,8 @@ h2 {
 .profileDetails .profileImg img {
     border-radius: 100%;
     border: 7px solid #ffffff;
+    width: 80%;
+    max-width: 200px;
 }
 
 .profileDetails .name h3 {

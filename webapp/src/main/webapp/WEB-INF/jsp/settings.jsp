@@ -54,7 +54,8 @@
 
 
                         <div class="profileImgEdit">
-                            <div id="image-preview"></div><!-- si tiene foto de perfil se agrega con un style="background-image: url('');" -->
+                            <c:url value="/tempImg/${img}" var="tempImg" />
+                            <div id="image-preview" style="background-image: url('${tempImg}')"></div><!-- si tiene foto de perfil se agrega con un style="background-image: url('');" -->
                                 <%--<c:choose>
                                     <c:when test="${profilePicture != null}">
                                         <c:url value="${profilePicture}" var="img" />
@@ -68,6 +69,7 @@
                                 <p class="coverTxt"><spring:message code="sprovider.change-pic"/></p>
                             </div>
                             <form:input type="file" path="profilePicture" id="image-upload" accept="image/*"/>
+                            <form:input type="hidden" path="savedImgId" value="${img}" />
 
                         </div>
 

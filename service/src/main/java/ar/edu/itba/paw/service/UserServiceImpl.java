@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateImageOfUser(int userId, int[] image) {
+    public boolean updateImageOfUser(int userId, byte[] image) {
         return userDao.updateImageOfUser(userId,image);
     }
 

@@ -32,7 +32,7 @@ public interface UserService {
 
     boolean updatePhoneOfUser(int userId, String phone);
 
-    boolean updateImageOfUser(int userId, int [] image);
+    boolean updateImageOfUser(int userId, byte [] image);
 
     boolean updateAddressOfUser(int userId, String address);
 }

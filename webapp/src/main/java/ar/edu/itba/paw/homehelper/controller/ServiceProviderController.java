@@ -41,6 +41,9 @@ public class ServiceProviderController {
     @Autowired
     private NeighborhoodService neighborhoodService;
 
+    @Autowired
+    private TempImagesService tempImagesService;
+
     @ModelAttribute("profileGeneralInfo")
     public ProfileGeneralInfo profileGeneralInfo(@ModelAttribute("loggedInUser") final User loggedInUser) {
         ProfileGeneralInfo profileGeneralInfo = new ProfileGeneralInfo();

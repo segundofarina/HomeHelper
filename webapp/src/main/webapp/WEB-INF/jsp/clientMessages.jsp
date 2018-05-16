@@ -59,7 +59,7 @@
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <div>
-                                                        <img class="roundedImg" src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Image" />
+                                                        <img class="roundedImg" src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="profile picture" />
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-9">

@@ -53,7 +53,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
     private DatabasePopulator databasePopulator() {
         final ResourceDatabasePopulator dbp = new ResourceDatabasePopulator();
-        dbp.addScript(dbReset);
+        dbp.addScript(schemaSql);
 
         return dbp;
     }
@@ -125,7 +125,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         javaMailProperties.put("mail.smtp.starttls.enable", "true");
         javaMailProperties.put("mail.smtp.auth", "true");
         javaMailProperties.put("mail.transport.protocol", "smtp");
-        javaMailProperties.put("mail.debug", "true");
+        javaMailProperties.put("mail.debug", "false");
 
         mailSender.setJavaMailProperties(javaMailProperties);
         return mailSender;

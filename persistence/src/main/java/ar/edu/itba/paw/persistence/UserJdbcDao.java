@@ -100,7 +100,7 @@ public class UserJdbcDao implements UserDao {
     }
 
     @Override
-    public boolean updateImageOfUser(int userId, int[] image) {
+    public boolean updateImageOfUser(int userId, byte[] image) {
         Optional<User> user = findById(userId);
         if (!user.isPresent()) {
             return false;

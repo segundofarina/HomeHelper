@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 //@FieldMatch(first = "password", second = "repeatPassword", message = "The password fields must match")
 public class SignUpForm {
 
+    private int savedImgId;
 
     @NotBlank
     @Size(max = 100)
@@ -96,5 +97,13 @@ public class SignUpForm {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public int getSavedImgId() {
+        return savedImgId;
+    }
+
+    public void setSavedImgId(int savedImgId) {
+        this.savedImgId = savedImgId;
     }
 }

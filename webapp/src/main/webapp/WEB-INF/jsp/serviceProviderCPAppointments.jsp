@@ -78,7 +78,7 @@
                                             <c:forEach items="${appointmentsPending}" var="appointment">
                                                 <tr>
                                                     <th>
-                                                        <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                                        <img class="profileImage" src="<c:url value="/profile/${appointment.client.id}/profileimage" />" alt="profile picture" />
                                                     </th>
                                                     <td><c:out value="${appointment.client.firstname}" /></td>
                                                     <td><c:out value="${appointment.date}" /></td>
@@ -148,7 +148,7 @@
                                             <c:forEach items="${appointmentsDone}" var="appointment">
                                                 <tr>
                                                     <th>
-                                                        <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                                        <img class="profileImage" src="<c:url value="/profile/${appointment.client.id}/profileimage" />" alt="profile picture" />
                                                     </th>
                                                     <td><c:out value="${appointment.client.firstname}" /></td>
                                                     <td><c:out value="${appointment.date}" /></td>

@@ -17,7 +17,7 @@
         <!-- menu profile quick info -->
         <div class="profile clearfix">
             <div class="profile_pic">
-                <img src="<c:url value="/resources/img/img.jpg"/>" alt="..." class="img-circle profile_img">
+                <img src="<c:url value="/profile/${providerId}/profileimage" />" class="img-circle profile_img" />
             </div>
             <div class="profile_info">
                 <span><spring:message code="leftBarMenu.welcome" /></span>
