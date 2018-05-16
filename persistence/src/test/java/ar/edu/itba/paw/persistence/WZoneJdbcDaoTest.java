@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static junit.framework.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @Sql("classpath:schema.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -45,11 +46,22 @@ public class WZoneJdbcDaoTest{
     @Test
     public void insertWorkingZoneOfProvider() {
 
-        assertTrue(wZoneDao.insertWorkingZoneOfProvider(Const.USER4_ID,Const.VALID_NG));
+        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "workingzones");
 
-        assertFalse(wZoneDao.insertWorkingZoneOfProvider(Const.INVALIDAD_USER_ID,Const.INVALID_NG));
+       wZoneDao.insertWorkingZoneOfProvider(Const.USER4_ID,Const.VALID_NG);
 
-        assertFalse(wZoneDao.insertWorkingZoneOfProvider(Const.USER_ID,Const.INVALID_NG));
+        assertEquals(++count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "workingzones"));
+
+        try {
+            wZoneDao.insertWorkingZoneOfProvider(Const.INVALIDAD_USER_ID, Const.INVALID_NG);
+        }catch (Exception e){
+            assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "workingzones"));
+        }
+        try {
+            wZoneDao.insertWorkingZoneOfProvider(Const.USER_ID, Const.INVALID_NG);
+        }catch (Exception e){
+            assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "workingzones"));
+        }
     }
     @Test
     public void getWorkingZonesOfProvider() {

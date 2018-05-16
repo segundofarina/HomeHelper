@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.daos;
 
 import ar.edu.itba.paw.model.Appointment;
+import ar.edu.itba.paw.model.Review;
 import ar.edu.itba.paw.model.Status;
 
 import java.sql.Timestamp;
@@ -22,5 +23,6 @@ public interface AppointmentDao {
     boolean updateDateOfAppointment(int appointmentId, Timestamp date);
 
     boolean removeAppointment(int appointmentId);
+
 }
 

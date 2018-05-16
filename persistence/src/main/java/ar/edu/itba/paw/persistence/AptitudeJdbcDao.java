@@ -72,12 +72,11 @@ public class AptitudeJdbcDao implements AptitudeDao {
     public List<Aptitude> getAptitudesOfUser(int id) {
         List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM aptitudes WHERE userId =? ", ROW_MAPPER, id);
 
-        if(dbRowsList.isEmpty()){
-            return null;
-        }
-
         List<Aptitude> aptitudes = new ArrayList<Aptitude>();
 
+        if(dbRowsList.isEmpty()){
+            return aptitudes;
+        }
 
         for(Row row : dbRowsList){
             aptitudes.add(new Aptitude(row.aptitudeId,sTypeDao.getServiceTypeWithId(row.serviceTypeId).get(),row.description,reviewDao.getReviewsOfAptitude(row.aptitudeId)));
@@ -87,47 +86,17 @@ public class AptitudeJdbcDao implements AptitudeDao {
     }
 
     @Override
-    public boolean insertAptitude(int sProviderId, int serviceId, String description) {
-        if(description==null){
-            return false;
-        }
+    public void insertAptitude(int sProviderId, int serviceId, String description) {
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("userId", sProviderId);
         args.put("serviceTypeId", serviceId);
         args.put("description", description);
-
-        try {
-            jdbcInsert.execute(args);
-        } catch (Exception e) {
-            return false;
-        }
-
-
-        return true;
+        jdbcInsert.execute(args);
     }
 
     @Override
     public boolean updateServiceTypeOfAptitude(int aptId, int stId) {
-        try {
-            jdbcTemplate.update("UPDATE aptitudes SET serviceTypeId = ? WHERE aptitudeId = ?", stId, aptId);
-        } catch (Exception e) {
-            return false;
-        }
-        List<Row> list;
-
-        try {
-            list = jdbcTemplate.query("SELECT * FROM aptitudes WHERE aptitudeId = ?", ROW_MAPPER, aptId);
-        } catch (Exception e) {
-            return false;
-        }
-        if (list.size() == 0) {
-            return false;
-        }
-        if (list.get(0).getServiceTypeId() == stId) {
-            return true;
-        }
-        return false;
-
+        return jdbcTemplate.update("UPDATE aptitudes SET serviceTypeId = ? WHERE aptitudeId = ?", stId, aptId) != 0;
     }
 
     @Override
@@ -147,41 +116,18 @@ public class AptitudeJdbcDao implements AptitudeDao {
 
     @Override
     public boolean updateDescriptionOfAptitude(int aptId, String description) {
-
-        if(description == null){
-            return false;
-        }
-        try {
-            jdbcTemplate.update("UPDATE aptitudes SET description = ? WHERE aptitudeId = ?", description, aptId);
-        } catch (Exception e) {
-            return false;
-        }
-        List<Row> list;
-
-        try {
-            list = jdbcTemplate.query("SELECT * FROM aptitudes WHERE aptitudeId = ?", ROW_MAPPER, aptId);
-        } catch (Exception e) {
-            return false;
-        }
-        if (list.size() == 0) {
-            return false;
-        }
-        if (list.get(0).description.equals(description)) {
-                return true;
-        }
-        return false;
-
+        return jdbcTemplate.update("UPDATE aptitudes SET description = ? WHERE aptitudeId = ?", description, aptId)!=0;
     }
 
     @Override
-    public Aptitude getAptitude(int id) {
+    public Optional<Aptitude> getAptitude(int id) {
         List<Row> dbRowList = jdbcTemplate.query("SELECT * FROM aptitudes WHERE aptitudeId =? ", ROW_MAPPER, id);
         if(dbRowList.isEmpty()) {
-            return null;
+            return Optional.empty();
         }
         Row row = dbRowList.get(0);
 
-        return new Aptitude(row.aptitudeId,sTypeDao.getServiceTypeWithId(row.serviceTypeId).get(),row.description,reviewDao.getReviewsOfAptitude(row.aptitudeId));
+        return Optional.of(new Aptitude(row.aptitudeId, sTypeDao.getServiceTypeWithId(row.serviceTypeId).get(), row.description, reviewDao.getReviewsOfAptitude(row.aptitudeId)));
     }
 
 

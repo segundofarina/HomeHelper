@@ -11,8 +11,9 @@ public class Appointment {
     private String address;
     private Status status;
     private String jobDescripcion;
+    private boolean clientReview;
 
-    public Appointment(int appointmentId, User client, SProvider provider, ServiceType serviceType, Timestamp date, String address, Status estatus, String jobDescripcion) {
+    public Appointment(int appointmentId, User client, SProvider provider, ServiceType serviceType, Timestamp date, String address, Status estatus, String jobDescripcion,boolean clientReview) {
         this.appointmentId = appointmentId;
         this.client = client;
         this.provider = provider;
@@ -21,6 +22,7 @@ public class Appointment {
         this.address = address;
         this.status = estatus;
         this.jobDescripcion = jobDescripcion;
+        this.clientReview = clientReview;
     }
 
     public int getAppointmentId() {
@@ -57,5 +59,9 @@ public class Appointment {
 
     public void setStatus(Status estatus) {
         this.status = estatus;
+    }
+
+    public boolean isClientReview() {
+        return clientReview;
     }
 }

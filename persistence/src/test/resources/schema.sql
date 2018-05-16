@@ -14,12 +14,12 @@ CREATE TABLE IF NOT EXISTS users (
   userid INTEGER IDENTITY PRIMARY KEY,
   username varchar(100) UNIQUE NOT NULL ,
   password varchar(100) NOT NULL,
-  firstname varchar(100),
-  lastname varchar(100),
-  email varchar(100),
-  phone varchar(100),
+  firstname varchar(100) NOT NULL,
+  lastname varchar(100) NOT NULL,
+  email varchar(100) NOT NULL,
+  phone varchar(100) NOT NULL,
   image blob,
-  address varchar(100),
+  address varchar(100) NOT NULL,
   verified boolean
 );
 
@@ -35,15 +35,14 @@ CREATE TABLE IF NOT EXISTS serviceTypes (
 
 CREATE TABLE IF NOT EXISTS serviceProviders(
   userId INTEGER REFERENCES users(userid) PRIMARY KEY,
-  description VARCHAR(1000)
-
+  description VARCHAR(1000) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS aptitudes(
   aptitudeId INTEGER IDENTITY PRIMARY KEY,
   userId INTEGER REFERENCES serviceProviders(userId),
   serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
-  description VARCHAR(1000)
+  description VARCHAR(1000) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS reviews(
@@ -51,18 +50,17 @@ CREATE TABLE IF NOT EXISTS reviews(
   aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
   reviewdate TIMESTAMP default CURRENT_DATE,
   quality INTEGER,
-  cleanness INTEGER ,
+  cleanness INTEGER,
   price INTEGER,
   punctuality INTEGER,
   treatment INTEGER,
-  comment VARCHAR(1000),
-  clientReview boolean DEFAULT FALSE
+  comment VARCHAR(1000) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS messages(
   userFrom INTEGER REFERENCES users(userId),
   userTo  INTEGER REFERENCES users(userId),
-  message VARCHAR(10000),
+  message VARCHAR(10000) NOT NULL,
   messageDate TIMESTAMP  default CURRENT_DATE
 );
 
@@ -72,9 +70,10 @@ CREATE TABLE IF NOT EXISTS appointments(
   providerId INTEGER REFERENCES serviceProviders(userId),
   serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
   appointmentDate TIMESTAMP default CURRENT_DATE,
-  address VARCHAR(10000),
+  address VARCHAR(10000) NOT NULL,
   status VARCHAR(20),
-  jobDescription VARCHAR(10000)
+  jobDescription VARCHAR(10000) NOT NULL,
+  clientReview boolean default false
 );
 
 CREATE TABLE IF NOT EXISTS workingzones(
@@ -114,9 +113,9 @@ insert into aptitudes VALUES (2,3,2,'Martinsulis tambien es Pintor');
 insert into aptitudes VALUES (3,4,1,'Carlos el carpintero');
 insert into aptitudes VALUES (4,4,3,'Carlos obrero');
 
-insert into reviews VALUES (1,1,default,4,5,3,4,4,'Soy Segundo me encanto tu trabajo de carpinteria Martin',true);
-insert into reviews VALUES (1,1,default,4,5,3,4,44,'Soy Segundo me encanto tu segundo trabajo de carpinteria Martin',true);
-insert into reviews VALUES (2,2,default,4,5,3,4,4,'Soy Florencia me encanto el empapelado Martin',true);
+insert into reviews VALUES (1,1,default,4,5,3,4,4,'Soy Segundo me encanto tu trabajo de carpinteria Martin');
+insert into reviews VALUES (1,1,default,4,5,3,4,44,'Soy Segundo me encanto tu segundo trabajo de carpinteria Martin');
+insert into reviews VALUES (2,2,default,4,5,3,4,4,'Soy Florencia me encanto el empapelado Martin');
 
 insert into messages VALUES (2,5,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
 insert into messages VALUES (5,2,'Hola Florencia si que necesitas?',DEFAULT );
@@ -127,7 +126,7 @@ insert into messages VALUES (4,2,'AAA mira que bueno',DEFAULT );
 insert into messages VALUES (2,4,'Jajaja',DEFAULT );
 
 
-insert into appointments VALUES (1,1,3,1,DEFAULT ,'cuba 2546 6p','Pending','soy flor cavallin, tincho haceme un mueble nuevo');
+insert into appointments VALUES (1,1,3,1,DEFAULT ,'cuba 2546 6p','Pending','soy flor cavallin, tincho haceme un mueble nuevo',false);
 
 insert into workingzones VALUES (1,3);
 insert into workingzones VALUES (2,3);

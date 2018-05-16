@@ -6,6 +6,8 @@ import ar.edu.itba.paw.model.Aptitude;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AptitudeServiceImpl implements AptitudeService {
 
@@ -13,7 +15,7 @@ public class AptitudeServiceImpl implements AptitudeService {
     AptitudeDao aptitudeDao;
 
     @Override
-    public Aptitude getAptitude(int aptitudeId) {
+    public Optional<Aptitude> getAptitude(int aptitudeId) {
         return aptitudeDao.getAptitude(aptitudeId);
     }
 
