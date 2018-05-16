@@ -31,7 +31,7 @@
                         </c:if>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile picture" />
+                                <img src="<c:url value="/profile/${user.id}/profileimage" />" alt="profile picture" />
                                 <c:out value="${user.firstname}" />
                                 <i class="fa fa-angle-down"></i>
                             </a>

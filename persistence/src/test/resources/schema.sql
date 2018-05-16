@@ -9,6 +9,7 @@ drop table if exists aptitudes CASCADE;
 drop table if exists appointments CASCADE;
 drop table if exists neighborhoods CASCADE;
 drop table if exists workingzones CASCADE;
+drop table if EXISTS temporaryImages CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
   userid INTEGER IDENTITY PRIMARY KEY,
