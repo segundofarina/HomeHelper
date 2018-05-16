@@ -88,7 +88,6 @@ CREATE TABLE IF NOT EXISTS workingzones(
   userId INTEGER REFERENCES serviceProviders(userId)
 );
 
-<<<<<<< HEAD
 CREATE TABLE IF NOT EXISTS temporaryImages (
   imageid SERIAL PRIMARY KEY,
   image   BYTEA

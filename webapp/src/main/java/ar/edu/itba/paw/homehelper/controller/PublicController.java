@@ -8,6 +8,7 @@ import ar.edu.itba.paw.homehelper.form.SignUpForm;
 import ar.edu.itba.paw.homehelper.validators.EqualsUsernameValidator;
 import ar.edu.itba.paw.interfaces.services.*;
 import ar.edu.itba.paw.model.SProvider;
+import ar.edu.itba.paw.model.TemporaryImage;
 import ar.edu.itba.paw.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +60,8 @@ public class PublicController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private TempImagesService tempImagesService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PublicController.class);
 
@@ -202,10 +205,12 @@ public class PublicController {
     }
 
     @RequestMapping("/signup")
-    public ModelAndView signup(@ModelAttribute("loggedInUser") final User loggedInUser/*, @ModelAttribute("signUpForm") final SignUpForm signUpForm*/) {
+    public ModelAndView signup(@ModelAttribute("loggedInUser") final User loggedInUser,@RequestParam(required = false,value="img",defaultValue = "-1")final int img) {
         final ModelAndView mav = new ModelAndView("signup");
 
         mav.addObject("user", loggedInUser);
+
+        mav.addObject("img",img);
 
         return mav;
     }
@@ -223,6 +228,17 @@ public class PublicController {
 
         if (errors.hasErrors()) {
             /* Back to form */
+            try {
+                image = form.getProfilePicture().getBytes();
+
+            }catch (Exception e){
+                e.printStackTrace();
+                image = null;
+            }
+            if(image.length !=0) {
+                TemporaryImage img = tempImagesService.insertImage(image);
+            }
+
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.signUpForm", errors);
             redrAttr.addFlashAttribute("signUpForm", form);
 
