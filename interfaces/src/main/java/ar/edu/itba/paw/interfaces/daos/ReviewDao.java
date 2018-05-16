@@ -9,9 +9,9 @@ public interface ReviewDao {
 
     boolean insertReview(int appointmentId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
 
-    Optional<Review> getReview(int reviewId);
+    Optional<Review> getReview(int appointmentId);
 
     List<Review> getReviewsOfAptitude(int aptId);
 
-    boolean removeReview(int reviewId);
+    boolean removeReview(int appointmentId);
 }
