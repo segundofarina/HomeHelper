@@ -121,6 +121,14 @@
                         </div>
 
                     </c:forEach>
+                    <c:if test="${list.size() == 0}">
+                        <div class="empty-result">
+                            <div class="img"></div>
+                            <div class="description">
+                                <p><spring:message code="emptyResult.description" /></p>
+                            </div>
+                        </div>
+                    </c:if>
                 </div>
             </div>
 

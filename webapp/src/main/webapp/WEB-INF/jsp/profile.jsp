@@ -65,7 +65,14 @@
                             <em><c:out value="${aptitude.service.name}"/> </em>
                             </c:forEach>
                         </div>
-                        <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>"></div>
+                        <c:choose>
+                            <c:when test="${provider.generalCalification == 0}">
+                                <p class="empty-stars"><spring:message code="emptyStars" /></p>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>"></div>
+                            </c:otherwise>
+                        </c:choose>
                         <div class="hline toLeft hidden-xs"></div>
                         <div class="hline toRight hidden-xs"></div>
                     </div>
@@ -140,7 +147,15 @@
                         <h3><c:out value="${aptitude.service.name}"/></h3>
 
                         <div class="row">
-                            <div class="col-xs-12 col-md-8">
+                            <c:choose>
+                                <c:when test="${aptitude.reviews.size() == 0}" >
+                                    <div class="col-xs-12 col-md-12">
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="col-xs-12 col-md-4">
+                                </c:otherwise>
+                            </c:choose>
+
                                 <div class="panel">
                                     <div class="panel-body descriptionTxt">
                                         <p>
@@ -149,7 +164,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-md-4">
+                            <c:choose>
+                                <c:when test="${aptitude.reviews.size() == 0}" >
+                                    <div class="col-xs-12 col-md-0" style="display: none;">
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="col-xs-12 col-md-4">
+                                </c:otherwise>
+                            </c:choose>
                                 <div class="panel">
                                     <div class="panel-body aptitude-bars">
                                         <h4><spring:message code="profile.general-reviews"/></h4>
@@ -199,39 +221,48 @@
                     <div class="col-xs-12 col-sm-8 col-md-9">
                         <div class="panel">
                             <div class="panel-body">
-                             <c:forEach items="${aptitude.reviews}" var="review">
-                                 <div class="line-divider"></div>
-                                 <div class="review-item">
-                                    <div class="row">
-                                        <div class="col-xs-6 col-sm-3 col-md-2">
-                                            <div class="profileImg">
-                                                <img src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Img" />
-                                                <div class="name hidden-xs">
-                                                    <h5><c:out value="" /><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></h5>
+                                <c:choose>
+                                    <c:when test="${aptitude.reviews.size() == 0}" >
+                                        <div class="empty-reviews">
+                                            <div class="img"></div>
+                                            <p><spring:message code="emptyStars" /></p>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach items="${aptitude.reviews}" var="review">
+                                            <div class="line-divider"></div>
+                                            <div class="review-item">
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-sm-3 col-md-2">
+                                                        <div class="profileImg">
+                                                            <img src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Img" />
+                                                            <div class="name hidden-xs">
+                                                                <h5><c:out value="" /><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-9 col-md-10 divider-left">
+                                                        <div class="name visible-xs">
+                                                            <h5><c:out value="${review.user.username}" /></h5>
+                                                        </div>
+                                                        <div class="date"><c:out value="${review.date}" /></div>
+                                                        <div class="dotDivider hidden-xs">&#x25CF;</div>
+                                                        <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-6 col-sm-9 col-md-10 divider-left">
-                                            <div class="name visible-xs">
-                                                <h5><c:out value="${review.user.username}" /></h5>
-                                            </div>
-                                            <div class="date"><c:out value="${review.date}" /></div>
-                                            <div class="dotDivider hidden-xs">&#x25CF;</div>
-                                            <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-0 col-sm-3 col-md-2"></div>
-                                        <div class="col-xs-12 col-sm-9 col-md-10 divider-left">
-                                            <p class="description">
-                                                <c:out value="${review.comment}" />
-                                            </p>
-                                        </div>
-                                    </div>
+                                                <div class="row">
+                                                    <div class="col-xs-0 col-sm-3 col-md-2"></div>
+                                                    <div class="col-xs-12 col-sm-9 col-md-10 divider-left">
+                                                        <p class="description">
+                                                            <c:out value="${review.comment}" />
+                                                        </p>
+                                                    </div>
+                                                </div>
 
-                                </div>
-                             </c:forEach>
-
+                                            </div>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
 
                             </div>
                         </div>

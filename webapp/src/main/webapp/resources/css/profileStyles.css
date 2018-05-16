@@ -204,6 +204,34 @@ label {
     margin-top: 2em;
 }
 
+p.empty-stars {
+    text-align: center;
+    color: #FFFFFF;
+    font-style: italic;
+    margin-top: 1em;
+    font-size: 12px;
+}
+
+.empty-reviews {
+    margin-top: 2em;
+}
+
+.empty-reviews .img {
+    background-image: url("../img/Rodillo.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    width: 80%;
+    margin: auto;
+    height: 10em;
+}
+
+.empty-reviews p {
+    text-align: center;
+    margin-top: 2em;
+    font-style: italic;
+    color: #989595;
+}
 
 footer.footer {
     background: #fff;

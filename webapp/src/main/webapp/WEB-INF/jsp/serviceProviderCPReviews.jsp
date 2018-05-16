@@ -23,17 +23,7 @@
     <!-- Custom Theme Style -->
     <link href="<c:url value="/resources/adminTemplate/build/css/custom.min.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/adminTemplateCustomStyles.css"/>" rel="stylesheet">
-    <style>
-        .profileImage {
-            height: 38px;
-            width: 38px;
-            border-radius: 100%;
-        }
-
-        .label {
-            font-size: 85%;
-        }
-    </style>
+    <link href="<c:url value="/resources/css/controlPanelReviews.css"/>" rel="stylesheet">
 </head>
 
 <body class="nav-md">
@@ -65,30 +55,40 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th><spring:message code="general.name"/></th>
-                                        <th><spring:message code="general.date"/></th>
-                                        <th><spring:message code="general.review"/></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach items="${reviews}" var="review">
-                                        <tr>
-                                            <th>
-                                                <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                            </th>
-                                            <td><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></td>
-                                            <td><c:out value="${review.date}" /></td>
-                                            <td>
-                                                <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
+                                <c:choose>
+                                    <c:when test="${reviews.size() == 0}" >
+                                        <div class="empty-reviews">
+                                            <div class="img"></div>
+                                            <p><spring:message code="emptyStars" /></p>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th><spring:message code="general.name"/></th>
+                                                <th><spring:message code="general.date"/></th>
+                                                <th><spring:message code="general.review"/></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:forEach items="${reviews}" var="review">
+                                                <tr>
+                                                    <th>
+                                                        <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                                    </th>
+                                                    <td><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></td>
+                                                    <td><c:out value="${review.date}" /></td>
+                                                    <td>
+                                                        <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>

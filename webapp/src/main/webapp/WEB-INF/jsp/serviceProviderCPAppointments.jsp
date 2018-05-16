@@ -23,25 +23,7 @@
     <!-- Custom Theme Style -->
     <link href="<c:url value="/resources/adminTemplate/build/css/custom.min.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/adminTemplateCustomStyles.css"/>" rel="stylesheet">
-    <style>
-        .profileImage {
-            height: 38px;
-            width: 38px;
-            border-radius: 100%;
-        }
-
-        .label {
-            font-size: 85%;
-        }
-
-        form {
-            display: inline-block;
-        }
-
-        .btn-xs {
-            padding: 2px 10px;
-        }
-    </style>
+    <link href="<c:url value="/resources/css/controlPanelAppointments.css"/>" rel="stylesheet">
 </head>
 
 <body class="nav-md">
@@ -73,53 +55,63 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th><spring:message code="general.name"/></th>
-                                        <th><spring:message code="general.date"/></th>
-                                        <th><spring:message code="general.address"/></th>
-                                        <th><spring:message code="general.status"/></th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach items="${appointmentsPending}" var="appointment">
+                                <c:choose>
+                                    <c:when test="${appointmentsPending.size() == 0}">
+                                        <div class="empty-list">
+                                            <div class="img"></div>
+                                            <p><spring:message code="empty-pendingAppointment" /></p>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <table class="table">
+                                            <thead>
                                             <tr>
-                                                <th>
-                                                    <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                                </th>
-                                                <td><c:out value="${appointment.client.firstname}" /></td>
-                                                <td><c:out value="${appointment.date}" /></td>
-                                                <td><c:out value="${appointment.address}" /> </td>
-                                                <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
-                                                <c:choose>
-                                                    <c:when test="${appointment.status.numVal == 1}">
-                                                        <td>
-                                                            <form action="<c:url value="/sprovider/acceptAppointment" />" method="post" class="pull-right">
-                                                                <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
-                                                                <button type="submit" class="btn btn-success btn-xs"><spring:message code="general.accept" /></button>
-                                                            </form>
-                                                            <form action="<c:url value="/sprovider/rejectAppointment" />" method="post" class="pull-right">
-                                                                <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
-                                                                <button type="submit" class="btn btn-danger btn-xs"><spring:message code="general.reject" /></button>
-                                                            </form>
-                                                        </td>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <td>
-                                                            <form action="<c:url value="/sprovider/completeAppointment" />" method="post" class="pull-right">
-                                                                <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
-                                                                <button type="submit" class="btn btn-warning btn-xs"><spring:message code="general.complete" /></button>
-                                                            </form>
-                                                        </td>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                                <th></th>
+                                                <th><spring:message code="general.name"/></th>
+                                                <th><spring:message code="general.date"/></th>
+                                                <th><spring:message code="general.address"/></th>
+                                                <th><spring:message code="general.status"/></th>
+                                                <th></th>
                                             </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
+                                            </thead>
+                                            <tbody>
+                                            <c:forEach items="${appointmentsPending}" var="appointment">
+                                                <tr>
+                                                    <th>
+                                                        <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                                    </th>
+                                                    <td><c:out value="${appointment.client.firstname}" /></td>
+                                                    <td><c:out value="${appointment.date}" /></td>
+                                                    <td><c:out value="${appointment.address}" /> </td>
+                                                    <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
+                                                    <c:choose>
+                                                        <c:when test="${appointment.status.numVal == 1}">
+                                                            <td>
+                                                                <form action="<c:url value="/sprovider/acceptAppointment" />" method="post" class="pull-right">
+                                                                    <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
+                                                                    <button type="submit" class="btn btn-success btn-xs"><spring:message code="general.accept" /></button>
+                                                                </form>
+                                                                <form action="<c:url value="/sprovider/rejectAppointment" />" method="post" class="pull-right">
+                                                                    <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
+                                                                    <button type="submit" class="btn btn-danger btn-xs"><spring:message code="general.reject" /></button>
+                                                                </form>
+                                                            </td>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <td>
+                                                                <form action="<c:url value="/sprovider/completeAppointment" />" method="post" class="pull-right">
+                                                                    <input type="hidden" value="<c:out value="${appointment.appointmentId}" />" name="appointmentId" />
+                                                                    <button type="submit" class="btn btn-warning btn-xs"><spring:message code="general.complete" /></button>
+                                                                </form>
+                                                            </td>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>
@@ -133,31 +125,41 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th><spring:message code="general.name"/></th>
-                                        <th><spring:message code="general.date"/></th>
-                                        <th><spring:message code="general.address"/></th>
-                                        <th><spring:message code="general.status"/></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+                                <c:choose>
+                                    <c:when test="${appointmentsDone.size() == 0}" >
+                                        <div class="empty-list">
+                                            <div class="img"></div>
+                                            <p><spring:message code="empty-doneAppointment" /></p>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th><spring:message code="general.name"/></th>
+                                                <th><spring:message code="general.date"/></th>
+                                                <th><spring:message code="general.address"/></th>
+                                                <th><spring:message code="general.status"/></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
 
-                                    <c:forEach items="${appointmentsDone}" var="appointment">
-                                        <tr>
-                                            <th>
-                                                <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
-                                            </th>
-                                            <td><c:out value="${appointment.client.firstname}" /></td>
-                                            <td><c:out value="${appointment.date}" /></td>
-                                            <td><c:out value="${appointment.address}" /> </td>
-                                            <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
-                                        </tr>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
+                                            <c:forEach items="${appointmentsDone}" var="appointment">
+                                                <tr>
+                                                    <th>
+                                                        <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                                    </th>
+                                                    <td><c:out value="${appointment.client.firstname}" /></td>
+                                                    <td><c:out value="${appointment.date}" /></td>
+                                                    <td><c:out value="${appointment.address}" /> </td>
+                                                    <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>
