@@ -82,7 +82,7 @@ html, body {
     margin-top: 2.5em;
 }
 
-.login-clean form a {
+.login-clean form a.register {
     font-style: italic;
     text-decoration: none;
     color: #6f7a85;
@@ -100,3 +100,14 @@ html, body {
     text-decoration:none;
 }
 
+.form-error {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #e60000;
+}
+
+.login-clean form a.title, .login-clean form a.title:hover  {
+    text-decoration: none;
+    color: #444444;
+    text-align: center;
+}
