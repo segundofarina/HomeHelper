@@ -68,7 +68,7 @@
                         <div class="panel-body">
                             <div class="apt-profile">
                                 <div class="apt-section">
-                                    <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                    <img src="<c:url value="/profile/${appointment.provider.id}/profileimage" />" alt="profile picture" />
                                 </div>
                                 <div class="apt-section">
                                     <h3><c:out value="${appointment.provider.firstname}" /> <c:out value="${appointment.provider.lastname}" /></h3>

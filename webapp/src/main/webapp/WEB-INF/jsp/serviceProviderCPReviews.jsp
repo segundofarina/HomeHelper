@@ -78,7 +78,7 @@
                                     <c:forEach items="${reviews}" var="review">
                                         <tr>
                                             <th>
-                                                <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
+                                                <img class="profileImage" src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
                                             </th>
                                             <td><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></td>
                                             <td><c:out value="${review.date}" /></td>

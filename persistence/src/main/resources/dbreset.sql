@@ -93,6 +93,11 @@ CREATE TABLE IF NOT EXISTS temporaryImages (
   image   BYTEA
 );
 
+CREATE TABLE IF NOT EXISTS defaultImages (
+  imageid INTEGER PRIMARY KEY,
+  image   BYTEA
+);
+
 
 insert into users VALUES (1,'sfarina','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Segundo Augusto','Fariña','afarina@itba.edu.ar','1541234567',null,'cuba 2546', TRUE);
 insert into users VALUES (2,'mvictory','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Martin','Victory','mvictory@itba.edu.ar','1563498751',null,'cuba 2546', TRUE);

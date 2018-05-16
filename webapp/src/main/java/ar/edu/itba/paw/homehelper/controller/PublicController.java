@@ -26,16 +26,22 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+
+import static org.apache.commons.io.IOUtils.toByteArray;
 
 @Controller
 public class PublicController {
@@ -65,6 +71,12 @@ public class PublicController {
 
     @Autowired
     private TempImagesService tempImagesService;
+
+    @Autowired
+    ServletContext servletContext;
+
+    @Autowired
+    DefaultImagesService defaultImagesService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PublicController.class);
 
@@ -175,13 +187,25 @@ public class PublicController {
     }
 
 
-    @ResponseBody
+
     @RequestMapping(value = "/profile/{userId}/profileimage", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-    public byte[] providerProfileImage(@PathVariable("userId") int userId) {
+    public @ResponseBody byte[] providerProfileImage(@PathVariable("userId") int userId) {
         byte[] img = null;
-        if(userId != -1) {
             img = userService.getProfileImage(userId);
-        }
+            if(img == null){
+                img = defaultImagesService.getImage(1).get();
+            }
+
+//            //InputStream in = servletContext.getResourceAsStream("/resources/img/image-example.jpg");
+//            InputStream in = getClass()
+//                    .getResourceAsStream("/img/defaultProfile.png");
+//
+//            try {
+//                img = IOUtils.toByteArray(in);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
 /*
         if(img == null) {
             try {
@@ -213,6 +237,7 @@ public class PublicController {
 
         return img;
     }
+
 
     @RequestMapping(value = "/profile/sendAppointment", method = RequestMethod.POST)
     public ModelAndView sendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors, final RedirectAttributes redrAttr, final HttpServletResponse response) {
