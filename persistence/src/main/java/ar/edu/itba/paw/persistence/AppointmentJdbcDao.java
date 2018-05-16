@@ -1,10 +1,8 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.daos.AppointmentDao;
-import ar.edu.itba.paw.interfaces.daos.SProviderDao;
-import ar.edu.itba.paw.interfaces.daos.STypeDao;
-import ar.edu.itba.paw.interfaces.daos.UserDao;
+import ar.edu.itba.paw.interfaces.daos.*;
 import ar.edu.itba.paw.model.Appointment;
+import ar.edu.itba.paw.model.Review;
 import ar.edu.itba.paw.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,6 +28,11 @@ public class AppointmentJdbcDao implements AppointmentDao {
     @Autowired
     STypeDao serviceTypeDao;
 
+    @Autowired
+    AptitudeDao aptitudeDao;
+
+    @Autowired
+    ReviewDao reviewDao;
 
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
@@ -43,18 +46,18 @@ public class AppointmentJdbcDao implements AppointmentDao {
     private static class Row {
         int appointmentId;
         int userId;
-        int providerId;
-        int serviceTypeId;
+        int aptitudeId;
+        int reviewId;
         Timestamp date;
         String address;
         Status status;
         String jobDescription;
 
-        public Row(int appointmentId, int userId, int providerId, int serviceTypeId, Timestamp appointmentDate, String address, Status status, String jobDescription) {
+        public Row(int appointmentId, int userId, int aptitudeId, int reviewId,Timestamp appointmentDate, String address, Status status, String jobDescription) {
             this.appointmentId = appointmentId;
             this.userId = userId;
-            this.providerId = providerId;
-            this.serviceTypeId = serviceTypeId;
+            this.aptitudeId = aptitudeId;
+            this.reviewId= reviewId;
             this.date = appointmentDate;
             this.address = address;
             this.status = status;
@@ -65,22 +68,23 @@ public class AppointmentJdbcDao implements AppointmentDao {
 
     private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
         public Row mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Row(rs.getInt("appointmentId"), rs.getInt("userId"), rs.getInt("providerId"), rs.getInt("serviceTypeId"), rs.getTimestamp("appointmentDate"), rs.getString("address"), Status.getStatus(rs.getString("status")), rs.getString("jobDescription"));
+            return new Row(rs.getInt("appointmentId"), rs.getInt("userId"), rs.getInt("aptitudeId"), rs.getInt("reviewId"),rs.getTimestamp("appointmentDate"), rs.getString("address"), Status.getStatus(rs.getString("status")), rs.getString("jobDescription"));
         }
     };
 
     @Override
     public List<Appointment> getAppointmentsByProviderId(int providerId) {
-        if(!sProviderDao.getServiceProviderWithUserId(providerId).isPresent()){
-            return null;
-        }
 
         List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM appointments WHERE providerId =? ", ROW_MAPPER, providerId);
 
         List<Appointment> appointments = new ArrayList<>();
 
+        if(dbRowsList.isEmpty()){
+            return appointments;
+        }
+
         for (Row row : dbRowsList) {
-            appointments.add(new Appointment(row.appointmentId, userDao.findById(row.userId).get(), sProviderDao.getServiceProviderWithUserId(row.providerId).get(), serviceTypeDao.getServiceTypeWithId(row.serviceTypeId).get(), row.date, row.address, row.status, row.jobDescription));
+            appointments.add(new Appointment(row.appointmentId, userDao.findById(row.userId).get(), aptitudeDao.getAptitude(row.aptitudeId).get(), row.date, row.address, row.status, row.jobDescription));
         }
 
         return appointments;
@@ -88,16 +92,18 @@ public class AppointmentJdbcDao implements AppointmentDao {
 
     @Override
     public List<Appointment> getAppointmentsByUserId(int userId) {
-        if(!userDao.findById(userId).isPresent()){
-            return null;
-        }
 
         List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM appointments WHERE userId =? ", ROW_MAPPER, userId);
 
         List<Appointment> appointments = new ArrayList<>();
 
+        if(dbRowsList.isEmpty()){
+            return appointments;
+        }
+
+
         for (Row row : dbRowsList) {
-            appointments.add(new Appointment(row.appointmentId, userDao.findById(row.userId).get(), sProviderDao.getServiceProviderWithUserId(row.providerId).get(), serviceTypeDao.getServiceTypeWithId(row.serviceTypeId).get(), row.date, row.address, row.status, row.jobDescription));
+            appointments.add(new Appointment(row.appointmentId, userDao.findById(row.userId).get(), aptitudeDao.getAptitude(row.aptitudeId).get(), row.date, row.address, row.status, row.jobDescription));
         }
 
         return appointments;
@@ -110,27 +116,26 @@ public class AppointmentJdbcDao implements AppointmentDao {
 
         if (dbRow.size() == 1) {
             Row row = dbRow.get(0);
-            return Optional.of(new Appointment(row.appointmentId, userDao.findById(row.userId).get(), sProviderDao.getServiceProviderWithUserId(row.providerId).get(), serviceTypeDao.getServiceTypeWithId(row.serviceTypeId).get(), row.date, row.address, row.status, row.jobDescription));
+            return Optional.of(new Appointment(row.appointmentId, userDao.findById(row.userId).get(), aptitudeDao.getAptitude(row.aptitudeId).get(), row.date, row.address, row.status, row.jobDescription));
         }
 
         return Optional.empty();
     }
 
     @Override
-    public Appointment addAppointment(int clientId, int providerId, int serviceTypeId, Timestamp date, String address, String jobDescripcion){
+    public Optional<Appointment> addAppointment(int clientId, int aptitudeId, Timestamp date, String address, String jobDescripcion){
 
         if(date==null || jobDescripcion==null || address==null){
-            return null;
+            return Optional.empty();
         }
 
-        if (!userDao.findById(clientId).isPresent() || !sProviderDao.getServiceProviderWithUserId(providerId).isPresent() || !serviceTypeDao.getServiceTypeWithId(serviceTypeId).isPresent()) {
-           return null;
+        if (!userDao.findById(clientId).isPresent() || !aptitudeDao.getAptitude(aptitudeId).isPresent() ) {
+           return Optional.empty();
         }
 
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("userId", clientId);
-        args.put("providerId", providerId);
-        args.put("serviceTypeId", serviceTypeId);
+        args.put("aptitudeId", aptitudeId);
         args.put("appointmentDate", date);
         args.put("address", address);
         args.put("status", "Pending");
@@ -138,9 +143,7 @@ public class AppointmentJdbcDao implements AppointmentDao {
 
         int appointmentId = jdbcInsert.executeAndReturnKey(args).intValue();
 
-        //jdbcInsert.execute(args);
-
-        return new Appointment(appointmentId ,userDao.findById(clientId).get(),sProviderDao.getServiceProviderWithUserId(providerId).get(),serviceTypeDao.getServiceTypeWithId(serviceTypeId).get(),date,address,Status.Pending,jobDescripcion);
+        return Optional.of(new Appointment(appointmentId, userDao.findById(clientId).get(), aptitudeDao.getAptitude(aptitudeId).get(), date, address, Status.Pending, jobDescripcion));
 
 
     }
@@ -168,5 +171,22 @@ public class AppointmentJdbcDao implements AppointmentDao {
     @Override
     public boolean removeAppointment(int appointmentId) {
         return jdbcTemplate.update("DELETE FROM appointments WHERE appointmentId = ?", appointmentId) != 0;
+    }
+
+    @Override
+    public Optional<Review> getReviewOfAppointment(int appointmentId) {
+        List<Row> dbRow = jdbcTemplate.query("SELECT * FROM appointments WHERE appointmentId =? ", ROW_MAPPER, appointmentId);
+
+        if(dbRow.isEmpty()){
+            return Optional.empty();
+        }
+
+        Row row = dbRow.get(0);
+        if(row.reviewId == -1){
+            return Optional.empty();
+        }
+
+        return reviewDao.getReview(row.reviewId);
+
     }
 }

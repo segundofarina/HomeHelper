@@ -28,16 +28,14 @@ CREATE TABLE IF NOT EXISTS aptitudes(
 );
 
 CREATE TABLE IF NOT EXISTS reviews(
-  userId INTEGER  REFERENCES users(userId),
-  aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
+  reviewId INTEGER IDENTITY PRIMARY KEY,
   reviewdate TIMESTAMP default CURRENT_DATE,
-  quality INTEGER CHECK(quality > 0 AND  quality < 6),
-  cleanness INTEGER CHECK(cleanness > 0 AND cleanness < 6),
-  price INTEGER CHECK(price > 0 AND price < 6),
-  punctuality INTEGER CHECK(punctuality > 0 AND punctuality < 6),
-  treatment INTEGER CHECK(treatment > 0 AND treatment < 6),
-  comment varchar(10000),
-  clientReview boolean DEFAULT FALSE
+  quality INTEGER,
+  cleanness INTEGER ,
+  price INTEGER,
+  punctuality INTEGER,
+  treatment INTEGER,
+  comment VARCHAR(1000)
 );
 CREATE TABLE IF NOT EXISTS messages(
   userFrom INTEGER REFERENCES users(userId),
@@ -47,11 +45,11 @@ CREATE TABLE IF NOT EXISTS messages(
 );
 
 CREATE TABLE IF NOT EXISTS appointments(
-  appointmentId SERIAL PRIMARY KEY,
+  appointmentId INTEGER SERIAL PRIMARY KEY,
   userId INTEGER REFERENCES users(userId),
-  providerId INTEGER REFERENCES serviceProviders(userId),
-  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
-  appointmentDate VARCHAR(100),
+  aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
+  reviewId INTEGER REFERENCES reviews(reviewId) DEFAULT -1,
+  appointmentDate TIMESTAMP default CURRENT_DATE,
   address VARCHAR(10000),
   status VARCHAR(20),
   jobDescription VARCHAR(10000)

@@ -36,8 +36,7 @@ public class ReviewJdbcDao implements ReviewDao {
 
 
     private static class Row{
-        int userId;
-        int aptitudeId;
+        int appointmentId;
         Timestamp reviewdate;
         int quality;
         int cleanness;
@@ -45,11 +44,9 @@ public class ReviewJdbcDao implements ReviewDao {
         int punctuality;
         int treatment;
         String comment;
-        boolean clientReview;
 
-        public Row(int userId, int aptitudeId, Timestamp reviewdate, int quality, int cleanness, int price, int punctuality, int treatment, String comment, boolean clientReview) {
-            this.userId = userId;
-            this.aptitudeId = aptitudeId;
+        public Row(int appointmentId, Timestamp reviewdate, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+            this.appointmentId = appointmentId;
             this.reviewdate = reviewdate;
             this.quality = quality;
             this.cleanness = cleanness;
@@ -57,33 +54,16 @@ public class ReviewJdbcDao implements ReviewDao {
             this.punctuality = punctuality;
             this.treatment = treatment;
             this.comment = comment;
-            this.clientReview=clientReview;
         }
     }
-    private final static RowMapper<Row> ROW_MAPPER = new RowMapper<Row>() {
-        public Row mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Row(rs.getInt("userId"),rs.getInt("aptitudeId"),rs.getTimestamp("reviewdate"),rs.getInt("quality"),rs.getInt("cleanness"),rs.getInt("price"),rs.getInt("punctuality"),rs.getInt("treatment"),rs.getString("comment"),rs.getBoolean("clientReview"));
+    private final static RowMapper<Review> ROW_MAPPER = new RowMapper<Review>() {
+        public Review mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Review(rs.getInt("appointmentId"),rs.getInt("quality"),rs.getInt("cleanness"),rs.getInt("price"),rs.getInt("punctuality"),rs.getInt("treatment"),rs.getString("description"),rs.getTimestamp("reviewdate"));
         }
     };
 
-    public List<Review> getReviewsOfAptitude(int aptitudeId){
-        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM reviews WHERE aptitudeId =?", ROW_MAPPER,aptitudeId);
-
-        if(dbRowsList.isEmpty()){
-            return null;
-        }
-
-        List<Review> reviews = new ArrayList<Review>();
-
-        for(Row row : dbRowsList){
-            reviews.add(new Review(row.quality,row.cleanness,row.price,row.punctuality,row.treatment,row.comment,row.reviewdate,userDao.findById(row.userId).get(),row.clientReview));
-        }
-
-        return reviews;
-    }
-
     @Override
-    public boolean insertReview(int userId, int aptitudeId, int quality,int cleanness, int price, int punctuality, int treatment, String comment) {
+    public boolean insertReview(int appointmentId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
 
         if(comment==null){
             return false;
@@ -94,15 +74,13 @@ public class ReviewJdbcDao implements ReviewDao {
        }
 
         final Map<String, Object> args = new HashMap<String, Object>();
-        args.put("userId", userId);
-        args.put("aptitudeId",aptitudeId);
+        args.put("appointmentId",appointmentId);
         args.put("quality", quality);
         args.put("cleanness", cleanness);
         args.put("price", price);
         args.put("punctuality", punctuality);
         args.put("treatment", treatment);
         args.put("comment", comment);
-        args.put("clientReview",true);
         args.put("reviewdate",Timestamp.from(Instant.now()));
 
         try {
@@ -124,7 +102,28 @@ public class ReviewJdbcDao implements ReviewDao {
     }
 
     @Override
-    public boolean removeReviewsOfAptitude(int aptId) {
-        return jdbcTemplate.update("DELETE FROM reviews WHERE aptitudeId = ?", aptId) != 0;
+    public Optional<Review> getReview(int appointmentId) {
+        List<Review> dbRowsList = jdbcTemplate.query("SELECT * FROM reviews WHERE appointmentId =?", ROW_MAPPER, appointmentId);
+
+        if (dbRowsList.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(dbRowsList.get(0));
     }
+
+    @Override
+    public List<Review> getReviewsOfAptitude(int aptId) {
+        List<Review> list = jdbcTemplate.query("SELECT appointmentId,reviewdate,quality,cleanness,price,punctuality,treatment," +
+                "description FROM reviews NATURAL JOIN  appointments WHERE aptitudeId =?", ROW_MAPPER, aptId);
+
+
+        return list;
+    }
+
+    @Override
+    public boolean removeReview(int appointmentId){
+        return jdbcTemplate.update("DELETE FROM reviews WHERE appointmentId = ?", appointmentId) != 0;
+    }
+
 }

@@ -3,12 +3,15 @@ package ar.edu.itba.paw.interfaces.daos;
 import ar.edu.itba.paw.model.Review;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ReviewDao {
 
-    List<Review> getReviewsOfAptitude(int aptitudeId);
+    boolean insertReview(int appointmentId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
 
-    boolean insertReview(int userId, int aptitudeId, int quality,int cleanness, int price, int punctuality, int treatment, String comment);
+    Optional<Review> getReview(int reviewId);
 
-    boolean removeReviewsOfAptitude(int aptId);
+    List<Review> getReviewsOfAptitude(int aptId);
+
+    boolean removeReview(int reviewId);
 }

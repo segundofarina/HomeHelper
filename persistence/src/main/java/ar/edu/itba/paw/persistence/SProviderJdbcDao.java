@@ -95,7 +95,6 @@ public class SProviderJdbcDao implements SProviderDao {
     public Optional<SProvider> getServiceProviderWithUserId(int userId) {
         List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM serviceProviders WHERE userId = ?", ROW_MAPPER, userId);
 
-
         if(dbRowsList.size() == 1) {
             return Optional.of(new SProvider(userDao.findById(userId).get(),dbRowsList.get(0).description,aptitudeDao.getAptitudesOfUser(userId),wZoneDao.getWorkingZonesOfProvider(userId)));
         }else{

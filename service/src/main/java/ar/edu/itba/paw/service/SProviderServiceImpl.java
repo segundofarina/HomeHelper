@@ -29,6 +29,9 @@ public class SProviderServiceImpl implements SProviderService {
     @Autowired
     WZoneDao wZoneDao;
 
+    @Autowired
+    AppointmentDao appointmentDao;
+
     @Override
     public SProvider create(int userId, String description) {
         return sProviderDao.create(userId,description).get();
@@ -64,8 +67,8 @@ public class SProviderServiceImpl implements SProviderService {
     }
 
     @Override
-    public boolean insertReview(int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
-        return reviewDao.insertReview(userId,aptitudeId,quality,cleanness,price,punctuality,treatment,comment);
+    public boolean insertReview(int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+        return reviewDao.insertReview(quality,cleanness,price,punctuality,treatment,comment);
     }
 
     @Override
@@ -85,6 +88,16 @@ public class SProviderServiceImpl implements SProviderService {
     @Override
     public boolean updateDescriptionOfServiceProvider(int userId, String description) {
         return sProviderDao.updateDescriptionOfServiceProvider(userId,description);
+    }
+
+    @Override
+    public List<Review> getAllReviewsOfProvider(int userId) {
+        return null;
+    }
+
+    @Override
+    public boolean removeAllReviewsFromAptitude(int aptId) {
+        return false;
     }
 
     public List<ServiceType> getServiceTypes(){
@@ -172,8 +185,8 @@ public class SProviderServiceImpl implements SProviderService {
     }
 
     @Override
-    public List<Aptitude> getAptitudesOfUser(int id) {
-        return aptitudeDao.getAptitudesOfUser(id);
+    public List<Aptitude> getAptitudesOfProvider(int id) {
+        return null;
     }
 
 

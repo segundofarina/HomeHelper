@@ -5,18 +5,16 @@ import java.sql.Timestamp;
 public class Appointment {
     private int appointmentId;
     private User client;
-    private SProvider provider;
-    private ServiceType serviceType;
+    private Aptitude aptitude;
     private Timestamp date;
     private String address;
     private Status status;
     private String jobDescripcion;
 
-    public Appointment(int appointmentId, User client, SProvider provider, ServiceType serviceType, Timestamp date, String address, Status estatus, String jobDescripcion) {
+    public Appointment(int appointmentId, User client, Aptitude aptitude, Timestamp date, String address, Status estatus, String jobDescripcion) {
         this.appointmentId = appointmentId;
         this.client = client;
-        this.provider = provider;
-        this.serviceType = serviceType;
+        this.aptitude = aptitude;
         this.date = date;
         this.address = address;
         this.status = estatus;
@@ -29,14 +27,6 @@ public class Appointment {
 
     public User getClient() {
         return client;
-    }
-
-    public SProvider getProvider() {
-        return provider;
-    }
-
-    public ServiceType getServiceType() {
-        return serviceType;
     }
 
     public Timestamp getDate() {
@@ -57,5 +47,9 @@ public class Appointment {
 
     public void setStatus(Status estatus) {
         this.status = estatus;
+    }
+
+    public Aptitude getAptitude() {
+        return aptitude;
     }
 }

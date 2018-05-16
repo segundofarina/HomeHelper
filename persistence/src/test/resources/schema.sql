@@ -46,17 +46,25 @@ CREATE TABLE IF NOT EXISTS aptitudes(
   description VARCHAR(1000)
 );
 
-CREATE TABLE IF NOT EXISTS reviews(
+CREATE TABLE IF NOT EXISTS appointments(
+  appointmentId INTEGER IDENTITY PRIMARY KEY,
   userId INTEGER REFERENCES users(userId),
   aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
+  appointmentDate TIMESTAMP default CURRENT_DATE,
+  address VARCHAR(10000),
+  status VARCHAR(20),
+  jobDescription VARCHAR(10000)
+);
+
+CREATE TABLE IF NOT EXISTS reviews(
+  appointmentId INTEGER references appointments(appointmentId) PRIMARY KEY,
   reviewdate TIMESTAMP default CURRENT_DATE,
   quality INTEGER,
-  cleanness INTEGER ,
+  cleanness INTEGER,
   price INTEGER,
   punctuality INTEGER,
   treatment INTEGER,
-  comment VARCHAR(1000),
-  clientReview boolean DEFAULT FALSE
+  comment VARCHAR(1000)
 );
 
 CREATE TABLE IF NOT EXISTS messages(
@@ -66,15 +74,9 @@ CREATE TABLE IF NOT EXISTS messages(
   messageDate TIMESTAMP  default CURRENT_DATE
 );
 
-CREATE TABLE IF NOT EXISTS appointments(
-  appointmentId INTEGER IDENTITY PRIMARY KEY,
-  userId INTEGER REFERENCES users(userId),
-  providerId INTEGER REFERENCES serviceProviders(userId),
-  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
-  appointmentDate TIMESTAMP default CURRENT_DATE,
-  address VARCHAR(10000),
-  status VARCHAR(20),
-  jobDescription VARCHAR(10000)
+create TABLE if NOT EXISTS verifyUsers(
+  userId INTEGER PRIMARY KEY REFERENCES users(userId),
+  keyCode VARCHAR(1000) UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS workingzones(
@@ -110,9 +112,15 @@ insert into aptitudes VALUES (2,3,2,'Martinsulis tambien es Pintor');
 insert into aptitudes VALUES (3,4,1,'Carlos el carpintero');
 insert into aptitudes VALUES (4,4,3,'Carlos obrero');
 
-insert into reviews VALUES (1,1,default,4,5,3,4,4,'Soy Segundo me encanto tu trabajo de carpinteria Martin',true);
-insert into reviews VALUES (1,1,default,4,5,3,4,44,'Soy Segundo me encanto tu segundo trabajo de carpinteria Martin',true);
-insert into reviews VALUES (2,2,default,4,5,3,4,4,'Soy Florencia me encanto el empapelado Martin',true);
+insert into appointments VALUES (1,1,1,DEFAULT ,'cuba 2546 6p','Done','Soy segundo, appointment con martin carpintero');
+insert into appointments VALUES (2,2,1,DEFAULT ,'cuba 2546 6p','Done','Soy florencia, appointment con martin carpintero');
+insert into appointments VALUES (3,3,1,DEFAULT ,'cuba 2546 6p','Done','Soy martin, appointment con martin carpintero');
+insert into appointments VALUES (4,4,2 ,DEFAULT ,'cuba 2546 6p','Confirmed','Soy carlos, appointment con Martin pintor');
+insert into appointments VALUES (5,5,2 ,DEFAULT ,'cuba 2546 6p','Pending','Soy julio, appointment con Martin pintor');
+
+insert into reviews VALUES (1,default,4,5,3,4,4,'Soy Segundo me encanto tu trabajo de carpinteria Martin');
+insert into reviews VALUES (2,default,4,5,3,4,4,'Soy Florencia me encanto tu segundo trabajo de carpinteria Martin');
+insert into reviews VALUES (3,default,4,5,3,4,4,'Soy Martin me tu segundo trabajo de carpinteria Martin');
 
 insert into messages VALUES (2,5,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
 insert into messages VALUES (5,2,'Hola Florencia si que necesitas?',DEFAULT );
@@ -123,7 +131,8 @@ insert into messages VALUES (4,2,'AAA mira que bueno',DEFAULT );
 insert into messages VALUES (2,4,'Jajaja',DEFAULT );
 
 
-insert into appointments VALUES (1,1,3,1,DEFAULT ,'cuba 2546 6p','Pending','soy flor cavallin, tincho haceme un mueble nuevo');
+
+
 
 insert into workingzones VALUES (1,3);
 insert into workingzones VALUES (2,3);

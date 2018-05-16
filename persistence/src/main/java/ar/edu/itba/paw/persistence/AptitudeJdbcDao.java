@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
 import ar.edu.itba.paw.interfaces.daos.ReviewDao;
 import ar.edu.itba.paw.interfaces.daos.STypeDao;
 import ar.edu.itba.paw.model.Aptitude;
+import ar.edu.itba.paw.model.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -72,11 +73,11 @@ public class AptitudeJdbcDao implements AptitudeDao {
     public List<Aptitude> getAptitudesOfUser(int id) {
         List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM aptitudes WHERE userId =? ", ROW_MAPPER, id);
 
-        if(dbRowsList.isEmpty()){
-            return null;
-        }
-
         List<Aptitude> aptitudes = new ArrayList<Aptitude>();
+
+        if(dbRowsList.isEmpty()){
+            return aptitudes;
+        }
 
 
         for(Row row : dbRowsList){
@@ -132,7 +133,9 @@ public class AptitudeJdbcDao implements AptitudeDao {
 
     @Override
     public boolean removeAptitude(int aptId) {
-        reviewDao.removeReviewsOfAptitude(aptId);
+        for(Review r: reviewDao.getReviewsOfAptitude(aptId)){
+            reviewDao.removeReview(r.getReviewId());
+        }
         return jdbcTemplate.update("DELETE FROM aptitudes WHERE aptitudeId = ?", aptId) != 0;
     }
 
@@ -174,14 +177,14 @@ public class AptitudeJdbcDao implements AptitudeDao {
     }
 
     @Override
-    public Aptitude getAptitude(int id) {
+    public Optional<Aptitude> getAptitude(int id) {
         List<Row> dbRowList = jdbcTemplate.query("SELECT * FROM aptitudes WHERE aptitudeId =? ", ROW_MAPPER, id);
         if(dbRowList.isEmpty()) {
-            return null;
+            return Optional.empty();
         }
         Row row = dbRowList.get(0);
 
-        return new Aptitude(row.aptitudeId,sTypeDao.getServiceTypeWithId(row.serviceTypeId).get(),row.description,reviewDao.getReviewsOfAptitude(row.aptitudeId));
+        return Optional.of(new Aptitude(row.aptitudeId, sTypeDao.getServiceTypeWithId(row.serviceTypeId).get(), row.description, reviewDao.getReviewsOfAptitude(row.aptitudeId)));
     }
 
 

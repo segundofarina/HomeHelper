@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -66,10 +65,14 @@ public class AppointmentServiceImpl implements AppointmentService {
        return null;
     }
 
-
     @Override
-    public Appointment addAppointment(int clientId, int providerId, int serviceTypeId, String date, String address, String jobDescripcion) {
-        return appointmentDao.addAppointment(clientId, providerId, serviceTypeId, stringToTimestamp(date), address, jobDescripcion);
+    public Appointment addAppointment(int clientId, int aptitudeId, String date, String address, String jobDescripcion) {
+        Optional<Appointment> appointment = appointmentDao.addAppointment(clientId, aptitudeId, stringToTimestamp(date), address, jobDescripcion);
+
+        if(appointment.isPresent()){
+            return null;
+        }
+        return appointment.get();
     }
 
     @Override

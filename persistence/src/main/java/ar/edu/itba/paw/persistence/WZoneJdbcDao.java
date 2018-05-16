@@ -63,24 +63,26 @@ public class WZoneJdbcDao implements WZoneDao {
 
     @Override
     public boolean insertWorkingZoneOfProvider(int userId, int ngId) {
-        Optional<SProvider> provider = sProviderDao.getServiceProviderWithUserId(userId);
-        if(!provider.isPresent() || !neighborhoodDao.getAllNeighborhoods().contains(new Neighborhood(ngId))){
-            return false;
-        }
+
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("userId",userId);
         args.put("ngId",ngId);
-        jdbcInsert.execute(args);
+        try {
+            jdbcInsert.execute(args);
+        }catch (Exception e){
+            return false;
+        }
         return true;
     }
 
     @Override
     public List<Neighborhood> getWorkingZonesOfProvider(int providerId) {
         List<Row> list = jdbcTemplate.query("SELECT * FROM workingzones WHERE userId = ?;", ROW_MAPPER, providerId);
-        if (list.isEmpty()) {
-            return null;
-        }
+
         List<Neighborhood> neighborhoods = new ArrayList<>();
+        if (list.isEmpty()) {
+            return neighborhoods;
+        }
         for(Row row : list){
             if(!neighborhoods.contains(new Neighborhood(row.ngId))) {
                 neighborhoods.add(new Neighborhood(row.ngId));

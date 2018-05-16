@@ -8,7 +8,6 @@ import java.util.Set;
 public interface SProviderService {
 
 
-
     SProvider create(int userId, String description);
 
     List<SProvider> getServiceProviders();
@@ -17,7 +16,7 @@ public interface SProviderService {
 
     SProvider getServiceProviderWithUserId(int userId);
 
-    boolean insertReview(int userId, int aptitudeId, int quality,int cleanness, int price, int punctuality, int treatment, String comment);
+    boolean insertReview(int quality,int cleanness, int price, int punctuality, int treatment, String comment);
 
     int getServiceProviderId(int userId);
 
@@ -31,7 +30,7 @@ public interface SProviderService {
 
     List<Review> getReviewsOfServiceProvider(int sproviderId);
 
-    List<Aptitude> getAptitudesOfUser(int id);
+    List<Aptitude> getAptitudesOfProvider(int id);
 
     boolean updateDescriptionOfAptitude(int aptId, String description);
 
@@ -45,6 +44,9 @@ public interface SProviderService {
 
     boolean updateDescriptionOfServiceProvider(int userId, String description);
 
+    List<Review> getReviewsOfAptitude(int aptId);
 
+    List<Review> getAllReviewsOfProvider(int userId);
 
+    boolean removeAllReviewsFromAptitude(int aptId);
 }

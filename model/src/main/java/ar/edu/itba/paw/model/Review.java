@@ -6,56 +6,54 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Review {
-    private User user;
-    private HashMap<String,Integer> calification;
+    private int appointmentId;
+    private HashMap<String, Integer> calification;
     private String comment;
     private Timestamp date;
-    private boolean clientReview=false;
 
-    public Review(int quality, int cleanness, int price, int punctuality, int treatment, String comment, Timestamp date, User user, boolean clientReview) {
+    public Review(int appointmentId,int quality, int cleanness, int price, int punctuality, int treatment, String comment, Timestamp date) {
 
         calification = new HashMap<>();
 
-        calification.put("Quality",quality);
-        calification.put("Cleanness",cleanness);
-        calification.put("Price",price);
-        calification.put("Punctuality",punctuality);
-        calification.put("Treatment",treatment);
+        calification.put("Quality", quality);
+        calification.put("Cleanness", cleanness);
+        calification.put("Price", price);
+        calification.put("Punctuality", punctuality);
+        calification.put("Treatment", treatment);
 
         this.comment = comment;
         this.date = date;
-        this.user = user;
-        this.clientReview=clientReview;
+        this.appointmentId=appointmentId;
     }
 
-    public int getQualityCalification(){
+    public int getQualityCalification() {
         return calification.get("Quality");
     }
 
-    public int getCleannessCalification(){
+    public int getCleannessCalification() {
         return calification.get("Cleanness");
     }
 
-    public int getPriceCalification(){
+    public int getPriceCalification() {
         return calification.get("Price");
     }
 
-    public int getPunctualityCalification(){
+    public int getPunctualityCalification() {
         return calification.get("Punctuality");
     }
 
-    public int getTreatmentCalification(){
+    public int getTreatmentCalification() {
         return calification.get("Treatment");
     }
 
     public int getGeneralCalification() {
         int generalCalification = 0;
 
-        for(Map.Entry<String,Integer> entry : calification.entrySet()){
-            generalCalification+= entry.getValue();
+        for (Map.Entry<String, Integer> entry : calification.entrySet()) {
+            generalCalification += entry.getValue();
         }
 
-        return generalCalification/calification.size();
+        return generalCalification / calification.size();
     }
 
     public String getComment() {
@@ -66,11 +64,7 @@ public class Review {
         return date;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public boolean isClientReview() {
-        return clientReview;
+    public int getReviewId() {
+        return appointmentId;
     }
 }
