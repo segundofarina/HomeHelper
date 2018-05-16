@@ -44,11 +44,9 @@ public class SProviderServiceImpl implements SProviderService {
         List<SProvider> filteredSp = new ArrayList<SProvider>();
 
         for(SProvider sp: getServiceProviders()){
-            for(Aptitude ap :sp.getAptitudes()){
-                if(ap.getService().getServiceTypeId() == serviceType){
-                    filteredSp.add(sp);
-                }
-            }
+           if(hasAptitude(sp,serviceType)){
+               filteredSp.add(sp);
+           }
         }
         return filteredSp;
 
@@ -80,6 +78,11 @@ public class SProviderServiceImpl implements SProviderService {
             return false;
         }
         return aptitudeDao.removeAptitude(aptitudeId);
+    }
+
+    @Override
+    public boolean updateDescriptionOfServiceProvider(int userId, String description) {
+        return sProviderDao.updateDescriptionOfServiceProvider(userId,description);
     }
 
     public List<ServiceType> getServiceTypes(){
@@ -119,15 +122,6 @@ public class SProviderServiceImpl implements SProviderService {
         return getServiceProviderWithUserId(userId) != null;
     }
 
-    private static AptitudeForm getApt ( List<AptitudeForm> list, int servicetypeId){
-        for (AptitudeForm apt : list){
-            if(servicetypeId == apt.getServiceTypeid()){
-                return apt;
-            }
-        }
-        return null;
-    }
-
     @Override
     public boolean insertWorkingZoneOfProvider(int userId, int ngId) {
         return wZoneDao.insertWorkingZoneOfProvider(userId,ngId);
@@ -140,17 +134,27 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Override
     public List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId) {
-        List<SProvider> inNg = getServiceProvidersWorkingIn(ngId);
-        List<SProvider> inSt = getServiceProvidersWithServiceType(stId);
-        List<SProvider> ans = new ArrayList<>();
-        for(SProvider provider: inSt){
-            if(inNg.contains(provider)){
-                ans.add(provider);
+        return sProviderDao.getServiceProvidersByNeighborhoodAndServiceType(ngId, stId);
+    }
+
+    private boolean hasAptitude(SProvider sp,int stId){
+        for(Aptitude ap :sp.getAptitudes()){
+            if(ap.getService().getServiceTypeId() == stId){
+                return true;
             }
         }
-
-       return ans;
+        return false;
     }
+
+    private boolean hasWorkingZone(SProvider sp,int wzId){
+           for(Neighborhood ne :sp.getNeighborhoods()){
+            if(ne.getNgId() == wzId){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public List<Review> getReviewsOfServiceProvider(int sproviderId) {
         Optional<SProvider> provider = sProviderDao.getServiceProviderWithUserId(sproviderId);

@@ -7,8 +7,9 @@ drop table if exists aptitudes CASCADE;
 DROP TABLE IF EXISTS appointments CASCADE;
 drop table if EXISTS verifyUsers CASCADE;
 drop table if exists neighborhoods CASCADE;
-drop table if exists workingzone CASCADE;
+drop table if exists workingzones CASCADE;
 DROP TABLE if EXISTS temporaryImages CASCADE ;
+drop table if exists workingzones CASCADE;
 
 
 CREATE TABLE IF NOT EXISTS users (
@@ -50,7 +51,8 @@ CREATE TABLE IF NOT EXISTS reviews(
   price INTEGER CHECK(price > 0 AND price < 6),
   punctuality INTEGER CHECK(punctuality > 0 AND punctuality < 6),
   treatment INTEGER CHECK(treatment > 0 AND treatment < 6),
-  comment varchar(10000)
+  comment varchar(10000),
+  clientReview boolean DEFAULT FALSE
 );
 CREATE TABLE IF NOT EXISTS messages(
   userFrom INTEGER REFERENCES users(userId),
@@ -77,7 +79,8 @@ create TABLE if NOT EXISTS verifyUsers(
 );
 
 CREATE TABLE IF NOT EXISTS neighborhoods(
-  ngId SERIAL PRIMARY KEY
+  ngId SERIAL PRIMARY KEY,
+  ngname VARCHAR(100) DEFAULT NULL
 );
 
 CREATE TABLE IF NOT EXISTS workingzones(
@@ -85,27 +88,29 @@ CREATE TABLE IF NOT EXISTS workingzones(
   userId INTEGER REFERENCES serviceProviders(userId)
 );
 
+<<<<<<< HEAD
 CREATE TABLE IF NOT EXISTS temporaryImages (
   imageid SERIAL PRIMARY KEY,
   image   BYTEA
 );
 
-insert into users VALUES (1,'sfarina','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Segundo Augusto','Fariña','afarina@itba.edu.ar','1541234567',null,'cuba 2546',FALSE );
-insert into users VALUES (2,'mvictory','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Martin','Victory','mvictory@itba.edu.ar','1563498751',null,'cuba 2546',FALSE);
-insert into users VALUES (3,'fcavallin','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Florencia','Cavallin','fcavallin@itba.edu.ar','1563287519',null,'cuba 2546',FALSE);
-insert into users VALUES (4,'marcemiozzo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcelo','Miozzo','marcemiozzo@google.com','1532357421',null,'cuba 2546',FALSE);
-insert into users VALUES (5,'nadimer','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nadine','Merlino','nadimer@fibertel.com.ar','1561182277',null,'cuba 2546',FALSE);
-insert into users VALUES (6,'scavallin','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Sergio Eduardo','Cavallin','scavallin@pluspetrol.net','1540910023',null,'cuba 2546',FALSE);
-insert into users VALUES (7,'bianq','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Bianca','Fallace','bianqfallace@google.com','1542366653',null,'cuba 2546',FALSE);
-insert into users VALUES (8,'alvarocrespo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Alvaro','Crespo','acrespo@itba.edu.ar','1563325569',null,'cuba 2546',FALSE);
-insert into users VALUES (9,'mfallone','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marco','Fallone','mfallon@itba.edu.ar','1562009879',null,'cuba 2546',FALSE);
-insert into users VALUES (10,'mtessino','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Mario','Tessino','maritotessino@outlook.com','1562341209',null,'cuba 2546',FALSE);
-insert into users VALUES (11,'lynch','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcelo','Lynch','marchusL@google.com','1563277639',null,'cuba 2546',FALSE);
-insert into users VALUES (12,'tomicerda','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Tomás','Cerda','tcerda@itba.edu.ar','1562874621',null,'cuba 2546',FALSE);
-insert into users VALUES (13,'carlubarru','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Carla','Barrufaldi','carlabarrufaldi@outlook.com','1539098798',null,'cuba 2546',FALSE);
-insert into users VALUES (14,'axelf','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Axel','Fratoni','axfratoni@itba.edu.ar','1563880943',null,'cuba 2546',FALSE);
-insert into users VALUES (15,'feroviedo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Fernan','Oviedo','foviedo@google.com','1542548790',null,'cuba 2546',FALSE);
-insert into users VALUES (16,'ndonof','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nicolas','Donofrio','ndonofrio@outlook.com','1534890542',null,'cuba 2546',FALSE);
+
+insert into users VALUES (1,'sfarina','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Segundo Augusto','Fariña','afarina@itba.edu.ar','1541234567',null,'cuba 2546', TRUE);
+insert into users VALUES (2,'mvictory','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Martin','Victory','mvictory@itba.edu.ar','1563498751',null,'cuba 2546', TRUE);
+insert into users VALUES (3,'fcavallin','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Florencia','Cavallin','fcavallin@itba.edu.ar','1563287519',null,'cuba 2546', TRUE);
+insert into users VALUES (4,'marcemiozzo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcelo','Miozzo','marcemiozzo@google.com','1532357421',null,'cuba 2546', TRUE);
+insert into users VALUES (5,'nadimer','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nadine','Merlino','nadimer@fibertel.com.ar','1561182277',null,'cuba 2546', TRUE);
+insert into users VALUES (6,'scavallin','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Sergio Eduardo','Cavallin','scavallin@pluspetrol.net','1540910023',null,'cuba 2546', TRUE);
+insert into users VALUES (7,'bianq','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Bianca','Fallace','bianqfallace@google.com','1542366653',null,'cuba 2546', TRUE);
+insert into users VALUES (8,'alvarocrespo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Alvaro','Crespo','acrespo@itba.edu.ar','1563325569',null,'cuba 2546', TRUE);
+insert into users VALUES (9,'mfallone','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marco','Fallone','mfallon@itba.edu.ar','1562009879',null,'cuba 2546', TRUE);
+insert into users VALUES (10,'mtessino','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Mario','Tessino','maritotessino@outlook.com','1562341209',null,'cuba 2546', TRUE);
+insert into users VALUES (11,'lynch','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcelo','Lynch','marchusL@google.com','1563277639',null,'cuba 2546', TRUE);
+insert into users VALUES (12,'tomicerda','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Tomás','Cerda','tcerda@itba.edu.ar','1562874621',null,'cuba 2546', TRUE);
+insert into users VALUES (13,'carlubarru','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Carla','Barrufaldi','carlabarrufaldi@outlook.com','1539098798',null,'cuba 2546', TRUE);
+insert into users VALUES (14,'axelf','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Axel','Fratoni','axfratoni@itba.edu.ar','1563880943',null,'cuba 2546', TRUE);
+insert into users VALUES (15,'feroviedo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Fernan','Oviedo','foviedo@google.com','1542548790',null,'cuba 2546', TRUE);
+insert into users VALUES (16,'ndonof','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nicolas','Donofrio','ndonofrio@outlook.com','1534890542',null,'cuba 2546', TRUE);
 
 
 insert into neighborhoods VALUES (1);
@@ -452,58 +457,58 @@ requisitos para pedir dci o habilitacion de medidor monofasico:
 podes enviar todos los papeles por whasapp.
 se cobra 50% al iniciar el tramite y 50% al entregar el documento terminado');
 
-insert into reviews VALUES (2,1,DEFAULT,5,5,5,5,5,'Bueno quería hacer una biblioteca horizontal larga abajo de una ventana, es algo que me venia debiendo desde hace meses, por lo que fue algo importante para mi. Ellos tuvieron cuidado y mucho respeto por esto en todo momento, entendieron lo importante que era para mi y me ayudaron a transformar mi vision en lo que queria, hablamos de posibilidades y si bien me trajeron una idea/proyecto. Estuvieron totalmente abiertos a modificarlo y hacer realidad lo que yo quería. . De verdad no tengo mas que palabras de agradecimiento. Muy recomendable. Yo no se si habra sido mucho o poco lo que pague, pero hay un extra cuando alguien te respeta desde el dia 1 y se toma el tiempo de explicarte, que es impagable. . Gracias!. ');
-insert into reviews VALUES (3,1,DEFAULT,5,5,5,5,5,'Excelente atención, su trabajo es impecable. Rápidos, prolijos y profesionales. Les envié fotos del mueble, necesitaba desarmarlo y trasladarlo de un 7º a un 4º piso. Me presupuestaron el trabajo vía mail, sin vueltas ni "sorpresas" de ultimo momento. Los recomiendo totalmente y los tengo en cuenta para futuros trabajos, gente seria y que sabe lo que hace. Recomendable 100%.');
-insert into reviews VALUES (4,1,DEFAULT,5,5,5,5,5,'Excelente el trabajo que hacen. La atención es mas que buena, me supieron asesorar que es lo que mas convenía par mi cocina. Quede feliz con el trabajo realizado. Una belleza todo y mi cocina quedo como nueva! gracias fc amoblamientos por su excelente trabajo.');
-insert into reviews VALUES (5,1,DEFAULT,4,5,4,5,4,'Realmente he quedado mas que conforme con el servicio, me han realizado unos muebles para el cuarto de los niños y quedaron hermosos. Son excelentes desde la atención, el producto y la prolijidad de las terminaciones. Realmente super recomendables!.');
-insert into reviews VALUES (6,1,DEFAULT,4,4,4,4,4,'Les pedì presupuesto por unos placares y me resolvieron todas la inquietudes. Me salio mucho mas barato y me dieron ideas. Fantasticas. Es una suerte. Encontrarlos.');
-insert into reviews VALUES (7,1,DEFAULT,4,4,4,4,5,'Quedamos muy conformes con el mueble de dormitorio que nos hicieron. Sin dudas volveremos a llamarlos para hacer un mueble en el baño que tenemos pendiente.');
-insert into reviews VALUES (8,1,DEFAULT,4,5,4,5,3,'La calidad de los materiales es inmejorable, vengo contratándolos desde hace dos años y siempre todo es excelente. Muy recomendable.');
-insert into reviews VALUES (9,1,DEFAULT,4,4,4,4,5,'Muy buen servicio, desde la toma de medidas hasta la colocacion. Super atentos y prolijos.');
+insert into reviews VALUES (2,1,DEFAULT,5,5,5,5,5,'Bueno quería hacer una biblioteca horizontal larga abajo de una ventana, es algo que me venia debiendo desde hace meses, por lo que fue algo importante para mi. Ellos tuvieron cuidado y mucho respeto por esto en todo momento, entendieron lo importante que era para mi y me ayudaron a transformar mi vision en lo que queria, hablamos de posibilidades y si bien me trajeron una idea/proyecto. Estuvieron totalmente abiertos a modificarlo y hacer realidad lo que yo quería. . De verdad no tengo mas que palabras de agradecimiento. Muy recomendable. Yo no se si habra sido mucho o poco lo que pague, pero hay un extra cuando alguien te respeta desde el dia 1 y se toma el tiempo de explicarte, que es impagable. . Gracias!. ',true);
+insert into reviews VALUES (3,1,DEFAULT,5,5,5,5,5,'Excelente atención, su trabajo es impecable. Rápidos, prolijos y profesionales. Les envié fotos del mueble, necesitaba desarmarlo y trasladarlo de un 7º a un 4º piso. Me presupuestaron el trabajo vía mail, sin vueltas ni "sorpresas" de ultimo momento. Los recomiendo totalmente y los tengo en cuenta para futuros trabajos, gente seria y que sabe lo que hace. Recomendable 100%.',true);
+insert into reviews VALUES (4,1,DEFAULT,5,5,5,5,5,'Excelente el trabajo que hacen. La atención es mas que buena, me supieron asesorar que es lo que mas convenía par mi cocina. Quede feliz con el trabajo realizado. Una belleza todo y mi cocina quedo como nueva! gracias fc amoblamientos por su excelente trabajo.',true);
+insert into reviews VALUES (5,1,DEFAULT,4,5,4,5,4,'Realmente he quedado mas que conforme con el servicio, me han realizado unos muebles para el cuarto de los niños y quedaron hermosos. Son excelentes desde la atención, el producto y la prolijidad de las terminaciones. Realmente super recomendables!.',true);
+insert into reviews VALUES (6,1,DEFAULT,4,4,4,4,4,'Les pedì presupuesto por unos placares y me resolvieron todas la inquietudes. Me salio mucho mas barato y me dieron ideas. Fantasticas. Es una suerte. Encontrarlos.',true);
+insert into reviews VALUES (7,1,DEFAULT,4,4,4,4,5,'Quedamos muy conformes con el mueble de dormitorio que nos hicieron. Sin dudas volveremos a llamarlos para hacer un mueble en el baño que tenemos pendiente.',true);
+insert into reviews VALUES (8,1,DEFAULT,4,5,4,5,3,'La calidad de los materiales es inmejorable, vengo contratándolos desde hace dos años y siempre todo es excelente. Muy recomendable.',true);
+insert into reviews VALUES (9,1,DEFAULT,4,4,4,4,5,'Muy buen servicio, desde la toma de medidas hasta la colocacion. Super atentos y prolijos.',true);
 
-insert into reviews VALUES (3,2,DEFAULT,3,4,4,5,2,'La verdad que estoy muy conforme con el trabajo que realizaron. Cumplieron el precio estipulado en el presupuesto. Y algunos detalles que no les correspondia los hicieron de onda. Y dejaron todo limpio y ordenado.');
-insert into reviews VALUES (4,2,DEFAULT,5,5,5,5,4,'Fue una experiencia estupenda. Los contrate sin estar en el departamento, un semipiso de casi 200 mts2. Me han hecho pintura de todos los ambientes, aberturas, reparon puertas y paredes y quedo todo mas que estupendo. Muy honestos. Excelente staff de gente. Recomendado absolutamente, gracias');
-insert into reviews VALUES (5,2,DEFAULT,4,4,4,5,3,'Agradezco por el trabajo realizado de colocación de revestimiento en el frente de mi casa, excelente predisposición y responsable con su trabajo. Muchas gracias!.');
+insert into reviews VALUES (3,2,DEFAULT,3,4,4,5,2,'La verdad que estoy muy conforme con el trabajo que realizaron. Cumplieron el precio estipulado en el presupuesto. Y algunos detalles que no les correspondia los hicieron de onda. Y dejaron todo limpio y ordenado.',true);
+insert into reviews VALUES (4,2,DEFAULT,5,5,5,5,4,'Fue una experiencia estupenda. Los contrate sin estar en el departamento, un semipiso de casi 200 mts2. Me han hecho pintura de todos los ambientes, aberturas, reparon puertas y paredes y quedo todo mas que estupendo. Muy honestos. Excelente staff de gente. Recomendado absolutamente, gracias',true);
+insert into reviews VALUES (5,2,DEFAULT,4,4,4,5,3,'Agradezco por el trabajo realizado de colocación de revestimiento en el frente de mi casa, excelente predisposición y responsable con su trabajo. Muchas gracias!.',true);
 
-insert into reviews VALUES (10,3,DEFAULT,4,3,3,4,5,'Me hicieron una cocina a nueva en mi casa y quedo como se los pedi.');
-insert into reviews VALUES (11,3,DEFAULT,5,5,5,5,4,'Acudieron rápido cuando los llamé y me pasaron un presupuesto accesible y lógico. Cumplieron con todo lo pactado y terminaron antes de lo que esperaba! un genio rodrigo, gracias leandro!.');
-insert into reviews VALUES (12,3,DEFAULT,1,1,1,1,1,'Le puso cable de 05 a un aire , me arruino toda la casa.');
-insert into reviews VALUES (13,3,DEFAULT,5,4,4,4,5,'Pedimos servicio urgente y fue resuelto en tiempo y forma. Muy amable el técnico federico. Muy recomendable.');
-insert into reviews VALUES (14,3,DEFAULT,5,5,5,5,5,'Los llamé de urgencia un domingo a última hora. Vinieron bastante rápido y solucionaron el problema a un precio bastante razonable para el día y hora. Los recomiendo ampliamente.');
-insert into reviews VALUES (15,3,DEFAULT,1,1,1,1,1,'Malhumorado, no cumplió con el trabajo pactado, para eso nos cobró $3800 quedó en hacerlo, y como me tenía que ir a trabajar, aprovecho para irse tras de mí dejando inconcluso el trabajo!!!!!. Nada recomendable, un estafador!!!!!.');
+insert into reviews VALUES (10,3,DEFAULT,4,3,3,4,5,'Me hicieron una cocina a nueva en mi casa y quedo como se los pedi.',true);
+insert into reviews VALUES (11,3,DEFAULT,5,5,5,5,4,'Acudieron rápido cuando los llamé y me pasaron un presupuesto accesible y lógico. Cumplieron con todo lo pactado y terminaron antes de lo que esperaba! un genio rodrigo, gracias leandro!.',true);
+insert into reviews VALUES (12,3,DEFAULT,1,1,1,1,1,'Le puso cable de 05 a un aire , me arruino toda la casa.',true);
+insert into reviews VALUES (13,3,DEFAULT,5,4,4,4,5,'Pedimos servicio urgente y fue resuelto en tiempo y forma. Muy amable el técnico federico. Muy recomendable.',true);
+insert into reviews VALUES (14,3,DEFAULT,5,5,5,5,5,'Los llamé de urgencia un domingo a última hora. Vinieron bastante rápido y solucionaron el problema a un precio bastante razonable para el día y hora. Los recomiendo ampliamente.',true);
+insert into reviews VALUES (15,3,DEFAULT,1,1,1,1,1,'Malhumorado, no cumplió con el trabajo pactado, para eso nos cobró $3800 quedó en hacerlo, y como me tenía que ir a trabajar, aprovecho para irse tras de mí dejando inconcluso el trabajo!!!!!. Nada recomendable, un estafador!!!!!.',true);
 
-insert into reviews VALUES (16,4,DEFAULT,5,5,5,5,5,'Usuario 100% recomendable, se ve que conoce su trabajo, realizo la destapacion muy rápido y dejo todo muy prolijo. Tambien reviso el calefon y lo dejo funcionando, gracias.');
-insert into reviews VALUES (1,4,DEFAULT,4,4,5,5,3,'Instalación de calefón: excelente trabajo, super puntual (llego un poco antes de lo pactado) y es el mas económico de mercadolibre. Da garantía y factura. Para recomendar.');
-insert into reviews VALUES (2,4,DEFAULT,4,5,5,5,4,'Muy buen servicio y atencion, muy recomendable y seguire contando con sus servicios. Saludos paula.');
-insert into reviews VALUES (3,4,DEFAULT,1,1,1,1,1,'Quedo con mi vieja en venir y nunca aparecio me indigna esas situaciones');
+insert into reviews VALUES (16,4,DEFAULT,5,5,5,5,5,'Usuario 100% recomendable, se ve que conoce su trabajo, realizo la destapacion muy rápido y dejo todo muy prolijo. Tambien reviso el calefon y lo dejo funcionando, gracias.',true);
+insert into reviews VALUES (1,4,DEFAULT,4,4,5,5,3,'Instalación de calefón: excelente trabajo, super puntual (llego un poco antes de lo pactado) y es el mas económico de mercadolibre. Da garantía y factura. Para recomendar.',true);
+insert into reviews VALUES (2,4,DEFAULT,4,5,5,5,4,'Muy buen servicio y atencion, muy recomendable y seguire contando con sus servicios. Saludos paula.',true);
+insert into reviews VALUES (3,4,DEFAULT,1,1,1,1,1,'Quedo con mi vieja en venir y nunca aparecio me indigna esas situaciones',true);
 
-insert into reviews VALUES (4,5,DEFAULT,5,5,5,4,3,'Cumplio con el horario y con el precio acordado, y lo mas importante confirmo el problema q tenia, el cual era negado por el "gasista"que realizo el trabajo. Tambien me dio tips para entender lo que se habia hecho mal y como solucionarlo,super recomendable.');
-insert into reviews VALUES (5,5,DEFAULT,4,5,5,4,3,'La verdad muy conforme, se toma el tiempo para explicar cada detalle del trabajo que va a realizar. Cambio de lugar la llave de paso porque metrogas me lo requeria. Hizo el tramite y en 2 dias tenia gas de nuevo. Muy cumplidor y respetuoso. Seran tenidos en cuenta para futuros trabajos. Gracias!.');
-insert into reviews VALUES (6,5,DEFAULT,5,5,5,4,3,'Hace unos meses los contrate para detectar una fuga de gas que tenia, ya habiendo probado con otros gasistas sin mucha suerte, javier lo pudo detectar con un aparato sin necesidad de andar rompiendo todo, por suerte! solucionado ese gran problema que tenia me realizaron una extencion de la red de gas para colocar una estufa la cual se coloco recientemente. Excelente trabajo, mas que conforme y agradecido a javier por lo profesional y macanudo a la hora de explicar y aconsejar sobre la solucion de dichos problemas.');
-insert into reviews VALUES (7,5,DEFAULT,5,5,5,4,3,'Me resolvio una urgencia fuera de horario, con gran calidad de trabajo y mucho don de gente. Se que seguramente lo vuelva a necesitar para unas reformas mas adelante. No dudare en llamarlo con todo gusto. Recomiendo 100%');
+insert into reviews VALUES (4,5,DEFAULT,5,5,5,4,3,'Cumplio con el horario y con el precio acordado, y lo mas importante confirmo el problema q tenia, el cual era negado por el "gasista"que realizo el trabajo. Tambien me dio tips para entender lo que se habia hecho mal y como solucionarlo,super recomendable.',true);
+insert into reviews VALUES (5,5,DEFAULT,4,5,5,4,3,'La verdad muy conforme, se toma el tiempo para explicar cada detalle del trabajo que va a realizar. Cambio de lugar la llave de paso porque metrogas me lo requeria. Hizo el tramite y en 2 dias tenia gas de nuevo. Muy cumplidor y respetuoso. Seran tenidos en cuenta para futuros trabajos. Gracias!.',true);
+insert into reviews VALUES (6,5,DEFAULT,5,5,5,4,3,'Hace unos meses los contrate para detectar una fuga de gas que tenia, ya habiendo probado con otros gasistas sin mucha suerte, javier lo pudo detectar con un aparato sin necesidad de andar rompiendo todo, por suerte! solucionado ese gran problema que tenia me realizaron una extencion de la red de gas para colocar una estufa la cual se coloco recientemente. Excelente trabajo, mas que conforme y agradecido a javier por lo profesional y macanudo a la hora de explicar y aconsejar sobre la solucion de dichos problemas.',true);
+insert into reviews VALUES (7,5,DEFAULT,5,5,5,4,3,'Me resolvio una urgencia fuera de horario, con gran calidad de trabajo y mucho don de gente. Se que seguramente lo vuelva a necesitar para unas reformas mas adelante. No dudare en llamarlo con todo gusto. Recomiendo 100%',true);
 
-insert into reviews VALUES (2,6,DEFAULT,5,5,5,5,5,'Me presupuesto por una biblioteca y una mesa de hierro y madera. Fue muy rapido y claro. En 10 dias habiles recibi el mueble en mi domicilio ya que habia pedido envio. Todo excelente y exactamente como lo pedi. Vovlere a comprar.');
-insert into reviews VALUES (3,6,DEFAULT,4,5,3,4,4,'Le encargue a matias una tabla de trabajo de 0. 68 x 2. 00 x 0. 77 x 0. 03 mts, con 2 caballetes y una cajonera (3 cajones), en madera de eucalipto y barnizado. Excelente trabajo. Gracias!!.');
-insert into reviews VALUES (8,6,DEFAULT,5,5,5,4,3,'Cambiamos la entrada de un local comercial, me aconsejo re bien, el trabajo quedo excelente! coordinamos muy rápido (y en ningún momento me pateó o plantó (antes de contactarlo llame a otros dos supuestamente recomendados que me plantaron) muy detallista y perfeccionista, sin ninguna duda lo volvería a llamar si necesito hacer alguna otra cosa. Super recomendable!!!.');
-insert into reviews VALUES (9,6,DEFAULT,5,5,5,5,5,'Reparó una puerta de una cocina que da al exterior. Super profesional, la dejo como nueva. Recomiendo contratar su servicio.');
-insert into reviews VALUES (1,6,DEFAULT,5,5,5,5,5,'Trabajo bien y rápido. Arreglo una parrilla de un quincho. Muchas gracias!!!!.');
+insert into reviews VALUES (2,6,DEFAULT,5,5,5,5,5,'Me presupuesto por una biblioteca y una mesa de hierro y madera. Fue muy rapido y claro. En 10 dias habiles recibi el mueble en mi domicilio ya que habia pedido envio. Todo excelente y exactamente como lo pedi. Vovlere a comprar.',true);
+insert into reviews VALUES (3,6,DEFAULT,4,5,3,4,4,'Le encargue a matias una tabla de trabajo de 0. 68 x 2. 00 x 0. 77 x 0. 03 mts, con 2 caballetes y una cajonera (3 cajones), en madera de eucalipto y barnizado. Excelente trabajo. Gracias!!.',true);
+insert into reviews VALUES (8,6,DEFAULT,5,5,5,4,3,'Cambiamos la entrada de un local comercial, me aconsejo re bien, el trabajo quedo excelente! coordinamos muy rápido (y en ningún momento me pateó o plantó (antes de contactarlo llame a otros dos supuestamente recomendados que me plantaron) muy detallista y perfeccionista, sin ninguna duda lo volvería a llamar si necesito hacer alguna otra cosa. Super recomendable!!!.',true);
+insert into reviews VALUES (9,6,DEFAULT,5,5,5,5,5,'Reparó una puerta de una cocina que da al exterior. Super profesional, la dejo como nueva. Recomiendo contratar su servicio.',true);
+insert into reviews VALUES (1,6,DEFAULT,5,5,5,5,5,'Trabajo bien y rápido. Arreglo una parrilla de un quincho. Muchas gracias!!!!.',true);
 
-insert into reviews VALUES (4,7,DEFAULT,5,4,4,5,4,'Excelente trabajo en muebles bajomesada en la cocina. Todo en tiempo y forma sin ningún tipo de problema');
-insert into reviews VALUES (5,7,DEFAULT,5,5,5,5,4,'un genio, super amable y cumplidor con tiempos y calidad del producto. Le pedí un diseño, me lo presupuesto (muy buen precio), me dio una fecha y concretamos. El mueble quedo impecable! 10 puntos! tiene con cajones deslizantes y buena calidad de los materiales. En principio era un trabajo simple pero como había una falsa escuadra en el edificio, no me hizo ningún problema, se quedo sin vacilar hasta terminarlo. Quedo buenisimo! sin lugar a dudas lo voy a recomendar. Gracias');
-insert into reviews VALUES (6,7,DEFAULT,5,5,5,5,4,'Excelente atencion y trabajo. Estuvo atento a cada detalle. La mesa de livng tiene una terminacion espectacular. Recomiendo sin dudas a marcelo. Muchas gracias!!. ');
-insert into reviews VALUES (7,7,DEFAULT,4,4,4,4,4,'realizó tal cual le pedí los muebles para mi cocina. Responsable, prolijo, un señor! muy recomendable! muchas gracias');
+insert into reviews VALUES (4,7,DEFAULT,5,4,4,5,4,'Excelente trabajo en muebles bajomesada en la cocina. Todo en tiempo y forma sin ningún tipo de problema',true);
+insert into reviews VALUES (5,7,DEFAULT,5,5,5,5,4,'un genio, super amable y cumplidor con tiempos y calidad del producto. Le pedí un diseño, me lo presupuesto (muy buen precio), me dio una fecha y concretamos. El mueble quedo impecable! 10 puntos! tiene con cajones deslizantes y buena calidad de los materiales. En principio era un trabajo simple pero como había una falsa escuadra en el edificio, no me hizo ningún problema, se quedo sin vacilar hasta terminarlo. Quedo buenisimo! sin lugar a dudas lo voy a recomendar. Gracias',true);
+insert into reviews VALUES (6,7,DEFAULT,5,5,5,5,4,'Excelente atencion y trabajo. Estuvo atento a cada detalle. La mesa de livng tiene una terminacion espectacular. Recomiendo sin dudas a marcelo. Muchas gracias!!. ',true);
+insert into reviews VALUES (7,7,DEFAULT,4,4,4,4,4,'realizó tal cual le pedí los muebles para mi cocina. Responsable, prolijo, un señor! muy recomendable! muchas gracias',true);
 
-insert into reviews VALUES (1,8,DEFAULT,5,5,5,4,3,'Todo 10 puntos. Muy amables y educados. Limpiaron el tanque de agua y repararon el calefon. Precio acorde y accesible. Muy agradecido. Serán recomendados.');
-insert into reviews VALUES (2,8,DEFAULT,2,1,3,4,5,'Me vinieron a destapar un inodoro, estuvo 15 minutos y me cobro $3. 240. - una locura total. Su trabajo es totalmente incomprobable. Me pareció una estafa. Tengo la factura por si alguien la quiere.');
-insert into reviews VALUES (3,8,DEFAULT,4,5,5,4,3,'Despues de 3 supuestos "plomeros" vinieran a ver el trabajo, llame a javier para ver que problema tenia la bomba presurizadora, no me vino con ningun cuento como los otros, me explico paso a paso el funcionamiento y que habia que hacer para repararla. Acepte el presupuesto y me la reparo en el dia, tenia los repuestos en el vehiculo, quede re conforme porque me lo soluciono rapido y barato, desarmo toda la bomba y me salio mucho mas barato que cambiarla y comprar otra. Eternamente agradecido. Saludos. Jose de caballito. Saludos!.');
+insert into reviews VALUES (1,8,DEFAULT,5,5,5,4,3,'Todo 10 puntos. Muy amables y educados. Limpiaron el tanque de agua y repararon el calefon. Precio acorde y accesible. Muy agradecido. Serán recomendados.',true);
+insert into reviews VALUES (2,8,DEFAULT,2,1,3,4,5,'Me vinieron a destapar un inodoro, estuvo 15 minutos y me cobro $3. 240. - una locura total. Su trabajo es totalmente incomprobable. Me pareció una estafa. Tengo la factura por si alguien la quiere.',true);
+insert into reviews VALUES (3,8,DEFAULT,4,5,5,4,3,'Despues de 3 supuestos "plomeros" vinieran a ver el trabajo, llame a javier para ver que problema tenia la bomba presurizadora, no me vino con ningun cuento como los otros, me explico paso a paso el funcionamiento y que habia que hacer para repararla. Acepte el presupuesto y me la reparo en el dia, tenia los repuestos en el vehiculo, quede re conforme porque me lo soluciono rapido y barato, desarmo toda la bomba y me salio mucho mas barato que cambiarla y comprar otra. Eternamente agradecido. Saludos. Jose de caballito. Saludos!.',true);
 
-insert into reviews VALUES (1,9,DEFAULT,5,5,5,4,3,'Realizo la ronovacion del cableado de toda la casa, colocando el tablero nuevo con varios circuitos. Estamos muy conformes con el trabajo y con la predisposición ante todos los pedidos. Saludos y muchas gracias.');
-insert into reviews VALUES (2,9,DEFAULT,2,1,3,4,5,'Lo llamé para que venga a revisar unas cosas, el valor de la visita me pareció un exceso. $700. En parte el error fue mío por no preguntar de antemano el costo de la visita, pero nunca me imaginé que saldría ese valor. Aclaro que en la visita estuvo unos 40 min pero para diagnosticar en ningún momento se reparó nada y no se trataba de una emergencia ni nada. Estaba con luz y fue una visita programada. A su favor es amable en el trato y llegó puntual, pero desistí de hacer el trabajo con él porque ese costo de visita me hizo dudar si lo que me presupuestó también estaba inflado. Una lástima porque por el resto de las opiniones parece confiable, pero por lo menos tengan presente consultar cuánto cobra la vista.');
-insert into reviews VALUES (3,9,DEFAULT,4,5,5,4,3,'Lo contacté el mismo día que necesitaba revise un problema en un departamento que debíamos entregar al día siguiente. Fue tarde a revisar, determino rápidamente el problema y nos dijo que debíamos comprar para solucionarlo. Volvió al día siguiente, acoplándose al horario nuestro y realizó el trabajo prolija y rápidamente. El pago de la mano de obra fue muy razonable. Excelente servicio, recomendable! muchas gracias!!.');
-insert into reviews VALUES (4,9,DEFAULT,1,2,3,4,2,'No lo recomiendo. A favor de el, que llego a horario. Muy desprolijo, dejo todo sucio, además me dejo sin luz en el dormitorio y se fue. Me hizo comprar material eléctrico que no uso - debía volver para terminar, pero la experiencia me llevo a contratar a otro para que terminara el trabajo.');
-insert into reviews VALUES (5,9,DEFAULT,4,4,4,4,3,'Lo citamos por un problema con las luces del fondo y la luz del lavadero. Solucionó todo en el momento y además hizo un par de arreglos en el interior de la casa, el precio fue justo y lo tenemos agendado como un profesional de confianza para llamar cada vez que sea necesario.');
-insert into reviews VALUES (6,9,DEFAULT,5,5,5,5,5,'Todo perfecto! tenia un problema urgente de cableado. Lo llame y paso en el dia a verlo. Al dia siguiente ya estaba trabajando en el tema. Termino el trabajo en el dia, dandome una rapida solucion. Super recomendable! se pudo acomodar a mis horarios. ');
-insert into reviews VALUES (7,9,DEFAULT,1,1,1,1,1,'Quede el dia anterior para que pase y presupueste un trabajo,me dijo que podia venir. Al dia siguiente lo espere y no solo no vino sino que tampoco aviso. Falte al laburo en vano. No lo recomiendo. Poco profesional y poco etico.');
+insert into reviews VALUES (1,9,DEFAULT,5,5,5,4,3,'Realizo la ronovacion del cableado de toda la casa, colocando el tablero nuevo con varios circuitos. Estamos muy conformes con el trabajo y con la predisposición ante todos los pedidos. Saludos y muchas gracias.',true);
+insert into reviews VALUES (2,9,DEFAULT,2,1,3,4,5,'Lo llamé para que venga a revisar unas cosas, el valor de la visita me pareció un exceso. $700. En parte el error fue mío por no preguntar de antemano el costo de la visita, pero nunca me imaginé que saldría ese valor. Aclaro que en la visita estuvo unos 40 min pero para diagnosticar en ningún momento se reparó nada y no se trataba de una emergencia ni nada. Estaba con luz y fue una visita programada. A su favor es amable en el trato y llegó puntual, pero desistí de hacer el trabajo con él porque ese costo de visita me hizo dudar si lo que me presupuestó también estaba inflado. Una lástima porque por el resto de las opiniones parece confiable, pero por lo menos tengan presente consultar cuánto cobra la vista.',true);
+insert into reviews VALUES (3,9,DEFAULT,4,5,5,4,3,'Lo contacté el mismo día que necesitaba revise un problema en un departamento que debíamos entregar al día siguiente. Fue tarde a revisar, determino rápidamente el problema y nos dijo que debíamos comprar para solucionarlo. Volvió al día siguiente, acoplándose al horario nuestro y realizó el trabajo prolija y rápidamente. El pago de la mano de obra fue muy razonable. Excelente servicio, recomendable! muchas gracias!!.',true);
+insert into reviews VALUES (4,9,DEFAULT,1,2,3,4,2,'No lo recomiendo. A favor de el, que llego a horario. Muy desprolijo, dejo todo sucio, además me dejo sin luz en el dormitorio y se fue. Me hizo comprar material eléctrico que no uso - debía volver para terminar, pero la experiencia me llevo a contratar a otro para que terminara el trabajo.',true);
+insert into reviews VALUES (5,9,DEFAULT,4,4,4,4,3,'Lo citamos por un problema con las luces del fondo y la luz del lavadero. Solucionó todo en el momento y además hizo un par de arreglos en el interior de la casa, el precio fue justo y lo tenemos agendado como un profesional de confianza para llamar cada vez que sea necesario.',true);
+insert into reviews VALUES (6,9,DEFAULT,5,5,5,5,5,'Todo perfecto! tenia un problema urgente de cableado. Lo llame y paso en el dia a verlo. Al dia siguiente ya estaba trabajando en el tema. Termino el trabajo en el dia, dandome una rapida solucion. Super recomendable! se pudo acomodar a mis horarios. ',true);
+insert into reviews VALUES (7,9,DEFAULT,1,1,1,1,1,'Quede el dia anterior para que pase y presupueste un trabajo,me dijo que podia venir. Al dia siguiente lo espere y no solo no vino sino que tampoco aviso. Falte al laburo en vano. No lo recomiendo. Poco profesional y poco etico.',true);
 
 -- insert into reviews VALUES (4,10,DEFAULT,);
 -- insert into reviews VALUES (5,10,DEFAULT,);
@@ -522,10 +527,10 @@ insert into reviews VALUES (7,9,DEFAULT,1,1,1,1,1,'Quede el dia anterior para qu
 -- insert into reviews VALUES (15,14,DEFAULT,);
 -- insert into reviews VALUES (16,14,DEFAULT,);
 
-insert into reviews VALUES (4,15,DEFAULT,4,4,4,5,5,'Excelente trabajo. Muy prolijo. Puntualidad y responsabilidad. Cumplió con los tiempos. Muy recomendable!.');
-insert into reviews VALUES (5,15,DEFAULT,5,5,5,5,5,'Muy buen trabajo, cumplió con tiempos y calidad. Muy prolijas terminaciones. Muchas gracias. ');
-insert into reviews VALUES (6,15,DEFAULT,4,4,4,5,5,'Excelente atención y mis muebles quedaron muy bien. Cumplió con los tiempos.');
-insert into reviews VALUES (7,15,DEFAULT,4,4,4,4,4,'Muy buen trabajo y terminaciones. Puntual y responsable. Súper recomendable.');
+insert into reviews VALUES (4,15,DEFAULT,4,4,4,5,5,'Excelente trabajo. Muy prolijo. Puntualidad y responsabilidad. Cumplió con los tiempos. Muy recomendable!.',true);
+insert into reviews VALUES (5,15,DEFAULT,5,5,5,5,5,'Muy buen trabajo, cumplió con tiempos y calidad. Muy prolijas terminaciones. Muchas gracias. ',true);
+insert into reviews VALUES (6,15,DEFAULT,4,4,4,5,5,'Excelente atención y mis muebles quedaron muy bien. Cumplió con los tiempos.',true);
+insert into reviews VALUES (7,15,DEFAULT,4,4,4,4,4,'Muy buen trabajo y terminaciones. Puntual y responsable. Súper recomendable.',true);
 
 insert into messages VALUES (2,6,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
 insert into messages VALUES (6,2,'Hola Florencia si que necesitas?',DEFAULT );
@@ -691,4 +696,8 @@ insert into workingzones VALUES (2,16);
 insert into workingzones VALUES (3,16);
 insert into workingzones VALUES (4,16);
 
-
+SELECT setval('users_userid_seq', (SELECT MAX(userid) from users));
+SELECT setval('serviceTypes_serviceTypeId_seq', (SELECT MAX(serviceTypeId) from serviceTypes));
+SELECT setval('aptitudes_aptitudeId_seq', (SELECT MAX(aptitudeId) from aptitudes));
+SELECT setval('appointments_appointmentId_seq', (SELECT MAX(appointmentId) from appointments));
+SELECT setval('neighborhoods_ngid_seq', (SELECT MAX(ngid) from neighborhoods));

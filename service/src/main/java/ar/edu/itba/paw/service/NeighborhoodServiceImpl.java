@@ -15,8 +15,8 @@ public class NeighborhoodServiceImpl implements NeighborhoodService {
     NeighborhoodDao neighborhoodDao;
 
     @Override
-    public void insertNeighborhood(int ngId) {
-        neighborhoodDao.insertNeighborhood(ngId);
+    public int insertNeighborhood(String name) {
+        return neighborhoodDao.insertNeighborhood(name);
     }
 
     @Override

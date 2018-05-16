@@ -14,6 +14,8 @@ public interface SProviderDao {
 
     Optional<SProvider> getServiceProviderWithUserId(int userId);
 
+    List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId);
+
     boolean updateDescriptionOfServiceProvider(int userId, String description);
 
 }

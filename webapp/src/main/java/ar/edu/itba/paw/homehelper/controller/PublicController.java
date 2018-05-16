@@ -24,7 +24,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -118,21 +123,27 @@ public class PublicController {
         final ModelAndView mav = new ModelAndView("profileSearch");
 
         /* Lanzar excepcion cuando serviceTypeId es -1 o cuando cityId es -1 */
+        System.out.println("Starting methods");
 
         final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId);
+        System.out.println("Finished sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId) method");
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+        System.out.println("Finished sProviderService.getServiceProviderId(getUserId(loggedInUser)) method");
 
         mav.addObject("list",list);
         mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
+        System.out.println("Finished neighborhoodService.getAllNeighborhoods() method");
 
         mav.addObject("serviceTypes",sTypeService.getServiceTypes());
+        System.out.println("Finished sTypeService.getServiceTypes() method");
+
 
         /* Current params showing */
         mav.addObject("serviceTypeId", serviceTypeId);
         mav.addObject("cityId", cityId);
-
+       // System.out.println("Finished sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId) method");
 
         return mav;
     }
@@ -166,7 +177,7 @@ public class PublicController {
 
 
     @RequestMapping(value = "/profile/sendAppointment", method = RequestMethod.POST)
-    public ModelAndView sendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
+    public ModelAndView sendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("appointmentForm") final AppointmentForm form, final BindingResult errors, final RedirectAttributes redrAttr, final HttpServletResponse response) {
         if(errors.hasErrors()) {
             /* Back to form */
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.appointmentForm", errors);
@@ -179,9 +190,11 @@ public class PublicController {
 
         redrAttr.addFlashAttribute("appointmentForm", form);
 
-        if(loggedInUser == null) {
+        if(loggedInUser == null || !loggedInUser.isVerified()) {
+            saveFormAsCookies(form, response);
+
             String redirect = "redirect:/login";
-            LOGGER.info("user {} tried to make an appointment but was not logged in.",getUserString(loggedInUser));
+            LOGGER.info("user {} tried to make an appointment but was not logged in.", getUserString(loggedInUser));
             return new ModelAndView(redirect);
         }
 
@@ -193,16 +206,6 @@ public class PublicController {
         final ModelAndView mav = new ModelAndView("signup");
 
         mav.addObject("user", loggedInUser);
-
-        /*if (signUpForm != null && signUpForm.getProfilePicture() != null) {
-            try {
-                mav.addObject("profilePicture", signUpForm.getProfilePicture().getBytes());
-            } catch (IOException e) {
-                mav.addObject("profilePicture", null);
-            }
-        } else {
-            mav.addObject("profilePicture", null);
-        }*/
 
         return mav;
     }
@@ -241,9 +244,11 @@ public class PublicController {
         mailService.sendConfirmationEmail( user.getId(),key);
 
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        Authentication auth = loginUser(user);
+
+        if(isUnverifiedUser(auth)) {
+            return new ModelAndView("redirect:/unverified/user");
+        }
 
         return new ModelAndView("redirect:/");
     }
@@ -252,12 +257,17 @@ public class PublicController {
     public ModelAndView verifyAccount(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("key") final String key) {
         final ModelAndView mav = new ModelAndView("userVerify");
 
-
         User user = mailService.verifyUserKey(key);
 
         LOGGER.debug("Tried to verify account");
         LOGGER.debug("MailService verifyUserKey was:{}",getUserString(user));
+
         mav.addObject("user",user);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId( user )));
+
+        if(user != null) {
+            loginUser(user);
+        }
 
         return mav;
     }
@@ -275,5 +285,36 @@ public class PublicController {
         }else{
             return user.getUsername()+"["+user.getId()+"]";
         }
+    }
+
+    private void saveFormAsCookies(AppointmentForm form, HttpServletResponse response) {
+        Cookie cookie = new Cookie("ApForm-ProviderId", String.valueOf(form.getProviderId()));
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        cookie = new Cookie("ApForm-ServiceType", form.getServiceType() );
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        cookie = new Cookie("ApForm-Date", form.getDate() );
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        cookie = new Cookie("ApForm-Description", form.getDescription() );
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+    }
+
+    private boolean isUnverifiedUser(Authentication authentication) {
+        return authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_UNVERIFIED_USER"));
+    }
+
+    private Authentication loginUser(User user) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        return auth;
     }
 }

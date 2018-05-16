@@ -32,7 +32,7 @@
 <div class="main_container">
 
     <!-- Fixed navbar -->
-    <jsp:include page="clientMenu.jsp"/>
+    <jsp:include page="../clientMenu.jsp"/>
 
     <!-- main content -->
     <div class="main-content">
@@ -41,28 +41,16 @@
                 <div class="panel-body">
 
 
-                        <div class="row">
-                            <div class="col-xs-12 result">
-                                <c:choose>
-                                    <c:when test="${user!= null}">
-                                        <h1><spring:message code="verify.success.title"/></h1>
-                                        <p> <spring:message code="verify.success.detail" arguments="${user.firstname}" /></p>
+                    <div class="row">
+                        <div class="col-xs-12 result">
+                            <h1><spring:message code="unverified.title"/></h1>
+                            <p> <spring:message code="unverified.detail" arguments="${user.firstname}, ${user.email}" /></p>
 
-                                        <div class="bgImg">
-                                            <div class="img successImg"></div>
-                                        </div>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <h1><spring:message code="verify.fail.title"/></h1>
-                                        <p><spring:message code="verify.fail.detail"/></p>
-                                        <div class="bgImg ">
-                                            <div class="img failedImg"></div>
-                                        </div>
-                                    </c:otherwise>
-                                </c:choose>
-                                <a href="<c:url value="/"/>" class="btn btn-success"><spring:message code="error.backBtnMsg" /></a>
+                            <div class="bgImg">
+                                <div class="img failedImg"></div>
                             </div>
                         </div>
+                    </div>
 
                 </div>
             </div>

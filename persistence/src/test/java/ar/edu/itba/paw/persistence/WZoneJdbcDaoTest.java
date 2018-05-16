@@ -45,27 +45,20 @@ public class WZoneJdbcDaoTest{
     @Test
     public void insertWorkingZoneOfProvider() {
 
-        assertTrue(wZoneDao.insertWorkingZoneOfProvider(4,1));
+        assertTrue(wZoneDao.insertWorkingZoneOfProvider(Const.USER4_ID,Const.VALID_NG));
 
-        assertFalse(wZoneDao.insertWorkingZoneOfProvider(100,1));
+        assertFalse(wZoneDao.insertWorkingZoneOfProvider(Const.INVALIDAD_USER_ID,Const.INVALID_NG));
 
-        assertFalse(wZoneDao.insertWorkingZoneOfProvider(1,100));
+        assertFalse(wZoneDao.insertWorkingZoneOfProvider(Const.USER_ID,Const.INVALID_NG));
     }
     @Test
     public void getWorkingZonesOfProvider() {
 
-        List<Neighborhood> ans;
+        assertEquals(0,wZoneDao.getWorkingZonesOfProvider(Const.INVALID_SERVICE_PROVIDER_ID).size());
 
-        ans = wZoneDao.getWorkingZonesOfProvider(4);
+        assertEquals(3, wZoneDao.getWorkingZonesOfProvider(Const.SPROVIDER3_ID).size());
 
-        assertEquals(null,ans);
+        assertEquals(0, wZoneDao.getWorkingZonesOfProvider(Const.INVALID_SERVICE_PROVIDER_ID).size());
 
-        ans = wZoneDao.getWorkingZonesOfProvider(3);
-
-        assertEquals(3,ans.size());
-
-        ans = wZoneDao.getWorkingZonesOfProvider(100);
-
-        assertEquals(null,ans);
     }
 }

@@ -21,6 +21,6 @@ public interface AppointmentDao {
 
     boolean updateDateOfAppointment(int appointmentId, Timestamp date);
 
-
+    boolean removeAppointment(int appointmentId);
 }
 

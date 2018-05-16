@@ -52,9 +52,9 @@ public class SProviderJdbcDaoTest extends AbstractTransactionalJUnit4SpringConte
     }
 
     @Test
-    public void testCreate() {
+    public void createTest() {
         int count = JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "serviceProviders");
-        final Optional<SProvider> sProvider = sProviderDao.create(Const.USER_ID,"Hola que tal");
+        final Optional<SProvider> sProvider = sProviderDao.create(Const.USER_ID,Const.VALID_DESCRIPTION);
         assertNotNull(sProvider);
         assertTrue(sProvider.isPresent());
         assertEquals(Const.USER_ID, sProvider.get().getId());
@@ -62,8 +62,7 @@ public class SProviderJdbcDaoTest extends AbstractTransactionalJUnit4SpringConte
     }
 
     @Test
-    public void testGetServiceProviders() {
-
+    public void getServiceProvidersTest() {
 
         final List<SProvider> sProviders = sProviderDao.getServiceProviders();
         assertNotNull(sProviders);
@@ -74,7 +73,7 @@ public class SProviderJdbcDaoTest extends AbstractTransactionalJUnit4SpringConte
     }
 
     @Test
-    public void testGetServiceProviderWithUserId() {
+    public void getServiceProviderWithUserIdTest() {
 
         final Optional<SProvider> sProvider = sProviderDao.getServiceProviderWithUserId(Const.SPROVIDER_ID);
         assertNotNull(sProvider);
@@ -82,7 +81,19 @@ public class SProviderJdbcDaoTest extends AbstractTransactionalJUnit4SpringConte
         assertEquals(Const.SPROVIDER_ID, sProvider.get().getId());
     }
 
+    @Test
+    public void updateDescriptionOfServiceProvider(){
+        int count = JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "serviceProviders");
 
+        assertTrue(sProviderDao.updateDescriptionOfServiceProvider(Const.SPROVIDER_ID,Const.VALID_DESCRIPTION));
+
+        assertFalse(sProviderDao.updateDescriptionOfServiceProvider(Const.INVALIDAD_USER_ID,Const.VALID_DESCRIPTION));
+
+        assertFalse(sProviderDao.updateDescriptionOfServiceProvider(Const.SPROVIDER_ID,Const.INVALID_DESCRIPTION));
+
+        assertEquals(count,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "serviceProviders"));
+
+    }
 
     public boolean containsSpId(List<SProvider> list, int id){
         for (SProvider s : list){

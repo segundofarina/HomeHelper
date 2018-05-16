@@ -80,10 +80,10 @@
                                             <th>
                                                 <img class="profileImage" src="<c:url value="/resources/img/img.jpg" />" alt="Profile Image" />
                                             </th>
-                                            <td>Mark</td>
-                                            <td>May 20, 2018</td>
+                                            <td><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></td>
+                                            <td><c:out value="${review.date}" /></td>
                                             <td>
-                                                <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>"/>
+                                                <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
                                             </td>
                                         </tr>
                                     </c:forEach>

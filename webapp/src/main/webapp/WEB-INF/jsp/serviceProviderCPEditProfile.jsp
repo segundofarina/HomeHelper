@@ -57,7 +57,7 @@
                             </div>
                             <div class="x_content">
                                 <c:url value="/sprovider/editProfile/editGeneralInfo" var="postUrl" />
-                                <form:form modelAttribute="profileGeneralInfo" method="post" action="${postUrl}">
+                                <form:form modelAttribute="profileGeneralInfo" method="post" action="${postUrl}" enctype="multipart/form-data">
                                     <form:input path="elemId" type="hidden" value="0" />
                                     <c:choose>
                                         <c:when test="${errorElemId == 0}">

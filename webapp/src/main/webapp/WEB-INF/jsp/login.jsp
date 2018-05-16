@@ -21,12 +21,19 @@
 <div class="login-clean">
     <c:url value="/login" var="loginUrl" />
     <form method="post" action="<c:out value="${loginUrl}"/>" enctype="application/x-www-form-urlencoded">
-        <div class="illustration">
-            <img src="<c:url value="/resources/img/HHLogo.png"/>" alt="Home Helper Logo" />
-        </div>
-        <h2>Home-Helper</h2>
+        <a href="<c:url value="/" />" class="title">
+            <div class="illustration">
+                <img src="<c:url value="/resources/img/HHLogo.png"/>" alt="Home Helper Logo" />
+            </div>
+            <h2>Home-Helper</h2>
+        </a>
+        <c:if test="${error == true}">
+            <div class="form-error">
+                <p><spring:message code="login.validation" /></p>
+            </div>
+        </c:if>
         <div class="form-group">
-            <input class="form-control" type="text" name="username" placeholder="<spring:message code="general.email"/>"/>
+            <input class="form-control" type="text" name="username" placeholder="<spring:message code="general.username"/>"/>
         </div>
         <div class="form-group">
             <input class="form-control" type="password" name="password" placeholder="<spring:message code="general.password"/>"/>
@@ -39,7 +46,7 @@
         <div class="form-group">
             <button class="btn btn-primary btn-block" type="submit"><spring:message code="general.login"/></button>
         </div>
-        <div class="forgot"><spring:message code="user.new-user"/>?<a href="<c:url value="/signup"/>"><spring:message code="general.signup"/></a></div>
+        <div class="forgot"><spring:message code="user.new-user"/>? <a href="<c:url value="/signup"/>" class="register"><spring:message code="general.signup"/></a></div>
     </form>
 </div>
 <!-- jQuery -->

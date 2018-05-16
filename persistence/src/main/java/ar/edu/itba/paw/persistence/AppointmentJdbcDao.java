@@ -71,6 +71,10 @@ public class AppointmentJdbcDao implements AppointmentDao {
 
     @Override
     public List<Appointment> getAppointmentsByProviderId(int providerId) {
+        if(!sProviderDao.getServiceProviderWithUserId(providerId).isPresent()){
+            return null;
+        }
+
         List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM appointments WHERE providerId =? ", ROW_MAPPER, providerId);
 
         List<Appointment> appointments = new ArrayList<>();
@@ -84,6 +88,10 @@ public class AppointmentJdbcDao implements AppointmentDao {
 
     @Override
     public List<Appointment> getAppointmentsByUserId(int userId) {
+        if(!userDao.findById(userId).isPresent()){
+            return null;
+        }
+
         List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM appointments WHERE userId =? ", ROW_MAPPER, userId);
 
         List<Appointment> appointments = new ArrayList<>();
@@ -110,6 +118,11 @@ public class AppointmentJdbcDao implements AppointmentDao {
 
     @Override
     public Appointment addAppointment(int clientId, int providerId, int serviceTypeId, Timestamp date, String address, String jobDescripcion){
+
+        if(date==null || jobDescripcion==null || address==null){
+            return null;
+        }
+
         if (!userDao.findById(clientId).isPresent() || !sProviderDao.getServiceProviderWithUserId(providerId).isPresent() || !serviceTypeDao.getServiceTypeWithId(serviceTypeId).isPresent()) {
            return null;
         }
@@ -150,5 +163,10 @@ public class AppointmentJdbcDao implements AppointmentDao {
         }
         jdbcTemplate.update("UPDATE appointments SET appointmentDate =? WHERE appointmentId =?", date, appointmentId);
         return true;
+    }
+
+    @Override
+    public boolean removeAppointment(int appointmentId) {
+        return jdbcTemplate.update("DELETE FROM appointments WHERE appointmentId = ?", appointmentId) != 0;
     }
 }

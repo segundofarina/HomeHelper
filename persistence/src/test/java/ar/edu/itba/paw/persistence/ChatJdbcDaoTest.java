@@ -39,23 +39,10 @@ public class ChatJdbcDaoTest {
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
-        //JdbcTestUtils.deleteFromTables(jdbcTemplate, "posts","serviceProviders","serviceTypes","users");
-
     }
-    @Test
-    public void writeMessageTest(){
-        int count =JdbcTestUtils.countRowsInTable(jdbcTemplate,"messages");
-        final String message = "Hello";
-        Optional<Message> response =chatDao.writeMessage(Const.USER_ID,Const.SPROVIDER_ID,message);
-        assertTrue(response.isPresent());
 
-        assertEquals(Const.USER_ID,response.get().getFrom());
-        assertEquals(Const.SPROVIDER_ID,response.get().getTo());
-        assertEquals(message,response.get().getMessage());
-        assertEquals(count+1,JdbcTestUtils.countRowsInTable(jdbcTemplate,"messages"));
-    }
     @Test
-    public void  testGetChatBetween(){
+    public void  GetChatBetweenTest(){
         Optional<Chat> response = chatDao.getChatBetween(Const.USER2_ID,Const.SPROVIDER2_ID);
         assertTrue(response.isPresent());
         Chat chat = response.get();
@@ -68,11 +55,10 @@ public class ChatJdbcDaoTest {
 
 
     @Test
-    public void  testGetChatsOf(){
+    public void  GetChatsOfTest(){
         List<Chat> list = chatDao.getChatsOf(Const.USER2_ID);
 
         assertEquals(2,list.size());
-
 
         chatDao.writeMessage(6,Const.SERVICETYPE3_ID,"Hola");
         chatDao.writeMessage(6,Const.SERVICETYPE3_ID,"Hola");
@@ -82,10 +68,19 @@ public class ChatJdbcDaoTest {
         list = chatDao.getChatsOf(6);
         assertEquals(1,list.size());
 
-        
+    }
 
+    @Test
+    public void writeMessageTest(){
+        int count =JdbcTestUtils.countRowsInTable(jdbcTemplate,"messages");
+        final String message = "Hello";
+        Optional<Message> response =chatDao.writeMessage(Const.USER_ID,Const.SPROVIDER_ID,message);
+        assertTrue(response.isPresent());
 
-
+        assertEquals(Const.USER_ID,response.get().getFrom());
+        assertEquals(Const.SPROVIDER_ID,response.get().getTo());
+        assertEquals(message,response.get().getMessage());
+        assertEquals(count+1,JdbcTestUtils.countRowsInTable(jdbcTemplate,"messages"));
     }
 
 

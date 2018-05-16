@@ -32,4 +32,6 @@ public interface AppointmentService {
 
     boolean updateDateOfAppointment(int appointmentId, String date);
 
+    boolean rejectAppointment(int appointmentId);
+
 }

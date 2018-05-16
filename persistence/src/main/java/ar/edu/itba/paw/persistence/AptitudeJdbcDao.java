@@ -72,6 +72,10 @@ public class AptitudeJdbcDao implements AptitudeDao {
     public List<Aptitude> getAptitudesOfUser(int id) {
         List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM aptitudes WHERE userId =? ", ROW_MAPPER, id);
 
+        if(dbRowsList.isEmpty()){
+            return null;
+        }
+
         List<Aptitude> aptitudes = new ArrayList<Aptitude>();
 
 
@@ -84,6 +88,9 @@ public class AptitudeJdbcDao implements AptitudeDao {
 
     @Override
     public boolean insertAptitude(int sProviderId, int serviceId, String description) {
+        if(description==null){
+            return false;
+        }
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("userId", sProviderId);
         args.put("serviceTypeId", serviceId);
@@ -125,12 +132,8 @@ public class AptitudeJdbcDao implements AptitudeDao {
 
     @Override
     public boolean removeAptitude(int aptId) {
-        try {
-            jdbcTemplate.update("DELETE FROM aptitudes WHERE aptitudeId = ?", ROW_MAPPER, aptId);
-        }catch (Exception e){
-            return false;
-        }
-        return true;
+        reviewDao.removeReviewsOfAptitude(aptId);
+        return jdbcTemplate.update("DELETE FROM aptitudes WHERE aptitudeId = ?", aptId) != 0;
     }
 
     @Override
@@ -144,6 +147,10 @@ public class AptitudeJdbcDao implements AptitudeDao {
 
     @Override
     public boolean updateDescriptionOfAptitude(int aptId, String description) {
+
+        if(description == null){
+            return false;
+        }
         try {
             jdbcTemplate.update("UPDATE aptitudes SET description = ? WHERE aptitudeId = ?", description, aptId);
         } catch (Exception e) {

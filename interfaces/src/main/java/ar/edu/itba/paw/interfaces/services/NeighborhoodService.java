@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface NeighborhoodService {
 
-    void insertNeighborhood(int ngId);
+    int insertNeighborhood(String name);
 
     List<Neighborhood> getAllNeighborhoods();
 }

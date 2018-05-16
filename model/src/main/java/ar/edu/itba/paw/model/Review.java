@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.model;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,8 +10,9 @@ public class Review {
     private HashMap<String,Integer> calification;
     private String comment;
     private Timestamp date;
+    private boolean clientReview=false;
 
-    public Review(int quality, int cleanness, int price, int punctuality, int treatment , String comment, Timestamp date, User user) {
+    public Review(int quality, int cleanness, int price, int punctuality, int treatment, String comment, Timestamp date, User user, boolean clientReview) {
 
         calification = new HashMap<>();
 
@@ -23,6 +25,7 @@ public class Review {
         this.comment = comment;
         this.date = date;
         this.user = user;
+        this.clientReview=clientReview;
     }
 
     public int getQualityCalification(){
@@ -59,11 +62,15 @@ public class Review {
         return comment;
     }
 
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
     public User getUser() {
         return user;
+    }
+
+    public boolean isClientReview() {
+        return clientReview;
     }
 }

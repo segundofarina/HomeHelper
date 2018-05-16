@@ -1,18 +1,21 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.daos.AppointmentDao;
+import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
 import ar.edu.itba.paw.model.Status;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
+import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -26,76 +29,86 @@ public class AppointmentJdbcDaoTest {
     @Autowired
     AppointmentDao appointmentDao;
 
+    @Autowired
+    private DataSource ds;
+
+
+    private JdbcTemplate jdbcTemplate;
     @Before
     public void setUp() {
-
+        jdbcTemplate = new JdbcTemplate(ds);
     }
     @Test
     public void getAppointmentsByProviderIdTest(){
 
-        assertEquals(1,appointmentDao.getAppointmentsByProviderId(3).size());
+        assertEquals(1,appointmentDao.getAppointmentsByProviderId(Const.SERVICETYPE3_ID).size());
 
-        assertEquals(0,appointmentDao.getAppointmentsByProviderId(4).size());
+        assertEquals(0,appointmentDao.getAppointmentsByProviderId(Const.SPROVIDER_ID).size());
+
+        assertEquals(null,appointmentDao.getAppointmentsByProviderId(Const.INVALID_SERVICE_ID));
 
     }
     @Test
     public void getAppointmentsByUserIdTest(){
 
-        assertEquals(0,appointmentDao.getAppointmentsByUserId(2).size());
+        assertEquals(null,appointmentDao.getAppointmentsByUserId(Const.INVALIDAD_USER_ID));
 
-        assertEquals(0,appointmentDao.getAppointmentsByUserId(3).size());
+        assertEquals(0,appointmentDao.getAppointmentsByUserId(Const.USER2_ID).size());
     }
 
     @Test
     public void getAppointmentTest(){
 
-        appointmentDao.getAppointment(2);
+        appointmentDao.getAppointment(Const.VALID_APPOINTMENT_ID2);
 
-        appointmentDao.getAppointment(40);
-    }
-    @Test
-    public void getAppointmentIdTest(){
-
-//        assertEquals(Optional.empty(),appointmentDao.addAppointment(2,3,Timestamp.from(Instant.now()),"cuba 2546 6p").getAppointmentId());
-//
-//        assertEquals(Optional.empty(),appointmentDao.getAppointmentId(1,30,Timestamp.from(Instant.now()),"cuba 2546 6p"));
-//
-//        assertEquals(Optional.empty(),appointmentDao.getAppointmentId(1,3,Timestamp.from(Instant.now()),"cuba 2546 6p"));
-//
-//        assertEquals(Optional.empty(),appointmentDao.getAppointmentId(1,3,Timestamp.from(Instant.now()),"cuba 2546 12p"));
+        appointmentDao.getAppointment(Const.INVALID_APPOINTMENT_ID);
     }
     @Test
     public void addAppointmentTest(){
 
-        //assertTrue(null != appointmentDao.addAppointment(1,4,3,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
+        assertEquals(null,appointmentDao.addAppointment(Const.USER_ID,Const.INVALID_SERVICE_PROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION));
 
-        assertEquals(null,appointmentDao.addAppointment(1,4,40,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
+        assertEquals(null,appointmentDao.addAppointment(Const.INVALIDAD_USER_ID,Const.SPROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION));
 
-        assertEquals(null,appointmentDao.addAppointment(1,1,3,Timestamp.from(Instant.now()),"aguilar 2547 12A","Segundo, soy segundo no me rehaces para pared??"));
+        assertEquals(null,appointmentDao.addAppointment(Const.USER_ID,Const.INVALID_SERVICE_PROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION));
 
-        //assertTrue(null !=appointmentDao.addAppointment(1,4,1,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me pintas para pared??"));
+        assertEquals(null,appointmentDao.addAppointment(Const.USER_ID,Const.SPROVIDER_ID,Const.INVALID_SERVICE_TYPE_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION));
 
-        assertEquals(null,appointmentDao.addAppointment(100,4,3,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
+        assertEquals(null,appointmentDao.addAppointment(Const.USER_ID,Const.INVALID_SERVICE_PROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.INVALID_ADDRESS,Const.VALID_JOBDESCRIPTION));
 
-        assertEquals(null,appointmentDao.addAppointment(1,100,3,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
+        assertEquals(null,appointmentDao.addAppointment(Const.USER_ID,Const.INVALID_SERVICE_PROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.INVALID_JOBDESCRIPTION));
 
-        assertEquals(null,appointmentDao.addAppointment(1,4,100,Timestamp.from(Instant.now()),"aguilar 2547 12A","Carlos soy segundo no me rehaces para pared??"));
     }
 
     @Test
     public void updateStatusOfAppointmentTest(){
 
-        assertTrue(appointmentDao.updateStatusOfAppointment(1,Status.Confirmed));
+        assertTrue(appointmentDao.updateStatusOfAppointment(Const.VALID_APPOINTMENT_ID1,Status.Confirmed));
 
-        assertFalse(appointmentDao.updateStatusOfAppointment(100,Status.Confirmed));
+        assertTrue(appointmentDao.updateStatusOfAppointment(Const.VALID_APPOINTMENT_ID1,Status.Done));
+
+        assertFalse(appointmentDao.updateStatusOfAppointment(Const.INVALID_APPOINTMENT_ID,Status.Confirmed));
     }
     @Test
-    public void completedAppointmentTest(){
+    public void updateDateOfAppointmentTest(){
 
-        assertTrue(appointmentDao.updateStatusOfAppointment(1,Status.Done));
+        Timestamp date = Timestamp.from(Instant.now());
 
-        assertFalse(appointmentDao.updateStatusOfAppointment(100,Status.Done));
+        assertTrue(appointmentDao.updateDateOfAppointment(Const.VALID_APPOINTMENT_ID1, date));
 
+        assertFalse(appointmentDao.updateDateOfAppointment(Const.INVALID_APPOINTMENT_ID,date));
     }
 
+    @Test
+    public void removeAppointmentTest(){
+
+        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments");
+
+        assertTrue(appointmentDao.removeAppointment(Const.VALID_APPOINTMENT_ID1));
+
+        assertFalse(appointmentDao.removeAppointment(Const.INVALID_APPOINTMENT_ID));
+
+        assertEquals(--count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
+
+    }
 }

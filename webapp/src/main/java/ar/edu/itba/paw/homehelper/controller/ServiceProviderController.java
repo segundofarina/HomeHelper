@@ -3,11 +3,7 @@ package ar.edu.itba.paw.homehelper.controller;
 import ar.edu.itba.paw.homehelper.form.AptitudeForm;
 import ar.edu.itba.paw.homehelper.form.ProfileGeneralInfo;
 import ar.edu.itba.paw.homehelper.form.UpdateAptitudeForm;
-import ar.edu.itba.paw.interfaces.services.AppointmentService;
-import ar.edu.itba.paw.interfaces.services.AptitudeService;
-import ar.edu.itba.paw.interfaces.services.ChatService;
-import ar.edu.itba.paw.interfaces.services.SProviderService;
-import ar.edu.itba.paw.interfaces.services.STypeService;
+import ar.edu.itba.paw.interfaces.services.*;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.Status;
 import ar.edu.itba.paw.model.User;
@@ -60,9 +56,6 @@ public class ServiceProviderController {
 
         mav.addObject("providerId", loggedInUser.getId());
         mav.addObject("providerName", loggedInUser.getFirstname());
-
-        /*mav.addObject("provider", sProviderService.getServiceProviderWithUserId(providerId));
-        mav.addObject("serviceTypes",sTypeService.getServiceTypes());*/
 
         return mav;
     }
@@ -147,7 +140,7 @@ public class ServiceProviderController {
 
     @RequestMapping(value = "/sprovider/rejectAppointment", method = RequestMethod.POST)
     public ModelAndView rejectAppointment(@RequestParam(value = "appointmentId") final int appointmentId) {
-        //appointmentService.rejectAppointment(appointmentId);
+        appointmentService.rejectAppointment(appointmentId);
 
         return new ModelAndView("redirect:/sprovider/appointments");
     }
@@ -187,13 +180,16 @@ public class ServiceProviderController {
     @RequestMapping(value = "/sprovider/editProfile/editGeneralInfo", method = RequestMethod.POST)
     public ModelAndView editGeneralInfo(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("profileGeneralInfo") final ProfileGeneralInfo form, BindingResult errors, RedirectAttributes redrAttr) {
         if(errors.hasErrors()) {
+            System.out.println("has errors");
+            System.out.println(form.getGeneralDescription());
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.profileGeneralInfo", errors);
             redrAttr.addFlashAttribute("profileGeneralInfo", form);
             String redirect = "redirect:/sprovider/editProfile?error=" + form.getElemId();
             return new ModelAndView(redirect);
         }
 
-        //update
+        sProviderService.updateDescriptionOfServiceProvider(loggedInUser.getId(), form.getGeneralDescription());
+        //update Image
 
         return new ModelAndView("redirect:/sprovider/editProfile");
     }
@@ -252,11 +248,9 @@ public class ServiceProviderController {
         }
 
         if(form.getAction().equals("delete")) {
-            //delete aptitude
+            aptitudeService.removeAptitude(form.getAptitutdeId());
         } else {
-            //sProviderService.updateAptitude(form.getAptitutdeId(), form.getAptDescription());
-
-            // lo borraron??
+            sProviderService.updateDescriptionOfAptitude(form.getAptitutdeId(), form.getAptDescription());
         }
 
         return new ModelAndView("redirect:/sprovider/editProfile");
