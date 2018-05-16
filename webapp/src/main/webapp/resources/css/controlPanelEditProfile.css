@@ -97,3 +97,7 @@ input[type=file].edit-visible {
 .edit input[type=file].edit-visible {
     display: block;
 }
+
+.form-group .wz-btn {
+    margin: 5px 10px;
+}
