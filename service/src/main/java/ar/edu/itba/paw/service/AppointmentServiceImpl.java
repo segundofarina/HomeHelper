@@ -131,6 +131,11 @@ public class AppointmentServiceImpl implements AppointmentService {
         return ap.subList(start, end);
     }
 
+    @Override
+    public void reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+        appointmentDao.reviewAppointment(appointmentId,userId,aptitudeId,quality,cleanness,price,punctuality,treatment,comment);
+    }
+
     private Timestamp stringToTimestamp(String str) {
         return new Timestamp(tryParse(str).getTime());
     }
@@ -147,11 +152,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         //invalid date time
         return null;
-    }
-
-    @Override
-    public void reviewAppointment(int userId, int providerId, int serviceTypeId, Timestamp appointmentDate){
-        appointmentDao.reviewAppointment(userId,providerId,serviceTypeId,appointmentDate);
     }
 
 }

@@ -6,6 +6,7 @@ import ar.edu.itba.paw.interfaces.services.SProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,9 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Autowired
     WZoneDao wZoneDao;
+
+    @Autowired
+    AppointmentDao appointmentDao;
 
     @Override
     public SProvider create(int userId, String description) {
@@ -60,10 +64,6 @@ public class SProviderServiceImpl implements SProviderService {
         return null;
     }
 
-    @Override
-    public void insertReview(int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
-        reviewDao.insertReview(userId,aptitudeId,quality,cleanness,price,punctuality,treatment,comment);
-    }
 
     @Override
     public void addAptitude(int userId, int serviceType, String description) {

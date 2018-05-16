@@ -105,14 +105,5 @@ public class UserServiceImpl implements UserService {
         return userDao.updateAddressOfUser(userId,address);
     }
 
-    @Override
-    public void reviewAppointment(int appointmentId){
-        Optional<Appointment> appointment = appointmentDao.getAppointment(appointmentId);
-        if(appointment.isPresent()){
-            appointmentDao.reviewAppointment(appointment.get().getClient().getId(),appointment.get().getProvider().getId(),appointment.get().getServiceType().getServiceTypeId(),appointment.get().getDate());
-        }
-    }
-
-
 }
 

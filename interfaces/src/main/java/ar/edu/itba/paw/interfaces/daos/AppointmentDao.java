@@ -24,6 +24,6 @@ public interface AppointmentDao {
 
     boolean removeAppointment(int appointmentId);
 
-    void reviewAppointment(int userId, int providerId, int serviceTypeId, Timestamp appointmentDate);
+    void reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
 }
 
