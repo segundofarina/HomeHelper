@@ -14,7 +14,7 @@ We create a new `feature` branch to implement each new feature from the backlog.
 
 * May branch off from: `develop`
 * Must merge back into: `develop`
-* Naming convention: `Feature-{PivotalID}-{Description}`
+* Naming convention: `Feature-{Description}-{PivotalID}`
 
 #### Creating a feature branch
 
@@ -23,7 +23,7 @@ We create a new `feature` branch to implement each new feature from the backlog.
 $ git checkout develop
 
 # Create branch
-$ git checkout -b **Feature-{PivotalID}-{Description}** develop
+$ git checkout -b Feature-{Description}-{PivotalID} develop
 ```
 
 #### Incorporating a finished feature on develop
@@ -33,11 +33,24 @@ $ git checkout -b **Feature-{PivotalID}-{Description}** develop
 $ git checkout develop
 
 # Create a new commit object to avoid losing information
-$ git merge --no-ff **Feature-{PivotalID}-{Description}**
+$ git merge --no-ff Feature-{Description}-{PivotalID}
 
 # Delete branch
-$ git branch -d **Feature-{PivotalID}-{Description}**
+$ git push -d origin Feature-{Description}-{PivotalID}
+$ git branch -d Feature-{Description}-{PivotalID}
 
 # Push changes
 $ git push -u origin develop
+```
+
+#### To show all local and remote branches that (local) git knows about
+
+```
+$ git branch -a
+```
+
+#### To update the local list of remote branches
+
+```
+$ git remote update origin --prune
 ```
