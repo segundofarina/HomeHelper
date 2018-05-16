@@ -184,18 +184,11 @@ public class PublicController {
 
         redrAttr.addFlashAttribute("appointmentForm", form);
 
-        if(loggedInUser == null) {
-            /* Save form as cookies for persistence */
-            /*Cookie cookie = new Cookie("ApForm-ProviderId", String.valueOf(form.getProviderId()));
-            cookie.setPath("/");
-            response.addCookie(cookie);
-            response.addCookie(new Cookie("ApForm-ServiceType", form.getServiceType() ));
-            response.addCookie(new Cookie("ApForm-Date", form.getDate() ));
-            response.addCookie(new Cookie("ApForm-Description", form.getDescription() ));*/
+        if(loggedInUser == null || !loggedInUser.isVerified()) {
             saveFormAsCookies(form, response);
 
             String redirect = "redirect:/login";
-            LOGGER.info("user {} tried to make an appointment but was not logged in.",getUserString(loggedInUser));
+            LOGGER.info("user {} tried to make an appointment but was not logged in.", getUserString(loggedInUser));
             return new ModelAndView(redirect);
         }
 
@@ -207,16 +200,6 @@ public class PublicController {
         final ModelAndView mav = new ModelAndView("signup");
 
         mav.addObject("user", loggedInUser);
-
-        /*if (signUpForm != null && signUpForm.getProfilePicture() != null) {
-            try {
-                mav.addObject("profilePicture", signUpForm.getProfilePicture().getBytes());
-            } catch (IOException e) {
-                mav.addObject("profilePicture", null);
-            }
-        } else {
-            mav.addObject("profilePicture", null);
-        }*/
 
         return mav;
     }
@@ -255,9 +238,11 @@ public class PublicController {
         mailService.sendConfirmationEmail( user.getId(),key);
 
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        Authentication auth = loginUser(user);
+
+        if(isUnverifiedUser(auth)) {
+            return new ModelAndView("redirect:/unverified/user");
+        }
 
         return new ModelAndView("redirect:/");
     }
@@ -266,12 +251,17 @@ public class PublicController {
     public ModelAndView verifyAccount(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("key") final String key) {
         final ModelAndView mav = new ModelAndView("userVerify");
 
-
         User user = mailService.verifyUserKey(key);
 
         LOGGER.debug("Tried to verify account");
         LOGGER.debug("MailService verifyUserKey was:{}",getUserString(user));
+
         mav.addObject("user",user);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId( user )));
+
+        if(user != null) {
+            loginUser(user);
+        }
 
         return mav;
     }
@@ -308,5 +298,17 @@ public class PublicController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
+    }
+
+    private boolean isUnverifiedUser(Authentication authentication) {
+        return authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_UNVERIFIED_USER"));
+    }
+
+    private Authentication loginUser(User user) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        return auth;
     }
 }

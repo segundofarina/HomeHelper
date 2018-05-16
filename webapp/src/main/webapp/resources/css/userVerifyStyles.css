@@ -3,7 +3,7 @@
 }
 
 .result p{
-    font-size: 20px;
+    font-size: 15px;
     padding: 25px;
 }
 
@@ -27,8 +27,6 @@
     background-repeat: no-repeat;
 
 }
-
-
 
 .successImg{
     background-image: url(../img/okWorker.png);

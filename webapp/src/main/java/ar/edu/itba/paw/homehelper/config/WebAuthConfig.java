@@ -34,6 +34,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/signup").permitAll()
                     .antMatchers("/sprovider/**").hasRole("PROVIDER")
                     .antMatchers("/client/**").hasRole("USER")
+                    .antMatchers("/unverified/**").hasRole("UNVERIFIED_USER")
                     .antMatchers("/**").permitAll()
                 .and().formLogin()
                     .usernameParameter("username").passwordParameter("password")

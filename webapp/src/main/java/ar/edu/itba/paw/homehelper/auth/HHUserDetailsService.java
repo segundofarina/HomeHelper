@@ -33,7 +33,14 @@ public class HHUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("No user by the name " + username);
         }
         final ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+
+        if(user.isVerified()) {
+            System.out.println("User is verified");
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        } else {
+            System.out.println("User is unverified");
+            authorities.add(new SimpleGrantedAuthority("ROLE_UNVERIFIED_USER"));
+        }
 
         if(sp.isServiceProvider(user.getId())){
             authorities.add((new SimpleGrantedAuthority("ROLE_PROVIDER")));
