@@ -193,7 +193,7 @@ public class PublicController {
         if(loggedInUser == null || !loggedInUser.isVerified()) {
             saveFormAsCookies(form, response);
 
-            String redirect = "redirect:/login";
+            String redirect = "redirect:/login?sAp=true";
             LOGGER.info("user {} tried to make an appointment but was not logged in.", getUserString(loggedInUser));
             return new ModelAndView(redirect);
         }
