@@ -8,7 +8,7 @@ drop table if exists reviews CASCADE;
 drop table if exists aptitudes CASCADE;
 drop table if exists appointments CASCADE;
 drop table if exists neighborhoods CASCADE;
-drop table if exists workingzone CASCADE;
+drop table if exists workingzones CASCADE;
 
 CREATE TABLE IF NOT EXISTS users (
   userid INTEGER IDENTITY PRIMARY KEY,
@@ -80,6 +80,10 @@ CREATE TABLE IF NOT EXISTS workingzones(
   userId INTEGER REFERENCES serviceProviders(userId)
 );
 
+CREATE TABLE IF NOT EXISTS temporaryImages (
+  imageid INTEGER IDENTITY PRIMARY KEY,
+  image   blob
+);
 
 insert into users VALUES(1,'segundofarina','dulcedeleche','Segundo','Farina','segundofarina@me.com','1134373920','1010101010','cuba 2546',FALSE );
 insert into users VALUES(2,'florcavallin','dulcedeleche','Florencia','Cavallin','fcavallin@itba.edu.ar','1140910035',null,'cuba 2546',FALSE);

@@ -7,7 +7,7 @@ drop table if exists aptitudes CASCADE;
 DROP TABLE IF EXISTS appointments CASCADE;
 drop table if EXISTS verifyUsers CASCADE;
 drop table if exists neighborhoods CASCADE;
-drop table if exists workingzone CASCADE;
+drop table if exists workingzones CASCADE;
 
 
 CREATE TABLE IF NOT EXISTS users (

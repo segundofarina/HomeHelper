@@ -58,7 +58,7 @@ public class WZoneJdbcDaoTest{
 
         ans = wZoneDao.getWorkingZonesOfProvider(4);
 
-        assertEquals(null,ans);
+        assertEquals(0,ans.size());
 
         ans = wZoneDao.getWorkingZonesOfProvider(3);
 
@@ -66,6 +66,6 @@ public class WZoneJdbcDaoTest{
 
         ans = wZoneDao.getWorkingZonesOfProvider(100);
 
-        assertEquals(null,ans);
+        assertEquals(0,ans.size());
     }
 }
