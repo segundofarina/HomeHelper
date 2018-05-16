@@ -326,7 +326,7 @@ public class PublicController {
                 //Handle exception?
                 image = null;
             }
-        } else if(form.getSavedImgId() != 0) { /* If not check if image was uploaded before */
+        } else if(form.getSavedImgId() != -1) { /* If not check if image was uploaded before */
             image = tempImagesService.getImage(form.getSavedImgId()).getImage();
             tempImagesService.deleteImage(form.getSavedImgId());
         }

@@ -383,7 +383,7 @@ public class ClientController {
                 //Handle exception?
                 image = null;
             }
-        } else if(savedId != 0) { /* If not check if image was uploaded before */
+        } else if(savedId != -1) { /* If not check if image was uploaded before */
             image = tempImagesService.getImage(savedId).getImage();
             tempImagesService.deleteImage(savedId);
         }
