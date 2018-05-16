@@ -9,6 +9,8 @@ public class ProfileGeneralInfo {
 
     private int elemId;
 
+    private int savedImgId;
+
     @NotBlank
     @Size(max = 1000)
     private String generalDescription;
@@ -37,5 +39,13 @@ public class ProfileGeneralInfo {
 
     public void setProfilePicture(MultipartFile profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+    public int getSavedImgId() {
+        return savedImgId;
+    }
+
+    public void setSavedImgId(int savedImgId) {
+        this.savedImgId = savedImgId;
     }
 }

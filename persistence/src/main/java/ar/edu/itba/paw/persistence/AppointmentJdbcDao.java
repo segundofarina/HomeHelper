@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import sun.tools.java.Type;
+
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -129,17 +129,9 @@ public class AppointmentJdbcDao implements AppointmentDao {
         args.put("providerId", providerId);
         args.put("serviceTypeId", serviceTypeId);
         args.put("appointmentDate", date);
-        if(address==null){
-            args.put("address", Type.NULL);
-        }else {
-            args.put("address", address);
-        }
+        args.put("address", address);
         args.put("status", "Pending");
-        if(jobDescripcion==null) {
-            args.put("jobDescription", Type.NULL);
-        }else{
-            args.put("jobDescription", jobDescripcion);
-        }
+        args.put("jobDescription", jobDescripcion);
         args.put("clientReview",false);
 
         int appointmentId = jdbcInsert.executeAndReturnKey(args).intValue();
