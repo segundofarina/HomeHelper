@@ -247,7 +247,7 @@ public class ServiceProviderController {
 
         if(!model.containsAttribute("updateAptitudeForm")) {
             UpdateAptitudeForm updateAptitudeForm = new UpdateAptitudeForm();
-            updateAptitudeForm.setAptDescription(aptitudeService.getAptitude(aptitudeId).getDescription());
+            updateAptitudeForm.setAptDescription(aptitudeService.getAptitude(aptitudeId).get().getDescription());
             model.addAttribute("updateAptitudeForm", updateAptitudeForm);
         }
 

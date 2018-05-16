@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import sun.tools.java.Type;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -78,13 +79,7 @@ public class SProviderJdbcDao implements SProviderDao {
         final Map<String, Object> args = new HashMap<String, Object>();
         args.put("userId", userId);
         args.put("description",description);
-        if(!userDao.findById(userId).isPresent()){
-            return Optional.empty();
-            /* O bien podria tirar una excepcion ya que no tendria que crear un Sprovider que no es user*/
-        }
-
         jdbcInsert.execute(args);
-
         return Optional.of(new SProvider(userDao.findById(userId).get(),description, new ArrayList<Aptitude>() , new ArrayList<Neighborhood>()));
 
     }
@@ -103,20 +98,19 @@ public class SProviderJdbcDao implements SProviderDao {
 
     public Optional<SProvider> getServiceProviderWithUserId(int userId) {
         List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM serviceProviders NATURAL JOIN users WHERE userId = ?", ROW_MAPPER, userId);
-
-
-        if(dbRowsList.size() == 1) {
-            return Optional.of(new SProvider(dbRowsList.get(0).user,dbRowsList.get(0).description,aptitudeDao.getAptitudesOfUser(userId),wZoneDao.getWorkingZonesOfProvider(userId)));
-        }else{
+        if(dbRowsList.isEmpty()){
             return Optional.empty();
         }
+        return Optional.of(new SProvider(dbRowsList.get(0).user,dbRowsList.get(0).description,aptitudeDao.getAptitudesOfUser(userId),wZoneDao.getWorkingZonesOfProvider(userId)));
     }
 
     @Override
     public List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId) {
         List<Integer> dbList = jdbcTemplate.query("select userid from workingzones NATURAL JOIN aptitudes WHERE serviceTypeId = ? AND ngId =?;", ROW_MAPPER_ID_NG,stId,ngId);
         List<SProvider>list = new ArrayList<SProvider>();
-
+        if(dbList.isEmpty()){
+            return list;
+        }
         for(Integer i : dbList){
             list.add(getServiceProviderWithUserId(i.intValue()).get());
         }
@@ -127,15 +121,8 @@ public class SProviderJdbcDao implements SProviderDao {
 
 
     @Override
-    public boolean updateDescriptionOfServiceProvider(int userId, String description) {
-        if(description == null){
-            return false;
-        }
-        Optional<SProvider> provider = getServiceProviderWithUserId(userId);
-        if (!provider.isPresent()) {
-            return false;
-        }
-        return jdbcTemplate.update("UPDATE serviceProviders SET description =? WHERE userId =?", description, userId)==1;
+    public void updateDescriptionOfServiceProvider(int userId, String description) {
+        jdbcTemplate.update("UPDATE serviceProviders SET description =? WHERE userId =?", description==null? Type.NULL:description, userId);
     }
 
 

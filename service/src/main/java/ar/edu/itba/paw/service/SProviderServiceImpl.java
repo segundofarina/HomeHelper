@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class SProviderServiceImpl implements SProviderService {
@@ -62,13 +61,13 @@ public class SProviderServiceImpl implements SProviderService {
     }
 
     @Override
-    public boolean insertReview(int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
-        return reviewDao.insertReview(userId,aptitudeId,quality,cleanness,price,punctuality,treatment,comment);
+    public void insertReview(int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+        reviewDao.insertReview(userId,aptitudeId,quality,cleanness,price,punctuality,treatment,comment);
     }
 
     @Override
-    public boolean addAptitude(int userId, int serviceType, String description) {
-        return aptitudeDao.insertAptitude(userId,serviceType,description);
+    public void addAptitude(int userId, int serviceType, String description) {
+        aptitudeDao.insertAptitude(userId,serviceType,description);
     }
 
     @Override
@@ -81,8 +80,8 @@ public class SProviderServiceImpl implements SProviderService {
     }
 
     @Override
-    public boolean updateDescriptionOfServiceProvider(int userId, String description) {
-        return sProviderDao.updateDescriptionOfServiceProvider(userId,description);
+    public void updateDescriptionOfServiceProvider(int userId, String description) {
+        sProviderDao.updateDescriptionOfServiceProvider(userId,description);
     }
 
     @Override
@@ -130,8 +129,8 @@ public class SProviderServiceImpl implements SProviderService {
     }
 
     @Override
-    public boolean insertWorkingZoneOfProvider(int userId, int ngId) {
-        return wZoneDao.insertWorkingZoneOfProvider(userId,ngId);
+    public void insertWorkingZoneOfProvider(int userId, int ngId) {
+        wZoneDao.insertWorkingZoneOfProvider(userId,ngId);
     }
 
     @Override

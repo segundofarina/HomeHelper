@@ -1,4 +1,5 @@
 package ar.edu.itba.paw.persistence;
+import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
 import ar.edu.itba.paw.interfaces.daos.ReviewDao;
 import ar.edu.itba.paw.interfaces.daos.SProviderDao;
 import ar.edu.itba.paw.model.Review;
@@ -7,10 +8,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
+import javax.sql.DataSource;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -33,9 +37,13 @@ public class ReviewJdbcDaoTest {
     @Autowired
     SProviderDao sProviderDao;
 
+    @Autowired
+    private DataSource ds;
+
+    private JdbcTemplate jdbcTemplate;
     @Before
     public void setUp() {
-
+        jdbcTemplate = new JdbcTemplate(ds);
     }
 
     @Test
@@ -51,15 +59,34 @@ public class ReviewJdbcDaoTest {
     @Test
     public void insertReviewTest(){
 
-        assertTrue(reviewDao.insertReview(Const.USER3_ID,Const.VALID_APTITUDE_ID,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_COMMENT));
+        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "reviews");
 
-        assertFalse(reviewDao.insertReview(Const.INVALIDAD_USER_ID,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,5,Const.VALID_COMMENT));
+        reviewDao.insertReview(Const.USER3_ID,Const.VALID_APTITUDE_ID,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_COMMENT);
 
-        assertFalse(reviewDao.insertReview(Const.USER3_ID,Const.INVALID_APTITUDE_ID,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_COMMENT));
+        assertEquals(++count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "reviews"));
 
-        assertFalse(reviewDao.insertReview(Const.USER3_ID,Const.VALID_APTITUDE_ID,Const.INVALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_COMMENT));
+        try {
+            reviewDao.insertReview(Const.INVALIDAD_USER_ID, Const.VALID_CALIFICATION, Const.VALID_CALIFICATION, Const.VALID_CALIFICATION, Const.VALID_CALIFICATION, Const.VALID_CALIFICATION, Const.VALID_CALIFICATION, Const.VALID_COMMENT);
+        }catch (Exception e){
+            assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "reviews"));
+        }
 
-        assertFalse(reviewDao.insertReview(Const.USER3_ID,Const.VALID_APTITUDE_ID,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.INVALID_COMMENT));
+        try{
+            reviewDao.insertReview(Const.USER3_ID,Const.INVALID_APTITUDE_ID,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_COMMENT);
+        }catch (Exception e){
+            assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "reviews"));
+        }
+
+        try{
+            reviewDao.insertReview(Const.USER3_ID,Const.VALID_APTITUDE_ID,Const.INVALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_COMMENT);
+        }catch (Exception e){
+            assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "reviews"));
+        }
+        try{
+            reviewDao.insertReview(Const.USER3_ID,Const.VALID_APTITUDE_ID,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.VALID_CALIFICATION,Const.INVALID_COMMENT);
+        }catch (Exception e){
+            assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "reviews"));
+        }
 
     }
 

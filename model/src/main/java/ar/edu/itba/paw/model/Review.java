@@ -10,9 +10,8 @@ public class Review {
     private HashMap<String,Integer> calification;
     private String comment;
     private Timestamp date;
-    private boolean clientReview=false;
 
-    public Review(int quality, int cleanness, int price, int punctuality, int treatment, String comment, Timestamp date, User user, boolean clientReview) {
+    public Review(int quality, int cleanness, int price, int punctuality, int treatment, String comment, Timestamp date, User user) {
 
         calification = new HashMap<>();
 
@@ -25,7 +24,6 @@ public class Review {
         this.comment = comment;
         this.date = date;
         this.user = user;
-        this.clientReview=clientReview;
     }
 
     public int getQualityCalification(){
@@ -70,7 +68,4 @@ public class Review {
         return user;
     }
 
-    public boolean isClientReview() {
-        return clientReview;
-    }
 }

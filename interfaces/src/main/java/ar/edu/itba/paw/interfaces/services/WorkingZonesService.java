@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface WorkingZonesService {
 
-    boolean insertWorkingZoneOfProvider(int userId, int ngId);
+    void insertWorkingZoneOfProvider(int userId, int ngId);
 
     List<Neighborhood> getWorkingZonesOfProvider(int providerId);
 

@@ -2,11 +2,11 @@ package ar.edu.itba.paw.interfaces.services;
 
 import ar.edu.itba.paw.model.Aptitude;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface AptitudeService {
 
-    Aptitude getAptitude(int aptitudeId);
+    Optional<Aptitude> getAptitude(int aptitudeId);
 
     boolean removeAptitude(int aptId);
 }

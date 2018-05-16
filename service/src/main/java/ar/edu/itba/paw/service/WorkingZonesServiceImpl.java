@@ -14,8 +14,8 @@ public class WorkingZonesServiceImpl implements WorkingZonesService {
     WZoneDao wZoneDao;
 
     @Override
-    public boolean insertWorkingZoneOfProvider(int userId, int ngId) {
-        return wZoneDao.insertWorkingZoneOfProvider(userId, ngId);
+    public void insertWorkingZoneOfProvider(int userId, int ngId) {
+        wZoneDao.insertWorkingZoneOfProvider(userId, ngId);
     }
 
     @Override
