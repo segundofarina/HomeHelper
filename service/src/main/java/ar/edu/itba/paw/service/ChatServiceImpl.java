@@ -95,4 +95,11 @@ public class ChatServiceImpl implements ChatService{
         String msg = "New appointment request";
         return sendMsg(from, to, msg);
     }
+
+    @Override
+    public List<Chat> getLatestChatsOf(int providerId) {
+        final List<Chat> chats = getChatsOf(providerId);
+        int start = 0, end = chats.size() >= 4 ? 4 : chats.size();
+        return chats.subList(start, end);
+    }
 }

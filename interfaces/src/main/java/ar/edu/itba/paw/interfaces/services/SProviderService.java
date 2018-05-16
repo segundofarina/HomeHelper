@@ -45,6 +45,5 @@ public interface SProviderService {
 
     boolean updateDescriptionOfServiceProvider(int userId, String description);
 
-
-
+    List<Review> getLatestReviewsOfServiceProvider(int providerId);
 }

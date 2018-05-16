@@ -34,4 +34,5 @@ public interface AppointmentService {
 
     boolean rejectAppointment(int appointmentId);
 
+    List<Appointment> getLatestPendingAppointmentWithProviderId(int providerId);
 }
