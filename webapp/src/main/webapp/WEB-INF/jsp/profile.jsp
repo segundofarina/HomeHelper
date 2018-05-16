@@ -62,7 +62,7 @@
                         </div>
                         <div class="serviceType">
                             <c:forEach items="${provider.aptitudes}" var="aptitude">
-                            <em><c:out value="${aptitude.service.name}"/> </em>
+                            <em><spring:message code="service-type.${aptitude.service.serviceTypeId}"/></em>
                             </c:forEach>
                         </div>
                         <c:choose>
@@ -109,7 +109,7 @@
                                         <form:select class="form-control" path="serviceType">
                                             <form:option value="none"><spring:message code="profile.select-serviceType"/></form:option>
                                             <c:forEach items="${provider.aptitudes}" var="aptitude">
-                                                <form:option value="${aptitude.service.serviceTypeId}"> <c:out value="${aptitude.service.name}"/></form:option>
+                                                <form:option value="${aptitude.service.serviceTypeId}">  <spring:message code="service-type.${aptitude.service.serviceTypeId}"/></form:option>
                                             </c:forEach>
                                         </form:select>
                                         <form:errors path="serviceType" element="p" cssClass="form-error" />
@@ -144,7 +144,7 @@
 
                     <div class="col-xs-12 col-sm-8 col-md-9">
 
-                        <h3><c:out value="${aptitude.service.name}"/></h3>
+                        <h3> <spring:message code="service-type.${aptitude.service.serviceTypeId}"/></h3>
 
                         <div class="row">
                             <c:choose>
@@ -152,7 +152,7 @@
                                     <div class="col-xs-12 col-md-12">
                                 </c:when>
                                 <c:otherwise>
-                                    <div class="col-xs-12 col-md-4">
+                                    <div class="col-xs-12 col-md-8">
                                 </c:otherwise>
                             </c:choose>
 

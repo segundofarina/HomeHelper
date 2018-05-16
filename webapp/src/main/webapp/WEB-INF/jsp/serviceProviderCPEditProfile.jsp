@@ -146,7 +146,7 @@
                                                     <form:select path="serviceType" class="form-control">
                                                         <form:option value=""><spring:message code="service-type.select"/></form:option>
                                                         <c:forEach items="${serviceTypes}" var="st">
-                                                            <form:option value="${st.serviceTypeId}"><c:out value="${st.name}"/></form:option>
+                                                            <form:option value="${st.serviceTypeId}"><spring:message code="service-type.${st.serviceTypeId}"/></form:option>
                                                         </c:forEach>
                                                     </form:select>
                                                     <form:errors path="serviceType" cssClass="form-error" element="p" />
@@ -184,7 +184,7 @@
                                                     <div class="form-group">
                                                         <label><spring:message code="general.service-type"/>:</label>
                                                         <form:input path="serviceType" type="hidden" value="${aptitude.service.serviceTypeId}" />
-                                                        <p><c:out value="${aptitude.service.name}" /></p>
+                                                        <p><spring:message code="service-type.${aptitude.service.serviceTypeId}"/></p>
                                                     </div>
                                                     <div class="form-group">
                                                         <form:label path="aptDescription"><spring:message code="general.description"/>:</form:label>
