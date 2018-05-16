@@ -53,7 +53,7 @@
                                     <p><c:out value="${appointment.date}" /></p>
                                 </div>
                                 <div class="apt-group">
-                                    <h5>D<spring:message code="form.description"/></h5>
+                                    <h5><spring:message code="form.description"/></h5>
                                     <p><c:out value="${appointment.jobDescripcion}" /></p>
                                 </div>
                                 <div class="apt-group">
