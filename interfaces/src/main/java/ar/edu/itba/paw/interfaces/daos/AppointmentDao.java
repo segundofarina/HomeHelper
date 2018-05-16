@@ -5,6 +5,7 @@ import ar.edu.itba.paw.model.Review;
 import ar.edu.itba.paw.model.Status;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +17,11 @@ public interface AppointmentDao {
 
     Optional<Appointment> getAppointment(int appointmentId);
 
-    Appointment addAppointment(int clientId, int providerId, int serviceTypeId, Timestamp date, String address, String jobDescripcion);
+    Appointment addAppointment(int clientId, int providerId, int serviceTypeId, Date date, String address, String jobDescripcion);
 
     boolean updateStatusOfAppointment(int appointmentId, Status status);
 
-    boolean updateDateOfAppointment(int appointmentId, Timestamp date);
+    boolean updateDateOfAppointment(int appointmentId, Date date);
 
     boolean removeAppointment(int appointmentId);
 

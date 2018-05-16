@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS aptitudes(
 CREATE TABLE IF NOT EXISTS reviews(
   userId INTEGER  REFERENCES users(userId),
   aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
-  reviewdate TIMESTAMP default CURRENT_DATE,
+  reviewdate DATE default CURRENT_DATE,
   quality INTEGER CHECK(quality > 0 AND  quality < 6),
   cleanness INTEGER CHECK(cleanness > 0 AND cleanness < 6),
   price INTEGER CHECK(price > 0 AND price < 6),
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS appointments(
   userId INTEGER REFERENCES users(userId),
   providerId INTEGER REFERENCES serviceProviders(userId),
   serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
-  appointmentDate VARCHAR(100),
+  appointmentDate DATE default CURRENT_DATE ,
   address VARCHAR(10000) NOT NULL,
   status VARCHAR(20),
   jobDescription VARCHAR(10000) NOT NULL,
@@ -99,22 +99,22 @@ CREATE TABLE IF NOT EXISTS defaultImages (
 );
 
 
-insert into users VALUES (1,'sfarina','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Segundo Augusto','Fariña','afarina@itba.edu.ar','1541234567',null,'cuba 2546', TRUE);
-insert into users VALUES (2,'mvictory','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Martin','Victory','mvictory@itba.edu.ar','1563498751',null,'cuba 2546', TRUE);
-insert into users VALUES (3,'fcavallin','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Florencia','Cavallin','fcavallin@itba.edu.ar','1563287519',null,'cuba 2546', TRUE);
-insert into users VALUES (4,'marcemiozzo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcelo','Miozzo','marcemiozzo@google.com','1532357421',null,'cuba 2546', TRUE);
-insert into users VALUES (5,'nadimer','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nadine','Merlino','nadimer@fibertel.com.ar','1561182277',null,'cuba 2546', TRUE);
-insert into users VALUES (6,'scavallin','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Sergio Eduardo','Cavallin','scavallin@pluspetrol.net','1540910023',null,'cuba 2546', TRUE);
-insert into users VALUES (7,'bianq','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Bianca','Fallace','bianqfallace@google.com','1542366653',null,'cuba 2546', TRUE);
-insert into users VALUES (8,'alvarocrespo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Alvaro','Crespo','acrespo@itba.edu.ar','1563325569',null,'cuba 2546', TRUE);
-insert into users VALUES (9,'mfallone','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marco','Fallone','mfallon@itba.edu.ar','1562009879',null,'cuba 2546', TRUE);
+insert into users VALUES (1,'mlopez','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcos','Lopez','mlopez@itba.edu.ar','1541234567',null,'cuba 2546', TRUE);
+insert into users VALUES (2,'amartinez','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Alvaro','Martinez','amartinez@itba.edu.ar','1563498751',null,'cuba 2546', TRUE);
+insert into users VALUES (3,'lblanco','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Lucía','Blanco','lblanco@itba.edu.ar','1563287519',null,'cuba 2546', TRUE);
+insert into users VALUES (4,'mmiozzo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcelo','Miozzo','marcemiozzo@google.com','1532357421',null,'cuba 2546', TRUE);
+insert into users VALUES (5,'nsanchez','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nadia','Sanchez','nadisanchez@fibertel.com.ar','1561182277',null,'cuba 2546', TRUE);
+insert into users VALUES (6,'htorres','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Hugo','Torres','huguito_t@pluspetrol.net','1540910023',null,'cuba 2546', TRUE);
+insert into users VALUES (7,'bmatus','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Bianca','Matus','bianqmatus@google.com','1542366653',null,'cuba 2546', TRUE);
+insert into users VALUES (8,'lparque','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Luis','Parque','lpark@itba.edu.ar','1563325569',null,'cuba 2546', TRUE);
+insert into users VALUES (9,'dservito','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Daniel','Servito','servito@itba.edu.ar','1562009879',null,'cuba 2546', TRUE);
 insert into users VALUES (10,'mtessino','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Mario','Tessino','maritotessino@outlook.com','1562341209',null,'cuba 2546', TRUE);
-insert into users VALUES (11,'lynch','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcelo','Lynch','marchusL@google.com','1563277639',null,'cuba 2546', TRUE);
-insert into users VALUES (12,'tomicerda','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Tomás','Cerda','tcerda@itba.edu.ar','1562874621',null,'cuba 2546', TRUE);
-insert into users VALUES (13,'carlubarru','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Carla','Barrufaldi','carlabarrufaldi@outlook.com','1539098798',null,'cuba 2546', TRUE);
-insert into users VALUES (14,'axelf','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Axel','Fratoni','axfratoni@itba.edu.ar','1563880943',null,'cuba 2546', TRUE);
-insert into users VALUES (15,'feroviedo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Fernan','Oviedo','foviedo@google.com','1542548790',null,'cuba 2546', TRUE);
-insert into users VALUES (16,'ndonof','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nicolas','Donofrio','ndonofrio@outlook.com','1534890542',null,'cuba 2546', TRUE);
+insert into users VALUES (11,'jlynch','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Juan Pablo','Lynch','juanpalynch@google.com','1563277639',null,'cuba 2546', TRUE);
+insert into users VALUES (12,'elamir','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Esteban','Lamir','elamir@itba.edu.ar','1562874621',null,'cuba 2546', TRUE);
+insert into users VALUES (13,'plifer','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Paula','Fernandez','paufernandez@outlook.com','1539098798',null,'cuba 2546', TRUE);
+insert into users VALUES (14,'aballardini','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Axel','Ballardini','aballardini@itba.edu.ar','1563880943',null,'cuba 2546', TRUE);
+insert into users VALUES (15,'frojas','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Fernando','Rojas','frojas@google.com','1542548790',null,'cuba 2546', TRUE);
+insert into users VALUES (16,'nzeta','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nicolas','Zeta','nico_zeta@outlook.com','1534890542',null,'cuba 2546', TRUE);
 
 
 insert into neighborhoods VALUES (1);
@@ -139,33 +139,6 @@ insert into neighborhoods VALUES (19);
 insert into neighborhoods VALUES (20);
 insert into neighborhoods VALUES (21);
 insert into neighborhoods VALUES (22);
-insert into neighborhoods VALUES (23);
-insert into neighborhoods VALUES (24);
-insert into neighborhoods VALUES (25);
-insert into neighborhoods VALUES (26);
-insert into neighborhoods VALUES (27);
-insert into neighborhoods VALUES (28);
-insert into neighborhoods VALUES (29);
-insert into neighborhoods VALUES (30);
-insert into neighborhoods VALUES (31);
-insert into neighborhoods VALUES (32);
-insert into neighborhoods VALUES (33);
-insert into neighborhoods VALUES (34);
-insert into neighborhoods VALUES (35);
-insert into neighborhoods VALUES (36);
-insert into neighborhoods VALUES (37);
-insert into neighborhoods VALUES (38);
-insert into neighborhoods VALUES (39);
-insert into neighborhoods VALUES (40);
-insert into neighborhoods VALUES (41);
-insert into neighborhoods VALUES (42);
-insert into neighborhoods VALUES (43);
-insert into neighborhoods VALUES (44);
-insert into neighborhoods VALUES (45);
-insert into neighborhoods VALUES (46);
-insert into neighborhoods VALUES (47);
-insert into neighborhoods VALUES (48);
-
 
 
 insert into serviceProviders VALUES (1,'Mi nombre es Segundo y tengo 22 años, trabajo en el negocio desde 2010. Trabaje en la fabrica de mubles de Noray desde el 2010 al 2015. En el 2015 comence mi propia empresa de mubles a medida. Contactate con nosotros y a la brevedad te contestaremos!!');
@@ -579,13 +552,13 @@ insert into workingzones VALUES (17,4);
 insert into workingzones VALUES (18,4);
 insert into workingzones VALUES (21,5);
 insert into workingzones VALUES (22,5);
-insert into workingzones VALUES (23,5);
-insert into workingzones VALUES (24,5);
-insert into workingzones VALUES (25,5);
-insert into workingzones VALUES (26,5);
-insert into workingzones VALUES (27,5);
-insert into workingzones VALUES (28,5);
-insert into workingzones VALUES (29,5);
+insert into workingzones VALUES (21,5);
+insert into workingzones VALUES (22,5);
+insert into workingzones VALUES (1,5);
+insert into workingzones VALUES (2,5);
+insert into workingzones VALUES (3,5);
+insert into workingzones VALUES (4,5);
+insert into workingzones VALUES (5,5);
 insert into workingzones VALUES (1,6);
 insert into workingzones VALUES (2,6);
 insert into workingzones VALUES (3,6);
@@ -633,14 +606,14 @@ insert into workingzones VALUES (17,9);
 insert into workingzones VALUES (18,9);
 insert into workingzones VALUES (21,10);
 insert into workingzones VALUES (22,10);
-insert into workingzones VALUES (23,10);
-insert into workingzones VALUES (24,10);
-insert into workingzones VALUES (25,10);
-insert into workingzones VALUES (26,10);
-insert into workingzones VALUES (27,10);
-insert into workingzones VALUES (28,10);
-insert into workingzones VALUES (29,10);
-insert into workingzones VALUES (16,11);
+insert into workingzones VALUES (4,10);
+insert into workingzones VALUES (7,10);
+insert into workingzones VALUES (10,10);
+insert into workingzones VALUES (2,10);
+insert into workingzones VALUES (15,10);
+insert into workingzones VALUES (17,10);
+insert into workingzones VALUES (20,10);
+insert into workingzones VALUES (21,11);
 insert into workingzones VALUES (17,11);
 insert into workingzones VALUES (18,11);
 insert into workingzones VALUES (1,12);
@@ -667,13 +640,13 @@ insert into workingzones VALUES (17,14);
 insert into workingzones VALUES (18,14);
 insert into workingzones VALUES (21,15);
 insert into workingzones VALUES (22,15);
-insert into workingzones VALUES (23,15);
-insert into workingzones VALUES (24,15);
-insert into workingzones VALUES (25,15);
-insert into workingzones VALUES (26,15);
-insert into workingzones VALUES (27,15);
-insert into workingzones VALUES (28,15);
-insert into workingzones VALUES (29,15);
+insert into workingzones VALUES (18,15);
+insert into workingzones VALUES (10,15);
+insert into workingzones VALUES (11,15);
+insert into workingzones VALUES (12,15);
+insert into workingzones VALUES (13,15);
+insert into workingzones VALUES (14,15);
+insert into workingzones VALUES (15,15);
 insert into workingzones VALUES (16,16);
 insert into workingzones VALUES (17,16);
 insert into workingzones VALUES (18,16);

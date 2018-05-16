@@ -136,8 +136,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentDao.reviewAppointment(appointmentId,userId,aptitudeId,quality,cleanness,price,punctuality,treatment,comment);
     }
 
-    private Timestamp stringToTimestamp(String str) {
-        return new Timestamp(tryParse(str).getTime());
+    private Date stringToTimestamp(String str) {
+        return new Date(tryParse(str).getTime());
     }
 
     private Date tryParse(String date) {
@@ -153,5 +153,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         //invalid date time
         return null;
     }
+
 
 }

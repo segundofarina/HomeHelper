@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS aptitudes(
 CREATE TABLE IF NOT EXISTS reviews(
   userId INTEGER  REFERENCES users(userId),
   aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
-  reviewdate TIMESTAMP default CURRENT_DATE,
+  reviewdate DATE default CURRENT_DATE,
   quality INTEGER CHECK(quality > 0 AND  quality < 6),
   cleanness INTEGER CHECK(cleanness > 0 AND cleanness < 6),
   price INTEGER CHECK(price > 0 AND price < 6),
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS appointments(
   userId INTEGER REFERENCES users(userId),
   providerId INTEGER REFERENCES serviceProviders(userId),
   serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
-  appointmentDate VARCHAR(100),
+  appointmentDate DATE default CURRENT_DATE ,
   address VARCHAR(10000) NOT NULL,
   status VARCHAR(20),
   jobDescription VARCHAR(10000) NOT NULL,

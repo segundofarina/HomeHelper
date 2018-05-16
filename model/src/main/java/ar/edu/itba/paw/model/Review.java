@@ -9,9 +9,9 @@ public class Review {
     private User user;
     private HashMap<String,Integer> calification;
     private String comment;
-    private Timestamp date;
+    private Date date;
 
-    public Review(int quality, int cleanness, int price, int punctuality, int treatment, String comment, Timestamp date, User user) {
+    public Review(int quality, int cleanness, int price, int punctuality, int treatment, String comment, Date date, User user) {
 
         calification = new HashMap<>();
 
