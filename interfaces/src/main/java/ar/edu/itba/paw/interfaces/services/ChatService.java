@@ -16,4 +16,6 @@ public interface ChatService {
     int getLastMsgThread(int providerId);
 
     boolean sendAppointmentMsg(int from, int to);
+
+    List<Chat> getLatestChatsOf(int providerId);
 }

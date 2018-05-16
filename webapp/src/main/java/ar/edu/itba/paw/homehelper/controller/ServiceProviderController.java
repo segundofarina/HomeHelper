@@ -54,8 +54,21 @@ public class ServiceProviderController {
             //exception 403
         }
 
-        mav.addObject("providerId", loggedInUser.getId());
+        final int providerId = loggedInUser.getId();
+        final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
+
+        mav.addObject("providerId", providerId);
         mav.addObject("providerName", loggedInUser.getFirstname());
+
+        mav.addObject("chats", chatService.getLatestChatsOf(providerId));
+        mav.addObject("appointments", appointmentService.getLatestPendingAppointmentWithProviderId(providerId));
+        mav.addObject("reviews", sProviderService.getLatestReviewsOfServiceProvider(providerId));
+
+        mav.addObject("totalAp", provider.getAptitudes().size());
+        mav.addObject("generalCal", provider.getGeneralCalification());
+        mav.addObject("pendingAp", appointmentService.getPendingAppointmentWithProviderId(providerId).size());
+        mav.addObject("doneAp", appointmentService.getAppointmentsByProviderId(providerId, Status.Done).size());
+
 
         return mav;
     }

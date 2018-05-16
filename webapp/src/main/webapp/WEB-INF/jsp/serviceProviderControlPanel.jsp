@@ -23,6 +23,7 @@
     <!-- Custom Theme Style -->
     <link href="<c:url value="/resources/adminTemplate/build/css/custom.min.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/adminTemplateCustomStyles.css"/>" rel="stylesheet">
+    <link href="<c:url value="/resources/css/dashboard.css"/>" rel="stylesheet">
 </head>
 
 <body class="nav-md">
@@ -38,23 +39,125 @@
         <!-- page content -->
         <div class="right_col" role="main">
             <div class="">
-                <div class="page-title">
-                    <div class="title_left">
-                        <h3>Plain Page</h3>
+
+                <!-- top tiles -->
+                <div class="row tile_count">
+                    <div class="col-md-3 col-sm-3 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-user"></i> <spring:message code="dashboard.tiles.aptitudes" /></span>
+                        <div class="count"><c:out value="${totalAp}" /></div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-area-chart"></i>  <spring:message code="dashboard.tiles.generalReview" /></span>
+                        <div class="count"><c:out value="${generalCal}" /></div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-archive"></i>  <spring:message code="dashboard.tiles.completedAp" /></span>
+                        <div class="count green"><c:out value="${doneAp}" /></div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-book"></i>  <spring:message code="dashboard.tiles.pendingAp" /></span>
+                        <div class="count green"><c:out value="${pendingAp}" /></div>
                     </div>
                 </div>
+                <!-- /top tiles -->
 
-                <div class="clearfix"></div>
 
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
+                <!-- appointments, msg, and reviews cols -->
+
+                <div class="row dash-items">
+                    <div class="col-md-4">
                         <div class="x_panel">
                             <div class="x_title">
-                                <h2>Plain Page</h2>
+                                <h2><spring:message code="dashboard.appointments.title" /></h2>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-                                <spring:message code="sprovider.add-content"/>
+                                <c:choose>
+                                    <c:when test="${appointments.size() == 0}">
+                                        <div class="empty-list ap">
+                                            <div class="img"></div>
+                                            <p><spring:message code="empty-pendingAppointment" /></p>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach items="${appointments}" var="ap">
+                                            <article class="media event">
+                                                <a class="pull-left date">
+                                                    <p class="month"><spring:message code="month.${ap.date.month}" /></p>
+                                                    <p class="day"><c:out value="${ap.date.day}" /></p>
+                                                </a>
+                                                <div class="media-body">
+                                                    <h5 class="title"><c:out value="${ap.client.firstname}" /></h5>
+                                                    <p><c:out value="${ap.serviceType.name}" /></p>
+                                                </div>
+                                            </article>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><spring:message code="dashboard.msg.title" /></h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <c:choose>
+                                    <c:when test="${chats.size() == 0}">
+                                        <div class="empty-list msg">
+                                            <div class="img"></div>
+                                            <p><spring:message code="emptyMsg" /></p>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach items="${chats}" var="chat">
+                                            <article class="media event">
+                                                <a class="pull-left img">
+                                                    <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile Img" />
+                                                </a>
+                                                <div class="media-body">
+                                                    <h5 class="title"><c:out value="${chat.grey.firstname}" /></h5>
+                                                    <p><c:out value="${chat.preview}" /></p>
+                                                </div>
+                                            </article>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2><spring:message code="dashboard.reviews.title" /></h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <c:choose>
+                                    <c:when test="${reviews.size() == 0}">
+                                        <div class="empty-list review">
+                                            <div class="img"></div>
+                                            <p><spring:message code="emptyStars" /></p>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach items="${reviews}" var="review">
+                                            <article class="media event">
+                                                <a class="pull-left img">
+                                                    <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile Img" />
+                                                </a>
+                                                <div class="media-body">
+                                                    <h5 class="title"><c:out value="${review.user.firstname}" /></h5>
+                                                    <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
+                                                </div>
+                                            </article>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>
@@ -85,5 +188,12 @@
 
 <!-- Custom Theme Scripts -->
 <script src="<c:url value="/resources/adminTemplate/build/js/custom.min.js"/>"></script>
+<script src="<c:url value="/resources/js/customJs.js"/>"></script>
+
+<script>
+    $(document).ready(function () {
+        generateStars();
+    });
+</script>
 </body>
 </html>

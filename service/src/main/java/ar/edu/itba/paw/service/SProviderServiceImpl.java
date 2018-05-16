@@ -85,6 +85,13 @@ public class SProviderServiceImpl implements SProviderService {
         return sProviderDao.updateDescriptionOfServiceProvider(userId,description);
     }
 
+    @Override
+    public List<Review> getLatestReviewsOfServiceProvider(int providerId) {
+        final List<Review> reviews = getReviewsOfServiceProvider(providerId);
+        int start = 0, end = reviews.size() >= 4 ? 4 : reviews.size();
+        return reviews.subList(start, end);
+    }
+
     public List<ServiceType> getServiceTypes(){
         return sTypeDao.getServiceTypes();
     }
