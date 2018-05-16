@@ -65,7 +65,14 @@
                             <em><c:out value="${aptitude.service.name}"/> </em>
                             </c:forEach>
                         </div>
-                        <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>"></div>
+                        <c:choose>
+                            <c:when test="${provider.generalCalification == 0}">
+                                <p class="empty-stars"><spring:message code="emptyStars" /></p>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>"></div>
+                            </c:otherwise>
+                        </c:choose>
                         <div class="hline toLeft hidden-xs"></div>
                         <div class="hline toRight hidden-xs"></div>
                     </div>
@@ -151,43 +158,54 @@
                             </div>
                             <div class="col-xs-12 col-md-4">
                                 <div class="panel">
-                                    <div class="panel-body aptitude-bars">
-                                        <h4><spring:message code="profile.general-reviews"/></h4>
-                                        <div class="stars dyn-stars" data-rating="<c:out value="${aptitude.generalCalification}"/>"></div>
-                                        <div class="progressBars">
-                                            <h5><spring:message code="form.quality"/></h5>
-                                            <div class="progress">
+                                    <c:choose>
+                                        <c:when test="${aptitude.reviews.size() == 0}" >
+                                            <div class="panel-body">
+                                                <div class="empty-reviews">
+                                                    <div class="img"></div>
+                                                </div>
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="panel-body aptitude-bars">
+                                                <h4><spring:message code="profile.general-reviews"/></h4>
+                                                <div class="stars dyn-stars" data-rating="<c:out value="${aptitude.generalCalification}"/>"></div>
+                                                <div class="progressBars">
+                                                    <h5><spring:message code="form.quality"/></h5>
+                                                    <div class="progress">
 
-                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.qualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.qualityCalification*20}"/>%;">
-                                                    <c:out value="${aptitude.qualityCalification}"/>
+                                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.qualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.qualityCalification*20}"/>%;">
+                                                            <c:out value="${aptitude.qualityCalification}"/>
+                                                        </div>
+                                                    </div>
+                                                    <h5><spring:message code="form.price"/></h5>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.priceCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.priceCalification*20}"/>%;">
+                                                            <c:out value="${aptitude.priceCalification}"/>
+                                                        </div>
+                                                    </div>
+                                                    <h5><spring:message code="form.punctuality"/></h5>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.punctualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.punctualityCalification*20}"/>%;">
+                                                            <c:out value="${aptitude.punctualityCalification}"/>
+                                                        </div>
+                                                    </div>
+                                                    <h5><spring:message code="form.treatment"/></h5>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.treatmentCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.treatmentCalification*20}"/>%;">
+                                                            <c:out value="${aptitude.treatmentCalification}"/>
+                                                        </div>
+                                                    </div>
+                                                    <h5><spring:message code="form.cleanness"/></h5>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.cleannessCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.cleannessCalification*20}"/>%;">
+                                                            <c:out value="${aptitude.cleannessCalification}"/>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <h5><spring:message code="form.price"/></h5>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.priceCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.priceCalification*20}"/>%;">
-                                                    <c:out value="${aptitude.priceCalification}"/>
-                                                </div>
-                                            </div>
-                                            <h5><spring:message code="form.punctuality"/></h5>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.punctualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.punctualityCalification*20}"/>%;">
-                                                    <c:out value="${aptitude.punctualityCalification}"/>
-                                                </div>
-                                            </div>
-                                            <h5><spring:message code="form.treatment"/></h5>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.treatmentCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.treatmentCalification*20}"/>%;">
-                                                    <c:out value="${aptitude.treatmentCalification}"/>
-                                                </div>
-                                            </div>
-                                            <h5><spring:message code="form.cleanness"/></h5>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.cleannessCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.cleannessCalification*20}"/>%;">
-                                                    <c:out value="${aptitude.cleannessCalification}"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                             </div>
                         </div>
@@ -199,39 +217,45 @@
                     <div class="col-xs-12 col-sm-8 col-md-9">
                         <div class="panel">
                             <div class="panel-body">
-                             <c:forEach items="${aptitude.reviews}" var="review">
-                                 <div class="line-divider"></div>
-                                 <div class="review-item">
-                                    <div class="row">
-                                        <div class="col-xs-6 col-sm-3 col-md-2">
-                                            <div class="profileImg">
-                                                <img src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Img" />
-                                                <div class="name hidden-xs">
-                                                    <h5><c:out value="" /><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></h5>
+                                <c:choose>
+                                    <c:when test="${aptitude.reviews.size() == 0}" >
+                                        <p class="empty-reviews"><spring:message code="emptyStars" /></p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach items="${aptitude.reviews}" var="review">
+                                            <div class="line-divider"></div>
+                                            <div class="review-item">
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-sm-3 col-md-2">
+                                                        <div class="profileImg">
+                                                            <img src="<c:url value="/resources/img/img.jpg"/>" alt="Profile Img" />
+                                                            <div class="name hidden-xs">
+                                                                <h5><c:out value="" /><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-9 col-md-10 divider-left">
+                                                        <div class="name visible-xs">
+                                                            <h5><c:out value="${review.user.username}" /></h5>
+                                                        </div>
+                                                        <div class="date"><c:out value="${review.date}" /></div>
+                                                        <div class="dotDivider hidden-xs">&#x25CF;</div>
+                                                        <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-6 col-sm-9 col-md-10 divider-left">
-                                            <div class="name visible-xs">
-                                                <h5><c:out value="${review.user.username}" /></h5>
-                                            </div>
-                                            <div class="date"><c:out value="${review.date}" /></div>
-                                            <div class="dotDivider hidden-xs">&#x25CF;</div>
-                                            <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-0 col-sm-3 col-md-2"></div>
-                                        <div class="col-xs-12 col-sm-9 col-md-10 divider-left">
-                                            <p class="description">
-                                                <c:out value="${review.comment}" />
-                                            </p>
-                                        </div>
-                                    </div>
+                                                <div class="row">
+                                                    <div class="col-xs-0 col-sm-3 col-md-2"></div>
+                                                    <div class="col-xs-12 col-sm-9 col-md-10 divider-left">
+                                                        <p class="description">
+                                                            <c:out value="${review.comment}" />
+                                                        </p>
+                                                    </div>
+                                                </div>
 
-                                </div>
-                             </c:forEach>
-
+                                            </div>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
 
                             </div>
                         </div>

@@ -70,7 +70,7 @@ public class ReviewJdbcDao implements ReviewDao {
         List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM reviews WHERE aptitudeId =?", ROW_MAPPER,aptitudeId);
 
         if(dbRowsList.isEmpty()){
-            return null;
+            return new ArrayList<>();
         }
 
         List<Review> reviews = new ArrayList<Review>();
