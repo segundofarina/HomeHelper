@@ -67,6 +67,7 @@ public class MailServiceImpl implements MailService{
         catch (MailException ex) {
            // System.err.println(ex.getMessage());
             ex.printStackTrace();
+            
         }
     }
 
