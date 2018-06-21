@@ -2,13 +2,22 @@ package ar.edu.itba.paw.model;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.*;
 import java.sql.Blob;
 import java.util.Arrays;
 
-public class User {
 
-    private String username;
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_userid_seq")
+    @SequenceGenerator(sequenceName = "users_userid_seq", name = "users_userid_seq", allocationSize = 1)
+    @Column(name = "userid")
     private int id;
+    @Column(length = 100, nullable = false, unique = true)
+    private String username;
+    @Column(length = 100, nullable = false)
     private String password;
     private String firstname;
     private String lastname;
@@ -18,9 +27,11 @@ public class User {
     private String address;
     private boolean verified;
 
+    /* package */ User() {
+// Just for Hibernate, we love you!
+    }
 
-
-    public User(String username, int id, String password, String firstname, String lastname, String email, String phone, String address, byte[] image,boolean verified) {
+    public User(String username, int id, String password, String firstname, String lastname, String email, String phone, String address, byte[] image, boolean verified) {
         this.username = username;
         this.id = id;
         this.password = password;
@@ -30,7 +41,7 @@ public class User {
         this.phone = phone;
         this.image = image;
         this.address = address;
-        this.verified=verified;
+        this.verified = verified;
     }
 
     public boolean isVerified() {
