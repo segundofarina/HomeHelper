@@ -116,7 +116,7 @@
                                         <c:forEach items="${chats}" var="chat">
                                             <article class="media event">
                                                 <a class="pull-left img">
-                                                    <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile Img" />
+                                                    <img src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="profile picture" />
                                                 </a>
                                                 <div class="media-body">
                                                     <h5 class="title"><c:out value="${chat.grey.firstname}" /></h5>
@@ -148,7 +148,7 @@
                                         <c:forEach items="${reviews}" var="review">
                                             <article class="media event">
                                                 <a class="pull-left img">
-                                                    <img src="<c:url value="/resources/img/img.jpg" />" alt="Profile Img" />
+                                                    <img src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
                                                 </a>
                                                 <div class="media-body">
                                                     <h5 class="title"><c:out value="${review.user.firstname}" /></h5>

@@ -53,7 +53,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
     private DatabasePopulator databasePopulator() {
         final ResourceDatabasePopulator dbp = new ResourceDatabasePopulator();
-        dbp.addScript(dbReset);
+        dbp.addScript(schemaSql);
 
         return dbp;
     }
