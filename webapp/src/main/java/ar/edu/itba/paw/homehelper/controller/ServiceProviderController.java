@@ -8,16 +8,19 @@ import ar.edu.itba.paw.homehelper.form.UpdateAptitudeForm;
 import ar.edu.itba.paw.interfaces.services.*;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.Status;
+import ar.edu.itba.paw.model.TemporaryImage;
 import ar.edu.itba.paw.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 
 @Controller
@@ -43,6 +46,9 @@ public class ServiceProviderController {
 
     @Autowired
     private TempImagesService tempImagesService;
+
+    @Autowired
+    private UserService userService;
 
     @ModelAttribute("profileGeneralInfo")
     public ProfileGeneralInfo profileGeneralInfo(@ModelAttribute("loggedInUser") final User loggedInUser) {
@@ -182,7 +188,7 @@ public class ServiceProviderController {
     }
 
     @RequestMapping("/sprovider/editProfile")
-    public ModelAndView providerPosts(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "-1") final int elemErrorId, Model model) throws InvalidUsernameException {
+    public ModelAndView providerPosts(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "-1") final int elemErrorId, Model model,@RequestParam(required = false,value="img",defaultValue = "-1")final int img) throws InvalidUsernameException {
         final ModelAndView mav = new ModelAndView("serviceProviderCPEditProfile");
         if(loggedInUser == null) {
             throw new InvalidUsernameException();
@@ -199,6 +205,7 @@ public class ServiceProviderController {
 
         mav.addObject("errorElemId", elemErrorId);
         mav.addObject("editAptitude", -1);
+        mav.addObject("img", img);
 
         mav.addObject("workingZones", workingZonesService.getWorkingZonesOfProvider(providerId));
         mav.addObject("neightbourhoods", neighborhoodService.getAllNeighborhoods());
@@ -214,12 +221,25 @@ public class ServiceProviderController {
         if(errors.hasErrors()) {
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.profileGeneralInfo", errors);
             redrAttr.addFlashAttribute("profileGeneralInfo", form);
-            String redirect = "redirect:/sprovider/editProfile?error=" + form.getElemId();
+
+            String red =persistImage(form.getProfilePicture(),"",form.getSavedImgId());
+
+            String redirect = "redirect:/sprovider/editProfile?error=" + form.getElemId()+red;
             return new ModelAndView(redirect);
         }
 
+
+
         sProviderService.updateDescriptionOfServiceProvider(loggedInUser.getId(), form.getGeneralDescription());
         //update Image
+
+        byte[] image =null;
+        /* Check if image is uploaded */
+        image = retriveImage(form.getProfilePicture(),form.getSavedImgId());
+        if(image != null){
+            userService.updateImageOfUser(loggedInUser.getId(),image);
+        }
+
 
         return new ModelAndView("redirect:/sprovider/editProfile");
     }
@@ -305,5 +325,42 @@ public class ServiceProviderController {
         workingZonesService.insertWorkingZoneOfProvider(loggedInUser.getId(), form.getNgId());
 
         return new ModelAndView("redirect:/sprovider/editProfile");
+    }
+
+    public String persistImage(MultipartFile imageFile, String redirect, int savedId){
+        byte[] image=null;
+        if(imageFile.getSize() > 0) {
+            try {
+                image = imageFile.getBytes();
+            } catch (IOException e) {
+                image = null;
+            }
+
+            if(image != null && image.length !=0) {
+                TemporaryImage img = tempImagesService.insertImage(image);
+                redirect += "&img=" + img.getImageId();
+            }
+        } else if(savedId != -1) {
+            redirect += "&img=" + savedId;
+        }
+
+        return redirect;
+    }
+
+    public byte[] retriveImage(MultipartFile imageFile,int savedId){
+        byte[] image= null;
+        /* Check if image is uploaded */
+        if(imageFile.getSize() > 0) {
+            try{
+                image = imageFile.getBytes();
+            }catch (Exception e){
+                //Handle exception?
+                image = null;
+            }
+        } else if(savedId != -1) { /* If not check if image was uploaded before */
+            image = tempImagesService.getImage(savedId).getImage();
+            tempImagesService.deleteImage(savedId);
+        }
+        return image;
     }
 }

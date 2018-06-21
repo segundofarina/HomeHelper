@@ -43,7 +43,7 @@ public class ExceptionsControllerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class, UploadException.class})
     public ModelAndView generalFailureHandler(@ModelAttribute("loggedInUser") final User loggedInUser) {
-        System.out.println("500 error");
+        //System.out.println("500 error");
 
         final ModelAndView mav = new ModelAndView("error/500");
 

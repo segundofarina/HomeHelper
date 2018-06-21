@@ -283,7 +283,10 @@ public class ClientController {
         userService.updateLastNameOfUser(userId, form.getLastname());
         userService.updateEmailOfUser(userId, form.getEmail());
         userService.updatePhoneOfUser(userId, form.getPhone());
-        userService.updatePasswordOfUser(userId, form.getPasswordForm().getPassword());
+
+        if(!form.getPasswordForm().getPassword().isEmpty()) {
+            userService.updatePasswordOfUser(userId, form.getPasswordForm().getPassword());
+        }
 
         //update profile picture
 
@@ -292,7 +295,6 @@ public class ClientController {
         if(image != null){
             userService.updateImageOfUser(userId,image);
         }
-
 
 
         return new ModelAndView("redirect:/");

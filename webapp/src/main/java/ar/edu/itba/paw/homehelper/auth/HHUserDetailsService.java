@@ -35,10 +35,10 @@ public class HHUserDetailsService implements UserDetailsService {
         final ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
 
         if(user.isVerified()) {
-            System.out.println("User is verified");
+            LOGGER.info("{} is verified", user.getUsername());
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         } else {
-            System.out.println("User is unverified");
+            LOGGER.info("{} is unverified", user.getUsername());
             authorities.add(new SimpleGrantedAuthority("ROLE_UNVERIFIED_USER"));
         }
 

@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-import sun.tools.java.Type;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -122,7 +121,7 @@ public class SProviderJdbcDao implements SProviderDao {
 
     @Override
     public void updateDescriptionOfServiceProvider(int userId, String description) {
-        jdbcTemplate.update("UPDATE serviceProviders SET description =? WHERE userId =?", description==null? Type.NULL:description, userId);
+        jdbcTemplate.update("UPDATE serviceProviders SET description =? WHERE userId =?", description, userId);
     }
 
 

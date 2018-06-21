@@ -23,13 +23,11 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 
         /* Avoid showing page to unverified users */
         if(isUnverifiedUser(authentication)) {
-            System.out.println("after login is unverified");
             getRedirectStrategy().sendRedirect(request, response, "/unverified/user");
             super.onAuthenticationSuccess(request, response, authentication);
             return;
         }
 
-        System.out.println("after login is verified");
 
 
         if(session != null) {

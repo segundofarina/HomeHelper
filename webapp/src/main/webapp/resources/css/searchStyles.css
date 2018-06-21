@@ -83,8 +83,9 @@ label {
 
 .profileImg img {
     border-radius: 100%;
-    width: 100%;
-    height: 100%;
+    width: 7em;
+    height: 7em;
+    object-fit: cover;
 }
 
 .profileImg .profileBtn {
