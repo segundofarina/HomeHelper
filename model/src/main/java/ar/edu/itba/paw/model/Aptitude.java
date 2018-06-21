@@ -8,6 +8,7 @@ import java.util.Map;
 public class Aptitude {
     private ServiceType service;
     private String description;
+
     private List<Review> reviews;
     private int id;
 

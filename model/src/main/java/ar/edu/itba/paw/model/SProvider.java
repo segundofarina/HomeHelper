@@ -6,6 +6,7 @@ import java.util.Set;
 
 public class SProvider extends User{
     private String description;
+    //@ManyToMany(FetchType.Lazy)
     private List<Aptitude> aptitudes;
     private List<Neighborhood> neighborhoods;
 

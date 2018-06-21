@@ -78,6 +78,7 @@ public class ChatServiceImpl implements ChatService{
             return null;
         }
         return chat.get();
+        //Optional.of(chat).map()
 
     }
 
@@ -95,6 +96,8 @@ public class ChatServiceImpl implements ChatService{
     public boolean sendAppointmentMsg(int from, int to, String date, String description) {
         String msg = null;
         if(description.isEmpty()) {
+            //String locale = user.getLocale;
+            //Arrays.stream(Locale.getAvailableLocales()).filter(l => l.equals(locale));
             msg = context.getMessage("defaultChatMsg", new Object[] {date}, Locale.getDefault());
         } else {
             msg = context.getMessage("defaultChatMsgDesc", new Object[] {date, description}, Locale.getDefault());
