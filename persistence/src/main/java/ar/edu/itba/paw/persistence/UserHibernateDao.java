@@ -21,16 +21,56 @@ public class UserHibernateDao implements UserDao {
     }
 
     @Override
+    public User verifyUser(int userId) {
+        return null;
+    }
+
+    @Override
     public Optional<User> findByUsername(final String username) {
         final TypedQuery<User> query = em.createQuery("from User as u where u.username = :username", User.class);
         query.setParameter("username", username);
         final List<User> list = query.getResultList();
-        return list.isEmpty() ? null : Optional.of(list.get(0));
+        return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
     }
 
     @Override
     public Optional<User> findById(int id) {
         return Optional.of(em.find(User.class, id));
+    }
+
+    @Override
+    public boolean updatePasswordOfUser(int userId, String password) {
+        return true;
+    }
+
+    @Override
+    public boolean updateFirstNameOfUser(int userId, String firstname) {
+        return true;
+    }
+
+    @Override
+    public boolean updateLastNameOfUser(int userId, String lastname) {
+        return true;
+    }
+
+    @Override
+    public boolean updateEmailOfUser(int userId, String email) {
+        return true;
+    }
+
+    @Override
+    public boolean updatePhoneOfUser(int userId, String phone) {
+        return true;
+    }
+
+    @Override
+    public boolean updateImageOfUser(int userId, byte[] image) {
+        return true;
+    }
+
+    @Override
+    public boolean updateAddressOfUser(int userId, String address) {
+        return true;
     }
 }
 

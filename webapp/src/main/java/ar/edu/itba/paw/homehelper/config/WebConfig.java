@@ -1,6 +1,5 @@
 package ar.edu.itba.paw.homehelper.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -10,9 +9,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
-import org.springframework.jdbc.datasource.init.DataSourceInitializer;
-import org.springframework.jdbc.datasource.init.DatabasePopulator;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -24,13 +23,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-import java.io.IOException;
 import java.util.Properties;
 
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -151,16 +150,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
 
+
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        factoryBean.setPackagesToScan("ar.edu.itba.model");
+        factoryBean.setPackagesToScan("ar.edu.itba.paw.model");
         factoryBean.setDataSource(dataSource());
         final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         factoryBean.setJpaVendorAdapter(vendorAdapter);
         final Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
+        properties.setProperty("hibernate.dialect", "org. hibernate.dialect.PostgreSQL92Dialect");
 
         // Si ponen esto en prod, hay tabla!!!
         properties.setProperty("hibernate.show_sql", "true");
@@ -168,6 +168,28 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         factoryBean.setJpaProperties(properties);
         return factoryBean;
     }
+
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory(final DataSource dataSource) {
+//        final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+//        factoryBean.setPackagesToScan("tp.paw.khet.model");
+//        factoryBean.setDataSource(dataSource);
+//
+//        final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+//        factoryBean.setJpaVendorAdapter(vendorAdapter);
+//
+//        final Properties properties = new Properties();
+//        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
+//
+//        if (env.acceptsProfiles("!live")) {
+//            properties.setProperty("hibernate.show_sql", "true");
+//            properties.setProperty("format_sql", "true");
+//        }
+//
+//        factoryBean.setJpaProperties(properties);
+//        return factoryBean;
+//    }
 
     @Bean
     public PlatformTransactionManager transactionManager(final EntityManagerFactory emf) {
