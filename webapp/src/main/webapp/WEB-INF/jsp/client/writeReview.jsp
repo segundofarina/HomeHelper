@@ -84,6 +84,7 @@
                                     <c:url value="/client/sendReview" var="postPath"/>
                                     <form:form modelAttribute="reviewForm" action="${postPath}" method="post">
                                         <form:input path="appointmentId" type="hidden" value="${appointment.appointmentId}" />
+                                        <form:input path="providerId" type="hidden" value="${appointment.provider.id}" />
 
                                         <div class="star-container">
                                             <div class="row">

@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.interfaces.daos.AppointmentDao;
+import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.Status;
@@ -18,6 +19,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     AppointmentDao appointmentDao;
+
+    @Autowired
+    AptitudeDao aptitudeDao;
 
     @Override
     public List<Appointment> getAppointmentsByProviderId(int providerId) {
@@ -132,7 +136,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+    public void reviewAppointment(int appointmentId, int userId, int serviceTypeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+        int aptitudeId = aptitudeDao.getAptitudeId(userId, serviceTypeId);
         appointmentDao.reviewAppointment(appointmentId,userId,aptitudeId,quality,cleanness,price,punctuality,treatment,comment);
     }
 

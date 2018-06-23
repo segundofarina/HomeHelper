@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 public class ReviewForm {
 
     private int appointmentId;
+    private int providerId;
 
     @NotBlank
     private String quality;
@@ -106,6 +107,14 @@ public class ReviewForm {
 
     public int getMsgInt() {
         return Integer.parseInt(msg);
+    }
+
+    public int getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(int providerId) {
+        this.providerId = providerId;
     }
 }
 
