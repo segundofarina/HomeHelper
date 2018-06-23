@@ -14,6 +14,8 @@ public class Neighborhood {
     @Column(name ="ngname", length = 100)
     private String ngname;
 
+    /* package */ Neighborhood(){ }
+
     public Neighborhood(int id){
 
     }
@@ -42,5 +44,9 @@ public class Neighborhood {
     public int hashCode() {
 
         return Objects.hash(ngId);
+    }
+
+    public String getNgName() {
+        return this.ngname;
     }
 }

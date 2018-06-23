@@ -3,7 +3,6 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.daos.NeighborhoodDao;
 import ar.edu.itba.paw.interfaces.daos.SProviderDao;
 import ar.edu.itba.paw.model.Neighborhood;
-import ar.edu.itba.paw.model.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,8 +12,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-
-@Repository
+//@Repository
 public class NeighborhoodJdbcDao implements NeighborhoodDao {
 
 

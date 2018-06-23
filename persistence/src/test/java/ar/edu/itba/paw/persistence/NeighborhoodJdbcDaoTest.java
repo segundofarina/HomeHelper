@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.daos.NeighborhoodDao;
+import ar.edu.itba.paw.model.Neighborhood;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,14 +11,21 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import static junit.framework.TestCase.assertEquals;
 @Sql("classpath:schema.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Rollback
-
+@Transactional
 public class NeighborhoodJdbcDaoTest {
+
+    @PersistenceContext
+    private EntityManager em;
 
     @Autowired
     NeighborhoodDao neighborhoodDao;
@@ -35,11 +43,8 @@ public class NeighborhoodJdbcDaoTest {
     @Test
     public void insertNeighborhoodTest(){
 
-        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "neighborhoods");
-
-        assertEquals(++count,neighborhoodDao.insertNeighborhood("Almagro"));
-
-        assertEquals(count,JdbcTestUtils.countRowsInTable(jdbcTemplate,"neighborhoods"));
+        int id = neighborhoodDao.insertNeighborhood("Almagro");
+        assertEquals(em.find(Neighborhood.class,id).getNgName(),"Almagro");
     }
 
     @Test
