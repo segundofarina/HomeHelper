@@ -11,6 +11,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
 import java.sql.SQLException;
@@ -21,6 +25,7 @@ import static junit.framework.Assert.*;
 @Sql("classpath:schema.sql")
     @RunWith(SpringJUnit4ClassRunner.class)
     @ContextConfiguration(classes = TestConfig.class)
+@Transactional
     public class UserJdbcDaoTest {
         private static final String PASSWORD = "Password";
         private static final String USERNAME = "Username";
@@ -31,8 +36,11 @@ import static junit.framework.Assert.*;
         private static final byte[] IMAGE = new byte[]{1, 0, 1, 0};
         private static final String ADDRESS = "cuba 2546";
 
-    @Autowired
+        @Autowired
         private DataSource ds;
+
+    @PersistenceContext
+    private EntityManager em;
 
         @Autowired
         private UserDao userDao;

@@ -1,18 +1,24 @@
 package ar.edu.itba.paw.model;
 
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
+@Entity
+@PrimaryKeyJoinColumn(name = "userId")
+@Table(name = "serviceProviders")
 public class SProvider extends User{
+
+    @Column(name = "description",length = 100, nullable = false)
     private String description;
-    //@ManyToMany(FetchType.Lazy)
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     private List<Aptitude> aptitudes;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     private List<Neighborhood> neighborhoods;
 
     public SProvider(User user, String description, List<Aptitude> aptitudes, List<Neighborhood> neighborhoods) {
-        super(user.getUsername(),user.getId(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getAddress(),user.getImage(),user.isVerified());
-
+        super(user.getUsername(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getAddress(),user.getImage(),user.isVerified());
         this.description = description;
         this.aptitudes = aptitudes;
         this.neighborhoods = neighborhoods;
