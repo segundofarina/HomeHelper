@@ -54,8 +54,26 @@
 
 
                         <div class="profileImgEdit">
-                            <c:url value="/tempImg/${img}" var="tempImg" />
-                            <div id="image-preview" style="background-image: url('${tempImg}')"></div><!-- si tiene foto de perfil se agrega con un style="background-image: url('');" -->
+                            <c:choose>
+                                <%-- If I have a tem img show it --%>
+                                <c:when test="${img != -1}">
+                                    <c:url value="/tempImg/${img}" var="tempImg" />
+                                    <div id="image-preview" style="background-image: url('${tempImg}')"></div>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:choose>
+                                        <%-- Otherwise if I have a profile img show it --%>
+                                        <c:when test="${user.image != null}">
+                                            <c:url value="/profile/${user.id}/profileimage" var="profileImg" />
+                                            <div id="image-preview" style="background-image: url('${profileImg}')"></div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <%-- default case --%>
+                                            <div id="image-preview"></div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:otherwise>
+                            </c:choose>
                                 <%--<c:choose>
                                     <c:when test="${profilePicture != null}">
                                         <c:url value="${profilePicture}" var="img" />

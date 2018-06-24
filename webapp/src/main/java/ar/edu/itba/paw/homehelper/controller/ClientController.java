@@ -242,7 +242,7 @@ public class ClientController {
     }
 
     @RequestMapping("/client/settings")
-    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model, @RequestParam(required = false,value="img",defaultValue = "-1")final int img) {
+    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model, @RequestParam(required = false, value="img", defaultValue = "-1")final int img) {
        final ModelAndView mav = new ModelAndView("settings");
 
         mav.addObject("user", loggedInUser);
