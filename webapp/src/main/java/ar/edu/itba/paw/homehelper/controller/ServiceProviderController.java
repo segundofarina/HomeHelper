@@ -155,10 +155,9 @@ public class ServiceProviderController {
         if(loggedInUser == null) {
             throw new InvalidUsernameException();
         }
-        final int providerId = loggedInUser.getId();
         final ModelAndView mav = new ModelAndView("serviceProviderCPReviews");
 
-        mav.addObject("providerId", providerId);
+        mav.addObject("providerId", loggedInUser.getId());
         mav.addObject("providerName", loggedInUser.getFirstname());
 
         mav.addObject("reviews", sProviderService.getReviewsOfServiceProvider(loggedInUser.getId()));

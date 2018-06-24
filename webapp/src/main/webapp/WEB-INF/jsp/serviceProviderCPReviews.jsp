@@ -70,18 +70,72 @@
                                                 <th><spring:message code="general.name"/></th>
                                                 <th><spring:message code="general.date"/></th>
                                                 <th><spring:message code="general.review"/></th>
+                                                <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <c:forEach items="${reviews}" var="review">
-                                                <tr>
-                                                    <th>
+                                                <tr class="review-header" data-toggle="collapse" data-target="#review<c:out value="${review.user.id}"/>" aria-expanded="false">
+                                                    <td>
                                                         <img class="profileImage" src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
-                                                    </th>
+                                                    </td>
                                                     <td><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></td>
                                                     <td><c:out value="${review.date}" /></td>
                                                     <td>
                                                         <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="arrow">
+                                                            <i class="fa fa-caret-down"></i>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="review-detail">
+                                                    <td colspan="5">
+                                                        <!-- cambiar por review id -->
+                                                        <div class="collapse info" id="review<c:out value="${review.user.id}"/>">
+                                                            <div class="content">
+                                                                <div class="row">
+                                                                    <div class="col-xs-12 col-md-6 firstCol">
+                                                                        <h4>Calificacion:</h4>
+                                                                        <div class="row">
+                                                                            <div class="col-xs-12 col-sm-6">
+                                                                                <div class="star-item">
+                                                                                    <h5>Calificacion General:</h5>
+                                                                                    <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
+                                                                                </div>
+                                                                                <div class="star-item">
+                                                                                    <h5>Calidad:</h5>
+                                                                                    <div class="stars dyn-stars" data-rating="<c:out value="${review.qualityCalification}"/>"></div>
+                                                                                </div>
+                                                                                <div class="star-item">
+                                                                                    <h5>Precio:</h5>
+                                                                                    <div class="stars dyn-stars" data-rating="<c:out value="${review.priceCalification}"/>"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-sm-6">
+                                                                                <div class="star-item">
+                                                                                    <h5>Puntualidad:</h5>
+                                                                                    <div class="stars dyn-stars" data-rating="<c:out value="${review.punctualityCalification}"/>"></div>
+                                                                                </div>
+                                                                                <div class="star-item">
+                                                                                    <h5>Trato:</h5>
+                                                                                    <div class="stars dyn-stars" data-rating="<c:out value="${review.treatmentCalification}"/>"></div>
+                                                                                </div>
+                                                                                <div class="star-item">
+                                                                                    <h5>Limpieza:</h5>
+                                                                                    <div class="stars dyn-stars" data-rating="<c:out value="${review.cleannessCalification}"/>"></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-md-6">
+                                                                        <h4>Comentarios:</h4>
+                                                                        <p><c:out value="${review.comment}" /></p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -123,6 +177,17 @@
 <script>
     $(document).ready(function(){
         generateStars();
+
+
+        $(".review-header").click(function () {
+            var arrow = $(this).find(".arrow");
+
+            if(arrow.hasClass("rotate")) {
+                arrow.removeClass("rotate");
+            } else {
+                arrow.addClass("rotate");
+            }
+        })
     });
 </script>
 </body>
