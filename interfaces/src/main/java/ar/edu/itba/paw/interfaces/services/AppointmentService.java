@@ -30,6 +30,12 @@ public interface AppointmentService {
     /* Returns pending and confirmed */
     List<Appointment> getPendingAppointmentWithUserId(int userId);
 
+    /* Returns reject and done */
+    List<Appointment> getCompleteAppointmentWithProviderId(int providerId);
+
+    /* Returns reject and done */
+    List<Appointment> getCompleteAppointmentWithUserId(int userId);
+
     boolean updateDateOfAppointment(int appointmentId, String date);
 
     boolean rejectAppointment(int appointmentId);

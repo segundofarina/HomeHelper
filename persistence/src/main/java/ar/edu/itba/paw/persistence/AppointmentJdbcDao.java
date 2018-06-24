@@ -72,7 +72,7 @@ public class AppointmentJdbcDao implements AppointmentDao {
     @Override
     public List<Appointment> getAppointmentsByProviderId(int providerId) {
 
-        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM appointments WHERE providerId =? ", ROW_MAPPER, providerId);
+        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM appointments WHERE providerId =? ORDER BY appointmentId DESC ", ROW_MAPPER, providerId);
 
         List<Appointment> appointments = new ArrayList<>();
 
@@ -90,7 +90,7 @@ public class AppointmentJdbcDao implements AppointmentDao {
     @Override
     public List<Appointment> getAppointmentsByUserId(int userId) {
 
-        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM appointments WHERE userId =? ", ROW_MAPPER, userId);
+        List<Row> dbRowsList = jdbcTemplate.query("SELECT * FROM appointments WHERE userId =? ORDER BY appointmentId DESC", ROW_MAPPER, userId);
 
         List<Appointment> appointments = new ArrayList<>();
 

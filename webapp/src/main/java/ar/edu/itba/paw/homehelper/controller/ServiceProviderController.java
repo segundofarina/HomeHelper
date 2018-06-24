@@ -145,7 +145,7 @@ public class ServiceProviderController {
         mav.addObject("providerId", providerId);
         mav.addObject("providerName", loggedInUser.getFirstname());
         mav.addObject("appointmentsPending", appointmentService.getPendingAppointmentWithProviderId(providerId));
-        mav.addObject("appointmentsDone", appointmentService.getAppointmentsByProviderId(providerId, Status.Done));
+        mav.addObject("appointmentsDone", appointmentService.getCompleteAppointmentWithProviderId(providerId));
 
         return mav;
     }

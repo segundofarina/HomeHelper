@@ -200,7 +200,8 @@ public class ClientController {
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
         mav.addObject("appointmentsPending", appointmentService.getPendingAppointmentWithUserId(loggedInUser.getId()));
-        mav.addObject("appointmentsDone", appointmentService.getAppointmentsByUserId(loggedInUser.getId(), Status.Done));
+        mav.addObject("appointmentsDone", appointmentService.getCompleteAppointmentWithUserId(loggedInUser.getId()));
+        mav.addObject("rejectStatus", Status.Reject.getNumVal());
 
        return mav;
     }
