@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.model;
 
 public enum Status {
-    Pending(1), Confirmed(2), Done(3);
+    Pending(1), Confirmed(2), Done(3), Reject(4);
 
     private int numVal;
 
@@ -24,6 +24,9 @@ public enum Status {
         if(numVal == 3) {
             return "Done";
         }
+        if(numVal == 4) {
+            return "Reject";
+        }
         return "Undefined";
     }
 
@@ -35,7 +38,9 @@ public enum Status {
             return Confirmed;
         }else if(status == 3){
             return Done;
-        }else{
+        }else if(status == 4){
+            return Reject;
+        } else {
             return null;
         }
     }
@@ -47,6 +52,8 @@ public enum Status {
             return Confirmed;
         }else if(status.equals("Done")){
             return Done;
+        }else if(status.equals("Reject")){
+            return Reject;
         }else{
             return null;
         }

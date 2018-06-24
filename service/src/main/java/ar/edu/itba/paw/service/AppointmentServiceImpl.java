@@ -115,6 +115,34 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<Appointment> getCompleteAppointmentWithProviderId(int providerId) {
+        List<Appointment> appointments = getAppointmentsByProviderId(providerId);
+        List<Appointment> ans = new ArrayList<>();
+
+        for(Appointment appointment : appointments){
+            if(appointment.getStatus().equals(Status.Done) || appointment.getStatus().equals(Status.Reject)){
+                ans.add(appointment);
+            }
+        }
+
+        return ans;
+    }
+
+    @Override
+    public List<Appointment> getCompleteAppointmentWithUserId(int userId) {
+        List<Appointment> appointments = getAppointmentsByUserId(userId);
+        List<Appointment> ans = new ArrayList<>();
+
+        for(Appointment appointment : appointments) {
+            if(appointment.getStatus().equals(Status.Done) || appointment.getStatus().equals(Status.Reject)){
+                ans.add(appointment);
+            }
+        }
+
+        return ans;
+    }
+
+    @Override
     public boolean updateDateOfAppointment(int appointmentId, String date) {
         Date appointmentDate = tryParse(date);
         if(appointmentDate==null){
@@ -125,7 +153,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public boolean rejectAppointment(int appointmentId) {
-        return appointmentDao.removeAppointment(appointmentId);
+        return appointmentDao.updateStatusOfAppointment(appointmentId,Status.Reject);
     }
 
     @Override
@@ -134,6 +162,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         int start = 0, end = ap.size() >= 4 ? 4 : ap.size();
         return ap.subList(start, end);
     }
+
 
     @Override
     public void reviewAppointment(int appointmentId, int userId, int serviceTypeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
