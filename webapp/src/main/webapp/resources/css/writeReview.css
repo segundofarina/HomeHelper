@@ -8,7 +8,9 @@
 }
 
 .app-profile .app-header img {
-    max-width: 8em;
+    width: 8em;
+    height: 8em;
+    object-fit: cover;
     border-radius: 100%;
 }
 
