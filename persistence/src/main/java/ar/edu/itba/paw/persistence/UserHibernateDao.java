@@ -3,11 +3,14 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.model.User;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.Optional;
+
+@Transactional
 @Repository
 public class UserHibernateDao implements UserDao {
     @PersistenceContext
@@ -39,7 +42,7 @@ public class UserHibernateDao implements UserDao {
 
     @Override
     public java.util.Optional<User> findById(int id) {
-        return Optional.of(em.find(User.class, id));
+        return Optional.ofNullable(em.find(User.class, id));
     }
 
     @Override
@@ -48,9 +51,7 @@ public class UserHibernateDao implements UserDao {
         if(!user.isPresent()){
             return false;
         }
-        em.getTransaction().begin();
         user.get().setPassword(password);
-        em.getTransaction().commit();
         return true;
     }
 
@@ -61,9 +62,7 @@ public class UserHibernateDao implements UserDao {
         if(!user.isPresent()){
             return false;
         }
-        em.getTransaction().begin();
         user.get().setFirstname(firstname);
-        em.getTransaction().commit();
         return true;
     }
 
@@ -74,9 +73,7 @@ public class UserHibernateDao implements UserDao {
         if(!user.isPresent()){
             return false;
         }
-        em.getTransaction().begin();
         user.get().setLastname(lastname);
-        em.getTransaction().commit();
         return true;
     }
 
@@ -86,9 +83,7 @@ public class UserHibernateDao implements UserDao {
         if(!user.isPresent()){
             return false;
         }
-        em.getTransaction().begin();
         user.get().setEmail(email);
-        em.getTransaction().commit();
         return true;
     }
 
@@ -98,9 +93,7 @@ public class UserHibernateDao implements UserDao {
         if(!user.isPresent()){
             return false;
         }
-        em.getTransaction().begin();
         user.get().setPhone(phone);
-        em.getTransaction().commit();
         return true;
     }
 
@@ -111,9 +104,7 @@ public class UserHibernateDao implements UserDao {
         if(!user.isPresent()){
             return false;
         }
-        em.getTransaction().begin();
         user.get().setImage(image);
-        em.getTransaction().commit();
         return true;
     }
 
@@ -123,9 +114,7 @@ public class UserHibernateDao implements UserDao {
         if(!user.isPresent()){
             return false;
         }
-        em.getTransaction().begin();
         user.get().setAddress(address);
-        em.getTransaction().commit();
         return true;
     }
 }

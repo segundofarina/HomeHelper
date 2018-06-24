@@ -14,6 +14,10 @@ public class Appointment {
     private String jobDescripcion;
     private boolean clientReview;
 
+    /* package */ Appointment(){
+
+    }
+
     public Appointment(int appointmentId, User client, SProvider provider, ServiceType serviceType, Date date, String address, Status estatus, String jobDescripcion,boolean clientReview) {
         this.appointmentId = appointmentId;
         this.client = client;

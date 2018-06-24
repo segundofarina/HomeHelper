@@ -35,18 +35,19 @@ CREATE TABLE IF NOT EXISTS serviceTypes (
 );
 
 CREATE TABLE IF NOT EXISTS serviceProviders(
-  userId INTEGER REFERENCES users(userid) PRIMARY KEY,
+  userid INTEGER REFERENCES users(userid) PRIMARY KEY,
   description VARCHAR(1000) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS aptitudes(
   aptitudeId INTEGER IDENTITY PRIMARY KEY,
-  userId INTEGER REFERENCES serviceProviders(userId),
+  userid INTEGER REFERENCES serviceProviders(userid),
   serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
   description VARCHAR(1000) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS reviews(
+  reviewId INTEGER IDENTITY PRIMARY KEY,
   userId INTEGER REFERENCES users(userId),
   aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
   reviewdate TIMESTAMP default CURRENT_DATE,
@@ -78,6 +79,7 @@ CREATE TABLE IF NOT EXISTS appointments(
 );
 
 CREATE TABLE IF NOT EXISTS workingzones(
+  workingZoneId INTEGER IDENTITY PRIMARY KEY,
   ngId INTEGER REFERENCES neighborhoods(ngId),
   userId INTEGER REFERENCES serviceProviders(userId)
 );
@@ -114,9 +116,9 @@ insert into aptitudes VALUES (2,3,2,'Martinsulis tambien es Pintor');
 insert into aptitudes VALUES (3,4,1,'Carlos el carpintero');
 insert into aptitudes VALUES (4,4,3,'Carlos obrero');
 
-insert into reviews VALUES (1,1,default,4,5,3,4,4,'Soy Segundo me encanto tu trabajo de carpinteria Martin');
-insert into reviews VALUES (1,1,default,4,5,3,4,44,'Soy Segundo me encanto tu segundo trabajo de carpinteria Martin');
-insert into reviews VALUES (2,2,default,4,5,3,4,4,'Soy Florencia me encanto el empapelado Martin');
+insert into reviews VALUES (1,1,1,default,4,5,3,4,4,'Soy Segundo me encanto tu trabajo de carpinteria Martin');
+insert into reviews VALUES (2,1,1,default,4,5,3,4,44,'Soy Segundo me encanto tu segundo trabajo de carpinteria Martin');
+insert into reviews VALUES (3,2,2,default,4,5,3,4,4,'Soy Florencia me encanto el empapelado Martin');
 
 insert into messages VALUES (2,5,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
 insert into messages VALUES (5,2,'Hola Florencia si que necesitas?',DEFAULT );
@@ -129,9 +131,10 @@ insert into messages VALUES (2,4,'Jajaja',DEFAULT );
 
 insert into appointments VALUES (1,1,3,1,DEFAULT ,'cuba 2546 6p','Pending','soy flor cavallin, tincho haceme un mueble nuevo',false);
 
-insert into workingzones VALUES (1,3);
-insert into workingzones VALUES (2,3);
-insert into workingzones VALUES (3,3);
+insert into workingzones VALUES (1,1,3);
+insert into workingzones VALUES (2,2,3);
+insert into workingzones VALUES (3,3,3);
+
 
 
 

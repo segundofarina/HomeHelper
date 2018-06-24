@@ -5,12 +5,14 @@ import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.ServiceType;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.*;
 
+@Transactional
 @Repository
 public class AptitudeHibernateDao implements AptitudeDao {
     @PersistenceContext
@@ -19,7 +21,7 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public List<Aptitude> getAptitudesOfUser(int id) {
-        final TypedQuery<Aptitude> query = em.createQuery("from aptitudes as a where a.userid = :userid", Aptitude.class);
+        final TypedQuery<Aptitude> query = em.createQuery("from Aptitude as a where a.id = :userid", Aptitude.class);
         query.setParameter("userid",id);
         return query.getResultList();
     }
@@ -34,7 +36,7 @@ public class AptitudeHibernateDao implements AptitudeDao {
         if(!st.isPresent()){
             return false;
         }
-        final Aptitude user = new Aptitude(sp.get(),st.get(),description,new ArrayList<>());
+        final Aptitude user = new Aptitude(sp.get(),st.get(),description,Collections.emptyList());
         em.persist(user);
         return true;
     }
@@ -45,9 +47,7 @@ public class AptitudeHibernateDao implements AptitudeDao {
         if(!aptitude.isPresent()){
             return false;
         }
-        em.getTransaction().begin();
         aptitude.get().setDescription(description);
-        em.getTransaction().commit();
         return true;
     }
 
@@ -61,9 +61,7 @@ public class AptitudeHibernateDao implements AptitudeDao {
         if(!st.isPresent()){
             return false;
         }
-        em.getTransaction().begin();
         aptitude.get().setService(st.get());
-        em.getTransaction().commit();
         return true;
     }
 
@@ -74,7 +72,7 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public int getAptitudeId(int userId, int stId) {
-        final TypedQuery<Aptitude> query = em.createQuery("from aptitudes as a where a.userid = :userid and a.serviceTypeId = :stid", Aptitude.class);
+        final TypedQuery<Aptitude> query = em.createQuery("from Aptitude as a where a.id = :userid and a.service.serviceTypeId = :stid", Aptitude.class);
         query.setParameter("userid",userId);
         query.setParameter("stid",stId);
         return query.getResultList().get(0).getId();

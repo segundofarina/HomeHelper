@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.daos.NeighborhoodDao;
+import ar.edu.itba.paw.model.Neighborhood;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,15 +41,26 @@ public class NeighborhoodJdbcDaoTest {
     public void insertNeighborhoodTest(){
 
         int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "neighborhoods");
+//        for(Neighborhood n : neighborhoodDao.getAllNeighborhoods()){
+//            System.out.println(n.getNgId());
+//        }
 
-        assertEquals(++count,neighborhoodDao.insertNeighborhood("Almagro"));
+        neighborhoodDao.insertNeighborhood("Almagro");
 
-        assertEquals(count,JdbcTestUtils.countRowsInTable(jdbcTemplate,"neighborhoods"));
+//        for(Neighborhood n : neighborhoodDao.getAllNeighborhoods()){
+//            System.out.println(n.getNgId());
+//        }
+        //assertEquals("",++count,neighborhoodDao.insertNeighborhood("Almagro"));
+
+        assertEquals(count+1,JdbcTestUtils.countRowsInTable(jdbcTemplate,"neighborhoods"));
     }
 
     @Test
     public void getAllNeighborhoodsTest(){
 
         assertEquals(JdbcTestUtils.countRowsInTable(jdbcTemplate,"neighborhoods"),neighborhoodDao.getAllNeighborhoods().size());
+        for(Neighborhood n : neighborhoodDao.getAllNeighborhoods()){
+            System.out.println(n.getNgId());
+        }
     }
 }

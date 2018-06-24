@@ -4,24 +4,31 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@PrimaryKeyJoinColumn(name = "userId")
+@PrimaryKeyJoinColumn(name = "userid")
 @Table(name = "serviceProviders")
 public class SProvider extends User{
 
     @Column(name = "description",length = 100, nullable = false)
     private String description;
 
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userid")
     private List<Aptitude> aptitudes;
 
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
-    private List<Neighborhood> neighborhoods;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userid")
+    private List<WorkingZone> workingZones;
 
-    public SProvider(User user, String description, List<Aptitude> aptitudes, List<Neighborhood> neighborhoods) {
+    /*package*/ SProvider(){
+
+    }
+
+    public SProvider(User user, String description, List<Aptitude> aptitudes, List<WorkingZone> workingZones) {
         super(user.getUsername(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getAddress(),user.getImage(),user.isVerified());
         this.description = description;
         this.aptitudes = aptitudes;
-        this.neighborhoods = neighborhoods;
+        this.workingZones = workingZones;
     }
 
     public String getDescription() {
@@ -128,8 +135,8 @@ public class SProvider extends User{
         return false;
     }
 
-    public List<Neighborhood> getNeighborhoods() {
-        return this.neighborhoods;
+    public List<WorkingZone> getWorkingZones() {
+        return this.workingZones;
     }
 
 

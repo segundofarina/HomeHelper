@@ -18,6 +18,10 @@ public class Neighborhood {
 
     }
 
+    /*package*/ Neighborhood(){
+
+    }
+
     public Neighborhood(String ngname){
         this.ngname = ngname;
     }

@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.daos.SProviderDao;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,6 +12,8 @@ import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+@Transactional
 @Repository
 public class SProviderHibernateDao implements SProviderDao {
     @PersistenceContext
@@ -18,13 +21,13 @@ public class SProviderHibernateDao implements SProviderDao {
 
     @Override
     public Optional<SProvider> create(int userId, String description) {
-        Optional<User> user = Optional.of(em.find(User.class,userId));
+        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
         if(!user.isPresent()){
             return Optional.empty();
         }
-        final Optional<SProvider> sp = Optional.of(new SProvider(user.get(),description, new ArrayList<>(), new ArrayList<>()));
+        final SProvider sp =new SProvider(user.get(),description, new ArrayList<>(), new ArrayList<>());
         em.persist(sp);
-        return sp;
+        return Optional.of(sp);
     }
 
     @Override
@@ -35,7 +38,7 @@ public class SProviderHibernateDao implements SProviderDao {
 
     @Override
     public Optional<SProvider> getServiceProviderWithUserId(int userId) {
-        return Optional.of(em.find(SProvider.class, userId));
+        return Optional.ofNullable(em.find(SProvider.class, userId));
     }
 
     @Override
@@ -45,13 +48,11 @@ public class SProviderHibernateDao implements SProviderDao {
 
     @Override
     public boolean updateDescriptionOfServiceProvider(int userId, String description) {
-        Optional<SProvider> user = Optional.of(em.find(SProvider.class,userId));
+        Optional<SProvider> user = Optional.ofNullable(em.find(SProvider.class,userId));
         if(!user.isPresent()){
             return false;
         }
-        em.getTransaction().begin();
         user.get().setAddress(description);
-        em.getTransaction().commit();
         return true;
     }
 }

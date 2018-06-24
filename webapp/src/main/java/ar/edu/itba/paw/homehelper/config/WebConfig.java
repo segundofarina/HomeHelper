@@ -160,7 +160,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         factoryBean.setJpaVendorAdapter(vendorAdapter);
         final Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        properties.setProperty("hibernate.dialect", "org. hibernate.dialect.PostgreSQL92Dialect");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
 
         // Si ponen esto en prod, hay tabla!!!
         properties.setProperty("hibernate.show_sql", "true");
@@ -169,27 +169,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return factoryBean;
     }
 
-//    @Bean
-//    public LocalContainerEntityManagerFactoryBean entityManagerFactory(final DataSource dataSource) {
-//        final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-//        factoryBean.setPackagesToScan("tp.paw.khet.model");
-//        factoryBean.setDataSource(dataSource);
-//
-//        final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-//        factoryBean.setJpaVendorAdapter(vendorAdapter);
-//
-//        final Properties properties = new Properties();
-//        properties.setProperty("hibernate.hbm2ddl.auto", "update");
-//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL92Dialect");
-//
-//        if (env.acceptsProfiles("!live")) {
-//            properties.setProperty("hibernate.show_sql", "true");
-//            properties.setProperty("format_sql", "true");
-//        }
-//
-//        factoryBean.setJpaProperties(properties);
-//        return factoryBean;
-//    }
 
     @Bean
     public PlatformTransactionManager transactionManager(final EntityManagerFactory emf) {

@@ -13,14 +13,15 @@ public class Aptitude {
     @Column(name = "aptitudeid")
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "servicetypeid")
     private ServiceType service;
 
     @Column(name = "description", length = 10000, nullable = false)
     private String description;
 
-    @OneToMany(mappedBy = "aptitudeid", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "aptitudeid")
     private List<Review> reviews;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,11 +29,15 @@ public class Aptitude {
     private SProvider sProvider;
 
 
+
+    /* package*/ Aptitude(){
+
+    }
     public Aptitude(SProvider sProvider, ServiceType service, String description, List<Review> reviews) {
         this.service = service;
         this.description = description;
         this.reviews = reviews;
-        this.sProvider = sProvider;
+        //this.sProvider = sProvider;
     }
 
     public ServiceType getService() {
