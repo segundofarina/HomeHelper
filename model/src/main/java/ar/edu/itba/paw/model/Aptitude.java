@@ -1,23 +1,43 @@
 package ar.edu.itba.paw.model;
 
-import org.w3c.dom.Comment;
-
+import javax.persistence.*;
 import java.util.List;
-import java.util.Map;
 
+@Entity
+@Table(name = "aptitudes")
 public class Aptitude {
-    private ServiceType service;
-    private String description;
 
-    private List<Review> reviews;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "aptitudes_aptitudeid_seq")
+    @SequenceGenerator(sequenceName = "aptitudes_aptitudeid_seq", name = "aptitudes_aptitudeid_seq", allocationSize = 1)
+    @Column(name = "aptitudeid")
     private int id;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "servicetypeid")
+    private ServiceType service;
 
-    public Aptitude(int id ,ServiceType service, String description, List<Review> reviews) {
-        this.id = id;
+    @Column(name = "description", length = 10000, nullable = false)
+    private String description;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "aptitudeid")
+    private List<Review> reviews;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userid")
+    private SProvider sProvider;
+
+
+
+    /* package*/ Aptitude(){
+
+    }
+    public Aptitude(SProvider sProvider, ServiceType service, String description, List<Review> reviews) {
         this.service = service;
         this.description = description;
         this.reviews = reviews;
+        //this.sProvider = sProvider;
     }
 
     public ServiceType getService() {
@@ -125,9 +145,14 @@ public class Aptitude {
     }
 
     public boolean hasReviews(){
-        if(reviews.size() != 0){
-            return true;
-        }
-        return false;
+        return !reviews.isEmpty();
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setService(ServiceType service) {
+        this.service = service;
     }
 }

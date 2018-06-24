@@ -14,7 +14,10 @@ public class Neighborhood {
     @Column(name ="ngname", length = 100)
     private String ngname;
 
-    /* package */ Neighborhood(){ }
+    /* package */ Neighborhood(){
+        // For Hibernate
+    }
+
 
     public Neighborhood(int id){
 

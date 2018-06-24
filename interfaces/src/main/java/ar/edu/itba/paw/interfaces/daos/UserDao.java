@@ -2,7 +2,6 @@ package ar.edu.itba.paw.interfaces.daos;
 
 import ar.edu.itba.paw.model.User;
 
-import java.sql.Blob;
 import java.util.Optional;
 
 public interface UserDao {
@@ -19,7 +18,7 @@ public interface UserDao {
     User create(String username, String password, String firstName, String lastName, String email, String phone, String address, byte[] image);
 
 
-    User verifyUser(int userId);
+    Optional<User> verifyUser(int userId);
 
     /**
      * Returns an {@link User} given it's username

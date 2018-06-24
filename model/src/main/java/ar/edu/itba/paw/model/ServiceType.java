@@ -1,11 +1,24 @@
 package ar.edu.itba.paw.model;
 
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "serviceTypes")
 public class ServiceType {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "serviceTypes_serviceTypeId_seq")
+    @SequenceGenerator(sequenceName = "serviceTypes_serviceTypeId_seq", name = "serviceTypes_serviceTypeId_seq", allocationSize = 1)
+    @Column(name = "serviceTypeId")
     private int serviceTypeId;
+
+    @Column(name = "serviceName", length = 256)
     private String name;
+
+    /* package */ ServiceType(){
+
+    }
 
     public ServiceType(int serviceTypeId, String name) {
         this.serviceTypeId = serviceTypeId;

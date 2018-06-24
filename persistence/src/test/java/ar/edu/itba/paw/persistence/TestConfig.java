@@ -21,6 +21,21 @@ import java.util.Properties;
 @Configuration
 public class TestConfig {
 
+//    @Bean
+//    public DataSource dataSource() {
+//        final SimpleDriverDataSource ds = new SimpleDriverDataSource();
+//        ds.setDriverClass(JDBCDriver.class);
+//        ds.setUrl("jdbc:hsqldb:mem:paw");
+//        ds.setUsername("ha");
+//        ds.setPassword("");
+//        return ds;
+//    }
+//    @Bean
+//    PlatformTransactionManager transactionManager() {
+//        return new DataSourceTransactionManager(dataSource());
+//    }
+
+
     @Bean
     public DataSource dataSource() {
         final SimpleDriverDataSource ds = new SimpleDriverDataSource();

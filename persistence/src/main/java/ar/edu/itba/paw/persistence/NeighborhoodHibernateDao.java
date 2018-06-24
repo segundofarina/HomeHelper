@@ -2,11 +2,14 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.daos.NeighborhoodDao;
 import ar.edu.itba.paw.model.Neighborhood;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
+
+@Transactional
 @Repository
 public class NeighborhoodHibernateDao implements NeighborhoodDao {
 
@@ -24,7 +27,9 @@ public class NeighborhoodHibernateDao implements NeighborhoodDao {
 
     @Override
     public List<Neighborhood> getAllNeighborhoods() {
-        final TypedQuery<Neighborhood> query = em.createQuery("from Neighborhood", Neighborhood.class);
+
+        final TypedQuery<Neighborhood> query = em.createQuery("SELECT n FROM Neighborhood as n ", Neighborhood.class);
+
         return query.getResultList();
     }
 }

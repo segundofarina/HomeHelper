@@ -1,21 +1,34 @@
 package ar.edu.itba.paw.model;
 
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
+@Entity
+@PrimaryKeyJoinColumn(name = "userid")
+@Table(name = "serviceProviders")
 public class SProvider extends User{
+
+    @Column(name = "description",length = 100, nullable = false)
     private String description;
-    //@ManyToMany(FetchType.Lazy)
+
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userid")
     private List<Aptitude> aptitudes;
-    private List<Neighborhood> neighborhoods;
 
-    public SProvider(User user, String description, List<Aptitude> aptitudes, List<Neighborhood> neighborhoods) {
-        super(user.getUsername(),user.getId(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getAddress(),user.getImage(),user.isVerified());
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userid")
+    private List<WorkingZone> workingZones;
 
+    /*package*/ SProvider(){
+
+    }
+
+    public SProvider(User user, String description, List<Aptitude> aptitudes, List<WorkingZone> workingZones) {
+        super(user.getUsername(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getAddress(),user.getImage(),user.isVerified());
         this.description = description;
         this.aptitudes = aptitudes;
-        this.neighborhoods = neighborhoods;
+        this.workingZones = workingZones;
     }
 
     public String getDescription() {
@@ -122,8 +135,8 @@ public class SProvider extends User{
         return false;
     }
 
-    public List<Neighborhood> getNeighborhoods() {
-        return this.neighborhoods;
+    public List<WorkingZone> getWorkingZones() {
+        return this.workingZones;
     }
 
 

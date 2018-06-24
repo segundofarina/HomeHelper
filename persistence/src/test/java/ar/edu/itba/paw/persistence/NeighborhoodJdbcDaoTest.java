@@ -12,7 +12,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
@@ -22,6 +21,7 @@ import static junit.framework.TestCase.assertEquals;
 @ContextConfiguration(classes = TestConfig.class)
 @Rollback
 @Transactional
+
 public class NeighborhoodJdbcDaoTest {
 
     @PersistenceContext
@@ -43,13 +43,27 @@ public class NeighborhoodJdbcDaoTest {
     @Test
     public void insertNeighborhoodTest(){
 
-        int id = neighborhoodDao.insertNeighborhood("Almagro");
-        assertEquals(em.find(Neighborhood.class,id).getNgName(),"Almagro");
+        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "neighborhoods");
+//        for(Neighborhood n : neighborhoodDao.getAllNeighborhoods()){
+//            System.out.println(n.getNgId());
+//        }
+
+        neighborhoodDao.insertNeighborhood("Almagro");
+
+//        for(Neighborhood n : neighborhoodDao.getAllNeighborhoods()){
+//            System.out.println(n.getNgId());
+//        }
+        //assertEquals("",++count,neighborhoodDao.insertNeighborhood("Almagro"));
+
+        assertEquals(count+1,JdbcTestUtils.countRowsInTable(jdbcTemplate,"neighborhoods"));
     }
 
     @Test
     public void getAllNeighborhoodsTest(){
 
         assertEquals(JdbcTestUtils.countRowsInTable(jdbcTemplate,"neighborhoods"),neighborhoodDao.getAllNeighborhoods().size());
+        for(Neighborhood n : neighborhoodDao.getAllNeighborhoods()){
+            System.out.println(n.getNgId());
+        }
     }
 }

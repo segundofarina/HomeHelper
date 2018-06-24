@@ -1,13 +1,10 @@
 package ar.edu.itba.paw.model;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.*;
-import java.sql.Blob;
 import java.util.Arrays;
 
-
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "users")
 public class User {
     @Id
@@ -15,25 +12,41 @@ public class User {
     @SequenceGenerator(sequenceName = "users_userid_seq", name = "users_userid_seq", allocationSize = 1)
     @Column(name = "userid")
     private int id;
-    @Column(length = 100, nullable = false, unique = true)
+
+    @Column(name = "username",length = 100, nullable = false, unique = true)
     private String username;
-    @Column(length = 100, nullable = false)
+
+    @Column(name = "password",length = 100, nullable = false)
     private String password;
+
+    @Column(name = "firstname",length = 100, nullable = false)
     private String firstname;
+
+    @Column(name = "lastname",length = 100, nullable = false)
     private String lastname;
+
+    @Column(name = "email",length = 100, nullable = false)
     private String email;
+
+    @Column(name = "phone",length = 100, nullable = false)
     private String phone;
+
+    @Column(name = "image")
     private byte[] image;
+
+    @Column(name = "address",length = 100, nullable = false)
     private String address;
+
+    @Column(name = "verified")
     private boolean verified;
+
 
     /* package */ User() {
 // Just for Hibernate, we love you!
     }
 
-    public User(String username, int id, String password, String firstname, String lastname, String email, String phone, String address, byte[] image, boolean verified) {
+    public User(String username, String password, String firstname, String lastname, String email, String phone, String address, byte[] image, boolean verified) {
         this.username = username;
-        this.id = id;
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -94,6 +107,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getId() {
