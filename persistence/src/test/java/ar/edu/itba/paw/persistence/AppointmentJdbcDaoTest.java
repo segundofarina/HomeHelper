@@ -136,9 +136,17 @@ public class AppointmentJdbcDaoTest {
 
         int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments");
 
-        assertTrue(appointmentDao.removeAppointment(Const.VALID_APPOINTMENT_ID1));
+        boolean ans = appointmentDao.removeAppointment(Const.VALID_APPOINTMENT_ID1);
 
-        assertFalse(appointmentDao.removeAppointment(Const.INVALID_APPOINTMENT_ID));
+        em.flush();
+
+        assertTrue(ans);
+
+        ans = appointmentDao.removeAppointment(Const.INVALID_APPOINTMENT_ID);
+
+        em.flush();
+
+        assertFalse(ans);
 
         assertEquals(--count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
 

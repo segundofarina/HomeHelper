@@ -10,7 +10,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
 import java.util.List;
@@ -23,15 +26,17 @@ import static org.mockito.Mockito.mock;
 @Sql("classpath:schema.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
+@Transactional
 public class STypeJdbcDaoTest {
     private final static String NAME = "Name";
     private final static String NAME_UPDATE = "NameUpdate";
-    private int insertedId = 0;
-
 
     @Autowired
     private DataSource ds;
     private JdbcTemplate jdbcTemplate;
+
+    @PersistenceContext
+    private EntityManager em;
 
     @Autowired
     STypeDao sTypeDao;
@@ -41,23 +46,19 @@ public class STypeJdbcDaoTest {
         jdbcTemplate = new JdbcTemplate(ds);
     }
 
-    @After
-    public void check() {
-
-    }
 
     @Test
-    public void testCreate() {
+    public void createTest() {
         int count =JdbcTestUtils.countRowsInTable(jdbcTemplate,  "serviceTypes");
         final ServiceType serviceType = sTypeDao.create(NAME);
+        em.flush();
         assertNotNull(serviceType);
         assertEquals(NAME, serviceType.getName());
         assertEquals(count+1, JdbcTestUtils.countRowsInTable(jdbcTemplate,  "serviceTypes"));
     }
 
     @Test
-    public void testGetList() {
-
+    public void getServiceTypesTest() {
         final List<ServiceType> list = sTypeDao.getServiceTypes();
         assertNotNull(list);
         assertEquals( JdbcTestUtils.countRowsInTable(jdbcTemplate, "serviceTypes"),list.size());
@@ -65,8 +66,7 @@ public class STypeJdbcDaoTest {
     }
 
     @Test
-    public void testGetServiceTypeWithId() {
-
+    public void getServiceTypeWithIdTest() {
         final ServiceType st = sTypeDao.getServiceTypeWithId(Const.SERVICETYPE_ID).get();
         assertNotNull(st);
         assertEquals(Const.SERVICETYPE_ID, st.getServiceTypeId());
@@ -75,17 +75,12 @@ public class STypeJdbcDaoTest {
 
 
     @Test
-    public void testUpdateServiceTypeWithId() {
-
-
+    public void updateServiceTypeWithIdTest() {
         final ServiceType st = sTypeDao.updateServiceTypeWithId(Const.SERVICETYPE_ID, NAME_UPDATE).get();
+        em.flush();
         assertNotNull(st);
         assertEquals( Const.SERVICETYPE_ID, st.getServiceTypeId());
         assertEquals( NAME_UPDATE, st.getName());
     }
 
-    public static ServiceType  insertDummyServiceType(STypeDao sTypeDao){
-         ServiceType serviceType = sTypeDao.create(NAME);
-        return serviceType;
-    }
 }

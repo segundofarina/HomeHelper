@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Repository
 @Transactional
-public class AppointmentHIibernateDao implements AppointmentDao {
+public class AppointmentHibernateDao implements AppointmentDao {
 
     @PersistenceContext
     private EntityManager em;
@@ -23,15 +23,15 @@ public class AppointmentHIibernateDao implements AppointmentDao {
 
     @Override
     public List<Appointment> getAppointmentsByProviderId(int providerId) {
-        final TypedQuery<Appointment> query = em.createQuery("from Appointment as a where a.providerId = :providerid", Appointment.class);
-        em.setProperty("providerid",providerId);
+        final TypedQuery<Appointment> query = em.createQuery("from Appointment as a where a.provider.id = :providerid", Appointment.class);
+        query.setParameter("providerid",providerId);
         return query.getResultList();
     }
 
     @Override
     public List<Appointment> getAppointmentsByUserId(int userId) {
-        final TypedQuery<Appointment> query = em.createQuery("from Appointment as a where a.userid = :userid", Appointment.class);
-        em.setProperty("userid",userId);
+        final TypedQuery<Appointment> query = em.createQuery("from Appointment as a where a.client.id = :userid", Appointment.class);
+        query.setParameter("userid",userId);
         return query.getResultList();
     }
 
@@ -87,7 +87,13 @@ public class AppointmentHIibernateDao implements AppointmentDao {
 
     @Override
     public boolean removeAppointment(int appointmentId) {
-        return false;
+        Appointment appointment = em.find(Appointment.class,appointmentId);
+        if(appointment == null){
+            return false;
+        }else{
+            em.remove(appointment);
+            return true;
+        }
     }
 
     @Override
@@ -100,7 +106,11 @@ public class AppointmentHIibernateDao implements AppointmentDao {
         if(!user.isPresent()){
             return false;
         }
-        Review review = new Review(quality,cleanness,price,punctuality,treatment,comment,Date.from(Instant.now()),user.get());
+        Optional<Aptitude> aptitude = Optional.ofNullable(em.find(Aptitude.class,aptitudeId));
+        if(!aptitude.isPresent()){
+            return false;
+        }
+        Review review = new Review(quality,cleanness,price,punctuality,treatment,comment,Date.from(Instant.now()),user.get(),aptitude.get());
         em.persist(review);
         appointment.get().setClientReview(true);
         return true;

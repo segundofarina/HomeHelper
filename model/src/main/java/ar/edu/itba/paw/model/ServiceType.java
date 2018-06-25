@@ -11,7 +11,7 @@ public class ServiceType {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "serviceTypes_serviceTypeId_seq")
     @SequenceGenerator(sequenceName = "serviceTypes_serviceTypeId_seq", name = "serviceTypes_serviceTypeId_seq", allocationSize = 1)
     @Column(name = "serviceTypeId")
-    private int serviceTypeId;
+    private int id;
 
     @Column(name = "serviceName", length = 256)
     private String name;
@@ -20,17 +20,16 @@ public class ServiceType {
 
     }
 
-    public ServiceType(int serviceTypeId, String name) {
-        this.serviceTypeId = serviceTypeId;
+    public ServiceType(String name) {
         this.name = name;
     }
 
     public int getServiceTypeId() {
-        return serviceTypeId;
+        return id;
     }
 
     public void setServiceTypeId(int serviceTypeId) {
-        this.serviceTypeId = serviceTypeId;
+        this.id = serviceTypeId;
     }
 
     public String getName() {

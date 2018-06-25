@@ -13,15 +13,15 @@ public class Appointment {
     private int appointmentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userid", nullable = false)
+    @JoinColumn(name = "userid",nullable = false)
     private User client;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "providerId", nullable = false)
+    @JoinColumn(name = "providerid", referencedColumnName = "userid", nullable = false)
     private SProvider provider;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "serviceTypeId", nullable = false)
+    @JoinColumn(name = "servicetypeid", nullable = false)
     private ServiceType serviceType;
 
     @Column(name = "appointmentDate")
