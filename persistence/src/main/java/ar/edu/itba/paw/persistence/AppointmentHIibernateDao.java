@@ -23,15 +23,15 @@ public class AppointmentHIibernateDao implements AppointmentDao {
 
     @Override
     public List<Appointment> getAppointmentsByProviderId(int providerId) {
-        final TypedQuery<Appointment> query = em.createQuery("from Appointment as a where providerId = :providerId", Appointment.class);
-        em.setProperty("providerId",providerId);
+        final TypedQuery<Appointment> query = em.createQuery("from Appointment as a where a.providerId = :providerid", Appointment.class);
+        em.setProperty("providerid",providerId);
         return query.getResultList();
     }
 
     @Override
     public List<Appointment> getAppointmentsByUserId(int userId) {
-        final TypedQuery<Appointment> query = em.createQuery("from Appointment as a where userId = :userId", Appointment.class);
-        em.setProperty("userId",userId);
+        final TypedQuery<Appointment> query = em.createQuery("from Appointment as a where a.userid = :userid", Appointment.class);
+        em.setProperty("userid",userId);
         return query.getResultList();
     }
 
