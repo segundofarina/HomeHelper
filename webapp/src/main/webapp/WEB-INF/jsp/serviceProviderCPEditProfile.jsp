@@ -71,21 +71,29 @@
                                         <div class="row">
                                             <div class="col-md-4 col-sm-4 col-xs-12">
                                                 <div class="profileImgEdit">
-                                                    <!--<img src="<c:url value="/resources/img/img.jpg"/>" alt="profileImg" />
-                                                    <div class="cover">
-                                                        <p class="coverTxt"><spring:message code="sprovider.change-pic"/></p>
-                                                    </div>-->
-                                                    <c:url value="/tempImg/${img}" var="tempImg" />
-                                                    <div id="image-preview" style="background-image: url('${tempImg}')"></div><!-- si tiene foto de perfil se agrega con un style="background-image: url('');" -->
-                                                        <%--<c:choose>
-                                                            <c:when test="${profilePicture != null}">
-                                                                <c:url value="${profilePicture}" var="img" />
-                                                                <div id="image-preview" style="background-image: url(<c:out value='${img}' />);"></div>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <div id="image-preview"></div>
-                                                            </c:otherwise>
-                                                        </c:choose>--%>
+
+
+                                                    <c:choose>
+                                                        <%-- If I have a tem img show it --%>
+                                                        <c:when test="${img != -1}">
+                                                            <c:url value="/tempImg/${img}" var="tempImg" />
+                                                            <div id="image-preview" style="background-image: url('${tempImg}')"></div>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:choose>
+                                                                <%-- Otherwise if I have a profile img show it --%>
+                                                                <c:when test="${provider.image != null}">
+                                                                    <c:url value="/profile/${provider.id}/profileimage" var="profileImg" />
+                                                                    <div id="image-preview" style="background-image: url('${profileImg}')"></div>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <%-- default case --%>
+                                                                    <div id="image-preview"></div>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:otherwise>
+                                                    </c:choose>
+
                                                     <div class="cover">
                                                         <p class="coverTxt"><spring:message code="sprovider.change-pic"/></p>
                                                     </div>
@@ -96,14 +104,14 @@
                                             <div class="col-md-8 col-sm-8 col-xs-12">
                                                 <div class="form-group">
                                                     <label><spring:message code="sprovider.full-name"/>:</label>
-                                                    <p data-ref="fullName"><c:out value="${provider.firstname}" /> <c:out value="${provider.lastname}" /></p>
+                                                    <p data-ref="fullName"><c:out value="${serviceProvider.firstname}" /> <c:out value="${serviceProvider.lastname}" /></p>
                                                 </div>
                                                 <div class="form-group">
                                                     <form:label path="generalDescription"><spring:message code="general.description"/>:</form:label>
                                                     <spring:message code="placeholder.write-description" var="placeholder" />
                                                     <form:textarea path="generalDescription" class="form-control edit-visible" placeholder="${placeholder}" />
                                                     <form:errors path="generalDescription" cssClass="form-error edit-visible" element="p" />
-                                                    <p class="edit-hidden" data-ref="generalDescription"><c:out value="${provider.description}" /></p>
+                                                    <p class="edit-hidden" data-ref="generalDescription"><c:out value="${serviceProvider.description}" /></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -170,7 +178,7 @@
                                         </form:form>
                                     </div>
 
-                                    <c:forEach items="${provider.aptitudes}" var="aptitude">
+                                    <c:forEach items="${serviceProvider.aptitudes}" var="aptitude">
 
                                         <div class="dynamic-element saved-element">
                                             <c:url value="/sprovider/editProfile/updateAptitude" var="postUrl" />

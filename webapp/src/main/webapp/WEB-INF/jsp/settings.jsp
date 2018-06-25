@@ -74,15 +74,6 @@
                                     </c:choose>
                                 </c:otherwise>
                             </c:choose>
-                                <%--<c:choose>
-                                    <c:when test="${profilePicture != null}">
-                                        <c:url value="${profilePicture}" var="img" />
-                                        <div id="image-preview" style="background-image: url(<c:out value='${img}' />);"></div>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <div id="image-preview"></div>
-                                    </c:otherwise>
-                                </c:choose>--%>
                             <div class="cover">
                                 <p class="coverTxt"><spring:message code="sprovider.change-pic"/></p>
                             </div>

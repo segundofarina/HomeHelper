@@ -74,7 +74,14 @@
                                                 <!-- add when there are unread msg and is not currentChat
                                                 <span class="contact-status"></span>
                                                 -->
-                                                <img src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="Profile picture" />
+                                                <c:choose>
+                                                    <c:when test="${chat.grey.image != null}">
+                                                        <img src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="Profile picture" />
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                    </c:otherwise>
+                                                </c:choose>
                                                 <div class="meta">
                                                     <p class="name"><c:out value="${chat.grey.firstname}"/> <c:out value="${chat.grey.lastname}" /></p>
                                                     <p class="preview"><c:out value="${chat.preview}" /></p>
@@ -88,7 +95,14 @@
                     </div>
                     <div class="content">
                         <div class="contact-profile">
-                            <img src="<c:url value="/profile/${currentChat.green.id}/profileimage" />" alt="Profile picture" />
+                            <c:choose>
+                                <c:when test="${currentChat.grey.image != null}">
+                                    <img src="<c:url value="/profile/${currentChat.grey.id}/profileimage" />" alt="Profile picture" />
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                </c:otherwise>
+                            </c:choose>
                             <p><c:out value="${currentChat.grey.firstname}"/> <c:out value="${currentChat.grey.lastname}" /></p>
                         </div>
                         <div class="messages">
@@ -97,11 +111,25 @@
                                     <c:choose>
                                         <c:when test="${msg.from == currentChat.green.id}">
                                             <li class="sent">
-                                            <img src="<c:url value="/profile/${currentChat.green.id}/profileimage" />" alt="Profile picture" />
+                                            <c:choose>
+                                                <c:when test="${currentChat.green.image != null}">
+                                                    <img src="<c:url value="/profile/${currentChat.green.id}/profileimage" />" alt="Profile picture" />
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:when>
                                         <c:otherwise>
                                             <li class="replies">
-                                            <img src="<c:url value="/profile/${currentChat.grey.id}/profileimage" />" alt="Profile picture" />
+                                            <c:choose>
+                                                <c:when test="${currentChat.grey.image != null}">
+                                                    <img src="<c:url value="/profile/${currentChat.grey.id}/profileimage" />" alt="Profile picture" />
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:otherwise>
                                     </c:choose>
                                     <p><c:out value="${msg.message}" /></p>
