@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.sql.Types;
 import java.time.Instant;
 import java.util.*;
@@ -76,7 +75,7 @@ public class ReviewJdbcDao implements ReviewDao {
         }
 
         for(Row row : dbRowsList){
-            reviews.add(new Review(row.quality,row.cleanness,row.price,row.punctuality,row.treatment,row.comment,row.reviewdate,userDao.findById(row.userId).get()));
+            reviews.add(new Review(row.quality,row.cleanness,row.price,row.punctuality,row.treatment,row.comment,Date.from(Instant.now()), userDao.findById(row.userId).get()));
         }
 
         return reviews;

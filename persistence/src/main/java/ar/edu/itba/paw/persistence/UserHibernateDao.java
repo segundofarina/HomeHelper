@@ -25,7 +25,7 @@ public class UserHibernateDao implements UserDao {
 
     @Override
     public Optional<User> verifyUser(int userId) {
-        Optional<User> user = Optional.of(em.find(User.class,userId));
+        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
         if(!user.isPresent()){
             return user;
         }
@@ -37,17 +37,17 @@ public class UserHibernateDao implements UserDao {
     public Optional<User> findByUsername(final String username) {
         final TypedQuery<User> query = em.createQuery("from User as u where u.username = :username", User.class);
         query.setParameter("username", username);
-        return Optional.of(query.getResultList().get(0));
+        return Optional.ofNullable(query.getResultList().get(0));
     }
 
     @Override
-    public java.util.Optional<User> findById(int id) {
+    public Optional<User> findById(int id) {
         return Optional.ofNullable(em.find(User.class, id));
     }
 
     @Override
     public boolean updatePasswordOfUser(int userId, String password) {
-        Optional<User> user = Optional.of(em.find(User.class,userId));
+        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
         if(!user.isPresent()){
             return false;
         }
@@ -58,7 +58,7 @@ public class UserHibernateDao implements UserDao {
     @Override
     public boolean updateFirstNameOfUser(int userId, String firstname) {
 
-        Optional<User> user = Optional.of(em.find(User.class,userId));
+        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
         if(!user.isPresent()){
             return false;
         }
@@ -69,7 +69,7 @@ public class UserHibernateDao implements UserDao {
     @Override
     public boolean updateLastNameOfUser(int userId, String lastname) {
 
-        Optional<User> user = Optional.of(em.find(User.class,userId));
+        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
         if(!user.isPresent()){
             return false;
         }
@@ -79,7 +79,7 @@ public class UserHibernateDao implements UserDao {
 
     @Override
     public boolean updateEmailOfUser(int userId, String email) {
-        Optional<User> user = Optional.of(em.find(User.class,userId));
+        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
         if(!user.isPresent()){
             return false;
         }
@@ -89,7 +89,7 @@ public class UserHibernateDao implements UserDao {
 
     @Override
     public boolean updatePhoneOfUser(int userId, String phone) {
-        Optional<User> user = Optional.of(em.find(User.class,userId));
+        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
         if(!user.isPresent()){
             return false;
         }
@@ -100,7 +100,7 @@ public class UserHibernateDao implements UserDao {
     @Override
     public boolean updateImageOfUser(int userId, byte[] image) {
 
-        Optional<User> user = Optional.of(em.find(User.class,userId));
+        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
         if(!user.isPresent()){
             return false;
         }
@@ -110,7 +110,7 @@ public class UserHibernateDao implements UserDao {
 
     @Override
     public boolean updateAddressOfUser(int userId, String address) {
-        Optional<User> user = Optional.of(em.find(User.class,userId));
+        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
         if(!user.isPresent()){
             return false;
         }
