@@ -31,7 +31,7 @@ public class Appointment {
     private String address;
 
     @Column(name = "status", length =  20, nullable = false)
-    private Status status;
+    private String status;
 
     @Column(name = "jobDescription", length =  10000, nullable = false)
     private String jobDescripcion;
@@ -48,7 +48,7 @@ public class Appointment {
         this.serviceType = serviceType;
         this.date = date;
         this.address = address;
-        this.status = estatus;
+        this.status = estatus.toString();
         this.jobDescripcion = jobDescripcion;
         this.clientReview = clientReview;
     }
@@ -78,15 +78,15 @@ public class Appointment {
     }
 
     public Status getStatus() {
-        return status;
+        return Status.getStatus(status);
     }
 
     public String getJobDescripcion() {
         return jobDescripcion;
     }
 
-    public void setStatus(Status estatus) {
-        this.status = estatus;
+    public void setStatus(Status status) {
+        this.status = status.toString();
     }
 
     public boolean isClientReview() {

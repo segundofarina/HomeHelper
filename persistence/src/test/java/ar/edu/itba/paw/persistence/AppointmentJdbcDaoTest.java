@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 @Sql("classpath:schema.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
+@Transactional
 public class AppointmentJdbcDaoTest {
 
     @PersistenceContext
@@ -111,7 +113,7 @@ public class AppointmentJdbcDaoTest {
 
         em.flush();
 
-        assertTrue(ans);
+        assertFalse(ans);
 
         ans = appointmentDao.updateStatusOfAppointment(Const.INVALID_APPOINTMENT_ID,Status.Confirmed);
 
