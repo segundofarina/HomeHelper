@@ -21,7 +21,7 @@ public class Review {
 
     @Column(name ="comment", length = 10000)
     private String comment;
-
+    
     private Date date;
 
     /* package */ Review(){

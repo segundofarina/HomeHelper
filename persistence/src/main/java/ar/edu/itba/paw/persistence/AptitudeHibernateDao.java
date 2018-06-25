@@ -21,7 +21,7 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public List<Aptitude> getAptitudesOfUser(int id) {
-        final TypedQuery<Aptitude> query = em.createQuery("from Aptitude as a where a.id = :userid", Aptitude.class);
+        final TypedQuery<Aptitude> query = em.createQuery("from Aptitude as a where a.sProvider.id = :userid", Aptitude.class);
         query.setParameter("userid",id);
         return query.getResultList();
     }
@@ -67,17 +67,24 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public boolean removeAptitude(int aptId) {
-        return false;
+        Aptitude apt = em.find(Aptitude.class,aptId);
+        if(apt == null){
+            return false;
+        }else{
+            em.remove(apt);
+            return true;
+        }
     }
 
     @Override
     public int getAptitudeId(int userId, int stId) {
-        final TypedQuery<Aptitude> query = em.createQuery("from Aptitude as a where a.id = :userid and a.service.serviceTypeId = :stid", Aptitude.class);
+        final TypedQuery<Aptitude> query = em.createQuery("from Aptitude as a where a.sProvider.id = :userid and a.service.serviceTypeId = :stid", Aptitude.class);
         query.setParameter("userid",userId);
         query.setParameter("stid",stId);
         List<Aptitude> list = query.getResultList();
 
-        if (list.size() ==1){
+        if (list.size() == 1){
+            //System.out.println("Id is "+list.get(0).getId());
             return list.get(0).getId();
         }else{
             return -1;

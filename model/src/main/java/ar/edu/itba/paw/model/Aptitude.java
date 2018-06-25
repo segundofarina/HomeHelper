@@ -52,6 +52,10 @@ public class Aptitude {
         return reviews;
     }
 
+    public SProvider getsProvider() {
+        return sProvider;
+    }
+
     public int getId() {
         return id;
     }
