@@ -20,7 +20,7 @@ public class Aptitude {
     @Column(name = "description", length = 10000, nullable = false)
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "aptitudeid")
     private List<Review> reviews;
 

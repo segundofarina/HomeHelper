@@ -44,7 +44,7 @@ public class AptitudeHibernateDao implements AptitudeDao {
     @Override
     public boolean updateDescriptionOfAptitude(int aptId, String description) {
         Optional<Aptitude> aptitude = Optional.ofNullable(em.find(Aptitude.class,aptId));
-        if(!aptitude.isPresent()){
+        if(!aptitude.isPresent() || description==null){
             return false;
         }
         aptitude.get().setDescription(description);

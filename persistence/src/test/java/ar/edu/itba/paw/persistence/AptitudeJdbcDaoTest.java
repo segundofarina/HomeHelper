@@ -15,6 +15,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.util.List;
 
@@ -36,7 +38,12 @@ public class AptitudeJdbcDaoTest {
     @Autowired
     private AptitudeDao aptitudeDao;
 
+    @PersistenceContext
+    private EntityManager em;
+
     private JdbcTemplate jdbcTemplate;
+
+
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
@@ -58,7 +65,7 @@ public class AptitudeJdbcDaoTest {
         int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes");
 
         aptitudeDao.insertAptitude(Const.SPROVIDER_ID,Const.SERVICETYPE3_ID,Const.VALID_DESCRIPTION);
-
+        em.flush();
         assertEquals(++count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
 
         try {
@@ -134,6 +141,8 @@ public class AptitudeJdbcDaoTest {
         assertTrue(aptitudeDao.removeAptitude(Const.VALID_APTITUDE_ID));
 
         assertFalse(aptitudeDao.removeAptitude(Const.INVALID_APTITUDE_ID));
+
+        em.flush();
 
         assertEquals(--count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
 
