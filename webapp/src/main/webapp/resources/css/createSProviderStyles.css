@@ -20,7 +20,7 @@
     height: 2px;
     background: #e0e0e0;
     position: absolute;
-    width: 75%;
+    width: 77%;
     margin: 0 auto;
     left: 0;
     right: 0;
@@ -72,7 +72,7 @@ span.round-tab:hover i {
 }
 
 .wizard .nav-tabs > li {
-    width: 25%;
+    width: 20%;
 }
 
 .wizard li:before {
@@ -293,6 +293,11 @@ textarea.form-control {
 .alert {
     padding: 5px;
     margin-bottom: 5px;
+}
+
+#map-canvas {
+    width: auto;
+    height: 500px;
 }
 
 @media( max-width : 585px ) {
