@@ -77,9 +77,12 @@ public class MailServiceImpl implements MailService{
         if(id.isPresent()){
             verifyEmailDao.deleteEntry(key);
 
-            User user = userDao.verifyUser(id.get());
-            user.setVerified(true);
-            return user;
+            Optional<User> user = userDao.verifyUser(id.get());
+            if(!user.isPresent()){
+                return null;
+            }
+            user.get().setVerified(true);
+            return user.get();
         }else{
             return null;
         }

@@ -78,7 +78,7 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public int getAptitudeId(int userId, int stId) {
-        final TypedQuery<Aptitude> query = em.createQuery("from Aptitude as a where a.sProvider.id = :userid and a.service.serviceTypeId = :stid", Aptitude.class);
+        final TypedQuery<Aptitude> query = em.createQuery("from Aptitude as a where a.sProvider.id = :userid and a.service.id = :stid", Aptitude.class);
         query.setParameter("userid",userId);
         query.setParameter("stid",stId);
         List<Aptitude> list = query.getResultList();

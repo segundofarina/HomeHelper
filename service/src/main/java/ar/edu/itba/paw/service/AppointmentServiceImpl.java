@@ -69,7 +69,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment addAppointment(int clientId, int providerId, int serviceTypeId, String date, String address, String jobDescripcion) {
-        return appointmentDao.addAppointment(clientId, providerId, serviceTypeId, stringToTimestamp(date), address, jobDescripcion);
+        Optional<Appointment> appointment = appointmentDao.addAppointment(clientId, providerId, serviceTypeId, stringToTimestamp(date), address, jobDescripcion);
+        return appointment.isPresent()?appointment.get():null;
     }
 
     @Override

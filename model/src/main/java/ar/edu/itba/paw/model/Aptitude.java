@@ -37,7 +37,7 @@ public class Aptitude {
         this.service = service;
         this.description = description;
         this.reviews = reviews;
-        //this.sProvider = sProvider;
+        this.sProvider = sProvider;
     }
 
     public ServiceType getService() {

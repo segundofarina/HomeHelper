@@ -7,16 +7,25 @@ import javax.persistence.*;
 public class WorkingZone {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "workingzones_workingId_seq")
-    @SequenceGenerator(sequenceName = "workingzones_workingId_seq", name = "workingzones_workingId_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "workingzones_workingZoneId_seq")
+    @SequenceGenerator(sequenceName = "workingzones_workingZoneId_seq", name = "workingzones_workingZoneId_seq", allocationSize = 1)
     @Column(name = "workingZoneId")
-    private int workingId;
+    private int id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ngid")
     private Neighborhood neighborhood;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userid")
+    private SProvider user;
+
     /* package*/ WorkingZone(){
+    }
+
+    public WorkingZone(SProvider user, Neighborhood neighborhood){
+        this.user = user;
+        this.neighborhood = neighborhood;
     }
 
     public Neighborhood getNeighborhood() {
@@ -25,5 +34,13 @@ public class WorkingZone {
 
     public void setNeighborhood(Neighborhood neighborhood) {
         this.neighborhood = neighborhood;
+    }
+
+    public SProvider getUser() {
+        return user;
+    }
+
+    public void setUser(SProvider user) {
+        this.user = user;
     }
 }

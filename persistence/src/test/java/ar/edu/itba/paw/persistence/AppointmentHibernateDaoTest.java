@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Transactional
-public class AppointmentJdbcDaoTest {
+public class AppointmentHibernateDaoTest {
 
     @PersistenceContext
     private EntityManager em;

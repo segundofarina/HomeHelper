@@ -22,7 +22,7 @@ import static junit.framework.TestCase.assertEquals;
 @Rollback
 @Transactional
 
-public class NeighborhoodJdbcDaoTest {
+public class NeighborhoodHibernateDaoTest {
 
     @PersistenceContext
     private EntityManager em;

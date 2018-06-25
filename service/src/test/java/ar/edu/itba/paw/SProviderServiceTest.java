@@ -56,36 +56,6 @@ public class SProviderServiceTest {
     public void addAptitudeTest(){
 
     }
-    @Test
-    public void getServiceProvidersWithServiceTypeTest() {
-     when(sProviderDao.getServiceProviders()).thenReturn(getSproviderList());
 
-
-     List<SProvider> list=sProviderService.getServiceProvidersWithServiceType(1);
-     assertEquals(0,list.size());
-
-    }
-
-
-    private SProvider getDummySProvider(){
-       return new SProvider(getDummyUser(), "My description", new ArrayList<>(),new ArrayList<>());
-    }
-
-    private User getDummyUser(){
-      return new User("username",10,"password","Name","Lastanme",
-              "mail@homtail.com","5491134859403","Siemrevivia 623",new byte[1],true);
-    }
-    private User getDummyUser(int id){
-      return new User("username",id,"password","Name","Lastanme",
-          "mail@homtail.com","5491134859403","Siemrevivia 623",new byte[1],true);
-    }
-
-    private List<SProvider> getSproviderList(){
-     ArrayList<SProvider> list = new ArrayList<>();
-      for(int i =0;i<10;i++){
-       list.add(getDummySProvider());
-      }
-      return list;
-    }
 
 }
