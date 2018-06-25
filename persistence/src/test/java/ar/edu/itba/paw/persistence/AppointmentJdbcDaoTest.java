@@ -13,6 +13,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -25,6 +27,9 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 public class AppointmentJdbcDaoTest {
+
+    @PersistenceContext
+    private EntityManager em;
 
     @Autowired
     AppointmentDao appointmentDao;
@@ -91,27 +96,35 @@ public class AppointmentJdbcDaoTest {
         }catch(Exception e){
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
         }
-//        appointmentDao.addAppointment(Const.USER_ID,Const.SPROVIDER3_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.INVALID_ADDRESS,Const.VALID_JOBDESCRIPTION);
-//        assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
-//        appointmentDao.addAppointment(Const.USER_ID,Const.SPROVIDER3_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.INVALID_JOBDESCRIPTION);
-//        assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
     }
 
     @Test
     public void updateStatusOfAppointmentTest(){
 
-        assertTrue(appointmentDao.updateStatusOfAppointment(Const.VALID_APPOINTMENT_ID1,Status.Confirmed));
+        boolean ans = appointmentDao.updateStatusOfAppointment(Const.VALID_APPOINTMENT_ID1,Status.Confirmed);
 
-        assertTrue(appointmentDao.updateStatusOfAppointment(Const.VALID_APPOINTMENT_ID1,Status.Done));
+        em.flush();
 
-        assertFalse(appointmentDao.updateStatusOfAppointment(Const.INVALID_APPOINTMENT_ID,Status.Confirmed));
+        assertTrue(ans);
+
+        ans = appointmentDao.updateStatusOfAppointment(Const.VALID_APPOINTMENT_ID1,Status.Done);
+
+        em.flush();
+
+        assertTrue(ans);
+
+        ans = appointmentDao.updateStatusOfAppointment(Const.INVALID_APPOINTMENT_ID,Status.Confirmed);
+
+        em.flush();
+
+        assertFalse(ans);
     }
     @Test
     public void updateDateOfAppointmentTest(){
 
         Timestamp date = Timestamp.from(Instant.now());
 
-        assertTrue(appointmentDao.updateDateOfAppointment(Const.VALID_APPOINTMENT_ID1, date));
+        assertTrue( appointmentDao.updateDateOfAppointment(Const.VALID_APPOINTMENT_ID1, date));
 
         assertFalse(appointmentDao.updateDateOfAppointment(Const.INVALID_APPOINTMENT_ID,date));
     }

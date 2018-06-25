@@ -1,25 +1,48 @@
 package ar.edu.itba.paw.model;
 
-import java.sql.Timestamp;
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "appointments")
 public class Appointment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appointments_appointmentid_seq")
+    @SequenceGenerator(sequenceName = "appointments_appointmentid_seq", name = "appointments_appointmentid_seq", allocationSize = 1)
+    @Column(name = "appointmentid")
     private int appointmentId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userid", nullable = false)
     private User client;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "providerId", nullable = false)
     private SProvider provider;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "serviceTypeId", nullable = false)
     private ServiceType serviceType;
+
+    @Column(name = "appointmentDate")
     private Date date;
+
+    @Column(name = "address", length =  10000, nullable = false)
     private String address;
+
+    @Column(name = "status", length =  20, nullable = false)
     private Status status;
+
+    @Column(name = "jobDescription", length =  10000, nullable = false)
     private String jobDescripcion;
+
+    @Column(name = "clientReview")
     private boolean clientReview;
 
     /* package */ Appointment(){
 
     }
-
-    public Appointment(int appointmentId, User client, SProvider provider, ServiceType serviceType, Date date, String address, Status estatus, String jobDescripcion,boolean clientReview) {
-        this.appointmentId = appointmentId;
+    public Appointment(User client, SProvider provider, ServiceType serviceType, Date date, String address, Status estatus, String jobDescripcion,boolean clientReview) {
         this.client = client;
         this.provider = provider;
         this.serviceType = serviceType;
@@ -68,5 +91,17 @@ public class Appointment {
 
     public boolean isClientReview() {
         return clientReview;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setClientReview(boolean clientReview) {
+        this.clientReview = clientReview;
     }
 }
