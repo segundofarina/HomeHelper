@@ -6,11 +6,19 @@ import java.util.List;
 @Entity
 @PrimaryKeyJoinColumn(name = "userid")
 @Table(name = "serviceProviders")
-public class SProvider extends User{
+public class SProvider {
 
     @Column(name = "description",length = 100, nullable = false)
     private String description;
 
+
+    @Id
+    @Column(name = "userid")
+    private int id;
+
+    @OneToOne
+    @JoinColumn(name = "userid")
+    private User user;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "userid")
@@ -25,7 +33,9 @@ public class SProvider extends User{
     }
 
     public SProvider(User user, String description, List<Aptitude> aptitudes, List<WorkingZone> workingZones) {
-        super(user.getUsername(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getAddress(),user.getImage(),user.isVerified());
+        //super(user.getUsername(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getAddress(),user.getImage(),user.isVerified());
+        this.id=user.getId();
+        this.user=user;
         this.description = description;
         this.aptitudes = aptitudes;
         this.workingZones = workingZones;
@@ -37,6 +47,10 @@ public class SProvider extends User{
 
     public List<Aptitude> getAptitudes() {
         return aptitudes;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public double getQualityCalification(){

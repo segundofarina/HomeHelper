@@ -12,6 +12,7 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -19,6 +20,7 @@ import java.util.Properties;
 
 @ComponentScan({ "ar.edu.itba.paw.persistence", })
 @Configuration
+@EnableTransactionManagement
 public class TestConfig {
 
 //    @Bean

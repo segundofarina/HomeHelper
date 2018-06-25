@@ -49,6 +49,7 @@ public class NeighborhoodJdbcDaoTest {
 //        }
 
         neighborhoodDao.insertNeighborhood("Almagro");
+        em.flush();
 
 //        for(Neighborhood n : neighborhoodDao.getAllNeighborhoods()){
 //            System.out.println(n.getNgId());

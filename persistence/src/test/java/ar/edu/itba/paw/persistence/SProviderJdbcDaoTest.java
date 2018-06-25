@@ -16,6 +16,9 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
@@ -36,16 +39,13 @@ public class SProviderJdbcDaoTest extends AbstractTransactionalJUnit4SpringConte
     private DataSource ds;
     private JdbcTemplate jdbcTemplate;
 
+    @PersistenceContext
+    private EntityManager em;
+
     @Autowired
     private SProviderDao sProviderDao;
 
-    @Autowired
-    private UserDao userDao;
 
-
-    User dUser;
-
-    private int USER_ID;
 
     @Before
     public void setUp() {
@@ -56,9 +56,10 @@ public class SProviderJdbcDaoTest extends AbstractTransactionalJUnit4SpringConte
     public void createTest() {
         int count = JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "serviceProviders");
         final Optional<SProvider> sProvider = sProviderDao.create(Const.USER_ID,Const.VALID_DESCRIPTION);
+        em.flush();
         assertNotNull(sProvider);
         assertTrue(sProvider.isPresent());
-        assertEquals(Const.USER_ID, sProvider.get().getId());
+        assertEquals(Const.USER_ID, sProvider.get().getUser().getId());
         assertEquals(count+1,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "serviceProviders"));
     }
 
@@ -79,7 +80,7 @@ public class SProviderJdbcDaoTest extends AbstractTransactionalJUnit4SpringConte
         final Optional<SProvider> sProvider = sProviderDao.getServiceProviderWithUserId(Const.SPROVIDER_ID);
         assertNotNull(sProvider);
         assertTrue(sProvider.isPresent());
-        assertEquals(Const.SPROVIDER_ID, sProvider.get().getId());
+        assertEquals(Const.SPROVIDER_ID, sProvider.get().getUser().getId());
     }
 
     @Test
@@ -101,7 +102,7 @@ public class SProviderJdbcDaoTest extends AbstractTransactionalJUnit4SpringConte
 
     public boolean containsSpId(List<SProvider> list, int id){
         for (SProvider s : list){
-            if(s.getId() == id){
+            if(s.getUser().getId() == id){
                 return true;
             }
         }

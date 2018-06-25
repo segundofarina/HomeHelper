@@ -52,7 +52,7 @@ public class SProviderHibernateDao implements SProviderDao {
         if(!user.isPresent()){
             return false;
         }
-        user.get().setAddress(description);
+        user.get().getUser().setAddress(description);
         return true;
     }
 }

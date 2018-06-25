@@ -14,6 +14,7 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -40,6 +41,7 @@ import java.nio.charset.StandardCharsets;
 @ComponentScan({ "ar.edu.itba.paw.homehelper", "ar.edu.itba.paw.service", "ar.edu.itba.paw.persistence"})
 @Configuration
 @EnableAsync
+@EnableTransactionManagement
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Value("classpath:schema.sql") private Resource schemaSql;

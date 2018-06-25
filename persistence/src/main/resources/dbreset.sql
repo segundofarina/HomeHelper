@@ -657,8 +657,10 @@ insert into workingzones VALUES (147,2,16);
 insert into workingzones VALUES (148,3,16);
 insert into workingzones VALUES (149,4,16);
 
-SELECT setval('users_userid_seq', (SELECT MAX(userid) from users));
-SELECT setval('serviceTypes_serviceTypeId_seq', (SELECT MAX(serviceTypeId) from serviceTypes));
-SELECT setval('aptitudes_aptitudeId_seq', (SELECT MAX(aptitudeId) from aptitudes));
-SELECT setval('appointments_appointmentId_seq', (SELECT MAX(appointmentId) from appointments));
-SELECT setval('neighborhoods_ngid_seq', (SELECT MAX(ngid) from neighborhoods));
+SELECT setval('users_userid_seq',               (SELECT MAX(userid)         from users));
+SELECT setval('serviceTypes_serviceTypeId_seq', (SELECT MAX(serviceTypeId)  from serviceTypes));
+SELECT setval('aptitudes_aptitudeId_seq',       (SELECT MAX(aptitudeId)     from aptitudes));
+SELECT setval('appointments_appointmentId_seq', (SELECT MAX(appointmentId)  from appointments));
+SELECT setval('neighborhoods_ngid_seq',         (SELECT MAX(ngid)           from neighborhoods));
+SELECT setval('workingzones_workingZoneId_seq', (SELECT MAX(workingZoneId)  from workingzones));
+SELECT setval('temporaryImages_imageid_seq',    (SELECT MAX(imageid)        from temporaryImages));

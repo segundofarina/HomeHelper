@@ -55,6 +55,7 @@ import static junit.framework.Assert.*;
         public void testCreate() throws SQLException {
             int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "users");
             final User user = userDao.create(USERNAME, PASSWORD,FIRSTNAME,LASTNAME,EMAIL,PHONE,ADDRESS,IMAGE);
+            em.flush();
             assertNotNull(user);
             assertEquals(USERNAME, user.getUsername());
             assertEquals(PASSWORD, user.getPassword());

@@ -44,7 +44,7 @@ public class AptitudeJdbcDaoTest {
     @Test
     public void getAptitudesOfUserTest(){
 
-        assertEquals(Const.SERVICETYPE_ID,aptitudeDao.getAptitudesOfUser(Const.USER3_ID).get(0).getId());
+        assertEquals(Const.VALID_APTITUDE_ID,aptitudeDao.getAptitudesOfUser(Const.USER3_ID).get(0).getId());
 
         assertNotEquals(Const.SERVICETYPE2_ID,aptitudeDao.getAptitudesOfUser(Const.USER3_ID).get(0).getId());
 
