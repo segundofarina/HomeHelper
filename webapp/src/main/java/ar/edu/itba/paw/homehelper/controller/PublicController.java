@@ -12,6 +12,11 @@ import ar.edu.itba.paw.interfaces.services.*;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.TemporaryImage;
 import ar.edu.itba.paw.model.User;
+import com.oracle.javafx.jmx.json.JSONDocument;
+import com.oracle.javafx.jmx.json.JSONFactory;
+import com.oracle.javafx.jmx.json.JSONReader;
+import com.oracle.javafx.jmx.json.JSONWriter;
+import jdk.nashorn.internal.runtime.JSONListAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +100,7 @@ public class PublicController {
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
         mav.addObject("serviceTypes", sTypeService.getServiceTypes());
         mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
+
         return mav;
     }
 
