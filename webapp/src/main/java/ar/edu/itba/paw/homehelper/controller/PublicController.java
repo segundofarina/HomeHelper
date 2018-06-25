@@ -177,49 +177,7 @@ public class PublicController {
     @RequestMapping(value = "/profile/{userId}/profileimage", produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public @ResponseBody byte[] providerProfileImage(@PathVariable("userId") int userId) {
         byte[] img = null;
-            img = userService.getProfileImage(userId);
-            if(img == null){
-                img = defaultImagesService.getImage(1).get();
-            }
-
-//            //InputStream in = servletContext.getResourceAsStream("/resources/img/image-example.jpg");
-//            InputStream in = getClass()
-//                    .getResourceAsStream("/img/defaultProfile.png");
-//
-//            try {
-//                img = IOUtils.toByteArray(in);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-/*
-        if(img == null) {
-            try {
-                img = IOUtils.toByteArray(this.getClass().getResourceAsStream("/defaultProfile.png"));
-            } catch (IOException e) {
-                img = null;
-            }
-        }
-*//*
-        try {
-            //Class cls = Class.forName("PublicController");
-            Class cls = this.getClass();
-
-            // returns the ClassLoader object associated with this Class
-            ClassLoader cLoader = cls.getClassLoader();
-
-            // input stream
-            InputStream i = cLoader.getResourceAsStream("/defaultProfile.png");
-
-            if(i != null) {
-                System.out.println("Not null");
-                img = IOUtils.toByteArray(i);
-            }
-
-
-        } catch(Exception e) {
-            System.out.println(e);
-        }*/
+        img = userService.getProfileImage(userId);
 
         return img;
     }

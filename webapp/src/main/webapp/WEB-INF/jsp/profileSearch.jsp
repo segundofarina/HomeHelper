@@ -82,7 +82,15 @@
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-2">
                                         <div class="profileImg">
-                                            <img src="<c:url value="/profile/${provider.id}/profileimage" />" alt="Profile picture" />
+                                            <c:choose>
+                                                <c:when test="${provider.image != null}">
+                                                    <img src="<c:url value="/profile/${provider.id}/profileimage" />" alt="Profile picture" />
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                </c:otherwise>
+                                            </c:choose>
+
                                             <div class="profileBtn hidden-xs">
 
                                                 <a href="<c:url value="/profile/${provider.id}" />" class="btn btn-success btn-sm"><spring:message code="profile.view-profile"/></a>

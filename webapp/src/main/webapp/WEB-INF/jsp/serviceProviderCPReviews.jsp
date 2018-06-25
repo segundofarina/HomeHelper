@@ -77,7 +77,14 @@
                                             <c:forEach items="${reviews}" var="review">
                                                 <tr class="review-header" data-toggle="collapse" data-target="#review<c:out value="${review.user.id}"/>" aria-expanded="false">
                                                     <td>
-                                                        <img class="profileImage" src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
+                                                        <c:choose>
+                                                            <c:when test="${review.user.image != null}">
+                                                                <img class="profileImage" src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <img class="profileImage" src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                     </td>
                                                     <td><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></td>
                                                     <td><c:out value="${review.date}" /></td>
@@ -97,40 +104,40 @@
                                                             <div class="content">
                                                                 <div class="row">
                                                                     <div class="col-xs-12 col-md-6 firstCol">
-                                                                        <h4>Calificacion:</h4>
+                                                                        <h4><spring:message code="general.calification" /></h4>
                                                                         <div class="row">
                                                                             <div class="col-xs-12 col-sm-6">
                                                                                 <div class="star-item">
-                                                                                    <h5>Calificacion General:</h5>
+                                                                                    <h5><spring:message code="general.genCalification" />:</h5>
                                                                                     <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
                                                                                 </div>
                                                                                 <div class="star-item">
-                                                                                    <h5>Calidad:</h5>
+                                                                                    <h5><spring:message code="general.quality" />:</h5>
                                                                                     <div class="stars dyn-stars" data-rating="<c:out value="${review.qualityCalification}"/>"></div>
                                                                                 </div>
                                                                                 <div class="star-item">
-                                                                                    <h5>Precio:</h5>
+                                                                                    <h5><spring:message code="general.price" />:</h5>
                                                                                     <div class="stars dyn-stars" data-rating="<c:out value="${review.priceCalification}"/>"></div>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-xs-12 col-sm-6">
                                                                                 <div class="star-item">
-                                                                                    <h5>Puntualidad:</h5>
+                                                                                    <h5><spring:message code="general.punctuality" />:</h5>
                                                                                     <div class="stars dyn-stars" data-rating="<c:out value="${review.punctualityCalification}"/>"></div>
                                                                                 </div>
                                                                                 <div class="star-item">
-                                                                                    <h5>Trato:</h5>
+                                                                                    <h5><spring:message code="general.treatment" />:</h5>
                                                                                     <div class="stars dyn-stars" data-rating="<c:out value="${review.treatmentCalification}"/>"></div>
                                                                                 </div>
                                                                                 <div class="star-item">
-                                                                                    <h5>Limpieza:</h5>
+                                                                                    <h5><spring:message code="general.cleanness" />:</h5>
                                                                                     <div class="stars dyn-stars" data-rating="<c:out value="${review.cleannessCalification}"/>"></div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-xs-12 col-md-6">
-                                                                        <h4>Comentarios:</h4>
+                                                                        <h4><spring:message code="general.description" />:</h4>
                                                                         <p><c:out value="${review.comment}" /></p>
                                                                     </div>
                                                                 </div>

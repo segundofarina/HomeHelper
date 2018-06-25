@@ -45,16 +45,18 @@
 
                     <div class="profileImgEdit">
                         <c:url value="/tempImg/${img}" var="tempImg" />
-                        <div id="image-preview" style="background-image: url('${tempImg}')"></div><!-- si tiene foto de perfil se agrega con un style="background-image: url('');" -->
-                        <%--<c:choose>
-                            <c:when test="${profilePicture != null}">
-                                <c:url value="${profilePicture}" var="img" />
-                                <div id="image-preview" style="background-image: url(<c:out value='${img}' />);"></div>
+                        <c:choose>
+                            <%-- If I have a tem img show it --%>
+                            <c:when test="${img != -1}">
+                                <c:url value="/tempImg/${img}" var="tempImg" />
+                                <div id="image-preview" style="background-image: url('${tempImg}')"></div>
                             </c:when>
                             <c:otherwise>
+                                <%-- default case --%>
                                 <div id="image-preview"></div>
                             </c:otherwise>
-                        </c:choose>--%>
+                        </c:choose>
+
                         <div class="cover">
                             <p class="coverTxt"><spring:message code="sprovider.change-pic"/></p>
                         </div>

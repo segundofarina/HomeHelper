@@ -65,7 +65,14 @@
                                 <c:forEach items="${appointmentsPending}" var="appointment">
                                     <tr>
                                         <th>
-                                            <img class="profileImage" src="<c:url value="/profile/${appointment.provider.id}/profileimage" />" alt="profile picture" />
+                                            <c:choose>
+                                                <c:when test="${provider.image != null}">
+                                                    <img class="profileImage" src="<c:url value="/profile/${appointment.provider.id}/profileimage" />" alt="profile picture" />
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img class="profileImage" src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                </c:otherwise>
+                                            </c:choose>
                                         </th>
                                         <td><c:out value="${appointment.serviceType.name}" /></td>
                                         <td><c:out value="${appointment.provider.firstname}" /></td>
@@ -108,7 +115,14 @@
                                 <c:forEach items="${appointmentsDone}" var="appointment">
                                     <tr>
                                         <th>
-                                            <img class="profileImage" src="<c:url value="/profile/${appointment.provider.id}/profileimage" />" alt="profile picture" />
+                                            <c:choose>
+                                                <c:when test="${appointment.provider.image != null}">
+                                                    <img class="profileImage" src="<c:url value="/profile/${appointment.provider.id}/profileimage" />" alt="profile picture" />
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img class="profileImage" src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                </c:otherwise>
+                                            </c:choose>
                                         </th>
                                         <td><c:out value="${appointment.serviceType.name}" /></td>
                                         <td><c:out value="${appointment.provider.firstname}" /></td>

@@ -116,7 +116,14 @@
                                         <c:forEach items="${chats}" var="chat">
                                             <article class="media event">
                                                 <a class="pull-left img">
-                                                    <img src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="profile picture" />
+                                                    <c:choose>
+                                                        <c:when test="${chat.grey.image != null}">
+                                                            <img src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="profile picture" />
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </a>
                                                 <div class="media-body">
                                                     <h5 class="title"><c:out value="${chat.grey.firstname}" /></h5>
@@ -148,7 +155,14 @@
                                         <c:forEach items="${reviews}" var="review">
                                             <article class="media event">
                                                 <a class="pull-left img">
-                                                    <img src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
+                                                    <c:choose>
+                                                        <c:when test="${review.user.image != null}">
+                                                            <img src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                        </c:otherwise>
+                                                    </c:choose>
                                                 </a>
                                                 <div class="media-body">
                                                     <h5 class="title"><c:out value="${review.user.firstname}" /></h5>

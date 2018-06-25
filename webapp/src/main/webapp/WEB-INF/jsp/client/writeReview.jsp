@@ -47,7 +47,14 @@
                             <div class="app-profile">
                                 <div class="app-header">
                                     <div>
-                                        <img src="<c:url value="/profile/${appointment.provider.id}/profileimage" />" alt="profile picture" />
+                                        <c:choose>
+                                            <c:when test="${appointment.provider.image != null}">
+                                                <img src="<c:url value="/profile/${appointment.provider.id}/profileimage" />" alt="profile picture" />
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                     <div>
                                         <h3><c:out value="${appointment.provider.firstname}" /> <c:out value="${appointment.provider.lastname}" /></h3>
