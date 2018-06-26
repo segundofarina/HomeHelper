@@ -135,7 +135,11 @@ public class PublicController {
             throw new InvalidQueryException();
         }
 
-        final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId);
+        /* cambiar city id por latitiud y longitud */
+        double lat = -34.572937;
+        double lng = -58.422475;
+
+        final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(lat, lng, serviceTypeId);
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));

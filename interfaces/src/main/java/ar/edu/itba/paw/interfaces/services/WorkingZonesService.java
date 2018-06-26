@@ -12,5 +12,8 @@ public interface WorkingZonesService {
 
     boolean removeWorkingZoneOfProvider(int userId, int ngId);
 
+    /* New implementation code */
+
+
 
 }
