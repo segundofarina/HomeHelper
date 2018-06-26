@@ -167,6 +167,8 @@ public class PublicController {
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
         mav.addObject("provider",provider);
 
+        // get coords from db
+        mav.addObject("workingZonesCoords", "-34.557176,-58.430436;-34.588696,-58.431428;-34.575376,-58.403839");
 
         LOGGER.info("{} accessed to provider's profile with id {} .",getUserString(loggedInUser),providerId);
         return mav;
