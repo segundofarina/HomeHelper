@@ -33,14 +33,14 @@ public class WZoneHibernateDao implements WZoneDao {
 
     @Override
     public List<Neighborhood> getWorkingZonesOfProvider(int providerId) {
-       final TypedQuery<Neighborhood> query = em.createQuery("select wz.neighborhood from WorkingZone as wz where wz.user.id = :providerid",Neighborhood.class);
+       final TypedQuery<Neighborhood> query = em.createQuery("select wz.neighborhood from WorkingZone as wz where wz.sProvider.id = :providerid",Neighborhood.class);
        query.setParameter("providerid",providerId);
        return query.getResultList();
     }
 
     @Override
     public List<SProvider> getServiceProvidersWorkingIn(int ngId) {
-       final TypedQuery<SProvider> query = em.createQuery("select wz.user from WorkingZone as wz where wz.neighborhood.ngId = :ngId",SProvider.class);
+       final TypedQuery<SProvider> query = em.createQuery("select wz.sProvider from WorkingZone as wz where wz.neighborhood.ngId = :ngId",SProvider.class);
         query.setParameter("ngId",ngId);
        return query.getResultList();
     }

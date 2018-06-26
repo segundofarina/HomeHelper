@@ -18,13 +18,13 @@ public class WorkingZone {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userid")
-    private SProvider user;
+    private SProvider sProvider;
 
     /* package*/ WorkingZone(){
     }
 
     public WorkingZone(SProvider user, Neighborhood neighborhood){
-        this.user = user;
+        this.sProvider = user;
         this.neighborhood = neighborhood;
     }
 
@@ -37,10 +37,10 @@ public class WorkingZone {
     }
 
     public SProvider getUser() {
-        return user;
+        return sProvider;
     }
 
     public void setUser(SProvider user) {
-        this.user = user;
+        this.sProvider = user;
     }
 }

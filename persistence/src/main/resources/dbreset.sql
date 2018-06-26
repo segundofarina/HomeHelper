@@ -95,10 +95,6 @@ CREATE TABLE IF NOT EXISTS temporaryImages (
   image   BYTEA
 );
 
-CREATE TABLE IF NOT EXISTS defaultImages (
-  imageid INTEGER PRIMARY KEY,
-  image   BYTEA
-);
 
 
 insert into users VALUES (1,'mlopez','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcos','Lopez','mlopez@itba.edu.ar','1541234567',null,'cuba 2546', TRUE);
@@ -659,3 +655,4 @@ SELECT setval('appointments_appointmentId_seq', (SELECT MAX(appointmentId)  from
 SELECT setval('neighborhoods_ngid_seq',         (SELECT MAX(ngid)           from neighborhoods));
 SELECT setval('workingzones_workingZoneId_seq', (SELECT MAX(workingZoneId)  from workingzones));
 SELECT setval('temporaryImages_imageid_seq',    (SELECT MAX(imageid)        from temporaryImages));
+SELECT setval('reviews_reviewId_seq',            (SELECT MAX(reviewId)        from reviews));
