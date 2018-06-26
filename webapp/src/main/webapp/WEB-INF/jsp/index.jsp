@@ -105,6 +105,7 @@
 
 <script>
     var autocomplete;
+    var modifiedAddress = false;
 
     function initAutocomplete() {
         // Create the autocomplete object, restricting the search to geographical
@@ -121,10 +122,14 @@
     function fillInAddress() {
         // Get the place details from the autocomplete object.
         var place = autocomplete.getPlace();
-
-        $("#lat").val(place.geometry.location.lat());
-        $("#lng").val(place.geometry.location.lng());
-
+        if(!place.geometry) {
+            $("#lat").val("");
+            $("#lng").val("");
+        } else {
+            $("#lat").val(place.geometry.location.lat());
+            $("#lng").val(place.geometry.location.lng());
+            modifiedAddress = false;
+        }
     }
 
     // Bias the autocomplete object to the user's geographical location,
@@ -148,8 +153,7 @@
     $(document).ready(function () {
         google.maps.event.addDomListener(window, 'load', initAutocomplete);
 
-
-        var modifiedAddress = false;
+        //var modifiedAddress = false;
 
         /* Prevent default enter */
         $(window).keydown(function(event){
@@ -162,7 +166,9 @@
 
         /* clean form on exit without valid option */
         $(document).click(function(event) {
-            if (!$(event.target).closest("#addressField").length && modifiedAddress) {
+            console.log("click");
+            console.log($(event.target));
+            if (!$(event.target).closest("#addressField").length && !$(event.target).closest(".pac-container").length && modifiedAddress) {
                 $("#addressField").val("");
                 $("#lat").val("");
                 $("#lng").val("");
