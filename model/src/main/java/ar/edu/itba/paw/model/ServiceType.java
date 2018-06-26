@@ -52,4 +52,8 @@ public class ServiceType {
     public int hashCode() {
         return Objects.hash(getServiceTypeId(), getName());
     }
+
+    public int getId() {
+        return id;
+    }
 }

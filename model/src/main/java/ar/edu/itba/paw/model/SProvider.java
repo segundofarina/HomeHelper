@@ -16,7 +16,7 @@ public class SProvider {
     @Column(name = "userid")
     private int id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userid")
     private User user;
 

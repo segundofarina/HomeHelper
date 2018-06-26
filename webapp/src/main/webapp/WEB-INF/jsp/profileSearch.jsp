@@ -103,7 +103,7 @@
                                             <span class="separatorDot">&#x25CF;</span>
                                             <h5 class="serviceTypes">
                                                 <c:forEach items="${provider.aptitudes}" var="aptitude">
-                                                    <spring:message code="service-type.${aptitude.service.serviceTypeId}"/>
+                                                    <spring:message code="service-type.${aptitude.service.id}"/>
                                                 </c:forEach>
                                             </h5>
                                         </div>
