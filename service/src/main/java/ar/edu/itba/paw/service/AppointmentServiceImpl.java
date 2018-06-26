@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.service;
 
 import ar.edu.itba.paw.interfaces.daos.AppointmentDao;
+import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.Status;
@@ -18,6 +19,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     AppointmentDao appointmentDao;
+
+    @Autowired
+    AptitudeDao aptitudeDao;
 
     @Override
     public List<Appointment> getAppointmentsByProviderId(int providerId) {
@@ -112,6 +116,34 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<Appointment> getCompleteAppointmentWithProviderId(int providerId) {
+        List<Appointment> appointments = getAppointmentsByProviderId(providerId);
+        List<Appointment> ans = new ArrayList<>();
+
+        for(Appointment appointment : appointments){
+            if(appointment.getStatus().equals(Status.Done) || appointment.getStatus().equals(Status.Reject)){
+                ans.add(appointment);
+            }
+        }
+
+        return ans;
+    }
+
+    @Override
+    public List<Appointment> getCompleteAppointmentWithUserId(int userId) {
+        List<Appointment> appointments = getAppointmentsByUserId(userId);
+        List<Appointment> ans = new ArrayList<>();
+
+        for(Appointment appointment : appointments) {
+            if(appointment.getStatus().equals(Status.Done) || appointment.getStatus().equals(Status.Reject)){
+                ans.add(appointment);
+            }
+        }
+
+        return ans;
+    }
+
+    @Override
     public boolean updateDateOfAppointment(int appointmentId, String date) {
         Date appointmentDate = tryParse(date);
         if(appointmentDate==null){
@@ -122,7 +154,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public boolean rejectAppointment(int appointmentId) {
-        return appointmentDao.removeAppointment(appointmentId);
+        return appointmentDao.updateStatusOfAppointment(appointmentId,Status.Reject);
     }
 
     @Override
@@ -132,8 +164,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         return ap.subList(start, end);
     }
 
+
     @Override
-    public void reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+    public void reviewAppointment(int appointmentId, int userId, int serviceTypeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+        int aptitudeId = aptitudeDao.getAptitudeId(userId, serviceTypeId);
         appointmentDao.reviewAppointment(appointmentId,userId,aptitudeId,quality,cleanness,price,punctuality,treatment,comment);
     }
 

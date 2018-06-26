@@ -79,8 +79,7 @@ public class ServiceProviderController {
         final int providerId = loggedInUser.getId();
         final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
 
-        mav.addObject("providerId", providerId);
-        mav.addObject("providerName", loggedInUser.getFirstname());
+        mav.addObject("provider", loggedInUser);
 
         mav.addObject("chats", chatService.getLatestChatsOf(providerId));
         mav.addObject("appointments", appointmentService.getLatestPendingAppointmentWithProviderId(providerId));
@@ -115,8 +114,8 @@ public class ServiceProviderController {
         final int providerId = loggedInUser.getId();
         final ModelAndView mav = new ModelAndView("serviceProviderCPMessages");
 
-        mav.addObject("providerId", providerId);
-        mav.addObject("providerName", loggedInUser.getFirstname());
+        mav.addObject("provider", loggedInUser);
+
         mav.addObject("chats", chatService.getChatsOf(providerId));
         mav.addObject("currentChat", chatService.getChat(providerId, clientId));
 
@@ -142,10 +141,10 @@ public class ServiceProviderController {
         final int providerId = loggedInUser.getId();
         final ModelAndView mav = new ModelAndView("serviceProviderCPAppointments");
 
-        mav.addObject("providerId", providerId);
-        mav.addObject("providerName", loggedInUser.getFirstname());
+        mav.addObject("provider", loggedInUser);
+
         mav.addObject("appointmentsPending", appointmentService.getPendingAppointmentWithProviderId(providerId));
-        mav.addObject("appointmentsDone", appointmentService.getAppointmentsByProviderId(providerId, Status.Done));
+        mav.addObject("appointmentsDone", appointmentService.getCompleteAppointmentWithProviderId(providerId));
 
         return mav;
     }
@@ -155,11 +154,9 @@ public class ServiceProviderController {
         if(loggedInUser == null) {
             throw new InvalidUsernameException();
         }
-        final int providerId = loggedInUser.getId();
         final ModelAndView mav = new ModelAndView("serviceProviderCPReviews");
 
-        mav.addObject("providerId", providerId);
-        mav.addObject("providerName", loggedInUser.getFirstname());
+        mav.addObject("provider", loggedInUser);
 
         mav.addObject("reviews", sProviderService.getReviewsOfServiceProvider(loggedInUser.getId()));
 
@@ -198,9 +195,9 @@ public class ServiceProviderController {
         /* Empty model attribute since its not uses in this view */
         model.addAttribute("updateAptitudeForm", new UpdateAptitudeForm());
 
-        mav.addObject("providerId", providerId);
-        mav.addObject("providerName", loggedInUser.getFirstname());
-        mav.addObject("provider", sProviderService.getServiceProviderWithUserId(providerId));
+        mav.addObject("provider", loggedInUser);
+
+        mav.addObject("serviceProvider", sProviderService.getServiceProviderWithUserId(providerId));
         mav.addObject("serviceTypes",sTypeService.getServiceTypes());
 
         mav.addObject("errorElemId", elemErrorId);
@@ -275,14 +272,18 @@ public class ServiceProviderController {
             model.addAttribute("updateAptitudeForm", updateAptitudeForm);
         }
 
-        mav.addObject("providerId", providerId);
-        mav.addObject("providerName", loggedInUser.getFirstname());
+        mav.addObject("provider", loggedInUser);
 
-        mav.addObject("provider", provider);
+        mav.addObject("serviceProvider", provider);
         mav.addObject("serviceTypes", sTypeService.getServiceTypes());
 
         mav.addObject("errorElemId", -1);
         mav.addObject("editAptitude", aptitudeId);
+
+        mav.addObject("img", -1);
+
+        mav.addObject("workingZones", workingZonesService.getWorkingZonesOfProvider(providerId));
+        mav.addObject("neightbourhoods", neighborhoodService.getAllNeighborhoods());
 
         return mav;
     }

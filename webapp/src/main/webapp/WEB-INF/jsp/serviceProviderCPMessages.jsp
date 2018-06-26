@@ -60,63 +60,106 @@
                                     </c:when>
                                     <c:otherwise>
                                     <!-- Message content -->
-
-                                    <div class="row">
-                                        <div class="col-sm-4 messageThumbnails">
-
-                                            <c:forEach items="${chats}" var="chat">
-                                                <c:url value="/sprovider/messages/${chat.grey.id}" var="chatThreadUrl" />
-                                                <a href="${chatThreadUrl}" class="thumbItem">
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            <div>
-                                                                <img class="roundedImg" src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="profile picture" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-9">
-                                                            <h4><c:out value="${chat.grey.firstname}" /> <c:out value="${chat.grey.lastname}" /></h4>
-                                                            <p><c:out value="${chat.preview}" /></p>
-                                                        </div>
+                                        <div class="chat-container">
+                                            <div id="frame">
+                                                <div id="sidepanel">
+                                                    <div id="search">
+                                                        <label><i class="fa fa-search" aria-hidden="true"></i></label>
+                                                        <input type="text" placeholder="Search contacts..." />
                                                     </div>
-                                                </a>
-                                            </c:forEach>
-
-                                        </div>
-
-                                        <div class="col-sm-8 messageContent">
-                                            <div class="scrollableContent">
-
-                                                <c:forEach items="${currentChat.messages}" var="msg">
-                                                <div class="clearfix">
-                                                    <c:choose>
-                                                    <c:when test="${msg.from == providerId}">
-                                                    <div class="myMsg">
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                        <div class="otherMsg">
-                                                            </c:otherwise>
-                                                            </c:choose>
-
-                                                            <p><c:out value="${msg.message}" /></p>
-                                                        </div>
+                                                    <div id="contacts">
+                                                        <ul>
+                                                            <c:forEach items="${chats}" var="chat">
+                                                                <c:url value="/sprovider/messages/${chat.grey.id}" var="chatThreadUrl" />
+                                                                <a href="${chatThreadUrl}" class="thumbItem">
+                                                                    <c:choose>
+                                                                        <c:when test="${chat.grey.id == currentChat.grey.id}">
+                                                                            <li class="contact active">
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <li class="contact">
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                        <div class="wrap">
+                                                                            <!-- add this on unread chats --
+                                                                            <span class="contact-status"></span> -->
+                                                                            <c:choose>
+                                                                                <c:when test="${chat.grey.image != null}">
+                                                                                    <img src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="Profile Picture" />
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                    <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                                                </c:otherwise>
+                                                                            </c:choose>
+                                                                            <div class="meta">
+                                                                                <p class="name"><c:out value="${chat.grey.firstname}" /> <c:out value="${chat.grey.lastname}" /></p>
+                                                                                <p class="preview"><c:out value="${chat.preview}" /></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                </a>
+                                                            </c:forEach>
+                                                        </ul>
                                                     </div>
-                                                    </c:forEach>
-
                                                 </div>
-                                                <div class="fields">
-                                                    <c:url value="/sprovider/messages/${currentChat.grey.id}" var="msgPostPath" />
-                                                    <form action="<c:out value="${msgPostPath}" />" method="POST">
-                                                        <div>
-                                                            <textarea name="msg" placeholder="<spring:message code="placeholder.write-message"/>"></textarea>
+                                                <div class="content">
+                                                    <div class="contact-profile">
+                                                        <c:choose>
+                                                            <c:when test="${currentChat.grey.image != null}">
+                                                                <img src="<c:url value="/profile/${currentChat.grey.id}/profileimage" />" alt="Profile picture" />
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                        <p><c:out value="${currentChat.grey.firstname}"/> <c:out value="${currentChat.grey.lastname}" /></p>
+                                                    </div>
+                                                    <div class="messages">
+                                                        <ul>
+                                                            <c:forEach items="${currentChat.messages}" var="msg">
+                                                                <c:choose>
+                                                                    <c:when test="${msg.from == currentChat.green.id}">
+                                                                        <li class="sent">
+                                                                        <c:choose>
+                                                                            <c:when test="${currentChat.green.image != null}">
+                                                                                <img src="<c:url value="/profile/${currentChat.green.id}/profileimage" />" alt="Profile picture" />
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                    </c:when>
+                                                                    <c:otherwise>
+                                                                        <li class="replies">
+                                                                        <c:choose>
+                                                                            <c:when test="${currentChat.grey.image != null}">
+                                                                                <img src="<c:url value="/profile/${currentChat.grey.id}/profileimage" />" alt="Profile picture" />
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                    </c:otherwise>
+                                                                </c:choose>
+                                                                <p><c:out value="${msg.message}" /></p>
+                                                                </li>
+                                                            </c:forEach>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="message-input">
+                                                        <div class="wrap">
+                                                            <c:url value="/sprovider/messages/${currentChat.grey.id}" var="msgPostPath" />
+                                                            <form action="<c:out value="${msgPostPath}" />" method="POST">
+                                                                <input type="text" name="msg" id="msgField" autocomplete="off" placeholder="<spring:message code="placeholder.write-message"/>" />
+                                                                <button class="submit" value="<spring:message code="general.send"/>" >
+                                                                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                                </button>
+                                                            </form>
                                                         </div>
-                                                        <div>
-                                                            <input type="submit" value="send" class="btn btn-success" />
-                                                        </div>
-                                                    </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
                                         <!-- End Message content  -->
                                     </c:otherwise>
                                 </c:choose>
@@ -153,8 +196,26 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        var scrollableContent = $(".scrollableContent");
+        var scrollableContent = $(".messages");
         scrollableContent.scrollTop(scrollableContent[0].scrollHeight);
+
+        $("#msgField").focus();
+
+        /* Search filter */
+        $("#search input").keyup(function () {
+            var filter = $(this).val().toUpperCase();
+
+            var contactsList = $("#contacts ul li");
+            for(var i = 0; i < contactsList.length; i++){
+                var name = $(contactsList[i]).find(".name")[0].innerHTML.toUpperCase();
+
+                if(name.indexOf(filter) > -1) {
+                    contactsList[i].style.display = "";
+                } else {
+                    contactsList[i].style.display = "none";
+                }
+            }
+        });
     });
 </script>
 </body>

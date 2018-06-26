@@ -45,8 +45,9 @@ h2 {
 .profileDetails .profileImg img {
     border-radius: 100%;
     border: 7px solid #ffffff;
-    width: 80%;
-    max-width: 200px;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
 }
 
 .profileDetails .name h3 {
@@ -187,6 +188,7 @@ label {
     width: 6em;
     height: 6em;
     border-radius: 100%;
+    object-fit: cover;
 }
 
 .review-item .name h5 {
@@ -300,6 +302,13 @@ footer.footer {
 
     .panel-appointment {
         right: 1em;
+    }
+    .profileDetails .profileImg img {
+        width: 200px;
+        height: 200px;
+    }
+    .profileDetails .hline {
+        top: 7em;
     }
 }
 

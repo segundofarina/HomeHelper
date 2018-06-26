@@ -47,16 +47,14 @@
                 <div class="container">
                     <div class="content">
                         <div class="profileImg">
-                            <%--<c:choose>--%>
-                                <%--<c:when test="${provider.image == null}">--%>
-                                    <%--<img src="<c:url value="/resources/img/img.jpg" />" alt="profile picture" />--%>
-                                <%--</c:when>--%>
-                                <%--<c:otherwise>--%>
-                                    <%--<img src="<c:url value="/profile/${provider.id}/profileimage" />" alt="profile picture" />--%>
-                                <%--</c:otherwise>--%>
-                            <%--</c:choose>--%>
-                            <img src="<c:url value="/profile/${provider.id}/profileimage" />" alt="profile picture" />
-
+                            <c:choose>
+                                <c:when test="${provider.image != null}">
+                                    <img src="<c:url value="/profile/${provider.id}/profileimage" />" alt="profile picture" />
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <div class="name">
                             <h3><c:out value="${provider.firstname}"/> <c:out value="${provider.lastname}"/></h3>
@@ -236,7 +234,14 @@
                                                 <div class="row">
                                                     <div class="col-xs-6 col-sm-3 col-md-2">
                                                         <div class="profileImg">
-                                                            <img src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
+                                                            <c:choose>
+                                                                <c:when test="${review.user.image != null}">
+                                                                    <img src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                             <div class="name hidden-xs">
                                                                 <h5><c:out value="" /><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></h5>
                                                             </div>

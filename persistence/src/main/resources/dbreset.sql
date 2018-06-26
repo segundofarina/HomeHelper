@@ -494,18 +494,13 @@ insert into reviews VALUES (46,5,15,DEFAULT,5,5,5,5,5,'Muy buen trabajo, cumpli�
 insert into reviews VALUES (47,6,15,DEFAULT,4,4,4,5,5,'Excelente atención y mis muebles quedaron muy bien. Cumplió con los tiempos.');
 insert into reviews VALUES (48,7,15,DEFAULT,4,4,4,4,4,'Muy buen trabajo y terminaciones. Puntual y responsable. Súper recomendable.');
 
-insert into messages VALUES (49,2,6,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
-insert into messages VALUES (50,6,2,'Hola Florencia si que necesitas?',DEFAULT );
-insert into messages VALUES (51,2,6,'Necesito hacer un aramrio para zapatillas',DEFAULT );
+insert into messages VALUES (2,6,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
+insert into messages VALUES (6,2,'Hola Florencia si que necesitas?',DEFAULT );
+insert into messages VALUES (2,6,'Necesito hacer un aramrio para zapatillas',DEFAULT );
 
-insert into messages VALUES (52,2,9,'Este tambien es un chat',DEFAULT );
-insert into messages VALUES (53,9,2,'AAA mira que bueno',DEFAULT );
-insert into messages VALUES (54,2,9,'Jajaja',DEFAULT );
-
-SELECT setval('users_userid_seq', (SELECT MAX(userid) from users));
-SELECT setval('serviceTypes_serviceTypeId_seq', (SELECT MAX(serviceTypeId) from serviceTypes));
-SELECT setval('aptitudes_aptitudeId_seq', (SELECT MAX(aptitudeId) from aptitudes));
-SELECT setval('appointments_appointmentId_seq', (SELECT MAX(appointmentId) from appointments));
+insert into messages VALUES (2,9,'Este tambien es un chat',DEFAULT );
+insert into messages VALUES (9,2,'AAA mira que bueno',DEFAULT );
+insert into messages VALUES (2,9,'Jajaja',DEFAULT );
 
 insert into workingzones VALUES (1,1,1);
 insert into workingzones VALUES (2,2,1);

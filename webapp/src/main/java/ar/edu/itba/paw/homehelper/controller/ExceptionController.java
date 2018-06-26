@@ -15,6 +15,18 @@ public class ExceptionController {
     @Autowired
     SProviderService sProviderService;
 
+    @RequestMapping("/error/400")
+    public ModelAndView error400(@ModelAttribute("loggedInUser") final User loggedInUser) {
+        final ModelAndView mav = new ModelAndView("error/400");
+
+        mav.addObject("user", loggedInUser);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+        mav.addObject("errorNum", "400");
+        mav.addObject("errorDesc", "Bad Request");
+
+        return mav;
+    }
+
     @RequestMapping("/error/404")
     public ModelAndView error404(@ModelAttribute("loggedInUser") final User loggedInUser) {
         final ModelAndView mav = new ModelAndView("error/404");

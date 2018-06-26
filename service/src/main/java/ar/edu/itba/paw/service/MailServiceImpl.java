@@ -103,6 +103,7 @@ public class MailServiceImpl implements MailService{
             Map<String, Object> model = new HashMap<String, Object>();
             model.put("user", user);
             model.put("verifyurl","http://pawserver.it.itba.edu.ar/paw-2018a-4/users/verify/"+key);
+            model.put("siteurl","http://pawserver.it.itba.edu.ar/paw-2018a-4/");
 
             String text = geFreeMarkerTemplateContent(model);//Use Freemarker or Velocity
             //System.out.println("Template content : "+text);

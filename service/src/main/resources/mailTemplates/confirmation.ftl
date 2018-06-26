@@ -300,7 +300,7 @@
                             <tr>
                                 <td style="word-break:break-word;font-size:0px;padding:0px;" align="center">
                                     <div style="cursor:auto;color:#99AAB5;font-family:Whitney, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;font-size:12px;line-height:24px;text-align:center;">
-                                        Sent by HomeHelper • <a href="https://localhost:8080/"
+                                        Sent by HomeHelper - <a href="${siteurl}"
                                                                 style="color:#1EB0F4;text-decoration:none;"
                                                                 target="_blank">check our site</a>
                                     </div>
