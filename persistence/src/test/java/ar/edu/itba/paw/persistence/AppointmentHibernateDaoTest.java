@@ -76,26 +76,30 @@ public class AppointmentHibernateDaoTest {
         int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments");
 
         appointmentDao.addAppointment(Const.USER_ID,Const.SPROVIDER3_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION);
-
+        em.flush();
         assertEquals(++count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
         try {
             appointmentDao.addAppointment(Const.USER_ID, Const.INVALID_SERVICE_PROVIDER_ID, Const.SERVICETYPE3_ID, Timestamp.from(Instant.now()), Const.VALID_ADDRESS, Const.VALID_JOBDESCRIPTION);
         }catch(Exception e){
+            em.flush();
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
         }
         try{
             appointmentDao.addAppointment(Const.INVALIDAD_USER_ID,Const.SPROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION);
         }catch(Exception e){
+            em.flush();
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
         }
         try{
             appointmentDao.addAppointment(Const.USER_ID,Const.INVALID_SERVICE_PROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION);
         }catch(Exception e){
+            em.flush();
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
         }
         try{
             appointmentDao.addAppointment(Const.USER_ID,Const.SPROVIDER_ID,Const.INVALID_SERVICE_TYPE_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION);
         }catch(Exception e){
+            em.flush();
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
         }
     }
