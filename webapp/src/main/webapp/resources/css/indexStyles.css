@@ -97,6 +97,18 @@ h1 {
     border-radius: 10px;
 }
 
+.currentLocation {
+    cursor: pointer;
+}
+.currentLocation:hover {
+    background-color: #dedede;
+}
+.currentLocation.disabled {
+    cursor: not-allowed;
+}
+.currentLocation.disabled:hover {
+    background-color: #eee;
+}
 
 @media (min-width: 768px) {
     .left-screen {

@@ -47,16 +47,13 @@
                     <div class="panel-body">
                         <c:url value="/search" var="postPath"/>
                         <form:form modelAttribute="searchForm" action="${postPath}" method="Post">
-                            <div class="form-group">
+                            <div class="form-group errorTooltip" data-toggle="tooltip" title="Unable to get current loaction">
                                 <form:label path="addressField"><spring:message code="form.city"/></form:label>
-                                <%--<form:select class="form-control" path="city">
-                                    <form:option value=""><spring:message code="index.select-city"/></form:option>
-                                    <c:forEach items="${neighborhoods}" var="ng">
-                                        <form:option value="${ng.ngId}"><spring:message code="neighborhood.${ng.ngId}"/></form:option>
-                                    </c:forEach>
-                                </form:select>--%>
                                 <div class="googleAutcomplete">
-                                    <form:input path="addressField" class="form-control" type="text" placeholder="Enter an address" onfocus="geolocate()" autocomplete="off" />
+                                    <div class="input-group">
+                                        <form:input path="addressField" class="form-control" type="text" placeholder="Enter an address" onfocus="geolocate()" autocomplete="off" />
+                                        <div class="input-group-addon currentLocation" data-toggle="tooltip" title="Get current location"><i class="fa fa-map-marker"></i></div>
+                                    </div>
                                 </div>
                                 <form:errors path="addressField" element="p" cssClass="form-error" />
                                 <form:input path="lat" type="hidden" value="" />
@@ -177,7 +174,96 @@
         $("#addressField").keydown(function () {
             modifiedAddress = true;
         });
+
+
+        var currentAddress = "";
+        var loadCurrentAddr = false;
+        var currentLat = "", currentLng = "";
+
+        /* Get current location */
+        navigator.geolocation.getCurrentPosition(
+            function( position ){ // success
+
+                /* Current Coordinate */
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+                currentLat = lat;
+                currentLng = lng;
+
+                var google_map_pos = new google.maps.LatLng( lat, lng );
+
+                var google_maps_geocoder = new google.maps.Geocoder();
+                google_maps_geocoder.geocode(
+                    { 'latLng': google_map_pos },
+                    function( results, status ) {
+                        if ( status === google.maps.GeocoderStatus.OK && results[0] ) {
+                            //$("#addressField").val(results[0].formatted_address);
+                            currentAddress = results[0].formatted_address;
+                            console.log(currentAddress);
+                            if(loadCurrentAddr) {
+                                $("#addressField").val(currentAddress);
+                                $(".currentLocation").find("i").removeClass("fa-spinner");
+                                $(".currentLocation").find("i").removeClass("fa-spin");
+                                $(".currentLocation").find("i").addClass("fa-map-marker");
+                                $(".currentLocation").addClass("disabled");
+                                $(".currentLocation").tooltip("destroy");
+                                $("#lat").val(currentLat);
+                                $("#lng").val(currentLng);
+                            }
+                        } else {
+                            if(loadCurrentAddr) {
+                                // show error tooltip
+                                showLocationError();
+                                $(".currentLocation").addClass("disabled");
+                                $(".currentLocation").tooltip("destroy");
+                            }
+                        }
+                    }
+                );
+            },
+            function(){ // fail
+                if(loadCurrentAddr) {
+                    // show error tooltip
+                    showLocationError();
+                }
+                $(".currentLocation").addClass("disabled");
+                $(".currentLocation").tooltip("destroy");
+            }
+        );
+        
+        $(".currentLocation").click(function () {
+            if($(this).hasClass("disabled")) {
+                return;
+            }
+            if(currentAddress === "") {
+                $(this).find("i").removeClass("fa-map-marker");
+                $(this).find("i").addClass("fa-spinner");
+                $(this).find("i").addClass("fa-spin");
+                loadCurrentAddr = true;
+            } else {
+                $("#addressField").val(currentAddress);
+                $("#lat").val(currentLat);
+                $("#lng").val(currentLng);
+            }
+        });
+
+        /* currentLocation tooltip */
+        $(".currentLocation").tooltip({
+            trigger: 'hover'
+        });
+
+        $(".errorTooltip").tooltip({
+            trigger: 'manual'
+        })
+
     });
+
+    function showLocationError() {
+        $(".errorTooltip").tooltip("show");
+        setTimeout(function(){
+            $(".errorTooltip").tooltip("hide");
+        }, 3000);
+    }
 </script>
 
 </body>
