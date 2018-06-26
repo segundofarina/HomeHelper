@@ -12,11 +12,11 @@ public class WorkingZone {
     @Column(name = "workingZoneId")
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ngid")
     private Neighborhood neighborhood;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userid")
     private SProvider sProvider;
 
