@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface WZoneDao {
 
-    void insertWorkingZoneOfProvider(int userId, int ngId);
+    boolean insertWorkingZoneOfProvider(int userId, int ngId);
 
     List<Neighborhood> getWorkingZonesOfProvider(int providerId);
 

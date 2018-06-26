@@ -30,7 +30,7 @@ import static org.junit.Assert.assertNotEquals;
 @ContextConfiguration(classes = TestConfig.class)
 @Transactional
 
-public class AptitudeJdbcDaoTest {
+public class AptitudeHibernateDaoTest {
 
     @Autowired
     private DataSource ds;

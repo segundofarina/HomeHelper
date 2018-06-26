@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -147,6 +148,18 @@ public class SProvider {
             }
         }
         return false;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public List<Neighborhood> getNeighborhoods(){
+        List<Neighborhood> neighborhoods = new ArrayList<>();
+        for(WorkingZone workingZone: workingZones){
+            neighborhoods.add(workingZone.getNeighborhood());
+        }
+        return neighborhoods;
     }
 
     public List<WorkingZone> getWorkingZones() {

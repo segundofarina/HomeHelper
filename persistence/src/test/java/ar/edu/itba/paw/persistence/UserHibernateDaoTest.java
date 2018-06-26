@@ -26,7 +26,7 @@ import static junit.framework.Assert.*;
     @RunWith(SpringJUnit4ClassRunner.class)
     @ContextConfiguration(classes = TestConfig.class)
 @Transactional
-    public class UserJdbcDaoTest {
+    public class UserHibernateDaoTest {
         private static final String PASSWORD = "Password";
         private static final String USERNAME = "Username";
         private static final String FIRSTNAME = "Jorge";

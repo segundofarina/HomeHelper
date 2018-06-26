@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Transactional
-public class ReviewJdbcDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class ReviewHibernateDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @PersistenceContext
     private EntityManager em;

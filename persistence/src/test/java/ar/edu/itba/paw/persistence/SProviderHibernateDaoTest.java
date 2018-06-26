@@ -30,10 +30,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Transactional
-public class SProviderJdbcDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
-
-
-
+public class SProviderHibernateDaoTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Autowired
     private DataSource ds;

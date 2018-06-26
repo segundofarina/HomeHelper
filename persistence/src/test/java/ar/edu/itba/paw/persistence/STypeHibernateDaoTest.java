@@ -27,7 +27,7 @@ import static org.mockito.Mockito.mock;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @Transactional
-public class STypeJdbcDaoTest {
+public class STypeHibernateDaoTest {
     private final static String NAME = "Name";
     private final static String NAME_UPDATE = "NameUpdate";
 
