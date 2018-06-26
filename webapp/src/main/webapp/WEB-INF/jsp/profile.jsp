@@ -430,8 +430,37 @@
 
 
         function initializeMap() {
-            // Map Center
-            var myLatLng = new google.maps.LatLng(-34.572902, -58.423161);//-34.572902, -58.423161
+            var coordsList = "";
+            coordsList = '<c:out value="${workingZonesCoords}"/>';
+            var coordsArr = coordsList.split(";");
+
+            /* Center map */
+            var myLatLng = null;
+            if(coordsArr.length === 0) {
+                myLatLng = new google.maps.LatLng(-34.572902, -58.423161);
+            } else {
+                console.log("calculate center");
+                var maxLat = 0, minLat = 0, maxLng = 0, minLng = 0;
+                for(var i = 0; i < coordsArr.length; i++) {
+                    var coord = coordsArr[i].split(",");
+
+                    if(maxLat === 0 || parseFloat(coord[0]) > maxLat) {
+                        maxLat = parseFloat(coord[0]);
+                    }
+                    if(maxLng === 0 || parseFloat(coord[1]) > maxLng) {
+                        maxLng = parseFloat(coord[1]);
+                    }
+                    if(minLat === 0 || parseFloat(coord[0]) < minLat) {
+                        minLat = parseFloat(coord[0]);
+                    }
+                    if(minLng === 0 || parseFloat(coord[1]) < minLng) {
+                        minLng = parseFloat(coord[1]);
+                    }
+                }
+
+                myLatLng = new google.maps.LatLng( (((maxLat - minLat) / 2) + minLat), ( ((maxLng - minLng) / 2) + minLng ) );
+            }
+
             // General Options
             var mapOptions = {
                 zoom: 14,
@@ -441,9 +470,6 @@
             var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
             // Polygon Coordinates
             // read them from #aptMap and crate an array
-            var coordsList = "";
-            coordsList = '<c:out value="${workingZonesCoords}"/>';
-            var coordsArr = coordsList.split(";");
 
             var polygonCoords = [];
             for(var i = 0; i < coordsArr.length; i++) {

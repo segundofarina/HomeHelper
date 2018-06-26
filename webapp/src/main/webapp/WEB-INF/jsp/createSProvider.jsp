@@ -310,7 +310,7 @@
 
 <script>
     $(document).ready(function(){
-       initializeMap();
+        initializeMap();
     });
 </script>
 

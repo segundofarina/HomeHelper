@@ -69,8 +69,12 @@ $(document).ready(function()
 
 
 function initializeMap() {
+    var coordsList = $("#aptMap").val();
+    var coordsArr = coordsList.split(";");
+
     // Map Center
-    var myLatLng = new google.maps.LatLng(-34.572902, -58.423161);//-34.572902, -58.423161
+    var myLatLng = new google.maps.LatLng(-34.572902, -58.423161);
+
     // General Options
     var mapOptions = {
         zoom: 14,
@@ -78,11 +82,8 @@ function initializeMap() {
         mapTypeId: google.maps.MapTypeId.RoadMap
     };
     var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    // Polygon Coordinates
-    // read them from #aptMap and crate an array
-    var coordsList = $("#aptMap").val();
-    var coordsArr = coordsList.split(";");
 
+    // Polygon Coordinates
     var polygonCoords = [];
     for(var i = 0; i < coordsArr.length - 1; i++) {
         var coord = coordsArr[i].split(",");

@@ -1,6 +1,37 @@
-function initializeMap(selector) {
+function initializeMap(selector, coordsArr) {
+
+    /* Center map */
+    var myLatLng = null;
+    if(coordsArr.length === 0) {
+        myLatLng = new google.maps.LatLng(-34.572902, -58.423161);
+    } else {
+        console.log("calculate center");
+        var maxLat = 0, minLat = 0, maxLng = 0, minLng = 0;
+        for(var i = 0; i < coordsArr.length; i++) {
+            var coord = coordsArr[i].split(",");
+
+            if(maxLat === 0 || parseFloat(coord[0]) > maxLat) {
+                maxLat = parseFloat(coord[0]);
+            }
+            if(maxLng === 0 || parseFloat(coord[1]) > maxLng) {
+                maxLng = parseFloat(coord[1]);
+            }
+            if(minLat === 0 || parseFloat(coord[0]) < minLat) {
+                minLat = parseFloat(coord[0]);
+            }
+            if(minLng === 0 || parseFloat(coord[1]) < minLng) {
+                minLng = parseFloat(coord[1]);
+            }
+        }
+
+        myLatLng = new google.maps.LatLng( (((maxLat - minLat) / 2) + minLat), ( ((maxLng - minLng) / 2) + minLng ) );
+    }
+
+
+
+
     // Map Center
-    var myLatLng = new google.maps.LatLng(-34.572902, -58.423161);// calcularlas con las initialCoords
+    //var myLatLng = new google.maps.LatLng(-34.572902, -58.423161);// calcularlas con las initialCoords
     // General Options
     var mapOptions = {
         zoom: 14,

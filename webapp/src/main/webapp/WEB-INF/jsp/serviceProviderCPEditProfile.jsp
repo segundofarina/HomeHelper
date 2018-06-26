@@ -332,9 +332,9 @@
         var coordsStr = $("#coordsStr").val();
         var initialCoords = coordsStr.split(";");
 
-        var staticMap = initializeMap("static-map-canvas");
+        var staticMap = initializeMap("static-map-canvas", initialCoords);
         addPolygon(staticMap, initialCoords, false);
-        var editableMap = initializeMap("editable-map-canvas");
+        var editableMap = initializeMap("editable-map-canvas", initialCoords);
         var editableMapPolygon = addPolygon(editableMap, initialCoords, true);
 
         /* A provider cant remove an aptitude if it's de only one */
