@@ -179,6 +179,15 @@ public class ClientController {
         sProviderService.create(loggedInUser.getId(), form.getProfileDesc());
         sProviderService.addAptitude(loggedInUser.getId(), form.getServiceTypeId(), form.getAptDesc());
 
+        /* Add working zone coords */
+        String[] coordsList = form.getAptMap().split(";");
+        for(int i=0; i < coordsList.length ; i++) {
+            String[] coord = coordsList[i].split(",",2);
+            double lat = Double.parseDouble(coord[0]);
+            double lng = Double.parseDouble(coord[1]);
+            //add working zone
+        }
+
         final int userId = loggedInUser.getId();
         userService.updateFirstNameOfUser(userId, form.getFirstname());
         userService.updateLastNameOfUser(userId, form.getLastname());

@@ -232,12 +232,12 @@
                         <div class="x_panel">
                             <div class="x_title">
                                 <h2><spring:message code="general.working-details"/></h2>
-                                <button type="button" class="btn btn-default btn-sm add-one pull-right"><i class="fa fa-plus"></i> <spring:message code="ng.add"/></button>
+                                <!--<button type="button" class="btn btn-default btn-sm add-one pull-right"><i class="fa fa-plus"></i> <spring:message code="ng.add"/></button>-->
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
 
-                                <c:choose>
+                                <%--<c:choose>
                                     <c:when test="${errorElemId == 3}">
                                         <div class="dynamic-element new-element">
                                     </c:when>
@@ -267,29 +267,26 @@
                                             </div>
                                         </form:form>
                                     </div>
-                                </div>
+                                </div>--%>
 
 
                                 <div class="editable">
-                                    <div class="form-group">
-                                        <label><spring:message code="editWorkingZone.title" /></label>
-                                        <c:forEach items="${workingZones}" var="wz" >
-                                            <form method="post" action="<c:url value="/sprovider/editProfile/deleteWorkingZone" />">
-                                                <input type="hidden" name="ngId" value="<c:out value="${wz.ngId}" />" />
-                                                <button type="submit" class="btn btn-danger btn-sm edit-visible wz-btn"><spring:message code="neighborhood.${wz.ngId}" /> <i class="fa fa-close"></i></button>
-                                            </form>
-                                        </c:forEach>
-                                        <ul class="edit-hidden">
-                                            <c:forEach items="${workingZones}" var="wz">
-                                                <li><spring:message code="neighborhood.${wz.ngId}" /></li>
-                                            </c:forEach>
-                                        </ul>
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="button" class="btn btn-danger btn-sm pull-right edit-visible btn-cancel"><i class="fa fa-close"></i> Cancel</button>
-                                        <button type="button" class="btn btn-primary btn-sm pull-right edit-hidden btn-edit"><i class="fa fa-edit"></i> Edit</button>
-                                        <div class="clearfix"></div>
-                                    </div>
+                                    <c:url value="/sprovider/editProfile/updateWorkingZone" var="postUrl" />
+                                    <form:form modelAttribute="addWZForm" action="${postUrl}" method="post">
+                                        <div class="form-group">
+                                            <label><spring:message code="editWorkingZone.title" /></label>
+                                            <div id="static-map-canvas" class="map edit-hidden"></div>
+                                            <form:input path="coordsStr" type="hidden" value="${workingZonesCoords}" />
+                                            <form:errors path="coordsStr" element="p" cssClass="form-error" />
+                                            <div id="editable-map-canvas" class="map edit-visible"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-danger btn-sm pull-right edit-visible btn-cancel"><i class="fa fa-close"></i> Cancel</button>
+                                            <button type="button" class="btn btn-primary btn-sm pull-right edit-hidden btn-edit"><i class="fa fa-edit"></i> Edit</button>
+                                            <form:button type="submit" class="btn btn-success btn-sm pull-right edit-visible"><i class="fa fa-circle-check"></i> <spring:message code="general.update"/></form:button>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </form:form>
                                 </div>
                             </div>
                         </div>
@@ -325,8 +322,20 @@
 <!-- Custom Theme Scripts -->
 <script src="<c:url value="/resources/adminTemplate/build/js/custom.min.js"/>"></script>
 
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBqSX1WHUw4OlgMDzYM40uSVPGkV06DR1I&ver=3.exp"></script>
+
+<script src="<c:url value="/resources/js/providerMap.js"/>"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
+
+        var coordsStr = $("#coordsStr").val();
+        var initialCoords = coordsStr.split(";");
+
+        var staticMap = initializeMap("static-map-canvas");
+        addPolygon(staticMap, initialCoords, false);
+        var editableMap = initializeMap("editable-map-canvas");
+        var editableMapPolygon = addPolygon(editableMap, initialCoords, true);
 
         /* A provider cant remove an aptitude if it's de only one */
         if($(document).find('.dynamic-element.saved-element').length > 1) {
@@ -374,6 +383,13 @@
 
             $('.btn-edit, .btn.add-one').removeClass('disabled');
             editable.removeClass('edit');
+
+            /* Reset map coords and delete polygon of map */
+            $("#cordsStr").val(coordsStr);
+            editableMapPolygon.setMap(null);
+            var initCoords = coordsStr.split(";");
+            editableMapPolygon = addPolygon(editableMap, initCoords, true);
+
         });
 
         /* Show new aptitude when pressing  */

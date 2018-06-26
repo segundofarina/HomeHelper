@@ -101,3 +101,8 @@ input[type=file].edit-visible {
 .form-group .wz-btn {
     margin: 5px 10px;
 }
+
+.map {
+    width: auto;
+    height: 500px;
+}

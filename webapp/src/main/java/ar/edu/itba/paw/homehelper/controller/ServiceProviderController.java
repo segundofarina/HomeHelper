@@ -204,6 +204,8 @@ public class ServiceProviderController {
         mav.addObject("editAptitude", -1);
         mav.addObject("img", img);
 
+        /* cambiar por un string de coordenadas */
+        mav.addObject("workingZonesCoords", "-34.557176,-58.430436;-34.588696,-58.431428;-34.575376,-58.403839");
         mav.addObject("workingZones", workingZonesService.getWorkingZonesOfProvider(providerId));
         mav.addObject("neightbourhoods", neighborhoodService.getAllNeighborhoods());
 
@@ -307,14 +309,7 @@ public class ServiceProviderController {
         return new ModelAndView("redirect:/sprovider/editProfile");
     }
 
-    @RequestMapping(value = "/sprovider/editProfile/deleteWorkingZone", method = RequestMethod.POST)
-    public ModelAndView deleteWZ(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "ngId") final int ngId) {
-        workingZonesService.removeWorkingZoneOfProvider(loggedInUser.getId(), ngId);
-
-        return new ModelAndView("redirect:/sprovider/editProfile");
-    }
-
-    @RequestMapping(value = "/sprovider/editProfile/addNg", method = RequestMethod.POST)
+    @RequestMapping(value = "/sprovider/editProfile/updateWorkingZone", method = RequestMethod.POST)
     public ModelAndView addWZ(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("addWZForm") final AddWZForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
         if(errors.hasErrors()) {
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.addWZForm", errors);
@@ -323,7 +318,16 @@ public class ServiceProviderController {
             return new ModelAndView(redirect);
         }
 
-        workingZonesService.insertWorkingZoneOfProvider(loggedInUser.getId(), form.getNgId());
+        /* Persist coords */
+        String[] coordsList = form.getCoordsStr().split(";");
+        for(int i=0; i < coordsList.length ; i++) {
+            String[] coord = coordsList[i].split(",",2);
+            double lat = Double.parseDouble(coord[0]);
+            double lng = Double.parseDouble(coord[1]);
+            //add working zone
+            System.out.println("lat: " + lat + " lng: " + lng);
+        }
+        //workingZonesService.insertWorkingZoneOfProvider(loggedInUser.getId(), form.getNgId());
 
         return new ModelAndView("redirect:/sprovider/editProfile");
     }
