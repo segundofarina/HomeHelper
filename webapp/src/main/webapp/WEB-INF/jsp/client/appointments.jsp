@@ -66,8 +66,8 @@
                                     <tr>
                                         <th>
                                             <c:choose>
-                                                <c:when test="${provider.image != null}">
-                                                    <img class="profileImage" src="<c:url value="/profile/${appointment.provider.id}/profileimage" />" alt="profile picture" />
+                                                <c:when test="${provider.user.image != null}">
+                                                    <img class="profileImage" src="<c:url value="/profile/${appointment.provider.user.id}/profileimage" />" alt="profile picture" />
                                                 </c:when>
                                                 <c:otherwise>
                                                     <img class="profileImage" src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
@@ -116,8 +116,8 @@
                                     <tr>
                                         <th>
                                             <c:choose>
-                                                <c:when test="${appointment.provider.image != null}">
-                                                    <img class="profileImage" src="<c:url value="/profile/${appointment.provider.id}/profileimage" />" alt="profile picture" />
+                                                <c:when test="${appointment.provider.user.image != null}">
+                                                    <img class="profileImage" src="<c:url value="/profile/${appointment.provider.user.id}/profileimage" />" alt="profile picture" />
                                                 </c:when>
                                                 <c:otherwise>
                                                     <img class="profileImage" src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
@@ -125,7 +125,7 @@
                                             </c:choose>
                                         </th>
                                         <td><c:out value="${appointment.serviceType.name}" /></td>
-                                        <td><c:out value="${appointment.provider.firstname}" /></td>
+                                        <td><c:out value="${appointment.provider.user.firstname}" /></td>
                                         <td><c:out value="${appointment.date}" /></td>
                                         <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
                                         <td>

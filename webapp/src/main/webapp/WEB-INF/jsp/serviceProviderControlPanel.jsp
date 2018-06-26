@@ -88,7 +88,7 @@
                                                 </a>
                                                 <div class="media-body">
                                                     <h5 class="title"><c:out value="${ap.client.firstname}" /></h5>
-                                                    <p><spring:message code="service-type.${ap.serviceType.serviceTypeId}"/></p>
+                                                    <p><spring:message code="service-type.${ap.serviceType.id}"/></p>
                                                 </div>
                                             </article>
                                         </c:forEach>

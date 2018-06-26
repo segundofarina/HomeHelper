@@ -62,7 +62,7 @@
                                 <form:select path="serviceType" class="form-control" >
                                     <form:option value=""><spring:message code="index.select-serviceType"/></form:option>
                                     <c:forEach items="${serviceTypes}" var="st">
-                                        <form:option value="${st.serviceTypeId}"><spring:message code="service-type.${st.serviceTypeId}"/></form:option>
+                                        <form:option value="${st.id}"><spring:message code="service-type.${st.id}"/></form:option>
                                     </c:forEach>
                                 </form:select>
                                 <form:errors path="serviceType" element="p" cssClass="form-error" />

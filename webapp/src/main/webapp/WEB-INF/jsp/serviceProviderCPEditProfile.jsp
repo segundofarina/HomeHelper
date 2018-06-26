@@ -82,8 +82,8 @@
                                                         <c:otherwise>
                                                             <c:choose>
                                                                 <%-- Otherwise if I have a profile img show it --%>
-                                                                <c:when test="${provider.image != null}">
-                                                                    <c:url value="/profile/${provider.id}/profileimage" var="profileImg" />
+                                                                <c:when test="${provider.user.image != null}">
+                                                                    <c:url value="/profile/${provider.user.id}/profileimage" var="profileImg" />
                                                                     <div id="image-preview" style="background-image: url('${profileImg}')"></div>
                                                                 </c:when>
                                                                 <c:otherwise>
@@ -104,7 +104,7 @@
                                             <div class="col-md-8 col-sm-8 col-xs-12">
                                                 <div class="form-group">
                                                     <label><spring:message code="sprovider.full-name"/>:</label>
-                                                    <p data-ref="fullName"><c:out value="${serviceProvider.firstname}" /> <c:out value="${serviceProvider.lastname}" /></p>
+                                                    <p data-ref="fullName"><c:out value="${serviceProvider.user.firstname}" /> <c:out value="${serviceProvider.user.lastname}" /></p>
                                                 </div>
                                                 <div class="form-group">
                                                     <form:label path="generalDescription"><spring:message code="general.description"/>:</form:label>
@@ -157,7 +157,7 @@
                                                     <form:select path="serviceType" class="form-control">
                                                         <form:option value=""><spring:message code="service-type.select"/></form:option>
                                                         <c:forEach items="${serviceTypes}" var="st">
-                                                            <form:option value="${st.serviceTypeId}"><spring:message code="service-type.${st.serviceTypeId}"/></form:option>
+                                                            <form:option value="${st.id}"><spring:message code="service-type.${st.id}"/></form:option>
                                                         </c:forEach>
                                                     </form:select>
                                                     <form:errors path="serviceType" cssClass="form-error" element="p" />
@@ -195,8 +195,8 @@
                                                     <form:input type="hidden" path="aptitutdeId" value="${aptitude.id}" />
                                                     <div class="form-group">
                                                         <label><spring:message code="general.service-type"/>:</label>
-                                                        <form:input path="serviceType" type="hidden" value="${aptitude.service.serviceTypeId}" />
-                                                        <p><spring:message code="service-type.${aptitude.service.serviceTypeId}"/></p>
+                                                        <form:input path="serviceType" type="hidden" value="${aptitude.service.id}" />
+                                                        <p><spring:message code="service-type.${aptitude.service.id}"/></p>
                                                     </div>
                                                     <div class="form-group">
                                                         <form:label path="aptDescription"><spring:message code="general.description"/>:</form:label>

@@ -20,10 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+import javax.validation.constraints.AssertTrue;
 import java.util.List;
 import java.util.Optional;
 
 import static junit.framework.TestCase.*;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 @Sql("classpath:schema.sql")
@@ -94,6 +96,17 @@ public class SProviderHibernateDaoTest extends AbstractTransactionalJUnit4Spring
         }catch (Exception e){
             assertEquals(count,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "serviceProviders"));
         }
+
+    }
+
+    @Test
+    public void getServiceProviderAptitudesTest(){
+        Optional<SProvider> sProviderOp = sProviderDao.getServiceProviderWithUserId(Const.SPROVIDER_ID);
+        assertTrue(sProviderOp.isPresent());
+
+       assertEquals(2,sProviderOp.get().getAptitudes().size());
+
+
 
     }
 

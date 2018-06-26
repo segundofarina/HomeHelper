@@ -42,7 +42,7 @@
                 <div class="col-xs-12 col-sm-4 col-md-3 col-fixed">
                     <div class="panel">
                         <div class="panel-body">
-                            <c:url value="/search?st=${serviceTypeId}&cty=${cityId}" var="postPath"/>
+                            <c:url value="/search?st=${id}&cty=${cityId}" var="postPath"/>
                             <form:form modelAttribute="searchForm" action="${postPath}" method="Post">
                                 <div class="form-group">
                                     <form:label path="city"><spring:message code="form.city"/></form:label>
@@ -59,7 +59,7 @@
                                     <form:select path="serviceType" class="form-control" >
                                         <form:option value=""><spring:message code="index.select-serviceType"/></form:option>
                                         <c:forEach items="${serviceTypes}" var="st">
-                                            <form:option value="${st.serviceTypeId}"><spring:message code="service-type.${st.serviceTypeId}"/></form:option>
+                                            <form:option value="${st.id}"><spring:message code="service-type.${st.id}"/></form:option>
                                         </c:forEach>
                                     </form:select>
                                     <form:errors path="serviceType" element="p" cssClass="form-error" />
