@@ -10,6 +10,8 @@ drop table if exists appointments CASCADE;
 drop table if exists neighborhoods CASCADE;
 drop table if exists workingzones CASCADE;
 drop table if EXISTS temporaryImages CASCADE;
+drop table if EXISTS verifyUsers CASCADE;
+
 
 DROP SEQUENCE users_userid_seq IF EXISTS;
 CREATE SEQUENCE users_userid_seq as INTEGER;
@@ -110,6 +112,11 @@ CREATE TABLE IF NOT EXISTS temporaryImages (
   image   blob
 );
 
+create TABLE if NOT EXISTS verifyUsers(
+  userId INTEGER PRIMARY KEY REFERENCES users(userId),
+  keyCode VARCHAR(1000)
+);
+
 insert into users VALUES(1,'segundofarina','dulcedeleche','Segundo','Farina','segundofarina@me.com','1134373920','1010101010','cuba 2546',FALSE );
 insert into users VALUES(2,'florcavallin','dulcedeleche','Florencia','Cavallin','fcavallin@itba.edu.ar','1140910035',null,'cuba 2546',FALSE);
 insert into users VALUES(3,'tinchovictory','dulcedeleche','Martin','Victory','martin@victory.com.ar','1159540388',null,'cuba 2546',FALSE);
@@ -155,6 +162,9 @@ insert into appointments VALUES (1,1,3,1,DEFAULT ,'cuba 2546 6p','Pending','soy 
 insert into workingzones VALUES (1,1,3);
 insert into workingzones VALUES (2,2,3);
 insert into workingzones VALUES (3,3,3);
+
+INSERT INTO verifyUsers VALUES (1,'673467ehgdudf7chsduy7ds7878ds78s7d8');
+INSERT INTO verifyUsers VALUES (2,'78asdyuadshu8743uyhjd78wehwe78dsh78');
 
 
 
