@@ -166,6 +166,9 @@ insert into workingzones VALUES (3,3,3);
 INSERT INTO verifyUsers VALUES (1,'673467ehgdudf7chsduy7ds7878ds78s7d8');
 INSERT INTO verifyUsers VALUES (2,'78asdyuadshu8743uyhjd78wehwe78dsh78');
 
+INSERT INTO temporaryImages VALUES (1,null);
+INSERT INTO temporaryImages VALUES (2,null);
+
 
 
 -- SELECT setval('users_userid_seq',               (SELECT MAX(userid)         from users));

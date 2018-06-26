@@ -1,4 +1,3 @@
-
 CREATE TABLE IF NOT EXISTS users (
   userid SERIAL PRIMARY KEY,
   username varchar(100) UNIQUE NOT NULL ,
@@ -79,11 +78,6 @@ CREATE TABLE IF NOT EXISTS workingzones(
 
 CREATE TABLE IF NOT EXISTS temporaryImages (
   imageid SERIAL PRIMARY KEY,
-  image   BYTEA
-);
-
-CREATE TABLE IF NOT EXISTS defaultImages (
-  imageid INTEGER PRIMARY KEY,
   image   BYTEA
 );
 
