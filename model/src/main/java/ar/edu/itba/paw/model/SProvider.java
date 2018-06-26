@@ -12,7 +12,6 @@ public class SProvider {
     @Column(name = "description",length = 100, nullable = false)
     private String description;
 
-
     @Id
     @Column(name = "userid")
     private int id;

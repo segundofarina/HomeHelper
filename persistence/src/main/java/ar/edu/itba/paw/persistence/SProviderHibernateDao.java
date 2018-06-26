@@ -47,6 +47,10 @@ public class SProviderHibernateDao implements SProviderDao {
         return
                 em.createQuery("from SProvider as s",SProvider.class)
                 .getResultList();
+
+//        final TypedQuery<SProvider> query = em.createQuery("from SProvider sp natural join sp.workingZones wz natural join sp.aptitudes ap where wz.neighborhood.ngId = :ngId and ap.service.id = :stId",SProvider.class);
+//        query.setParameter("ngId",ngId);
+//        query.setParameter("stId",stId);
     }
 
     @Override
