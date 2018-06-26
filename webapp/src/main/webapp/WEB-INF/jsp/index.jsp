@@ -128,8 +128,8 @@
         } else {
             $("#lat").val(place.geometry.location.lat());
             $("#lng").val(place.geometry.location.lng());
-            modifiedAddress = false;
         }
+        modifiedAddress = false;
     }
 
     // Bias the autocomplete object to the user's geographical location,
@@ -166,8 +166,6 @@
 
         /* clean form on exit without valid option */
         $(document).click(function(event) {
-            console.log("click");
-            console.log($(event.target));
             if (!$(event.target).closest("#addressField").length && !$(event.target).closest(".pac-container").length && modifiedAddress) {
                 $("#addressField").val("");
                 $("#lat").val("");
