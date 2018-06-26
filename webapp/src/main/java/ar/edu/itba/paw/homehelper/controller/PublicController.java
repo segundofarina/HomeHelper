@@ -121,23 +121,23 @@ public class PublicController {
         }
 
         redrAttr.addFlashAttribute("searchForm", form);
-        String redirect = "redirect:/searchResults?st=" + form.getServiceTypeId() + "&cty=" + form.getCityId();
-        LOGGER.info("User {} searched for service type [{}] in city [{}]",getUserString(loggedInUser),form.getServiceTypeId(),form.getCityId());
+        String redirect = "redirect:/searchResults?st=" + form.getServiceTypeId() + "&lat=" + form.getLatDouble() + "&lng=" + form.getLngDouble();
+        LOGGER.info("User {} searched for service type [{}] in city [{}]",getUserString(loggedInUser),form.getServiceTypeId(),1);
         return new ModelAndView(redirect);
     }
 
     @RequestMapping(value = "/searchResults", method = RequestMethod.GET)
-    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId, @RequestParam(required = false, value = "cty", defaultValue = "-1") final int cityId) throws InvalidQueryException {
+    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId, @RequestParam(required = false, value = "lat", defaultValue = "-1") final double lat, @RequestParam(required = false, value = "lng", defaultValue = "-1") final double lng) throws InvalidQueryException {
         final ModelAndView mav = new ModelAndView("profileSearch");
 
         /* Lanzar excepcion cuando serviceTypeId es -1 o cuando cityId es -1 */
-        if(serviceTypeId == -1 || cityId == -1) {
+        if(serviceTypeId == -1 || lat == -1 || lng == -1) {
             throw new InvalidQueryException();
         }
 
         /* cambiar city id por latitiud y longitud */
-        double lat = -34.572937;
-        double lng = -58.422475;
+        //double lat = -34.572937;
+        //double lng = -58.422475;
 
         final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(lat, lng, serviceTypeId);
 
@@ -151,7 +151,7 @@ public class PublicController {
 
         /* Current params showing */
         mav.addObject("serviceTypeId", serviceTypeId);
-        mav.addObject("cityId", cityId);
+        mav.addObject("cityId", 1);//CAMBIAR
 
         return mav;
     }

@@ -42,7 +42,7 @@
                 <div class="col-xs-12 col-sm-4 col-md-3 col-fixed">
                     <div class="panel">
                         <div class="panel-body">
-                            <c:url value="/search?st=${serviceTypeId}&cty=${cityId}" var="postPath"/>
+                            <%--<c:url value="/search?st=${serviceTypeId}&cty=${cityId}" var="postPath"/>
                             <form:form modelAttribute="searchForm" action="${postPath}" method="Post">
                                 <div class="form-group">
                                     <form:label path="city"><spring:message code="form.city"/></form:label>
@@ -65,7 +65,7 @@
                                     <form:errors path="serviceType" element="p" cssClass="form-error" />
                                 </div>
                                 <form:button type="submit" class="btn btn-success btn-full-width"><spring:message code="general.search"/></form:button>
-                            </form:form>
+                            </form:form>--%>
                         </div>
                     </div>
                 </div>
