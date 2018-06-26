@@ -48,14 +48,19 @@
                         <c:url value="/search" var="postPath"/>
                         <form:form modelAttribute="searchForm" action="${postPath}" method="Post">
                             <div class="form-group">
-                                <form:label path="city"><spring:message code="form.city"/></form:label>
-                                <form:select class="form-control" path="city">
+                                <form:label path="addressField"><spring:message code="form.city"/></form:label>
+                                <%--<form:select class="form-control" path="city">
                                     <form:option value=""><spring:message code="index.select-city"/></form:option>
                                     <c:forEach items="${neighborhoods}" var="ng">
                                         <form:option value="${ng.ngId}"><spring:message code="neighborhood.${ng.ngId}"/></form:option>
                                     </c:forEach>
-                                </form:select>
-                                <form:errors path="city" element="p" cssClass="form-error" />
+                                </form:select>--%>
+                                <div class="googleAutcomplete">
+                                    <form:input path="addressField" class="form-control" type="text" placeholder="Enter an address" onfocus="geolocate()" autocomplete="off" />
+                                </div>
+                                <form:errors path="addressField" element="p" cssClass="form-error" />
+                                <form:input path="lat" type="hidden" value="" />
+                                <form:input path="lng" type="hidden" value="" />
                             </div>
                             <div class="form-group">
                                 <form:label path="serviceType"><spring:message code="form.service-type"/></form:label>
@@ -96,6 +101,84 @@
 
 <!-- Custom Theme Scripts -->
 
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBqSX1WHUw4OlgMDzYM40uSVPGkV06DR1I&ver=3.exp&libraries=places"></script>
+
+<script>
+    var autocomplete;
+    var modifiedAddress = false;
+
+    function initAutocomplete() {
+        // Create the autocomplete object, restricting the search to geographical
+        // location types.
+        autocomplete = new google.maps.places.Autocomplete(
+            (document.getElementById('addressField')),
+            {types: ['geocode']});
+
+        // When the user selects an address from the dropdown, populate the address
+        // fields in the form.
+        autocomplete.addListener('place_changed', fillInAddress);
+    }
+
+    function fillInAddress() {
+        // Get the place details from the autocomplete object.
+        var place = autocomplete.getPlace();
+        if(!place.geometry) {
+            $("#lat").val("");
+            $("#lng").val("");
+        } else {
+            $("#lat").val(place.geometry.location.lat());
+            $("#lng").val(place.geometry.location.lng());
+        }
+        modifiedAddress = false;
+    }
+
+    // Bias the autocomplete object to the user's geographical location,
+    // as supplied by the browser's 'navigator.geolocation' object.
+    function geolocate() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var geolocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                var circle = new google.maps.Circle({
+                    center: geolocation,
+                    radius: position.coords.accuracy
+                });
+                autocomplete.setBounds(circle.getBounds());
+            });
+        }
+    }
+
+    $(document).ready(function () {
+        google.maps.event.addDomListener(window, 'load', initAutocomplete);
+
+        //var modifiedAddress = false;
+
+        /* Prevent default enter */
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+                event.preventDefault();
+                modifiedAddress = false;
+                return false;
+            }
+        });
+
+        /* clean form on exit without valid option */
+        $(document).click(function(event) {
+            if (!$(event.target).closest("#addressField").length && !$(event.target).closest(".pac-container").length && modifiedAddress) {
+                $("#addressField").val("");
+                $("#lat").val("");
+                $("#lng").val("");
+            }
+            modifiedAddress = false;
+        });
+
+        $("#addressField").keydown(function () {
+            modifiedAddress = true;
+        });
+    });
+</script>
 
 </body>
 </html>

@@ -139,8 +139,59 @@ public class SProviderServiceImpl implements SProviderService {
     }
 
     @Override
-    public List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId) {
-        return sProviderDao.getServiceProvidersByNeighborhoodAndServiceType(ngId, stId);
+    public List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId) {
+        //return sProviderDao.getServiceProvidersByNeighborhoodAndServiceType(ngId, stId);
+        List<SProvider> allServiceProviders = getServiceProvidersWithServiceType(stId);
+
+        List<SProvider> res = new ArrayList<>();
+        for(SProvider sp : allServiceProviders) {
+            /* Check if service provider works in clientLocation */
+
+            List<CoordenatesPoint> polygon = new ArrayList<>();
+            polygon.add(new CoordenatesPoint(-34.557176,-58.430436));
+            polygon.add(new CoordenatesPoint(-34.588696,-58.431428));
+            polygon.add(new CoordenatesPoint(-34.575376,-58.403839));
+
+            if(isLatLngInPolygon(clientLocationLat, clientLocationLng, polygon)) {
+                res.add(sp);
+            }
+        }
+
+        return res;
+    }
+
+    private boolean isLatLngInPolygon(double lat, double lng, List<CoordenatesPoint> polygon) {
+        double lengthToPoint[] = new double[polygon.size()];
+        double sideLength[] = new double [polygon.size()];
+        double anglesSum = 0;
+
+        /* Get distance to point, distance to side and angles */
+        for(int i = 0; i < polygon.size(); i++) {
+            lengthToPoint[i] = Math.sqrt( Math.pow(polygon.get(i).getLat() - lat, 2) + Math.pow(polygon.get(i).getLng() - lng, 2) );
+
+            if(i < polygon.size() -1) {
+                sideLength[i]= Math.sqrt( Math.pow(polygon.get(i+1).getLat() - polygon.get(i).getLat(), 2) + Math.pow(polygon.get(i+1).getLng() - polygon.get(i).getLng(), 2) );
+
+            } else {
+                int lastSide = polygon.size() - 1;
+                sideLength[lastSide] = Math.sqrt( Math.pow(polygon.get(0).getLat() - polygon.get(lastSide).getLat(), 2) + Math.pow(polygon.get(0).getLng() - polygon.get(lastSide).getLng(), 2) );
+            }
+        }
+
+        for(int i = 0; i < polygon.size(); i++) {
+            if(i < polygon.size() -1) {
+                anglesSum += ((180/(Math.PI))) * Math.acos( ( Math.pow(lengthToPoint[i], 2) + Math.pow(lengthToPoint[i+1], 2) - Math.pow(sideLength[i], 2) ) / (2 * lengthToPoint[i] * lengthToPoint[i+1]));
+            } else {
+                int lastSide = polygon.size() - 1;
+                anglesSum += ((180/(Math.PI))) * Math.acos( ( Math.pow(lengthToPoint[lastSide], 2) + Math.pow(lengthToPoint[0], 2) - Math.pow(sideLength[lastSide], 2) ) / (2 * lengthToPoint[0] * lengthToPoint[lastSide]));
+            }
+        }
+
+        if(anglesSum >= 360 - 0.00001 && anglesSum <= 360 + 0.00001) {
+            return true;
+        }
+
+        return false;
     }
 
     private boolean hasAptitude(SProvider sp,int stId){

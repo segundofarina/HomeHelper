@@ -12,6 +12,7 @@ import ar.edu.itba.paw.interfaces.services.*;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.TemporaryImage;
 import ar.edu.itba.paw.model.User;
+import com.sun.xml.internal.rngom.parse.host.Base;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,13 +95,13 @@ public class PublicController {
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
         mav.addObject("serviceTypes", sTypeService.getServiceTypes());
-        mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
+        //mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
         return mav;
     }
 
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public ModelAndView processSearch(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors, final RedirectAttributes redrAttr, @RequestHeader(value = "referer", required = false, defaultValue = "/") final String referer, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId, @RequestParam(required = false, value = "cty", defaultValue = "-1") final int cityId) {
+    public ModelAndView processSearch(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors, final RedirectAttributes redrAttr, @RequestHeader(value = "referer", required = false, defaultValue = "/") final String referer, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId, @RequestParam(required = false, value = "llat", defaultValue = "-1") final double lat, @RequestParam(required = false, value = "llng", defaultValue = "-1") final double lng, @RequestParam(required = false, value = "addr", defaultValue = "") final String address64) {
 
         if(errors.hasErrors()) {
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.searchForm", errors);
@@ -109,45 +110,49 @@ public class PublicController {
 
             if(referer.contains("/searchResults")) {
                 /* Referer page is searchResults, send it back there */
-                redirect += "/searchResults?st=" + serviceTypeId + "&cty=" + cityId;
+                redirect += "/searchResults?st=" + serviceTypeId + "&llat=" + lat + "&llng=" + lng + "&addr=" + address64;
             } else {
                 /* Referer page is index */
                 redirect += "/";
             }
 
-            LOGGER.info("User {} search had the following errors {} ",getUserString(loggedInUser),errors);
+            LOGGER.info("User {} search had the following errors {} ", getUserString(loggedInUser), errors);
 
             return new ModelAndView(redirect);
         }
 
         redrAttr.addFlashAttribute("searchForm", form);
-        String redirect = "redirect:/searchResults?st=" + form.getServiceTypeId() + "&cty=" + form.getCityId();
-        LOGGER.info("User {} searched for service type [{}] in city [{}]",getUserString(loggedInUser),form.getServiceTypeId(),form.getCityId());
+        String redirect = "redirect:/searchResults?st=" + form.getServiceTypeId() + "&llat=" + form.getLatDouble() + "&llng=" + form.getLngDouble() + "&addr=" + Base64.getUrlEncoder().encodeToString(form.getAddressField().getBytes());
+        LOGGER.info("User {} searched for service type [{}] in city [{}]",getUserString(loggedInUser),form.getServiceTypeId(),1);
         return new ModelAndView(redirect);
     }
 
     @RequestMapping(value = "/searchResults", method = RequestMethod.GET)
-    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId, @RequestParam(required = false, value = "cty", defaultValue = "-1") final int cityId) throws InvalidQueryException {
+    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId, @RequestParam(required = false, value = "llat", defaultValue = "-1") final double lat, @RequestParam(required = false, value = "llng", defaultValue = "-1") final double lng, @RequestParam(required = false, value = "addr", defaultValue = "") final String address64) throws InvalidQueryException {
         final ModelAndView mav = new ModelAndView("profileSearch");
 
         /* Lanzar excepcion cuando serviceTypeId es -1 o cuando cityId es -1 */
-        if(serviceTypeId == -1 || cityId == -1) {
+        if(serviceTypeId == -1 || lat == -1 || lng == -1 || address64.isEmpty()) {
             throw new InvalidQueryException();
         }
 
-        final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId);
+        String address = new String(Base64.getUrlDecoder().decode(address64));
+
+        final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(lat, lng, serviceTypeId);
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
         mav.addObject("list",list);
-        mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
 
-        mav.addObject("serviceTypes",sTypeService.getServiceTypes());
+        mav.addObject("serviceTypes", sTypeService.getServiceTypes());
 
         /* Current params showing */
         mav.addObject("serviceTypeId", serviceTypeId);
-        mav.addObject("cityId", cityId);
+        mav.addObject("llat", lat);
+        mav.addObject("llng", lng);
+        mav.addObject("addr", address);
+        mav.addObject("b64addr", address64);
 
         return mav;
     }
