@@ -28,8 +28,7 @@ public class NeighborhoodHibernateDao implements NeighborhoodDao {
     @Override
     public List<Neighborhood> getAllNeighborhoods() {
 
-        final TypedQuery<Neighborhood> query = em.createQuery("SELECT n FROM Neighborhood as n ", Neighborhood.class);
-
-        return query.getResultList();
+        return em.createQuery("SELECT n FROM Neighborhood as n ", Neighborhood.class)
+                .getResultList();
     }
 }

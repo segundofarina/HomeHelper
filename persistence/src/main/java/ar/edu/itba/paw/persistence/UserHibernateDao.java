@@ -25,19 +25,18 @@ public class UserHibernateDao implements UserDao {
 
     @Override
     public Optional<User> verifyUser(int userId) {
-        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
-        if(!user.isPresent()){
-            return user;
-        }
-        user.get().setVerified(true);
-        return user;
+        Optional<User> userOp = Optional.ofNullable(em.find(User.class,userId));
+        userOp.ifPresent(user -> user.setVerified(true));
+        return userOp;
     }
 
     @Override
     public Optional<User> findByUsername(final String username) {
-        final TypedQuery<User> query = em.createQuery("from User as u where u.username = :username", User.class);
-        query.setParameter("username", username);
-        return query.getResultList().stream().findFirst();
+        return   em.createQuery("from User as u where u.username = :username", User.class)
+                .setParameter("username", username)
+                .getResultList()
+                .stream()
+                .findFirst();
     }
 
     @Override
@@ -47,74 +46,53 @@ public class UserHibernateDao implements UserDao {
 
     @Override
     public boolean updatePasswordOfUser(int userId, String password) {
-        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
-        if(!user.isPresent()){
-            return false;
-        }
-        user.get().setPassword(password);
-        return true;
+        Optional<User> userOp = Optional.ofNullable(em.find(User.class,userId));
+        userOp.ifPresent(user -> user.setPassword(password));
+        return userOp.isPresent();
     }
 
     @Override
     public boolean updateFirstNameOfUser(int userId, String firstname) {
 
-        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
-        if(!user.isPresent()){
-            return false;
-        }
-        user.get().setFirstname(firstname);
-        return true;
+        Optional<User> userOp = Optional.ofNullable(em.find(User.class,userId));
+        userOp.ifPresent(user -> user.setFirstname(firstname));
+        return userOp.isPresent();
     }
 
     @Override
     public boolean updateLastNameOfUser(int userId, String lastname) {
 
-        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
-        if(!user.isPresent()){
-            return false;
-        }
-        user.get().setLastname(lastname);
-        return true;
+        Optional<User> userOp = Optional.ofNullable(em.find(User.class,userId));
+        userOp.ifPresent(user -> user.setLastname(lastname));
+        return userOp.isPresent();
     }
 
     @Override
     public boolean updateEmailOfUser(int userId, String email) {
-        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
-        if(!user.isPresent()){
-            return false;
-        }
-        user.get().setEmail(email);
-        return true;
+        Optional<User> userOp = Optional.ofNullable(em.find(User.class,userId));
+        userOp.ifPresent(user -> user.setEmail(email));
+        return userOp.isPresent();
     }
 
     @Override
     public boolean updatePhoneOfUser(int userId, String phone) {
-        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
-        if(!user.isPresent()){
-            return false;
-        }
-        user.get().setPhone(phone);
-        return true;
+        Optional<User> userOp = Optional.ofNullable(em.find(User.class,userId));
+        userOp.ifPresent(user -> user.setPhone(phone));
+        return userOp.isPresent();
     }
 
     @Override
     public boolean updateImageOfUser(int userId, byte[] image) {
 
-        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
-        if(!user.isPresent()){
-            return false;
-        }
-        user.get().setImage(image);
-        return true;
+        Optional<User> userOp = Optional.ofNullable(em.find(User.class,userId));
+        userOp.ifPresent(user -> user.setImage(image));
+        return userOp.isPresent();
     }
 
     @Override
     public boolean updateAddressOfUser(int userId, String address) {
-        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
-        if(!user.isPresent()){
-            return false;
-        }
-        user.get().setAddress(address);
-        return true;
+        Optional<User> userOp = Optional.ofNullable(em.find(User.class,userId));
+        userOp.ifPresent(user -> user.setAddress(address));
+        return userOp.isPresent();
     }
 }

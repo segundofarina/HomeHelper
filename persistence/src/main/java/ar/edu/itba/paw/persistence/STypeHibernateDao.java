@@ -28,27 +28,24 @@ public class STypeHibernateDao implements STypeDao {
 
     @Override
     public List<ServiceType> getServiceTypes() {
-        final TypedQuery<ServiceType> query = em.createQuery("from ServiceType as st",ServiceType.class);
-        return query.getResultList();
+        return em.createQuery("from ServiceType as st",ServiceType.class)
+                .getResultList();
     }
 
     @Override
     public Optional<ServiceType> getServiceTypeWithId(int serviceTypeId) {
-        final TypedQuery<ServiceType> query = em.createQuery("from ServiceType as st where st.id = :servicetypeid",ServiceType.class);
-        query.setParameter("servicetypeid",serviceTypeId);
-        if(query.getResultList().isEmpty()){
-            return Optional.empty();
-        }
-        return Optional.ofNullable(query.getResultList().get(0));
+        return em.createQuery("from ServiceType as st where st.id = :servicetypeid",ServiceType.class)
+                .setParameter("servicetypeid",serviceTypeId)
+                .getResultList()
+                .stream()
+                .findFirst();
     }
 
     @Override
     public Optional<ServiceType> updateServiceTypeWithId(int serviceTypeId, String newServiceName) {
-        Optional<ServiceType> serviceType = Optional.ofNullable(em.find(ServiceType.class,serviceTypeId));
-        if(!serviceType.isPresent()){
-            return Optional.empty();
-        }
-        serviceType.get().setName(newServiceName);
-        return serviceType;
+        Optional<ServiceType> serviceTypeOp = Optional.ofNullable(em.find(ServiceType.class,serviceTypeId));
+        serviceTypeOp.ifPresent(serviceType -> serviceType.setName(newServiceName));
+        return serviceTypeOp;
+
     }
 }

@@ -23,16 +23,16 @@ public class AppointmentHibernateDao implements AppointmentDao {
 
     @Override
     public List<Appointment> getAppointmentsByProviderId(int providerId) {
-        final TypedQuery<Appointment> query = em.createQuery("from Appointment as a where a.provider.id = :providerid", Appointment.class);
-        query.setParameter("providerid",providerId);
-        return query.getResultList();
+        return em.createQuery("from Appointment as a where a.provider.id = :providerid", Appointment.class)
+        .setParameter("providerid",providerId)
+        .getResultList();
     }
 
     @Override
     public List<Appointment> getAppointmentsByUserId(int userId) {
-        final TypedQuery<Appointment> query = em.createQuery("from Appointment as a where a.client.id = :userid", Appointment.class);
-        query.setParameter("userid",userId);
-        return query.getResultList();
+        return em.createQuery("from Appointment as a where a.client.id = :userid", Appointment.class)
+                .setParameter("userid",userId)
+                .getResultList();
     }
 
     @Override
@@ -56,22 +56,23 @@ public class AppointmentHibernateDao implements AppointmentDao {
         }
         Appointment appointment = new Appointment(user.get(),provider.get(),serviceType.get(),date,address,Status.Pending,jobDescripcion,false);
         em.persist(appointment);
-        em.flush();
         return Optional.ofNullable(appointment);
     }
 
     @Override
     public boolean updateStatusOfAppointment(int appointmentId, Status status) {
-        Optional<Appointment> appointment = Optional.ofNullable(em.find(Appointment.class,appointmentId));
-        if(!appointment.isPresent()){
-            return false;
-        }
+        Optional<Appointment> appointmentOp = Optional.ofNullable(em.find(Appointment.class,appointmentId));
+
         switch (status){
             case Pending: status = Status.Confirmed; break;
             case Confirmed: status = Status.Done; break;
             case Done: return false;
         }
-        appointment.get().setStatus(status);
+        if(!appointmentOp.isPresent()){
+            return false;
+       }
+
+        appointmentOp.get().setStatus(status);
         return true;
     }
 
@@ -87,13 +88,9 @@ public class AppointmentHibernateDao implements AppointmentDao {
 
     @Override
     public boolean removeAppointment(int appointmentId) {
-        Appointment appointment = em.find(Appointment.class,appointmentId);
-        if(appointment == null){
-            return false;
-        }else{
-            em.remove(appointment);
-            return true;
-        }
+        Optional<Appointment> appointmentOp = Optional.ofNullable(em.find(Appointment.class,appointmentId));
+        appointmentOp.ifPresent(appointment -> em.remove(appointment));
+        return appointmentOp.isPresent();
     }
 
     @Override
