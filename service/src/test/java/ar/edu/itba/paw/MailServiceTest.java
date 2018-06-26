@@ -1,6 +1,12 @@
 package ar.edu.itba.paw;
 
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+
 import static junit.framework.TestCase.assertNotNull;
 
 //@RunWith(MockitoJUnitRunner.class)
@@ -28,7 +34,7 @@ public class MailServiceTest {
 //        }
 //
 //    }
-
+//
 //    @Test
 //    public void sendTestMail2(){
 //        AbstractApplicationContext context = new AnnotationConfigApplicationContext(ServiceConfig.class);

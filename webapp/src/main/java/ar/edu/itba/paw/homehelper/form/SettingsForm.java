@@ -14,12 +14,12 @@ public class SettingsForm {
 
     @NotBlank
     @Size(max = 100)
-    @Pattern(regexp = "[a-zA-Z ]*")
+    @Pattern(regexp = "[a-zA-Z áÁéÉíÍóÓúÚñÑ]*")
     private String firstname;
 
     @NotBlank
     @Size(max = 100)
-    @Pattern(regexp = "[a-zA-Z ]*")
+    @Pattern(regexp = "[a-zA-Z áÁéÉíÍóÓúÚñÑ]*")
     private String lastname;
 
     @Email

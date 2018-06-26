@@ -200,7 +200,8 @@ public class ClientController {
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
         mav.addObject("appointmentsPending", appointmentService.getPendingAppointmentWithUserId(loggedInUser.getId()));
-        mav.addObject("appointmentsDone", appointmentService.getAppointmentsByUserId(loggedInUser.getId(), Status.Done));
+        mav.addObject("appointmentsDone", appointmentService.getCompleteAppointmentWithUserId(loggedInUser.getId()));
+        mav.addObject("rejectStatus", Status.Reject.getNumVal());
 
        return mav;
     }
@@ -234,14 +235,14 @@ public class ClientController {
        if(ap == null) {
            throw new InvalidQueryException();
        }
-
-       appointmentService.reviewAppointment(ap.getAppointmentId(),loggedInUser.getId(), ap.getServiceType().getServiceTypeId(), form.getQualityInt(), form.getCleannesInt(), form.getPriceInt(), form.getPunctualityInt(), form.getTreatmentInt(), form.getMsg());
+       /* ap.getServiceType().getServiceTypeId() eso esta mal tengo que mandar el id de la aptitud */
+       appointmentService.reviewAppointment(form.getAppointmentId(),form.getProviderId(), ap.getServiceType().getServiceTypeId(), form.getQualityInt(), form.getCleannesInt(), form.getPriceInt(), form.getPunctualityInt(), form.getTreatmentInt(), form.getMsg());
 
        return new ModelAndView("redirect:/client/appointments");
     }
 
     @RequestMapping("/client/settings")
-    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model, @RequestParam(required = false,value="img",defaultValue = "-1")final int img) {
+    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model, @RequestParam(required = false, value="img", defaultValue = "-1")final int img) {
        final ModelAndView mav = new ModelAndView("settings");
 
         mav.addObject("user", loggedInUser);

@@ -12,8 +12,15 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img src="<c:url value="/profile/${providerId}/profileimage" />" alt="profile picture" />
-                        <c:out value="${providerName}"/>
+                        <c:choose>
+                            <c:when test="${provider.image != null}">
+                                <img src="<c:url value="/profile/${provider.id}/profileimage" />" alt="profile picture" />
+                            </c:when>
+                            <c:otherwise>
+                                <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                            </c:otherwise>
+                        </c:choose>
+                        <c:out value="${provider.firstname}"/>
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">

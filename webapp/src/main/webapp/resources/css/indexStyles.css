@@ -84,7 +84,7 @@ h1 {
     box-shadow: none;
 }
 
-.searchForm .btn, .searchForm .btn:hover {
+.searchForm .btn, .searchForm .btn:hover, .searchForm .btn:active {
     width: 100%;
     margin: auto;
     color: #fff;
@@ -96,6 +96,7 @@ h1 {
     padding-bottom: 0.8em;
     border-radius: 10px;
 }
+
 
 @media (min-width: 768px) {
     .left-screen {

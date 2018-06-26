@@ -47,7 +47,14 @@
                             <div class="app-profile">
                                 <div class="app-header">
                                     <div>
-                                        <img src="<c:url value="/profile/${appointment.provider.id}/profileimage" />" alt="profile picture" />
+                                        <c:choose>
+                                            <c:when test="${appointment.provider.image != null}">
+                                                <img src="<c:url value="/profile/${appointment.provider.id}/profileimage" />" alt="profile picture" />
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                     <div>
                                         <h3><c:out value="${appointment.provider.firstname}" /> <c:out value="${appointment.provider.lastname}" /></h3>
@@ -84,6 +91,7 @@
                                     <c:url value="/client/sendReview" var="postPath"/>
                                     <form:form modelAttribute="reviewForm" action="${postPath}" method="post">
                                         <form:input path="appointmentId" type="hidden" value="${appointment.appointmentId}" />
+                                        <form:input path="providerId" type="hidden" value="${appointment.provider.id}" />
 
                                         <div class="star-container">
                                             <div class="row">

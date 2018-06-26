@@ -17,11 +17,18 @@
         <!-- menu profile quick info -->
         <div class="profile clearfix">
             <div class="profile_pic">
-                <img src="<c:url value="/profile/${providerId}/profileimage" />" class="img-circle profile_img" />
+                <c:choose>
+                    <c:when test="${provider.image != null}">
+                        <img src="<c:url value="/profile/${provider.id}/profileimage" />" class="img-circle profile_img" />
+                    </c:when>
+                    <c:otherwise>
+                        <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" class="img-circle profile_img" />
+                    </c:otherwise>
+                </c:choose>
             </div>
             <div class="profile_info">
                 <span><spring:message code="leftBarMenu.welcome" /></span>
-                <h2><c:out value="${providerName}"/></h2>
+                <h2><c:out value="${provider.firstname}"/></h2>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -38,7 +45,7 @@
                     <li><a><i class="fa fa-user"></i><spring:message code="general.profile"/> <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="<c:url value="/sprovider/editProfile" /> "><spring:message code="leftBarMenu.edit-profile"/></a></li>
-                            <li><a href="<c:url value="/profile/${providerId}?ownerview"/> "><spring:message code="leftBarMenu.profile-preview"/></a></li>
+                            <li><a href="<c:url value="/profile/${provider.id}?ownerview"/> "><spring:message code="leftBarMenu.profile-preview"/></a></li>
                         </ul>
                     </li>
                     <li><a href="<c:url value="/sprovider/messages"/> "><i class="fa fa-comments"></i> <spring:message code="general.messages"/></a></li>
@@ -48,11 +55,5 @@
             </div>
         </div>
         <!-- /sidebar menu -->
-
-        <!-- /menu footer buttons --
-        <div class="sidebar-footer hidden-small">
-            <a href="/"><spring:message code="leftBarMenu.use-client"/></a>
-        </div>
-        <!-- /menu footer buttons -->
     </div>
 </div>

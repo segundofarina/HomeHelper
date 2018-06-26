@@ -194,7 +194,7 @@
                                 <div class="step3">
                                     <div class="form-container">
                                         <div class="subtitle">
-                                            <h4><spring:message code="sprovider.add-aptitude"/></h4><h6><spring:message code="sprovider.add-later"/></h6>
+                                            <h4><spring:message code="sprovider.add-aptitude"/></h4>
                                         </div>
                                         <div>
                                             <div class="apptitude-row">

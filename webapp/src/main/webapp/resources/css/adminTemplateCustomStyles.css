@@ -20,3 +20,13 @@
 .floatingL {
     float: left;
 }
+
+.user-profile img {
+    object-fit: cover;
+}
+
+.img-circle.profile_img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
