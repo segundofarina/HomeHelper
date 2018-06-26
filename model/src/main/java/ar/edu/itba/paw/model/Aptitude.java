@@ -13,14 +13,14 @@ public class Aptitude {
     @Column(name = "aptitudeid")
     private int id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "servicetypeid")
     private ServiceType service;
 
     @Column(name = "description", length = 10000, nullable = false)
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "aptitudeid")
     private List<Review> reviews;
 

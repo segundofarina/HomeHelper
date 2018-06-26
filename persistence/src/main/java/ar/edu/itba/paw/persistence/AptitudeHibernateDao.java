@@ -78,10 +78,10 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public int getAptitudeId(int userId, int stId) {
-        final TypedQuery<Aptitude> query = em.createQuery("from Aptitude as a where a.sProvider.id = :userid and a.service.id = :stid", Aptitude.class);
-        query.setParameter("userid",userId);
-        query.setParameter("stid",stId);
-        List<Aptitude> list = query.getResultList();
+        final List<Aptitude> list = em.createQuery("from Aptitude as a where a.sProvider.id = :userid and a.service.id = :stid", Aptitude.class)
+            .setParameter("userid",userId)
+            .setParameter("stid",stId)
+            .getResultList();
 
         if (list.size() == 1){
             //System.out.println("Id is "+list.get(0).getId());
