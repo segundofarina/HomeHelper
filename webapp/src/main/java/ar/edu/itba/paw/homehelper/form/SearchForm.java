@@ -11,7 +11,10 @@ public class SearchForm {
     @NotBlank
     private String addressField;
 
+    @Valid
     private String lat;
+
+    @Valid
     private String lng;
 
     //private String city;

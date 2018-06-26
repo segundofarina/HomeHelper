@@ -42,22 +42,16 @@
                 <div class="col-xs-12 col-sm-4 col-md-3 col-fixed">
                     <div class="panel">
                         <div class="panel-body">
-                            <c:url value="/search?st=${serviceTypeId}&cty=${cityId}" var="postPath"/>
+                            <c:url value="/search?st=${serviceTypeId}&llat=${llat}&llng=${llng}&addr=${b64addr}" var="postPath"/>
                             <form:form modelAttribute="searchForm" action="${postPath}" method="Post">
                                 <div class="form-group">
                                     <form:label path="addressField"><spring:message code="form.city"/></form:label>
-                                        <%--<form:select class="form-control" path="city">
-                                            <form:option value=""><spring:message code="index.select-city"/></form:option>
-                                            <c:forEach items="${neighborhoods}" var="ng">
-                                                <form:option value="${ng.ngId}"><spring:message code="neighborhood.${ng.ngId}"/></form:option>
-                                            </c:forEach>
-                                        </form:select>--%>
                                     <div class="googleAutcomplete">
                                         <form:input path="addressField" class="form-control" type="text" placeholder="Enter an address" onfocus="geolocate()" autocomplete="off" />
                                     </div>
                                     <form:errors path="addressField" element="p" cssClass="form-error" />
-                                    <form:input path="lat" type="hidden" value="" />
-                                    <form:input path="lng" type="hidden" value="" />
+                                    <form:input path="lat" type="hidden" />
+                                    <form:input path="lng" type="hidden" />
                                 </div>
                                 <div class="form-group">
                                     <form:label path="serviceType"><spring:message code="form.service-type"/></form:label>
@@ -224,7 +218,7 @@
     $(document).ready(function(){
         generateStars();
 
-        google.maps.event.addDomListener(window, 'load', initAutocomplete);
+       google.maps.event.addDomListener(window, 'load', initAutocomplete);
 
         /* Prevent default enter */
         $(window).keydown(function(event){
