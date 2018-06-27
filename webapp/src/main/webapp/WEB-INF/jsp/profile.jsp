@@ -108,7 +108,14 @@
                                         <form:select class="form-control" path="serviceType">
                                             <form:option value="none"><spring:message code="profile.select-serviceType"/></form:option>
                                             <c:forEach items="${provider.aptitudes}" var="aptitude">
-                                                <form:option value="${aptitude.service.serviceTypeId}">  <spring:message code="service-type.${aptitude.service.serviceTypeId}"/></form:option>
+                                                <c:choose>
+                                                    <c:when test="${aptitude.service.serviceTypeId == serviceTypeId}">
+                                                        <form:option value="${aptitude.service.serviceTypeId}" selected="selected"><spring:message code="service-type.${aptitude.service.serviceTypeId}"/></form:option>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <form:option value="${aptitude.service.serviceTypeId}"><spring:message code="service-type.${aptitude.service.serviceTypeId}"/></form:option>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </c:forEach>
                                         </form:select>
                                         <form:errors path="serviceType" element="p" cssClass="form-error" />
@@ -136,8 +143,294 @@
                     </div>
                 </div>
 
-                <h1><spring:message code="general.aptitudes"/></h1>
-                <c:forEach items="${provider.aptitudes}" var="aptitude">
+
+                <!-- Aptitudes -->
+                <div class="row aptitude">
+                    <div class="col-xs-12 col-sm-8 col-md-9">
+                        <h3> <spring:message code="service-type.${currentAptitude.service.serviceTypeId}"/></h3>
+                        <div class="row">
+                            <c:choose>
+                                <c:when test="${currentAptitude.reviews.size() == 0}" >
+                                    <div class="col-xs-12 col-md-12">
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="col-xs-12 col-md-8">
+                                </c:otherwise>
+                            </c:choose>
+                                <div class="panel">
+                                    <div class="panel-body descriptionTxt">
+                                        <p>
+                                           <c:out value="${currentAptitude.description}"/>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <c:choose>
+                                <c:when test="${currentAptitude.reviews.size() == 0}" >
+                                    <div class="col-xs-12 col-md-0" style="display: none;">
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="col-xs-12 col-md-4">
+                                </c:otherwise>
+                            </c:choose>
+                                <div class="panel">
+                                    <div class="panel-body aptitude-bars">
+                                        <h4><spring:message code="profile.general-reviews"/></h4>
+                                        <div class="stars dyn-stars" data-rating="<c:out value="${currentAptitude.generalCalification}"/>"></div>
+                                        <div class="progressBars">
+                                            <h5><spring:message code="form.quality"/></h5>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${currentAptitude.qualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${currentAptitude.qualityCalification*20}"/>%;">
+                                                    <c:out value="${currentAptitude.qualityCalification}"/>
+                                                </div>
+                                            </div>
+                                            <h5><spring:message code="form.price"/></h5>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${currentAptitude.priceCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${currentAptitude.priceCalification*20}"/>%;">
+                                                    <c:out value="${currentAptitude.priceCalification}"/>
+                                                </div>
+                                            </div>
+                                            <h5><spring:message code="form.punctuality"/></h5>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${currentAptitude.punctualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${currentAptitude.punctualityCalification*20}"/>%;">
+                                                    <c:out value="${currentAptitude.punctualityCalification}"/>
+                                                </div>
+                                            </div>
+                                            <h5><spring:message code="form.treatment"/></h5>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${currentAptitude.treatmentCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${currentAptitude.treatmentCalification*20}"/>%;">
+                                                    <c:out value="${currentAptitude.treatmentCalification}"/>
+                                                </div>
+                                            </div>
+                                            <h5><spring:message code="form.cleanness"/></h5>
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${currentAptitude.cleannessCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${currentAptitude.cleannessCalification*20}"/>%;">
+                                                    <c:out value="${currentAptitude.cleannessCalification}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- reviews -->
+                <div class="row aptitude">
+                    <div class="col-xs-12 col-sm-8 col-md-9">
+                        <h4 class="client-reviews">Client Reviews</h4>
+                        <div class="panel">
+                            <div class="panel-body">
+                                <c:choose>
+                                    <c:when test="${currentAptitude.reviews.size() == 0}" >
+                                        <div class="empty-reviews">
+                                            <div class="img"></div>
+                                            <p><spring:message code="emptyStars" /></p>
+                                        </div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach items="${currentAptitude.reviews}" var="review">
+                                            <div class="line-divider"></div>
+                                            <div class="review-item">
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-sm-3 col-md-2">
+                                                        <div class="profileImg">
+                                                            <c:choose>
+                                                                <c:when test="${review.user.image != null}">
+                                                                    <img src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                            <div class="name hidden-xs">
+                                                                <h5><c:out value="" /><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-9 col-md-10 divider-left">
+                                                        <div class="name visible-xs">
+                                                            <h5><c:out value="${review.user.username}" /></h5>
+                                                        </div>
+                                                        <div class="date"><c:out value="${review.date}" /></div>
+                                                        <div class="dotDivider hidden-xs">&#x25CF;</div>
+                                                        <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-0 col-sm-3 col-md-2"></div>
+                                                    <div class="col-xs-12 col-sm-9 col-md-10 divider-left">
+                                                        <p class="description">
+                                                            <c:out value="${review.comment}" />
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Other aptitudes -->
+                <div class="otherAptitudes">
+                    <div class="row otherAptitdes-hidden">
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <div class="hline"></div>
+                            <h4 data-toggle="collapse" data-target="#otherAptitudes-container" aria-expanded="false">
+                                <span class="showApt">Show all aptitudes</span>
+                                <span class="hideApt">Hide all aptitudes</span>
+                                <i class="fa fa-angle-down"></i>
+                            </h4>
+                        </div>
+                    </div>
+
+                    <div class="otherAptitudes-container collapse" id="otherAptitudes-container">
+                        <c:forEach items="${otherAptitudes}" var="aptitude">
+                            <div class="row aptitude">
+                                <div class="col-xs-12 col-sm-8 col-md-9">
+                                    <h3> <spring:message code="service-type.${aptitude.service.serviceTypeId}"/></h3>
+                                    <div class="row">
+                                        <c:choose>
+                                            <c:when test="${aptitude.reviews.size() == 0}" >
+                                                <div class="col-xs-12 col-md-12">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="col-xs-12 col-md-8">
+                                            </c:otherwise>
+                                        </c:choose>
+                                            <div class="panel">
+                                                <div class="panel-body descriptionTxt">
+                                                    <p>
+                                                        <c:out value="${aptitude.description}"/>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <c:choose>
+                                            <c:when test="${aptitude.reviews.size() == 0}" >
+                                                <div class="col-xs-12 col-md-0" style="display: none;">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="col-xs-12 col-md-4">
+                                            </c:otherwise>
+                                        </c:choose>
+                                            <div class="panel">
+                                                <div class="panel-body aptitude-bars">
+                                                    <h4><spring:message code="profile.general-reviews"/></h4>
+                                                    <div class="stars dyn-stars" data-rating="<c:out value="${aptitude.generalCalification}"/>"></div>
+                                                    <div class="progressBars">
+                                                        <h5><spring:message code="form.quality"/></h5>
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.qualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.qualityCalification*20}"/>%;">
+                                                                <c:out value="${aptitude.qualityCalification}"/>
+                                                            </div>
+                                                        </div>
+                                                        <h5><spring:message code="form.price"/></h5>
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.priceCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.priceCalification*20}"/>%;">
+                                                                <c:out value="${aptitude.priceCalification}"/>
+                                                            </div>
+                                                        </div>
+                                                        <h5><spring:message code="form.punctuality"/></h5>
+                                                            <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.punctualityCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.punctualityCalification*20}"/>%;">
+                                                                <c:out value="${aptitude.punctualityCalification}"/>
+                                                            </div>
+                                                        </div>
+                                                        <h5><spring:message code="form.treatment"/></h5>
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.treatmentCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.treatmentCalification*20}"/>%;">
+                                                                <c:out value="${aptitude.treatmentCalification}"/>
+                                                            </div>
+                                                        </div>
+                                                        <h5><spring:message code="form.cleanness"/></h5>
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<c:out value="${aptitude.cleannessCalification}"/>" aria-valuemin="0" aria-valuemax="5" style="width: <c:out value="${aptitude.cleannessCalification*20}"/>%;">
+                                                                <c:out value="${aptitude.cleannessCalification}"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- reviews -->
+                            <div class="row aptitude">
+                                <div class="col-xs-12 col-sm-8 col-md-9">
+                                    <h4 class="client-reviews">Client Reviews</h4>
+                                    <div class="panel">
+                                        <div class="panel-body">
+                                            <c:choose>
+                                                <c:when test="${aptitude.reviews.size() == 0}" >
+                                                    <div class="empty-reviews">
+                                                        <div class="img"></div>
+                                                        <p><spring:message code="emptyStars" /></p>
+                                                    </div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <c:forEach items="${aptitude.reviews}" var="review">
+                                                        <div class="line-divider"></div>
+                                                        <div class="review-item">
+                                                            <div class="row">
+                                                                <div class="col-xs-6 col-sm-3 col-md-2">
+                                                                    <div class="profileImg">
+                                                                        <c:choose>
+                                                                            <c:when test="${review.user.image != null}">
+                                                                                <img src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+                                                                        <div class="name hidden-xs">
+                                                                            <h5><c:out value="" /><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-6 col-sm-9 col-md-10 divider-left">
+                                                                    <div class="name visible-xs">
+                                                                        <h5><c:out value="${review.user.username}" /></h5>
+                                                                    </div>
+                                                                    <div class="date"><c:out value="${review.date}" /></div>
+                                                                    <div class="dotDivider hidden-xs">&#x25CF;</div>
+                                                                    <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-xs-0 col-sm-3 col-md-2"></div>
+                                                                <div class="col-xs-12 col-sm-9 col-md-10 divider-left">
+                                                                    <p class="description">
+                                                                        <c:out value="${review.comment}" />
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </c:forEach>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </c:forEach>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-8 col-md-9">
+                            <div class="hline endAllApt"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <%--<h1><spring:message code="general.aptitudes"/></h1>-->
+                <%--<c:forEach items="${provider.aptitudes}" var="aptitude">
 
                 <div class="row aptitude">
 
@@ -275,9 +568,9 @@
                     </div>
                 </div>
 
-                </c:forEach>
+                </c:forEach>--%>
 
-                <h1><spring:message code="general.working-details"/></h1>
+                <h3 class="working-zone"><spring:message code="general.working-details"/></h3>
                 <div class="row aptitude">
                     <div class="col-xs-12 col-sm-8 col-md-9">
                         <div class="panel">
@@ -359,147 +652,87 @@
             }
         });
 
-        $(document).ready(function () {
-            //Initialize tooltips
-            $('.nav-tabs > li a[title]').tooltip();
-
-            //Wizard
-            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-
-                var $target = $(e.target);
-
-                if ($target.parent().hasClass('disabled')) {
-                    return false;
-                }
-            });
-
-            $(".next-step").click(function (e) {
-
-                var $active = $('.wizard .nav-tabs li.active');
-                $active.next().removeClass('disabled');
-                nextTab($active);
-
-            });
-            $(".prev-step").click(function (e) {
-
-                var $active = $('.wizard .nav-tabs li.active');
-                prevTab($active);
-
-            });
-        });
-
-        function nextTab(elem) {
-            $(elem).next().find('a[data-toggle="tab"]').click();
-        }
-        function prevTab(elem) {
-            $(elem).prev().find('a[data-toggle="tab"]').click();
-        }
-
-
-//according menu
-
-        $(document).ready(function()
-        {
-            //Add Inactive Class To All Accordion Headers
-            $('.accordion-header').toggleClass('inactive-header');
-
-            //Set The Accordion Content Width
-            var contentwidth = $('.accordion-header').width();
-            $('.accordion-content').css({});
-
-            //Open The First Accordion Section When Page Loads
-            $('.accordion-header').first().toggleClass('active-header').toggleClass('inactive-header');
-            $('.accordion-content').first().slideDown().toggleClass('open-content');
-
-            // The Accordion Effect
-            $('.accordion-header').click(function () {
-                if($(this).is('.inactive-header')) {
-                    $('.active-header').toggleClass('active-header').toggleClass('inactive-header').next().slideToggle().toggleClass('open-content');
-                    $(this).toggleClass('active-header').toggleClass('inactive-header');
-                    $(this).next().slideToggle().toggleClass('open-content');
-                }
-
-                else {
-                    $(this).toggleClass('active-header').toggleClass('inactive-header');
-                    $(this).next().slideToggle().toggleClass('open-content');
-                }
-            });
-
-            return false;
-        });
-
-
-        function initializeMap() {
-            var coordsList = "";
-            coordsList = '<c:out value="${workingZonesCoords}"/>';
-            var coordsArr = coordsList.split(";");
-
-            /* Center map */
-            var myLatLng = null;
-            if(coordsArr.length === 0) {
-                myLatLng = new google.maps.LatLng(-34.572902, -58.423161);
+        $(".otherAptitdes-hidden h4").click(function () {
+            var otherApt = $(".otherAptitudes");
+            if(otherApt.hasClass("active")) {
+                otherApt.removeClass("active");
             } else {
-                console.log("calculate center");
-                var maxLat = 0, minLat = 0, maxLng = 0, minLng = 0;
-                for(var i = 0; i < coordsArr.length; i++) {
-                    var coord = coordsArr[i].split(",");
-
-                    if(maxLat === 0 || parseFloat(coord[0]) > maxLat) {
-                        maxLat = parseFloat(coord[0]);
-                    }
-                    if(maxLng === 0 || parseFloat(coord[1]) > maxLng) {
-                        maxLng = parseFloat(coord[1]);
-                    }
-                    if(minLat === 0 || parseFloat(coord[0]) < minLat) {
-                        minLat = parseFloat(coord[0]);
-                    }
-                    if(minLng === 0 || parseFloat(coord[1]) < minLng) {
-                        minLng = parseFloat(coord[1]);
-                    }
-                }
-
-                myLatLng = new google.maps.LatLng( (((maxLat - minLat) / 2) + minLat), ( ((maxLng - minLng) / 2) + minLng ) );
+                otherApt.addClass("active");
             }
 
-            // General Options
-            var mapOptions = {
-                zoom: 14,
-                center: myLatLng,
-                mapTypeId: google.maps.MapTypeId.RoadMap
-            };
-            var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-            // Polygon Coordinates
-            // read them from #aptMap and crate an array
-
-            var polygonCoords = [];
-            for(var i = 0; i < coordsArr.length; i++) {
-                var coord = coordsArr[i].split(",");
-                polygonCoords.push(new google.maps.LatLng(coord[0], coord[1]));
-            }
-
-            if(polygonCoords.length === 0) {
-                // set default coords
-                polygonCoords.push(new google.maps.LatLng(-34.557176, -58.430436));
-                polygonCoords.push(new google.maps.LatLng(-34.588696, -58.431428));
-                polygonCoords.push(new google.maps.LatLng(-34.575376, -58.403839));
-            }
-
-            // Styling & Controls
-            myPolygon = new google.maps.Polygon({
-                paths: polygonCoords,
-                draggable: false,
-                editable: false,
-                strokeColor: '#FF0000',
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: '#FF0000',
-                fillOpacity: 0.35
-            });
-
-            myPolygon.setMap(map);
-        }
+        });
 
     });
+
+    function initializeMap() {
+        var coordsList = "";
+        coordsList = '<c:out value="${workingZonesCoords}"/>';
+        var coordsArr = coordsList.split(";");
+
+        /* Center map */
+        var myLatLng = null;
+        if(coordsArr.length === 0) {
+            myLatLng = new google.maps.LatLng(-34.572902, -58.423161);
+        } else {
+            console.log("calculate center");
+            var maxLat = 0, minLat = 0, maxLng = 0, minLng = 0;
+            for(var i = 0; i < coordsArr.length; i++) {
+                var coord = coordsArr[i].split(",");
+
+                if(maxLat === 0 || parseFloat(coord[0]) > maxLat) {
+                    maxLat = parseFloat(coord[0]);
+                }
+                if(maxLng === 0 || parseFloat(coord[1]) > maxLng) {
+                    maxLng = parseFloat(coord[1]);
+                }
+                if(minLat === 0 || parseFloat(coord[0]) < minLat) {
+                    minLat = parseFloat(coord[0]);
+                }
+                if(minLng === 0 || parseFloat(coord[1]) < minLng) {
+                    minLng = parseFloat(coord[1]);
+                }
+            }
+
+            myLatLng = new google.maps.LatLng( (((maxLat - minLat) / 2) + minLat), ( ((maxLng - minLng) / 2) + minLng ) );
+        }
+
+        // General Options
+        var mapOptions = {
+            zoom: 14,
+            center: myLatLng,
+            mapTypeId: google.maps.MapTypeId.RoadMap
+        };
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        // Polygon Coordinates
+        // read them from #aptMap and crate an array
+
+        var polygonCoords = [];
+        for(var i = 0; i < coordsArr.length; i++) {
+            var coord = coordsArr[i].split(",");
+            polygonCoords.push(new google.maps.LatLng(coord[0], coord[1]));
+        }
+
+        if(polygonCoords.length === 0) {
+            // set default coords
+            polygonCoords.push(new google.maps.LatLng(-34.557176, -58.430436));
+            polygonCoords.push(new google.maps.LatLng(-34.588696, -58.431428));
+            polygonCoords.push(new google.maps.LatLng(-34.575376, -58.403839));
+        }
+
+        // Styling & Controls
+        myPolygon = new google.maps.Polygon({
+            paths: polygonCoords,
+            draggable: false,
+            editable: false,
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF0000',
+            fillOpacity: 0.35
+        });
+
+        myPolygon.setMap(map);
+    }
 </script>
 
 </body>

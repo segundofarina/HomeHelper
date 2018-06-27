@@ -158,7 +158,7 @@ public class PublicController {
     }
 
     @RequestMapping("/profile/{providerId}")
-    public ModelAndView providerProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId) {
+    public ModelAndView providerProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId) throws InvalidQueryException {
         final ModelAndView mav = new ModelAndView("profile");
 
         final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
@@ -168,9 +168,18 @@ public class PublicController {
             throw new ProviderNotFoundException();
         }
 
+        if(serviceTypeId == -1) {
+            throw new InvalidQueryException();
+        }
+
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
-        mav.addObject("provider",provider);
+        mav.addObject("provider", provider);
+
+        mav.addObject("serviceTypeId", serviceTypeId);
+
+        mav.addObject("currentAptitude", sProviderService.getAptitudeOfProvider(serviceTypeId, provider));
+        mav.addObject("otherAptitudes", sProviderService.getAllAptitudesExcept(serviceTypeId, provider));
 
         // get coords from db
         mav.addObject("workingZonesCoords", "-34.557176,-58.430436;-34.588696,-58.431428;-34.575376,-58.403839");
