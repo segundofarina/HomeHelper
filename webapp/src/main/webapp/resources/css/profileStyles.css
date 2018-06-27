@@ -178,33 +178,33 @@ label {
     border-top: 1px solid #eee;
 }
 
-.review-item .profileImg {
+.review-item .profileImg, .modal-reviews-container .profileImg {
     text-align: center;
     left: 0;
     right: 0;
 }
 
-.review-item .profileImg img {
+.review-item .profileImg img, .modal-reviews-container .profileImg img {
     width: 6em;
     height: 6em;
     border-radius: 100%;
     object-fit: cover;
 }
 
-.review-item .name h5 {
+.review-item .name h5, .modal-reviews-container .name h5 {
     margin-bottom: 3px;
 }
 
-.review-item .date {
+.review-item .date, .modal-reviews-container .date {
     font-style: italic;
     margin-right: 0.5em;
 }
 
-.review-item .dotDivider {
+.review-item .dotDivider, .modal-reviews-container .dotDivider {
     display: inline-block;
 }
 
-.review-item .description {
+.review-item .description, .modal-reviews-container .description {
     margin-top: 2em;
 }
 
@@ -309,12 +309,20 @@ h4.client-reviews {
     border-bottom: 2px solid #e8e8e8;
     padding-bottom: 0.5em;
     margin-right: 1em;
-
-
 }
 
 h3.working-zone {
     margin-bottom: 1em;
+}
+
+h5.show-more-reviews {
+    margin-left: 2em;
+    color: #70849c;
+    cursor: pointer;
+}
+
+h5.show-more-reviews:hover {
+    color: #505963;
 }
 
 @media (min-width: 768px) {
@@ -333,21 +341,21 @@ h3.working-zone {
         top: 6em;
     }
 
-    .review-item .profileImg {
+    .review-item .profileImg, .modal-reviews-container .profileImg {
         position: absolute;
         padding: 0 0.5em;
     }
 
-    .review-item .date {
+    .review-item .date, .modal-reviews-container .date {
         display: inline-block;
     }
 
-    .review-item .stars {
+    .review-item .stars, .modal-reviews-container .stars {
         display: inline-block;
         margin-left: 0;
     }
 
-    .review-item .description {
+    .review-item .description, .modal-reviews-container .description {
         margin-top: 1em;
     }
 
