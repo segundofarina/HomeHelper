@@ -92,11 +92,14 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public Optional<Aptitude> getAptitude(int id) {
-        return em.createQuery("select a from Aptitude as a join fetch a.reviews where a.id = :id", Aptitude.class)
-                .setParameter("id",id)
-                .getResultList()
-                .stream()
-                .findFirst();
 
+//        Optional<Aptitude> ap =
+//         em.createQuery("select a from Aptitude as a join fetch a.reviews where a.id = :id", Aptitude.class)
+//                .setParameter("id",id)
+//                .getResultList()
+//                .stream()
+//                .findFirst();
+//        System.out.println("IS APTIDUE PRESENT"+ap.isPresent());
+        return Optional.ofNullable(em.find(Aptitude.class,id));
     }
 }
