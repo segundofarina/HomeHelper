@@ -2,6 +2,7 @@ package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.homehelper.exceptions.InvalidQueryException;
 import ar.edu.itba.paw.homehelper.exceptions.InvalidUsernameException;
+import ar.edu.itba.paw.homehelper.exceptions.NotFoundException;
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.ReviewForm;
 import ar.edu.itba.paw.homehelper.form.SettingsForm;
@@ -110,7 +111,12 @@ public class ClientController {
    }
 
    @RequestMapping("/client/appointmentConfirmed")
-   public ModelAndView appointmentConfirmed(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "appt") final int apId) {
+   public ModelAndView appointmentConfirmed(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "appt") final int apId) throws NotFoundException {
+       Appointment lastAp = appointmentService.getLastAppointment(loggedInUser.getId());
+       if(lastAp == null || lastAp.getAppointmentId() != apId) {
+           throw new NotFoundException();
+       }
+
        final ModelAndView mav = new ModelAndView("appointmentConfirmed");
        mav.addObject("user", loggedInUser);
        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
@@ -129,8 +135,15 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/client/messages/{providerId}", method = {RequestMethod.GET})
-    public ModelAndView messages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") final int providerId) {
+    public ModelAndView messages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") final int providerId) throws NotFoundException {
         final ModelAndView mav = new ModelAndView("clientMessages");
+
+        /* Get current chat and validate it has messages */
+        Chat currentChat = chatService.getChat(loggedInUser.getId(), providerId);
+        if(currentChat == null || currentChat.getMessages().size() == 0) {
+            throw new NotFoundException();
+        }
+
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
@@ -140,7 +153,7 @@ public class ClientController {
 
         LOGGER.debug("List of chats size: {} for user {}",list.size(),getUserString(loggedInUser));
 
-        mav.addObject("currentChat", chatService.getChat(loggedInUser.getId(), providerId));
+        mav.addObject("currentChat", currentChat);
 
         return mav;
     }
@@ -216,18 +229,24 @@ public class ClientController {
     }
 
     @RequestMapping("/client/writeReview/{appointmentId}")
-    public ModelAndView writeReview(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("appointmentId") final int appointmentId) {
+    public ModelAndView writeReview(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("appointmentId") final int appointmentId) throws NotFoundException {
+       /* Validate params */
+       Appointment appointment = appointmentService.getAppointment(appointmentId);
+       if(appointment == null || appointment.getStatus() != Status.Done || appointment.getClient().getId() != loggedInUser.getId() || appointment.isClientReview()) {
+           throw new NotFoundException();
+       }
+
        final ModelAndView mav = new ModelAndView("client/writeReview");
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
-        mav.addObject("appointment", appointmentService.getAppointment(appointmentId));
+        mav.addObject("appointment", appointment);
 
        return mav;
     }
 
-    @RequestMapping("/client/sendReview")
+    @RequestMapping(value = "/client/sendReview", method = RequestMethod.POST)
     public ModelAndView sendReview(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("reviewForm") final ReviewForm form, final BindingResult errors, final RedirectAttributes redrAttr) throws InvalidQueryException {
        if(form == null) {
            throw new InvalidQueryException();
