@@ -1,4 +1,6 @@
-package ar.edu.itba.paw.model;
+package testUtils;
+
+import ar.edu.itba.paw.model.ServiceType;
 
 import java.util.ArrayList;
 import java.util.List;

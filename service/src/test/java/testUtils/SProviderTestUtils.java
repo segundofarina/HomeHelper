@@ -1,6 +1,12 @@
-package ar.edu.itba.paw.model;
+package testUtils;
 
-import java.util.*;
+import ar.edu.itba.paw.model.Aptitude;
+import ar.edu.itba.paw.model.SProvider;
+import ar.edu.itba.paw.model.WorkingZone;
+
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 

@@ -12,14 +12,13 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-
-import static ar.edu.itba.paw.model.ServiceTypeTestUtils.*;
 import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static testUtils.ServiceTypeTestUtils.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class STypeServiceImplTest {

@@ -1,8 +1,7 @@
-package ar.edu.itba.paw.model;
+package testUtils;
 
-import sun.jvm.hotspot.utilities.Assert;
+import ar.edu.itba.paw.model.Review;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

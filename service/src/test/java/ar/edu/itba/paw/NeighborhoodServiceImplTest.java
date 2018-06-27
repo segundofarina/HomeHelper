@@ -1,7 +1,6 @@
 package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.interfaces.daos.NeighborhoodDao;
-import ar.edu.itba.paw.interfaces.services.NeighborhoodService;
 import ar.edu.itba.paw.model.Neighborhood;
 import ar.edu.itba.paw.service.NeighborhoodServiceImpl;
 import org.junit.Test;
@@ -11,15 +10,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
-
-import static ar.edu.itba.paw.model.NeighborhoodTestUtils.assertEqualsNeighborhoods;
-import static ar.edu.itba.paw.model.NeighborhoodTestUtils.dummyNeighborhood;
-import static ar.edu.itba.paw.model.NeighborhoodTestUtils.dummyNeighborhoods;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static testUtils.NeighborhoodTestUtils.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NeighborhoodServiceImplTest {
