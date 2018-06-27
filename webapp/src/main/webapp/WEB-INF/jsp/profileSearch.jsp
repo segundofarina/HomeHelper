@@ -107,8 +107,14 @@
                                             </h5>
                                         </div>
                                         <div class="moveRight">
-                                            <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>">
-                                            </div>
+                                            <c:choose>
+                                                <c:when test="${provider.generalCalification == 0}">
+                                                    <p class="empty-stars"><spring:message code="emptyStars" /></p>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>"></div>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
@@ -116,7 +122,7 @@
                                 <div class="row">
                                     <div class="col-xs-0 col-sm-2"></div>
                                     <div class="col-xs-12 col-sm-10">
-                                        <p class="profileDescription">
+                                        <p class="profileDescription text-format">
                                             <c:out value="${provider.description}"/>
                                         </p>
                                     </div>

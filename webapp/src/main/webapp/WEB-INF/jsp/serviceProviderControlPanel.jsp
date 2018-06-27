@@ -82,14 +82,16 @@
                                     <c:otherwise>
                                         <c:forEach items="${appointments}" var="ap">
                                             <article class="media event">
-                                                <a class="pull-left date">
-                                                    <p class="month"><spring:message code="month.${ap.date.month}" /></p>
-                                                    <p class="day"><c:out value="${ap.date.day}" /></p>
+                                                <a href="<c:url value="/sprovider/appointments" />">
+                                                    <div class="pull-left date">
+                                                        <p class="month"><spring:message code="month.${ap.month}" /></p>
+                                                        <p class="day"><c:out value="${ap.day}" /></p>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h5 class="title"><c:out value="${ap.client.firstname}" /></h5>
+                                                        <p><spring:message code="service-type.${ap.serviceType.id}"/></p>
+                                                    </div>
                                                 </a>
-                                                <div class="media-body">
-                                                    <h5 class="title"><c:out value="${ap.client.firstname}" /></h5>
-                                                    <p><spring:message code="service-type.${ap.serviceType.id}"/></p>
-                                                </div>
                                             </article>
                                         </c:forEach>
                                     </c:otherwise>
@@ -115,20 +117,22 @@
                                     <c:otherwise>
                                         <c:forEach items="${chats}" var="chat">
                                             <article class="media event">
-                                                <a class="pull-left img">
-                                                    <c:choose>
-                                                        <c:when test="${chat.grey.image != null}">
-                                                            <img src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="profile picture" />
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
-                                                        </c:otherwise>
-                                                    </c:choose>
+                                                <a href="<c:url value="/sprovider/messages/${chat.grey.id}" />">
+                                                    <div class="pull-left img">
+                                                        <c:choose>
+                                                            <c:when test="${chat.grey.image != null}">
+                                                                <img src="<c:url value="/profile/${chat.grey.id}/profileimage" />" alt="profile picture" />
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h5 class="title"><c:out value="${chat.grey.firstname}" /></h5>
+                                                        <p><c:out value="${chat.preview}" /></p>
+                                                    </div>
                                                 </a>
-                                                <div class="media-body">
-                                                    <h5 class="title"><c:out value="${chat.grey.firstname}" /></h5>
-                                                    <p><c:out value="${chat.preview}" /></p>
-                                                </div>
                                             </article>
                                         </c:forEach>
                                     </c:otherwise>
@@ -154,20 +158,22 @@
                                     <c:otherwise>
                                         <c:forEach items="${reviews}" var="review">
                                             <article class="media event">
-                                                <a class="pull-left img">
-                                                    <c:choose>
-                                                        <c:when test="${review.user.image != null}">
-                                                            <img src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
-                                                        </c:otherwise>
-                                                    </c:choose>
+                                                <a href="<c:url value="/sprovider/reviews" />">
+                                                    <div class="pull-left img">
+                                                        <c:choose>
+                                                            <c:when test="${review.user.image != null}">
+                                                                <img src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h5 class="title"><c:out value="${review.user.firstname}" /></h5>
+                                                        <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
+                                                    </div>
                                                 </a>
-                                                <div class="media-body">
-                                                    <h5 class="title"><c:out value="${review.user.firstname}" /></h5>
-                                                    <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
-                                                </div>
                                             </article>
                                         </c:forEach>
                                     </c:otherwise>

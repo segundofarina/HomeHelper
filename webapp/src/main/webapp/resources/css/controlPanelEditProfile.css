@@ -106,3 +106,7 @@ input[type=file].edit-visible {
     width: auto;
     height: 500px;
 }
+
+.text-format {
+    white-space: pre-line;
+}

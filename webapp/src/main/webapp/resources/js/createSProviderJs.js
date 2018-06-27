@@ -100,7 +100,7 @@ function initializeMap() {
     // Styling & Controls
     myPolygon = new google.maps.Polygon({
         paths: polygonCoords,
-        draggable: true, // turn off if it gets annoying
+        draggable: false,
         editable: true,
         strokeColor: '#FF0000',
         strokeOpacity: 0.8,

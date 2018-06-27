@@ -114,7 +114,10 @@ label {
 }
 
 .empty-result {
-    width: 80%;
+    padding: 2em;
+    border-radius: 4px;
+    border: 1px solid #e6e9ed;
+    background: #fff;
     margin: auto;
 }
 
@@ -137,6 +140,13 @@ label {
     font-style: italic;
     font-size: 15px;
     text-align: center;
+}
+
+p.empty-stars {
+    text-align: center;
+    color: #afafaf;
+    font-style: italic;
+    font-size: 12px;
 }
 
 @media (min-width: 768px) {

@@ -111,7 +111,7 @@
                                                     <spring:message code="placeholder.write-description" var="placeholder" />
                                                     <form:textarea path="generalDescription" class="form-control edit-visible" placeholder="${placeholder}" />
                                                     <form:errors path="generalDescription" cssClass="form-error edit-visible" element="p" />
-                                                    <p class="edit-hidden" data-ref="generalDescription"><c:out value="${serviceProvider.description}" /></p>
+                                                    <p class="edit-hidden text-format" data-ref="generalDescription"><c:out value="${serviceProvider.description}" /></p>
                                                 </div>
                                             </div>
                                         </div>

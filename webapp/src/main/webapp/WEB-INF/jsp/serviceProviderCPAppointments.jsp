@@ -79,7 +79,7 @@
                                                 <tr>
                                                     <th>
                                                         <c:choose>
-                                                            <c:when test="${provider.image != null}">
+                                                            <c:when test="${appointment.client.image != null}">
                                                                 <img class="profileImage" src="<c:url value="/profile/${appointment.client.id}/profileimage" />" alt="profile picture" />
                                                             </c:when>
                                                             <c:otherwise>
@@ -88,7 +88,7 @@
                                                         </c:choose>
                                                     </th>
                                                     <td><c:out value="${appointment.client.firstname}" /></td>
-                                                    <td><c:out value="${appointment.date}" /></td>
+                                                    <td><c:out value="${appointment.dateDMY}" /></td>
                                                     <td><c:out value="${appointment.address}" /> </td>
                                                     <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
                                                     <c:choose>
@@ -165,7 +165,7 @@
                                                         </c:choose>
                                                     </th>
                                                     <td><c:out value="${appointment.client.firstname}" /></td>
-                                                    <td><c:out value="${appointment.date}" /></td>
+                                                    <td><c:out value="${appointment.dateDMY}" /></td>
                                                     <td><c:out value="${appointment.address}" /> </td>
                                                     <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
                                                 </tr>
