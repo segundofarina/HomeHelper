@@ -89,13 +89,20 @@ public class PublicController {
 
 
     @RequestMapping("/")
-    public ModelAndView index(@ModelAttribute("loggedInUser") final User loggedInUser) {
+    public ModelAndView index(@ModelAttribute("loggedInUser") final User loggedInUser, @CookieValue(value = "HH-LastPost", defaultValue = "") final String cookieVal) {
         final ModelAndView mav = new ModelAndView("index");
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
         mav.addObject("serviceTypes", sTypeService.getServiceTypes());
         //mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
+
+        if(!cookieVal.equals("")) {
+            String[] vals = cookieVal.split("--");//vals[0] is provider id ; vals[1] is serviceTypeId
+            //mav.addObject("lastPost", cookieVal);
+            mav.addObject("lastPostProvider", sProviderService.getServiceProviderWithUserId( Integer.parseInt(vals[0]) ));
+            mav.addObject("lastPostServiceType", vals[1]);
+        }
         return mav;
     }
 
@@ -164,7 +171,7 @@ public class PublicController {
     }
 
     @RequestMapping("/profile/{providerId}")
-    public ModelAndView providerProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId) throws InvalidQueryException {
+    public ModelAndView providerProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId, final HttpServletResponse response) throws InvalidQueryException {
         final ModelAndView mav = new ModelAndView("profile");
 
         final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
@@ -189,6 +196,9 @@ public class PublicController {
 
         // get coords from db
         mav.addObject("workingZonesCoords", "-34.557176,-58.430436;-34.588696,-58.431428;-34.575376,-58.403839");
+
+        /* Save post in cookie */
+        addLastPostCookie(providerId, serviceTypeId, response);
 
         LOGGER.info("{} accessed to provider's profile with id {} .",getUserString(loggedInUser),providerId);
         return mav;
@@ -230,6 +240,8 @@ public class PublicController {
         if(!loggedInUser.isVerified()) {
             return new ModelAndView("redirect:/unverified/user");
         }
+
+        removeLastPostCookie(response);
 
         return new ModelAndView("forward:/client/sendAppointment");
     }
@@ -395,5 +407,22 @@ public class PublicController {
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         return auth;
+    }
+
+    private void addLastPostCookie(int providerId, int serviceTypeId, HttpServletResponse response) {
+        String str = providerId + "--" + serviceTypeId;
+        Cookie cookie = new Cookie("HH-LastPost", str);
+        cookie.setPath("/");
+        cookie.setMaxAge(250000);
+
+        response.addCookie(cookie);
+    }
+
+    private void removeLastPostCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("HH-LastPost", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+
+        response.addCookie(cookie);
     }
 }
