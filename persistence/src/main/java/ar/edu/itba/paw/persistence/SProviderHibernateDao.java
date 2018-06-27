@@ -22,7 +22,7 @@ public class SProviderHibernateDao implements SProviderDao {
         if(!user.isPresent()){
             return Optional.empty();
         }
-        final SProvider sp =new SProvider(user.get(),description, Collections.EMPTY_SET, Collections.EMPTY_SET);
+        final SProvider sp =new SProvider(user.get(),description, Collections.EMPTY_SET, new TreeSet<>());
         em.persist(sp);
         return Optional.of(sp);
     }
@@ -41,16 +41,13 @@ public class SProviderHibernateDao implements SProviderDao {
     @Override
     public Set<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId) {
         return
-                new HashSet<>(em.createQuery("select s from SProvider s join fetch s.aptitudes a join fetch a.reviews" +
-                        " join fetch s.workingZones as w where a.service.id = :stId AND w.neighborhood.ngId = :ngId"
+                new HashSet<>(em.createQuery("select s from SProvider s left join fetch s.aptitudes a left join fetch a.reviews" +
+                        " left join fetch s.workingZones as w where a.service.id = :stId AND w.neighborhood.ngId = :ngId"
                         ,SProvider.class)
                         .setParameter("ngId",ngId)
                         .setParameter("stId",stId)
                         .getResultList());
 
-//        final TypedQuery<SProvider> query = em.createQuery("from SProvider sp natural join sp.workingZones wz natural join sp.aptitudes ap where wz.neighborhood.ngId = :ngId and ap.service.id = :stId",SProvider.class);
-//        query.setParameter("ngId",ngId);
-//        query.setParameter("stId",stId);
     }
 
     @Override

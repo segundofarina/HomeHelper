@@ -69,6 +69,13 @@
                                         </span>
                                     </a>
                                 </li>
+                                <li role="presentation" class="disabled">
+                                    <a href="#step4" data-toggle="tab" aria-controls="step4" role="tab" title="Add Working Zone">
+                                        <span class="round-tab">
+                                            <i class="fa fa-map-marker"></i>
+                                        </span>
+                                    </a>
+                                </li>
 
                                 <li role="presentation" class="disabled">
                                     <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Done">
@@ -229,8 +236,37 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane" role="tabpanel" id="complete">
+                            <div class="tab-pane" role="tabpanel" id="step4">
                                 <div class="step4">
+                                    <div class="form-container">
+                                        <div class="subtitle">
+                                            <h4><spring:message code="sprovider.add-workingZone"/></h4>
+                                        </div>
+                                        <div>
+                                            <div class="apptitude-row">
+                                                <div class="form-group">
+                                                    <form:label path="aptMap"><spring:message code="form.workingZone" /></form:label>
+                                                    <form:input path="aptMap" type="hidden" value="" />
+                                                    <form:errors path="aptMap" element="p" cssClass="form-error" />
+                                                    <div id="map-canvas"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="btn-container">
+                                            <div class="pull-left">
+                                                <button type="button" class="btn btn-default prev-step"><spring:message code="general.previus"/></button>
+                                            </div>
+                                            <div class="pull-right">
+                                                <button type="button" class="btn btn-success next-step"><spring:message code="sprovider.save-continue"/></button>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" role="tabpanel" id="complete">
+                                <div class="step5">
                                     <div class="form-container">
                                         <div class="finish">
                                             <h3><spring:message code="sprovider.ready"/></h3>
@@ -270,6 +306,13 @@
 
 <script src="<c:url value="/resources/js/createSProviderJs.js"/>"></script>
 
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBqSX1WHUw4OlgMDzYM40uSVPGkV06DR1I&ver=3.exp"></script>
+
+<script>
+    $(document).ready(function(){
+        initializeMap();
+    });
+</script>
 
 </body>
 </html>

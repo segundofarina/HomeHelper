@@ -25,7 +25,7 @@ public interface SProviderService {
 
     List<SProvider> getServiceProvidersWorkingIn(int ngId);
 
-    Set<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId);
+    List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId);
 
     Set<Review> getReviewsOfServiceProvider(int sproviderId);
 
@@ -44,4 +44,13 @@ public interface SProviderService {
     void updateDescriptionOfServiceProvider(int userId, String description);
 
     List<Review> getLatestReviewsOfServiceProvider(int providerId);
+
+    Aptitude getAptitudeOfProvider(int serviceTypeId, SProvider provider);
+
+    List<Aptitude> getAllAptitudesExcept(int serviceTypeId, SProvider provider);
+
+    boolean addCoordenates(int providerId, Set<CoordenatesPoint> coordenatesPoints);
+
+    boolean deleteCoordenates(int providerId);
+
 }

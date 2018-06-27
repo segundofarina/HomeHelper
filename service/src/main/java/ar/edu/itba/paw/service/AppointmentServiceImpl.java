@@ -106,6 +106,8 @@ public class AppointmentServiceImpl implements AppointmentService {
             }
         }
 
+        Collections.sort(ans,(o1, o2) -> o2.getAppointmentId()- o1.getAppointmentId());
+
         return ans;
     }
 
@@ -119,6 +121,8 @@ public class AppointmentServiceImpl implements AppointmentService {
                 ans.add(appointment);
             }
         }
+
+        Collections.sort(ans,(o1, o2) -> o2.getAppointmentId()- o1.getAppointmentId());
 
         return ans;
     }
@@ -134,6 +138,8 @@ public class AppointmentServiceImpl implements AppointmentService {
             }
         }
 
+        Collections.sort(ans,(o1, o2) -> o2.getAppointmentId()- o1.getAppointmentId());
+
         return ans;
     }
 
@@ -147,6 +153,8 @@ public class AppointmentServiceImpl implements AppointmentService {
                 ans.add(appointment);
             }
         }
+
+        Collections.sort(ans,(o1, o2) -> o2.getAppointmentId()- o1.getAppointmentId());
 
         return ans;
     }
@@ -180,6 +188,19 @@ public class AppointmentServiceImpl implements AppointmentService {
     public void reviewAppointment(int appointmentId, int userId, int serviceTypeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
         int aptitudeId = aptitudeDao.getAptitudeId(userId, serviceTypeId);
         appointmentDao.reviewAppointment(appointmentId,userId,aptitudeId,quality,cleanness,price,punctuality,treatment,comment);
+    }
+
+    @Override
+    public Appointment getLastAppointment(int userId) {
+        Appointment appointment = null;
+
+        for(Appointment ap : getAppointmentsByUserId(userId)) {
+            if(appointment == null || ap.getAppointmentId() > appointment.getAppointmentId()) {
+                appointment = ap;
+            }
+        }
+
+        return appointment;
     }
 
     private Date stringToTimestamp(String str) {

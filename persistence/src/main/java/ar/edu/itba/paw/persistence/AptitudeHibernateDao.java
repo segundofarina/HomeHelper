@@ -20,7 +20,7 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public Set<Aptitude> getAptitudesOfUser(int id) {
-        return new HashSet<Aptitude>( em.createQuery("from Aptitude as a join fetch a.reviews where a.sProvider.id = :userid", Aptitude.class)
+        return new HashSet<Aptitude>( em.createQuery("from Aptitude as a left join fetch a.reviews where a.sProvider.id = :userid", Aptitude.class)
             .setParameter("userid",id)
             .getResultList());
     }
@@ -77,7 +77,7 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public int getAptitudeId(int userId, int stId) {
-        final List<Aptitude> list = em.createQuery("select a from Aptitude as a join fetch a.reviews where a.sProvider.id = :userid and a.service.id = :stid", Aptitude.class)
+        final List<Aptitude> list = em.createQuery("select a from Aptitude as a left join fetch a.reviews where a.sProvider.id = :userid and a.service.id = :stid", Aptitude.class)
             .setParameter("userid",userId)
             .setParameter("stid",stId)
             .getResultList();
@@ -92,11 +92,14 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public Optional<Aptitude> getAptitude(int id) {
-        return em.createQuery("select a from Aptitude as a join fetch a.reviews where a.id = :id", Aptitude.class)
-                .setParameter("id",id)
-                .getResultList()
-                .stream()
-                .findFirst();
 
+//        Optional<Aptitude> ap =
+//         em.createQuery("select a from Aptitude as a join fetch a.reviews where a.id = :id", Aptitude.class)
+//                .setParameter("id",id)
+//                .getResultList()
+//                .stream()
+//                .findFirst();
+//        System.out.println("IS APTIDUE PRESENT"+ap.isPresent());
+        return Optional.ofNullable(em.find(Aptitude.class,id));
     }
 }

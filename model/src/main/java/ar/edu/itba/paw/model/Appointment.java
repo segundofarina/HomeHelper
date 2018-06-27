@@ -1,8 +1,9 @@
 package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "appointments")
@@ -72,6 +73,21 @@ public class Appointment {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getDateDMY() {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        return df.format(getDate());
+    }
+
+    public String getDay() {
+        DateFormat df = new SimpleDateFormat("dd");
+        return df.format(getDate());
+    }
+
+    public String getMonth() {
+        DateFormat df = new SimpleDateFormat("MM");
+        return df.format(getDate());
     }
 
     public String getAddress() {

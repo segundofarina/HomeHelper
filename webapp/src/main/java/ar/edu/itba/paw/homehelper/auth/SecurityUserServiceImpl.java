@@ -30,7 +30,6 @@ public class SecurityUserServiceImpl implements SecurityUserService {
         if(authentication == null) {
             return null;
         }
-        System.out.println(authentication.getName());
         User user = userService.findByUsername(authentication.getName());
 
         if(user != null && user.isVerified() && authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_UNVERIFIED_USER"))) {

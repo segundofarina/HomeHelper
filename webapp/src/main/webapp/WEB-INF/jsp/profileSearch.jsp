@@ -42,17 +42,16 @@
                 <div class="col-xs-12 col-sm-4 col-md-3 col-fixed">
                     <div class="panel">
                         <div class="panel-body">
-                            <c:url value="/search?st=${id}&cty=${cityId}" var="postPath"/>
+                            <c:url value="/search?st=${serviceTypeId}&llat=${llat}&llng=${llng}&addr=${b64addr}" var="postPath"/>
                             <form:form modelAttribute="searchForm" action="${postPath}" method="Post">
                                 <div class="form-group">
-                                    <form:label path="city"><spring:message code="form.city"/></form:label>
-                                    <form:select class="form-control" path="city">
-                                        <form:option value=""><spring:message code="index.select-city"/></form:option>
-                                        <c:forEach items="${neighborhoods}" var="ng">
-                                            <form:option value="${ng.ngId}"><spring:message code="neighborhood.${ng.ngId}"/></form:option>
-                                        </c:forEach>
-                                    </form:select>
-                                    <form:errors path="city" element="p" cssClass="form-error" />
+                                    <form:label path="addressField"><spring:message code="form.city"/></form:label>
+                                    <div class="googleAutcomplete">
+                                        <form:input path="addressField" class="form-control" type="text" placeholder="Enter an address" onfocus="geolocate()" autocomplete="off" />
+                                    </div>
+                                    <form:errors path="addressField" element="p" cssClass="form-error" />
+                                    <form:input path="lat" type="hidden" />
+                                    <form:input path="lng" type="hidden" />
                                 </div>
                                 <div class="form-group">
                                     <form:label path="serviceType"><spring:message code="form.service-type"/></form:label>
@@ -93,7 +92,7 @@
 
                                             <div class="profileBtn hidden-xs">
 
-                                                <a href="<c:url value="/profile/${provider.user.id}" />" class="btn btn-success btn-sm"><spring:message code="profile.view-profile"/></a>
+                                                <a href="<c:url value="/profile/${provider.user.id}?st=${serviceTypeId}" />" class="btn btn-success btn-sm"><spring:message code="profile.view-profile"/></a>
                                             </div>
                                         </div>
                                     </div>
@@ -108,8 +107,14 @@
                                             </h5>
                                         </div>
                                         <div class="moveRight">
-                                            <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>">
-                                            </div>
+                                            <c:choose>
+                                                <c:when test="${provider.generalCalification == 0}">
+                                                    <p class="empty-stars"><spring:message code="emptyStars" /></p>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <div class="stars dyn-stars" data-rating="<c:out value="${provider.generalCalification}"/>"></div>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
@@ -117,13 +122,13 @@
                                 <div class="row">
                                     <div class="col-xs-0 col-sm-2"></div>
                                     <div class="col-xs-12 col-sm-10">
-                                        <p class="profileDescription">
+                                        <p class="profileDescription text-format">
                                             <c:out value="${provider.description}"/>
                                         </p>
                                     </div>
                                 </div>
                                 <div class="profileBtn visible-xs">
-                                    <a href="<c:url value="/profile/${provider.user.id}" />" class="btn btn-success btn-sm btn-full-width"><spring:message code="profile.view-profile"/></a>
+                                    <a href="<c:url value="/profile/${provider.user.id}?st=${serviceTypeId}" />" class="btn btn-success btn-sm btn-full-width"><spring:message code="profile.view-profile"/></a>
                                 </div>
                             </div>
                         </div>
@@ -164,11 +169,85 @@
 <!-- NProgress --
 <script src="<c:url value="/resources/adminTemplate/vendors/nprogress/nprogress.js"/>"></script>-->
 
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBqSX1WHUw4OlgMDzYM40uSVPGkV06DR1I&ver=3.exp&libraries=places"></script>
+
 <!-- Custom Theme Scripts -->
 <script src="<c:url value="/resources/js/customJs.js"/>"></script>
 <script>
+    var autocomplete;
+    var modifiedAddress = false;
+
+    function initAutocomplete() {
+        // Create the autocomplete object, restricting the search to geographical
+        // location types.
+        autocomplete = new google.maps.places.Autocomplete(
+            (document.getElementById('addressField')),
+            {types: ['geocode']});
+
+        // When the user selects an address from the dropdown, populate the address
+        // fields in the form.
+        autocomplete.addListener('place_changed', fillInAddress);
+    }
+
+    function fillInAddress() {
+        // Get the place details from the autocomplete object.
+        var place = autocomplete.getPlace();
+        if(!place.geometry) {
+            $("#lat").val("");
+            $("#lng").val("");
+        } else {
+            $("#lat").val(place.geometry.location.lat());
+            $("#lng").val(place.geometry.location.lng());
+        }
+        modifiedAddress = false;
+    }
+
+    // Bias the autocomplete object to the user's geographical location,
+    // as supplied by the browser's 'navigator.geolocation' object.
+    function geolocate() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var geolocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                var circle = new google.maps.Circle({
+                    center: geolocation,
+                    radius: position.coords.accuracy
+                });
+                autocomplete.setBounds(circle.getBounds());
+            });
+        }
+    }
+
+
     $(document).ready(function(){
         generateStars();
+
+       google.maps.event.addDomListener(window, 'load', initAutocomplete);
+
+        /* Prevent default enter */
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+                event.preventDefault();
+                modifiedAddress = false;
+                return false;
+            }
+        });
+
+        /* clean form on exit without valid option */
+        $(document).click(function(event) {
+            if (!$(event.target).closest("#addressField").length && !$(event.target).closest(".pac-container").length && modifiedAddress) {
+                $("#addressField").val("");
+                $("#lat").val("");
+                $("#lng").val("");
+            }
+            modifiedAddress = false;
+        });
+
+        $("#addressField").keydown(function () {
+            modifiedAddress = true;
+        });
     });
 </script>
 

@@ -2,6 +2,7 @@ package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.homehelper.exceptions.InvalidQueryException;
 import ar.edu.itba.paw.homehelper.exceptions.InvalidUsernameException;
+import ar.edu.itba.paw.homehelper.exceptions.NotFoundException;
 import ar.edu.itba.paw.homehelper.form.AppointmentForm;
 import ar.edu.itba.paw.homehelper.form.ReviewForm;
 import ar.edu.itba.paw.homehelper.form.SettingsForm;
@@ -30,9 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -58,6 +57,9 @@ public class ClientController {
 
     @Autowired
     private TempImagesService tempImagesService;
+
+    @Autowired
+    private CoordenatesService coordenatesService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
 
@@ -110,7 +112,12 @@ public class ClientController {
    }
 
    @RequestMapping("/client/appointmentConfirmed")
-   public ModelAndView appointmentConfirmed(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "appt") final int apId) {
+   public ModelAndView appointmentConfirmed(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "appt") final int apId) throws NotFoundException {
+       Appointment lastAp = appointmentService.getLastAppointment(loggedInUser.getId());
+       if(lastAp == null || lastAp.getAppointmentId() != apId) {
+           throw new NotFoundException();
+       }
+
        final ModelAndView mav = new ModelAndView("appointmentConfirmed");
        mav.addObject("user", loggedInUser);
        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
@@ -129,24 +136,37 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/client/messages/{providerId}", method = {RequestMethod.GET})
-    public ModelAndView messages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") final int providerId) {
+    public ModelAndView messages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") final int providerId) throws NotFoundException {
         final ModelAndView mav = new ModelAndView("clientMessages");
+
+        /* Get current chat and validate it has messages */
+        List<Chat> chatList= chatService.getChatsOfUser(loggedInUser.getId());
+        Chat currentChat = chatService.getChatOfUser(loggedInUser.getId(), providerId);
+
+        if(chatList.size() > 0 && (currentChat == null || currentChat.getMessages().size() == 0)) {
+            throw new NotFoundException();
+        }
+
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
         List<Chat> list= chatService.getChatsOfUser(loggedInUser.getId());
-        mav.addObject("chats", list);
+        mav.addObject("chats", chatList);
 
         LOGGER.debug("List of chats size: {} for user {}",list.size(),getUserString(loggedInUser));
 
-        mav.addObject("currentChat", chatService.getChatOfUser(loggedInUser.getId(), providerId));
+        mav.addObject("currentChat", currentChat);
+
 
         return mav;
     }
 
     @RequestMapping("/client/messages")
-    public ModelAndView messagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser) {
+    public ModelAndView messagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser, HttpServletResponse response) {
+       /* Remove last post cookie */
+       removeLastPostCookie(response);
+
         final int userId = loggedInUser.getId();
         return new ModelAndView("redirect:/client/messages/" + chatService.getLastMsgThreadUser(userId));
     }
@@ -179,6 +199,20 @@ public class ClientController {
         sProviderService.create(loggedInUser.getId(), form.getProfileDesc());
         sProviderService.addAptitude(loggedInUser.getId(), form.getServiceTypeId(), form.getAptDesc());
 
+        /* Add working zone coords */
+        SortedSet<CoordenatesPoint> coordenatesSet = new TreeSet<>();
+
+        String[] coordsList = form.getAptMap().split(";");
+        for(int i=0; i < coordsList.length ; i++) {
+            String[] coord = coordsList[i].split(",",2);
+            double lat = Double.parseDouble(coord[0]);
+            double lng = Double.parseDouble(coord[1]);
+            //add working zone
+            coordenatesSet.add(new CoordenatesPoint(i,lat, lng));
+        }
+        coordenatesService.insertCoordenatesOfProvider(loggedInUser.getId(), coordenatesSet);
+
+
         final int userId = loggedInUser.getId();
         userService.updateFirstNameOfUser(userId, form.getFirstname());
         userService.updateLastNameOfUser(userId, form.getLastname());
@@ -193,7 +227,10 @@ public class ClientController {
     }
 
     @RequestMapping("/client/appointments")
-    public ModelAndView appointments(@ModelAttribute("loggedInUser") final User loggedInUser) {
+    public ModelAndView appointments(@ModelAttribute("loggedInUser") final User loggedInUser, HttpServletResponse response) {
+        /* Remove last post cookie */
+        removeLastPostCookie(response);
+
        final ModelAndView mav = new ModelAndView("client/appointments");
 
         mav.addObject("user", loggedInUser);
@@ -207,18 +244,24 @@ public class ClientController {
     }
 
     @RequestMapping("/client/writeReview/{appointmentId}")
-    public ModelAndView writeReview(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("appointmentId") final int appointmentId) {
+    public ModelAndView writeReview(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("appointmentId") final int appointmentId) throws NotFoundException {
+       /* Validate params */
+       Appointment appointment = appointmentService.getAppointment(appointmentId);
+       if(appointment == null || appointment.getStatus() != Status.Done || appointment.getClient().getId() != loggedInUser.getId() || appointment.isClientReview()) {
+           throw new NotFoundException();
+       }
+
        final ModelAndView mav = new ModelAndView("client/writeReview");
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
-        mav.addObject("appointment", appointmentService.getAppointment(appointmentId));
+        mav.addObject("appointment", appointment);
 
        return mav;
     }
 
-    @RequestMapping("/client/sendReview")
+    @RequestMapping(value = "/client/sendReview", method = RequestMethod.POST)
     public ModelAndView sendReview(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("reviewForm") final ReviewForm form, final BindingResult errors, final RedirectAttributes redrAttr) throws InvalidQueryException {
        if(form == null) {
            throw new InvalidQueryException();
@@ -242,7 +285,10 @@ public class ClientController {
     }
 
     @RequestMapping("/client/settings")
-    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model, @RequestParam(required = false, value="img", defaultValue = "-1")final int img) {
+    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model, @RequestParam(required = false, value="img", defaultValue = "-1")final int img, @RequestParam(required = false, value="sp", defaultValue = "0") final int toProvider, HttpServletResponse response) {
+        /* Remove last post cookie */
+        removeLastPostCookie(response);
+
        final ModelAndView mav = new ModelAndView("settings");
 
         mav.addObject("user", loggedInUser);
@@ -255,6 +301,7 @@ public class ClientController {
             settingsForm.setLastname(loggedInUser.getLastname());
             settingsForm.setEmail(loggedInUser.getEmail());
             settingsForm.setPhone(loggedInUser.getPhone());
+            settingsForm.setRedirSP(toProvider);
             model.addAttribute("settingsForm", settingsForm);
         }
 
@@ -297,6 +344,9 @@ public class ClientController {
             userService.updateImageOfUser(userId,image);
         }
 
+        if(form.getRedirSP() == 1) {
+            return new ModelAndView("redirect:/sprovider");
+        }
 
         return new ModelAndView("redirect:/");
     }
@@ -356,6 +406,14 @@ public class ClientController {
             cookie.setMaxAge(0);
             response.addCookie(cookie);
         }
+    }
+
+    private void removeLastPostCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("HH-LastPost", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+
+        response.addCookie(cookie);
     }
 
     public String persistImage(MultipartFile imageFile,String redirect,int savedId){

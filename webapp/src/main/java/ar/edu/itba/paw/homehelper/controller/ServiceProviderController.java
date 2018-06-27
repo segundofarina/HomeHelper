@@ -1,15 +1,13 @@
 package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.homehelper.exceptions.InvalidUsernameException;
+import ar.edu.itba.paw.homehelper.exceptions.NotFoundException;
 import ar.edu.itba.paw.homehelper.form.AddWZForm;
 import ar.edu.itba.paw.homehelper.form.AptitudeForm;
 import ar.edu.itba.paw.homehelper.form.ProfileGeneralInfo;
 import ar.edu.itba.paw.homehelper.form.UpdateAptitudeForm;
 import ar.edu.itba.paw.interfaces.services.*;
-import ar.edu.itba.paw.model.SProvider;
-import ar.edu.itba.paw.model.Status;
-import ar.edu.itba.paw.model.TemporaryImage;
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +17,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -50,6 +53,9 @@ public class ServiceProviderController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CoordenatesService coordenatesService;
+
     @ModelAttribute("profileGeneralInfo")
     public ProfileGeneralInfo profileGeneralInfo(@ModelAttribute("loggedInUser") final User loggedInUser) {
         ProfileGeneralInfo profileGeneralInfo = new ProfileGeneralInfo();
@@ -69,7 +75,10 @@ public class ServiceProviderController {
     }
 
     @RequestMapping("/sprovider")
-    public ModelAndView provider(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
+    public ModelAndView provider(@ModelAttribute("loggedInUser") final User loggedInUser, HttpServletResponse response) throws InvalidUsernameException {
+        /* Remove last post cookie */
+        removeLastPostCookie(response);
+
         final ModelAndView mav = new ModelAndView("serviceProviderControlPanel");
 
         if(loggedInUser == null) {
@@ -107,17 +116,27 @@ public class ServiceProviderController {
     }
 
     @RequestMapping(value = "/sprovider/messages/{clientId}", method = { RequestMethod.GET })
-    public ModelAndView providerMessages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("clientId") int clientId) throws InvalidUsernameException {
+    public ModelAndView providerMessages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("clientId") int clientId) throws InvalidUsernameException, NotFoundException {
         if(loggedInUser == null) {
             throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
+
+        /* Get current chat and validate it has messages */
+        List<Chat> chatList = chatService.getChatsOfProvider(providerId);
+        Chat currentChat = chatService.getChatOfProvider(providerId, clientId);
+
+        if(chatList.size() > 0 && (currentChat == null || currentChat.getMessages().size() == 0)) {
+            throw new NotFoundException();
+        }
+
         final ModelAndView mav = new ModelAndView("serviceProviderCPMessages");
 
         mav.addObject("provider", loggedInUser);
 
-        mav.addObject("chats", chatService.getChatsOfProvider(providerId));
-        mav.addObject("currentChat", chatService.getChatOfProvider(providerId, clientId));
+
+        mav.addObject("chats", chatList);
+        mav.addObject("currentChat", currentChat);
 
 
         return mav;
@@ -197,15 +216,27 @@ public class ServiceProviderController {
 
         mav.addObject("provider", loggedInUser);
 
-        mav.addObject("serviceProvider", sProviderService.getServiceProviderWithUserId(providerId));
+        final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
+
+        mav.addObject("serviceProvider", provider);
         mav.addObject("serviceTypes",sTypeService.getServiceTypes());
 
         mav.addObject("errorElemId", elemErrorId);
         mav.addObject("editAptitude", -1);
         mav.addObject("img", img);
 
-        mav.addObject("workingZones", workingZonesService.getWorkingZonesOfProvider(providerId));
-        mav.addObject("neightbourhoods", neighborhoodService.getAllNeighborhoods());
+        // get coords from db
+        StringBuilder sb = new StringBuilder();
+        for(CoordenatesPoint coordenatesPoint : provider.getCoordenates()) {
+            sb.append(coordenatesPoint.getLat());
+            sb.append(",");
+            sb.append(coordenatesPoint.getLng());
+            sb.append(";");
+        }
+
+        mav.addObject("workingZonesCoords", sb.toString());
+        //mav.addObject("workingZones", workingZonesService.getWorkingZonesOfProvider(providerId));
+        //mav.addObject("neightbourhoods", neighborhoodService.getAllNeighborhoods());
 
         /* Profile picture */
 
@@ -258,13 +289,18 @@ public class ServiceProviderController {
 
 
     @RequestMapping("/sprovider/editProfile/updateAptitude/{aptitudeId}")
-    public ModelAndView updateAptitudeId(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("aptitudeId") final int aptitudeId, Model model) throws InvalidUsernameException {
+    public ModelAndView updateAptitudeId(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("aptitudeId") final int aptitudeId, Model model) throws InvalidUsernameException, NotFoundException {
         final ModelAndView mav = new ModelAndView("serviceProviderCPEditProfile");
         if(loggedInUser == null) {
             throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
         final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
+
+        /* Check if valid aptitudeId */
+        if(!isValidAptitude(aptitudeId, provider.getAptitudes())) {
+            throw new NotFoundException();
+        }
 
         if(!model.containsAttribute("updateAptitudeForm")) {
             UpdateAptitudeForm updateAptitudeForm = new UpdateAptitudeForm();
@@ -307,14 +343,7 @@ public class ServiceProviderController {
         return new ModelAndView("redirect:/sprovider/editProfile");
     }
 
-    @RequestMapping(value = "/sprovider/editProfile/deleteWorkingZone", method = RequestMethod.POST)
-    public ModelAndView deleteWZ(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "ngId") final int ngId) {
-        workingZonesService.removeWorkingZoneOfProvider(loggedInUser.getId(), ngId);
-
-        return new ModelAndView("redirect:/sprovider/editProfile");
-    }
-
-    @RequestMapping(value = "/sprovider/editProfile/addNg", method = RequestMethod.POST)
+    @RequestMapping(value = "/sprovider/editProfile/updateWorkingZone", method = RequestMethod.POST)
     public ModelAndView addWZ(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("addWZForm") final AddWZForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
         if(errors.hasErrors()) {
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.addWZForm", errors);
@@ -323,12 +352,64 @@ public class ServiceProviderController {
             return new ModelAndView(redirect);
         }
 
-        workingZonesService.insertWorkingZoneOfProvider(loggedInUser.getId(), form.getNgId());
+        /* Add working zone coords */
+        Set<CoordenatesPoint> coordenatesSet = new HashSet<>();
+
+        String[] coordsList = form.getCoordsStr().split(";");
+        for(int i=0; i < coordsList.length ; i++) {
+            String[] coord = coordsList[i].split(",",2);
+            double lat = Double.parseDouble(coord[0]);
+            double lng = Double.parseDouble(coord[1]);
+            //add working zone
+            coordenatesSet.add(new CoordenatesPoint(i,lat, lng));
+        }
+        coordenatesService.insertCoordenatesOfProvider(loggedInUser.getId(), coordenatesSet);
 
         return new ModelAndView("redirect:/sprovider/editProfile");
     }
 
-    public String persistImage(MultipartFile imageFile, String redirect, int savedId){
+
+    @RequestMapping(value = "/sprovider/profilePreview", method = RequestMethod.GET)
+    public ModelAndView getProfilePreview(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
+        final ModelAndView mav = new ModelAndView("providerPreview");
+
+        if(loggedInUser == null) {
+            throw new InvalidUsernameException();
+        }
+        final int providerId = loggedInUser.getId();
+        final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
+
+        if(provider == null) {
+            throw new InvalidUsernameException();
+        }
+
+        mav.addObject("provider", provider);
+        mav.addObject("aptitudes", sProviderService.getAptitudesOfUser(providerId));
+
+        mav.addObject("workingZonesCoords", "-34.557176,-58.430436;-34.588696,-58.431428;-34.575376,-58.403839");
+
+
+        return mav;
+    }
+
+    private boolean isValidAptitude(int aptitudeId, Set<Aptitude> aptitudeList) {
+        for(Aptitude ap : aptitudeList) {
+            if(ap.getId() == aptitudeId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void removeLastPostCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("HH-LastPost", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+
+        response.addCookie(cookie);
+    }
+
+    private String persistImage(MultipartFile imageFile, String redirect, int savedId){
         byte[] image=null;
         if(imageFile.getSize() > 0) {
             try {
@@ -348,7 +429,7 @@ public class ServiceProviderController {
         return redirect;
     }
 
-    public byte[] retriveImage(MultipartFile imageFile,int savedId){
+    private byte[] retriveImage(MultipartFile imageFile,int savedId){
         byte[] image= null;
         /* Check if image is uploaded */
         if(imageFile.getSize() > 0) {

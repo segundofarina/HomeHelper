@@ -98,6 +98,13 @@ CREATE TABLE IF NOT EXISTS temporaryImages (
   imageid SERIAL PRIMARY KEY,
   image   BYTEA
 );
+CREATE TABLE IF NOT EXISTS coordenates (
+  coordId SERIAL PRIMARY KEY,
+  userId INTEGER REFERENCES serviceProviders(userId) ,
+  pos INTEGER NOT NULL,
+  lat DOUBLE precision NOT NULL,
+  lng DOUBLE precision NOT NULL
+);
 
 
 
@@ -652,6 +659,10 @@ insert into workingzones VALUES (147,2,16);
 insert into workingzones VALUES (148,3,16);
 insert into workingzones VALUES (149,4,16);
 
+INSERT INTO coordenates (pos,userid, lat, lng) SELECT 1,userid, -34.557176,-58.430436 FROM serviceProviders;
+INSERT INTO coordenates (pos,userid, lat, lng) SELECT 2,userid, -34.575376,-58.403839 FROM serviceProviders;
+INSERT INTO coordenates (pos,userid, lat, lng) SELECT 3,userid, -34.588696,-58.431428 FROM serviceProviders;
+
 SELECT setval('users_userid_seq',               (SELECT MAX(userid)         from users));
 SELECT setval('serviceTypes_serviceTypeId_seq', (SELECT MAX(serviceTypeId)  from serviceTypes));
 SELECT setval('aptitudes_aptitudeId_seq',       (SELECT MAX(aptitudeId)     from aptitudes));
@@ -661,3 +672,4 @@ SELECT setval('workingzones_workingZoneId_seq', (SELECT MAX(workingZoneId)  from
 SELECT setval('temporaryImages_imageid_seq',    (SELECT MAX(imageid)        from temporaryImages));
 SELECT setval('reviews_reviewId_seq',           (SELECT MAX(reviewId)        from reviews));
 SELECT setval('messages_msgId_seq',             (SELECT MAX(msgId)        from messages));
+SELECT setval('coordenates_coordId_seq',             (SELECT MAX(coordId)        from coordenates));

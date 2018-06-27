@@ -97,6 +97,65 @@ h1 {
     border-radius: 10px;
 }
 
+.currentLocation {
+    cursor: pointer;
+}
+.currentLocation:hover {
+    background-color: #dedede;
+}
+.currentLocation.disabled {
+    cursor: not-allowed;
+}
+.currentLocation.disabled:hover {
+    background-color: #eee;
+}
+
+.lastPostSuggestion {
+    position: absolute;
+    top: 75%;
+    padding: 0 1em 0.8em;
+    border-radius: 0 6px 6px 0;
+    background: #444;
+    width: 250px;
+    transition: 1s ease-in-out;
+    transform: translateX(-250px);
+    color: #f5f5f5;
+    z-index: 1;
+}
+
+.lastPostSuggestion.active {
+    transform: translateX(0);
+}
+
+.lastPostSuggestion h5 {
+    margin-bottom: 1em;
+    display: inline-block;
+}
+
+.lastPostSuggestion .img-container {
+    text-align: center;
+}
+
+.lastPostSuggestion .img-container img {
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+.lastPostSuggestion p {
+    margin-bottom: 5px;
+}
+
+.lastPostSuggestion p.serviceType {
+    font-style: italic;
+}
+
+.lastPostSuggestion .close {
+    padding: 0.3em;
+}
+
 
 @media (min-width: 768px) {
     .left-screen {

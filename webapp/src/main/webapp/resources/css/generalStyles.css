@@ -62,3 +62,8 @@ footer.footer {
 .resize-vertical {
     resize: vertical;
 }
+
+
+.text-format {
+    white-space: pre-line;
+}

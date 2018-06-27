@@ -9,6 +9,8 @@ import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.homehelper.form.SignUpForm;
 import ar.edu.itba.paw.homehelper.validators.EqualsUsernameValidator;
 import ar.edu.itba.paw.interfaces.services.*;
+import ar.edu.itba.paw.model.CoordenatesPoint;
+import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.TemporaryImage;
 import ar.edu.itba.paw.model.User;
@@ -27,14 +29,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import java.util.Base64;
 import java.util.List;
-import java.util.Set;
 
 
 @Controller
@@ -86,19 +86,26 @@ public class PublicController {
 
 
     @RequestMapping("/")
-    public ModelAndView index(@ModelAttribute("loggedInUser") final User loggedInUser) {
+    public ModelAndView index(@ModelAttribute("loggedInUser") final User loggedInUser, @CookieValue(value = "HH-LastPost", defaultValue = "") final String cookieVal) {
         final ModelAndView mav = new ModelAndView("index");
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
         mav.addObject("serviceTypes", sTypeService.getServiceTypes());
-        mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
+        //mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
+
+        if(!cookieVal.equals("")) {
+            String[] vals = cookieVal.split("--");//vals[0] is provider id ; vals[1] is serviceTypeId
+            //mav.addObject("lastPost", cookieVal);
+            mav.addObject("lastPostProvider", sProviderService.getServiceProviderWithUserId( Integer.parseInt(vals[0]) ));
+            mav.addObject("lastPostServiceType", vals[1]);
+        }
         return mav;
     }
 
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public ModelAndView processSearch(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors, final RedirectAttributes redrAttr, @RequestHeader(value = "referer", required = false, defaultValue = "/") final String referer, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId, @RequestParam(required = false, value = "cty", defaultValue = "-1") final int cityId) {
+    public ModelAndView processSearch(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("searchForm") final SearchForm form, final BindingResult errors, final RedirectAttributes redrAttr, @RequestHeader(value = "referer", required = false, defaultValue = "/") final String referer, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId, @RequestParam(required = false, value = "llat", defaultValue = "-1") final double lat, @RequestParam(required = false, value = "llng", defaultValue = "-1") final double lng, @RequestParam(required = false, value = "addr", defaultValue = "") final String address64) {
 
         if(errors.hasErrors()) {
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.searchForm", errors);
@@ -107,51 +114,63 @@ public class PublicController {
 
             if(referer.contains("/searchResults")) {
                 /* Referer page is searchResults, send it back there */
-                redirect += "/searchResults?st=" + serviceTypeId + "&cty=" + cityId;
+                redirect += "/searchResults?st=" + serviceTypeId + "&llat=" + lat + "&llng=" + lng + "&addr=" + address64;
             } else {
                 /* Referer page is index */
                 redirect += "/";
             }
 
-            LOGGER.info("User {} search had the following errors {} ",getUserString(loggedInUser),errors);
+            LOGGER.info("User {} search had the following errors {} ", getUserString(loggedInUser), errors);
 
             return new ModelAndView(redirect);
         }
 
         redrAttr.addFlashAttribute("searchForm", form);
-        String redirect = "redirect:/searchResults?st=" + form.getServiceTypeId() + "&cty=" + form.getCityId();
-        LOGGER.info("User {} searched for service type [{}] in city [{}]",getUserString(loggedInUser),form.getServiceTypeId(),form.getCityId());
+        String redirect = "redirect:/searchResults?st=" + form.getServiceTypeId() + "&llat=" + form.getLatDouble() + "&llng=" + form.getLngDouble() + "&addr=" + Base64.getUrlEncoder().encodeToString(form.getAddressField().getBytes());
+        LOGGER.info("User {} searched for service type [{}] in city [{}]",getUserString(loggedInUser),form.getServiceTypeId(),1);
         return new ModelAndView(redirect);
     }
 
     @RequestMapping(value = "/searchResults", method = RequestMethod.GET)
-    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId, @RequestParam(required = false, value = "cty", defaultValue = "-1") final int cityId) throws InvalidQueryException {
+    public ModelAndView searchProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId, @RequestParam(required = false, value = "llat", defaultValue = "-1") final double lat, @RequestParam(required = false, value = "llng", defaultValue = "-1") final double lng, @RequestParam(required = false, value = "addr", defaultValue = "") final String address64) throws InvalidQueryException {
         final ModelAndView mav = new ModelAndView("profileSearch");
 
         /* Lanzar excepcion cuando serviceTypeId es -1 o cuando cityId es -1 */
-        if(serviceTypeId == -1 || cityId == -1) {
+        if(serviceTypeId == -1 || lat == -1 || lng == -1 || address64.isEmpty()) {
             throw new InvalidQueryException();
         }
 
-        final Set<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId);
+        String address = "";
+        try {
+            address = new String(Base64.getUrlDecoder().decode(address64));
+        } catch (IllegalArgumentException e) {
+            throw new InvalidQueryException();
+        }
+
+
+        final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(lat, lng, serviceTypeId, getUserId(loggedInUser));
+
+
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
         mav.addObject("list",list);
-        mav.addObject("neighborhoods", neighborhoodService.getAllNeighborhoods());
 
-        mav.addObject("serviceTypes",sTypeService.getServiceTypes());
+        mav.addObject("serviceTypes", sTypeService.getServiceTypes());
 
         /* Current params showing */
         mav.addObject("serviceTypeId", serviceTypeId);
-        mav.addObject("cityId", cityId);
+        mav.addObject("llat", lat);
+        mav.addObject("llng", lng);
+        mav.addObject("addr", address);
+        mav.addObject("b64addr", address64);
 
         return mav;
     }
 
     @RequestMapping("/profile/{providerId}")
-    public ModelAndView providerProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId) {
+    public ModelAndView providerProfile(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId, @RequestParam(required = false, value = "st", defaultValue = "-1") final int serviceTypeId, final HttpServletResponse response) throws InvalidQueryException {
         final ModelAndView mav = new ModelAndView("profile");
 
         final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
@@ -161,10 +180,38 @@ public class PublicController {
             throw new ProviderNotFoundException();
         }
 
+        if(serviceTypeId == -1) {
+            throw new InvalidQueryException();
+        }
+
+        Aptitude currentApt = sProviderService.getAptitudeOfProvider(serviceTypeId, provider);
+
+        if(currentApt == null) {
+            throw new InvalidQueryException();
+        }
+
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
-        mav.addObject("provider",provider);
+        mav.addObject("provider", provider);
 
+        mav.addObject("serviceTypeId", serviceTypeId);
+
+        mav.addObject("currentAptitude", currentApt);
+        mav.addObject("otherAptitudes", sProviderService.getAllAptitudesExcept(serviceTypeId, provider));
+
+        // get coords from db
+        StringBuilder sb = new StringBuilder();
+        for(CoordenatesPoint coordenatesPoint : provider.getCoordenates()) {
+            sb.append(coordenatesPoint.getLat());
+            sb.append(",");
+            sb.append(coordenatesPoint.getLng());
+            sb.append(";");
+        }
+        //mav.addObject("workingZonesCoords", "-34.557176,-58.430436;-34.588696,-58.431428;-34.575376,-58.403839");
+        mav.addObject("workingZonesCoords", sb.toString());
+
+        /* Save post in cookie */
+        addLastPostCookie(providerId, serviceTypeId, response);
 
         LOGGER.info("{} accessed to provider's profile with id {} .",getUserString(loggedInUser),providerId);
         return mav;
@@ -206,6 +253,8 @@ public class PublicController {
         if(!loggedInUser.isVerified()) {
             return new ModelAndView("redirect:/unverified/user");
         }
+
+        removeLastPostCookie(response);
 
         return new ModelAndView("forward:/client/sendAppointment");
     }
@@ -371,5 +420,22 @@ public class PublicController {
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         return auth;
+    }
+
+    private void addLastPostCookie(int providerId, int serviceTypeId, HttpServletResponse response) {
+        String str = providerId + "--" + serviceTypeId;
+        Cookie cookie = new Cookie("HH-LastPost", str);
+        cookie.setPath("/");
+        cookie.setMaxAge(250000);
+
+        response.addCookie(cookie);
+    }
+
+    private void removeLastPostCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("HH-LastPost", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+
+        response.addCookie(cookie);
     }
 }

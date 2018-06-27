@@ -15,6 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.*;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -105,20 +106,6 @@ public class SProviderServiceImplTest{
         verify(wZoneDaoMock, times(1)).getServiceProvidersWorkingIn(anyInt());
     }
 
-    @Test
-    public void getServiceProvidersByNeighborhoodAndServiceType() {
-
-        Set<SProvider> expected = dummySProviders(15);
-
-        when(sProviderDaoMock.getServiceProvidersByNeighborhoodAndServiceType(1,1)).thenReturn(expected);
-
-        Set<SProvider> actual = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(1,1);
-
-        assertTrue(expected.containsAll(actual));
-        assertTrue(actual.containsAll(expected));
-
-        verify(sProviderDaoMock, times(1)).getServiceProvidersByNeighborhoodAndServiceType(anyInt(),anyInt());
-    }
 
     @Test
     public void getReviewsOfServiceProvider() {

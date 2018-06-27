@@ -1,11 +1,9 @@
 package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
-import java.time.Instant;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 @Entity
 @Table(name = "reviews")
@@ -90,6 +88,11 @@ public class Review {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getDateDMY() {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        return df.format(getDate());
     }
 
     public User getUser() {
