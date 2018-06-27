@@ -43,4 +43,9 @@ public interface SProviderService {
     void updateDescriptionOfServiceProvider(int userId, String description);
 
     List<Review> getLatestReviewsOfServiceProvider(int providerId);
+
+    Aptitude getAptitudeOfProvider(int serviceTypeId, SProvider provider);
+
+    List<Aptitude> getAllAptitudesExcept(int serviceTypeId, SProvider provider);
+
 }

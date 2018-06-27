@@ -91,6 +91,27 @@ public class SProviderServiceImpl implements SProviderService {
         return reviews.subList(start, end);
     }
 
+    @Override
+    public Aptitude getAptitudeOfProvider(int serviceTypeId, SProvider provider) {
+        for(Aptitude ap : provider.getAptitudes()) {
+            if(ap.getService().getServiceTypeId() == serviceTypeId) {
+                return ap;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Aptitude> getAllAptitudesExcept(int serviceTypeId, SProvider provider) {
+        List<Aptitude> aptitudes = new ArrayList<>();
+        for(Aptitude ap : provider.getAptitudes()) {
+            if(ap.getService().getServiceTypeId() != serviceTypeId) {
+                aptitudes.add(ap);
+            }
+        }
+        return aptitudes;
+    }
+
     public List<ServiceType> getServiceTypes(){
         return sTypeDao.getServiceTypes();
     }
@@ -231,6 +252,7 @@ public class SProviderServiceImpl implements SProviderService {
     public List<Aptitude> getAptitudesOfUser(int id) {
         return aptitudeDao.getAptitudesOfUser(id);
     }
+
 
 
 }
