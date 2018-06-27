@@ -10,6 +10,7 @@ import ar.edu.itba.paw.homehelper.form.SignUpForm;
 import ar.edu.itba.paw.homehelper.validators.EqualsUsernameValidator;
 import ar.edu.itba.paw.interfaces.services.*;
 import ar.edu.itba.paw.model.CoordenatesPoint;
+import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.TemporaryImage;
 import ar.edu.itba.paw.model.User;
@@ -183,13 +184,19 @@ public class PublicController {
             throw new InvalidQueryException();
         }
 
+        Aptitude currentApt = sProviderService.getAptitudeOfProvider(serviceTypeId, provider);
+
+        if(currentApt == null) {
+            throw new InvalidQueryException();
+        }
+
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
         mav.addObject("provider", provider);
 
         mav.addObject("serviceTypeId", serviceTypeId);
 
-        mav.addObject("currentAptitude", sProviderService.getAptitudeOfProvider(serviceTypeId, provider));
+        mav.addObject("currentAptitude", currentApt);
         mav.addObject("otherAptitudes", sProviderService.getAllAptitudesExcept(serviceTypeId, provider));
 
         // get coords from db

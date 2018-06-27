@@ -79,6 +79,7 @@
                             </div>
                             <form:input type="file" path="profilePicture" id="image-upload" accept="image/*"/>
                             <form:input type="hidden" path="savedImgId" value="${img}" />
+                            <form:input type="hidden" path="redirSP" />
 
                         </div>
 

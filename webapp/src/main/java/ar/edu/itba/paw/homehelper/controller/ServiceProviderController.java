@@ -366,6 +366,30 @@ public class ServiceProviderController {
         return new ModelAndView("redirect:/sprovider/editProfile");
     }
 
+
+    @RequestMapping(value = "/sprovider/profilePreview", method = RequestMethod.GET)
+    public ModelAndView getProfilePreview(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
+        final ModelAndView mav = new ModelAndView("providerPreview");
+
+        if(loggedInUser == null) {
+            throw new InvalidUsernameException();
+        }
+        final int providerId = loggedInUser.getId();
+        final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
+
+        if(provider == null) {
+            throw new InvalidUsernameException();
+        }
+
+        mav.addObject("provider", provider);
+        mav.addObject("aptitudes", sProviderService.getAptitudesOfUser(providerId));
+
+        mav.addObject("workingZonesCoords", "-34.557176,-58.430436;-34.588696,-58.431428;-34.575376,-58.403839");
+
+
+        return mav;
+    }
+
     private boolean isValidAptitude(int aptitudeId, Set<Aptitude> aptitudeList) {
         for(Aptitude ap : aptitudeList) {
             if(ap.getId() == aptitudeId) {
