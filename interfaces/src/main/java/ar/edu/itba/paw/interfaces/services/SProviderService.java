@@ -24,7 +24,7 @@ public interface SProviderService {
 
     List<SProvider> getServiceProvidersWorkingIn(int ngId);
 
-    List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId);
+    List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId);
 
     List<Review> getReviewsOfServiceProvider(int sproviderId);
 
