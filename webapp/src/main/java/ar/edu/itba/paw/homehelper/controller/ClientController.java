@@ -276,7 +276,7 @@ public class ClientController {
     }
 
     @RequestMapping("/client/settings")
-    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model, @RequestParam(required = false, value="img", defaultValue = "-1")final int img, HttpServletResponse response) {
+    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model, @RequestParam(required = false, value="img", defaultValue = "-1")final int img, @RequestParam(required = false, value="sp", defaultValue = "0") final int toProvider, HttpServletResponse response) {
         /* Remove last post cookie */
         removeLastPostCookie(response);
 
@@ -292,6 +292,7 @@ public class ClientController {
             settingsForm.setLastname(loggedInUser.getLastname());
             settingsForm.setEmail(loggedInUser.getEmail());
             settingsForm.setPhone(loggedInUser.getPhone());
+            settingsForm.setRedirSP(toProvider);
             model.addAttribute("settingsForm", settingsForm);
         }
 
@@ -334,6 +335,9 @@ public class ClientController {
             userService.updateImageOfUser(userId,image);
         }
 
+        if(form.getRedirSP() == 1) {
+            return new ModelAndView("redirect:/sprovider");
+        }
 
         return new ModelAndView("redirect:/");
     }
