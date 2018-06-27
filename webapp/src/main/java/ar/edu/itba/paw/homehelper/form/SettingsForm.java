@@ -11,6 +11,7 @@ import javax.validation.constraints.Size;
 public class SettingsForm {
 
     private int savedImgId;
+    private int redirSP;
 
     @NotBlank
     @Size(max = 100)
@@ -90,5 +91,13 @@ public class SettingsForm {
 
     public void setSavedImgId(int savedImgId) {
         this.savedImgId = savedImgId;
+    }
+
+    public int getRedirSP() {
+        return redirSP;
+    }
+
+    public void setRedirSP(int redirSP) {
+        this.redirSP = redirSP;
     }
 }
