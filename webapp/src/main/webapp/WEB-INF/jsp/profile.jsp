@@ -90,7 +90,7 @@
                             <div class="panel-body descriptionTxt">
                                 <p>
                                     <span class="quote openQuote">&#x201C;</span>
-                                    <span>
+                                    <span class="text-format">
                                         <c:out value="${provider.description}"/>
                                     </span>
                                 </p>
@@ -159,7 +159,7 @@
                             </c:choose>
                                 <div class="panel">
                                     <div class="panel-body descriptionTxt">
-                                        <p>
+                                        <p class="text-format">
                                            <c:out value="${currentAptitude.description}"/>
                                         </p>
                                     </div>
@@ -262,7 +262,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-0 col-sm-3 col-md-2"></div>
                                                             <div class="col-xs-12 col-sm-9 col-md-10 divider-left">
-                                                                <p class="description">
+                                                                <p class="description text-format">
                                                                     <c:out value="${review.comment}" />
                                                                 </p>
                                                             </div>
@@ -319,7 +319,7 @@
                                                         <div class="row">
                                                             <div class="col-xs-0 col-sm-3 col-md-2"></div>
                                                             <div class="col-xs-12 col-sm-9 col-md-10 divider-left">
-                                                                <p class="description">
+                                                                <p class="description text-format">
                                                                     <c:out value="${review.comment}" />
                                                                 </p>
                                                             </div>
@@ -368,7 +368,7 @@
                                                     </c:choose>
                                                     <div class="panel">
                                                         <div class="panel-body descriptionTxt">
-                                                            <p>
+                                                            <p class="text-format">
                                                                 <c:out value="${aptitude.description}"/>
                                                             </p>
                                                         </div>
@@ -469,7 +469,7 @@
                                                                         <div class="row">
                                                                             <div class="col-xs-0 col-sm-3 col-md-2"></div>
                                                                             <div class="col-xs-12 col-sm-9 col-md-10 divider-left">
-                                                                                <p class="description">
+                                                                                <p class="description text-format">
                                                                                     <c:out value="${review.comment}" />
                                                                                 </p>
                                                                             </div>

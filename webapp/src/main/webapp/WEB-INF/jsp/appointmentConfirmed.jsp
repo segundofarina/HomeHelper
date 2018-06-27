@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="apt-group">
                                     <h5><spring:message code="form.description"/></h5>
-                                    <p><c:out value="${appointment.jobDescripcion}" /></p>
+                                    <p class="text-format"><c:out value="${appointment.jobDescripcion}" /></p>
                                 </div>
                                 <div class="apt-group">
                                     <p class="info"><spring:message code="appointment.remember"/></p>

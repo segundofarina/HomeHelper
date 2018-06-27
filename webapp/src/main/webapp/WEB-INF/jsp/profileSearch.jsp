@@ -122,7 +122,7 @@
                                 <div class="row">
                                     <div class="col-xs-0 col-sm-2"></div>
                                     <div class="col-xs-12 col-sm-10">
-                                        <p class="profileDescription">
+                                        <p class="profileDescription text-format">
                                             <c:out value="${provider.description}"/>
                                         </p>
                                     </div>
