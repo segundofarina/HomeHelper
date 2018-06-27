@@ -28,6 +28,6 @@ public class NeighborhoodTestUtils {
     public static void assertEqualsNeighborhoods(Neighborhood expected, Neighborhood actual) {
         assertEquals(expected, actual);
         assertEquals(expected.getNgId(), actual.getNgId());
-        assertEquals(expected.getNgName(), actual.getNgName());
+        assertEquals(expected.getNgname(), actual.getNgname());
     }
 }

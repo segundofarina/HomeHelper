@@ -52,4 +52,8 @@ public class Neighborhood {
         result = 31 * result + (ngname != null ? ngname.hashCode() : 0);
         return result;
     }
+
+    public String getNgname() {
+        return ngname;
+    }
 }

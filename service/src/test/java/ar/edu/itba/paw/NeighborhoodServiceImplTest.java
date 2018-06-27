@@ -33,9 +33,9 @@ public class NeighborhoodServiceImplTest {
     @Test
     public void insertNeighborhood() {
         Neighborhood expected = dummyNeighborhood();
-        when(neighborhoodDaoMock.insertNeighborhood(expected.getNgName())).thenReturn(expected.getNgId());
+        when(neighborhoodDaoMock.insertNeighborhood(expected.getNgname())).thenReturn(expected.getNgId());
 
-        int actual = neighborhoodService.insertNeighborhood(expected.getNgName());
+        int actual = neighborhoodService.insertNeighborhood(expected.getNgname());
 
         assertEquals(actual,expected.getNgId());
 

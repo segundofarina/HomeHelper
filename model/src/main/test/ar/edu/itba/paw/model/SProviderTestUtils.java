@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -14,7 +15,7 @@ public class SProviderTestUtils {
 
     public static SProvider dummySProvider(){
         Random r = new Random();
-        return new SProvider(UserTestUtils.dummyUser(),r.toString(),new ArrayList<Aptitude>(),new ArrayList<WorkingZone>());
+        return new SProvider(UserTestUtils.dummyUser(),r.toString(),new HashSet<Aptitude>(),new HashSet<WorkingZone>());
     }
 
     public static List<SProvider> dummySProviders(int size){

@@ -3,6 +3,7 @@ package ar.edu.itba.paw.model;
 import sun.jvm.hotspot.utilities.Assert;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -16,7 +17,7 @@ public class AptitudeTestUtils {
 
     public static Aptitude dummyAptitude(){
         Random r = new Random();
-        return new Aptitude(SProviderTestUtils.dummySProvider(),ServiceTypeTestUtils.dummyServiceType(),r.toString(),ReviewTestUtils.dummyReviews(r.nextInt()));
+        return new Aptitude(SProviderTestUtils.dummySProvider(),ServiceTypeTestUtils.dummyServiceType(),r.toString(),new HashSet<Review>());
     }
 
     public static List<Aptitude> dummyAptitudes(int size){
