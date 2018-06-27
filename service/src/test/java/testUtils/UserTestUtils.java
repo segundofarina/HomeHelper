@@ -1,10 +1,13 @@
-package ar.edu.itba.paw.model;
+package testUtils;
+
+import ar.edu.itba.paw.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 public class UserTestUtils {
 
     private UserTestUtils() {

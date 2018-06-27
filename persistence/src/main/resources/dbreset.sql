@@ -55,9 +55,13 @@ CREATE TABLE IF NOT EXISTS reviews(
   comment varchar(10000) NOT NULL
 );
 CREATE TABLE IF NOT EXISTS messages(
+  msgId SERIAL PRIMARY KEY,
   userFrom INTEGER REFERENCES users(userId),
   userTo  INTEGER REFERENCES users(userId),
+  userId INTEGER REFERENCES users(userId),
+  providerId INTEGER REFERENCES users(userId),
   message VARCHAR(10000),
+  read BOOLEAN,
   messageDate TIMESTAMP  default CURRENT_TIMESTAMP
 );
 
@@ -490,13 +494,13 @@ insert into reviews VALUES (46,5,15,DEFAULT,5,5,5,5,5,'Muy buen trabajo, cumpli�
 insert into reviews VALUES (47,6,15,DEFAULT,4,4,4,5,5,'Excelente atención y mis muebles quedaron muy bien. Cumplió con los tiempos.');
 insert into reviews VALUES (48,7,15,DEFAULT,4,4,4,4,4,'Muy buen trabajo y terminaciones. Puntual y responsable. Súper recomendable.');
 
-insert into messages VALUES (2,6,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',DEFAULT );
-insert into messages VALUES (6,2,'Hola Florencia si que necesitas?',DEFAULT );
-insert into messages VALUES (2,6,'Necesito hacer un aramrio para zapatillas',DEFAULT );
+insert into messages VALUES (1,2,6,2,6,'Hola Julio como estas te queria hacer una consulta por el tema de carpinteria',FALSE ,DEFAULT );
+insert into messages VALUES (2,6,2,2,6,'Hola Florencia si que necesitas?',FALSE ,DEFAULT );
+insert into messages VALUES (3,2,6,2,6,'Necesito hacer un aramrio para zapatillas',FALSE ,DEFAULT );
 
-insert into messages VALUES (2,9,'Este tambien es un chat',DEFAULT );
-insert into messages VALUES (9,2,'AAA mira que bueno',DEFAULT );
-insert into messages VALUES (2,9,'Jajaja',DEFAULT );
+insert into messages VALUES (4,2,9,2,9,'Este tambien es un chat',FALSE ,DEFAULT );
+insert into messages VALUES (5,9,2,2,9,'AAA mira que bueno',FALSE ,DEFAULT );
+insert into messages VALUES (6,2,9,2,9,'Jajaja',FALSE ,DEFAULT );
 
 insert into workingzones VALUES (1,1,1);
 insert into workingzones VALUES (2,2,1);
@@ -655,4 +659,5 @@ SELECT setval('appointments_appointmentId_seq', (SELECT MAX(appointmentId)  from
 SELECT setval('neighborhoods_ngid_seq',         (SELECT MAX(ngid)           from neighborhoods));
 SELECT setval('workingzones_workingZoneId_seq', (SELECT MAX(workingZoneId)  from workingzones));
 SELECT setval('temporaryImages_imageid_seq',    (SELECT MAX(imageid)        from temporaryImages));
-SELECT setval('reviews_reviewId_seq',            (SELECT MAX(reviewId)        from reviews));
+SELECT setval('reviews_reviewId_seq',           (SELECT MAX(reviewId)        from reviews));
+SELECT setval('messages_msgId_seq',             (SELECT MAX(msgId)        from messages));

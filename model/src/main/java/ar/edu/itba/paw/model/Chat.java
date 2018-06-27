@@ -29,7 +29,7 @@ public class Chat {
     public String getPreview(){
 
         Message last = messages.get(messages.size()-1);
-        String messg=last.message;
+        String messg=last.getMessage();
         if(messg.length()>30){
             messg = messg.substring(0,29)+"...";
         }

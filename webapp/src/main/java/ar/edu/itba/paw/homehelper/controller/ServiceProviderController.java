@@ -81,7 +81,7 @@ public class ServiceProviderController {
 
         mav.addObject("provider", loggedInUser);
 
-        mav.addObject("chats", chatService.getLatestChatsOf(providerId));
+        mav.addObject("chats", chatService.getLatestChatsOfProvider(providerId));
         mav.addObject("appointments", appointmentService.getLatestPendingAppointmentWithProviderId(providerId));
         mav.addObject("reviews", sProviderService.getLatestReviewsOfServiceProvider(providerId));
 
@@ -101,7 +101,7 @@ public class ServiceProviderController {
         }
         final int providerId = loggedInUser.getId();
 
-        chatService.sendMsg(providerId, clientId, msg);
+        chatService.sendMessageToUser(providerId, clientId, msg);
 
         return new ModelAndView("redirect:/sprovider/messages/" + clientId);
     }
@@ -114,7 +114,7 @@ public class ServiceProviderController {
         final int providerId = loggedInUser.getId();
 
         /* Get current chat and validate it has messages */
-        Chat currentChat = chatService.getChat(providerId, clientId);
+        Chat currentChat = chatService.getChatOfProvider(providerId, clientId);
         if(currentChat == null || currentChat.getMessages().size() == 0) {
             throw new NotFoundException();
         }
@@ -123,7 +123,8 @@ public class ServiceProviderController {
 
         mav.addObject("provider", loggedInUser);
 
-        mav.addObject("chats", chatService.getChatsOf(providerId));
+
+        mav.addObject("chats", chatService.getChatsOfProvider(providerId));
         mav.addObject("currentChat", currentChat);
 
 
@@ -137,7 +138,7 @@ public class ServiceProviderController {
         }
         final int providerId = loggedInUser.getId();
 
-        return new ModelAndView("redirect:/sprovider/messages/" + chatService.getLastMsgThread(providerId));
+        return new ModelAndView("redirect:/sprovider/messages/" + chatService.getLastMsgThreadProvider(providerId));
     }
 
     @RequestMapping("/sprovider/appointments")

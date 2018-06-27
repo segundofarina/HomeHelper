@@ -1,9 +1,13 @@
-package ar.edu.itba.paw.model;
+package testUtils;
 
-import java.util.ArrayList;
+import ar.edu.itba.paw.model.Aptitude;
+import ar.edu.itba.paw.model.CoordenatesPoint;
+import ar.edu.itba.paw.model.SProvider;
+import ar.edu.itba.paw.model.WorkingZone;
+
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,11 +19,11 @@ public class SProviderTestUtils {
 
     public static SProvider dummySProvider(){
         Random r = new Random();
-        return new SProvider(UserTestUtils.dummyUser(),r.toString(),new HashSet<Aptitude>(),new HashSet<WorkingZone>());
+        return new SProvider(UserTestUtils.dummyUser(),r.toString(),new HashSet<Aptitude>(),new HashSet<CoordenatesPoint>());
     }
 
-    public static List<SProvider> dummySProviders(int size){
-        List<SProvider> sProviderList = new ArrayList<>();
+    public static Set<SProvider> dummySProviders(int size){
+        Set<SProvider> sProviderList = new HashSet<>();
 
         for(int i=0; i < size ; i++){
             sProviderList.add(dummySProvider());

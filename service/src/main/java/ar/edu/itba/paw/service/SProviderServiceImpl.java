@@ -37,7 +37,9 @@ public class SProviderServiceImpl implements SProviderService {
     @Transactional
     @Override
     public SProvider create(int userId, String description) {
-        return sProviderDao.create(userId,description).get();
+
+        Optional<SProvider> sp = sProviderDao.create(userId,description);
+        return sp.isPresent()?sp.get():null;
     }
 
     @Transactional
