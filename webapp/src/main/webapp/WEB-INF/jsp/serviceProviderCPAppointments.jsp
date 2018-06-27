@@ -79,7 +79,7 @@
                                                 <tr>
                                                     <th>
                                                         <c:choose>
-                                                            <c:when test="${provider.image != null}">
+                                                            <c:when test="${appointment.client.image != null}">
                                                                 <img class="profileImage" src="<c:url value="/profile/${appointment.client.id}/profileimage" />" alt="profile picture" />
                                                             </c:when>
                                                             <c:otherwise>

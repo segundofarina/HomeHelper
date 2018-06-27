@@ -8,6 +8,7 @@
     margin-top: 0.8em;
     border-radius: 50%;
     object-fit: cover;
+    margin-right: 10px;
 }
 
 .dash-items article:not(:last-of-type) {
@@ -52,4 +53,12 @@
 
 .media .date {
     background: #26b99a;
+}
+
+.media-body {
+    display: inline;
+}
+
+.media .img {
+    margin-right: 10px;
 }
