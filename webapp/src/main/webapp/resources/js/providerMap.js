@@ -27,9 +27,6 @@ function initializeMap(selector, coordsArr) {
         myLatLng = new google.maps.LatLng( (((maxLat - minLat) / 2) + minLat), ( ((maxLng - minLng) / 2) + minLng ) );
     }
 
-
-
-
     // Map Center
     //var myLatLng = new google.maps.LatLng(-34.572902, -58.423161);// calcularlas con las initialCoords
     // General Options
@@ -72,7 +69,7 @@ function addPolygon(map, initialCoords, editable) {
     // Styling & Controls
     myPolygon = new google.maps.Polygon({
         paths: polygonCoords,
-        draggable: editable,
+        draggable: false,
         editable: editable,
         strokeColor: '#FF0000',
         strokeOpacity: 0.8,
