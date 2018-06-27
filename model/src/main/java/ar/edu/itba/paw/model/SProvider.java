@@ -3,7 +3,6 @@ package ar.edu.itba.paw.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -35,7 +34,6 @@ public class SProvider {
     }
 
     public SProvider(User user, String description, Set<Aptitude> aptitudes, Set<WorkingZone> workingZones) {
-        //super(user.getUsername(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getAddress(),user.getImage(),user.isVerified());
         this.id=user.getId();
         this.user=user;
         this.description = description;
@@ -170,6 +168,14 @@ public class SProvider {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setAptitudes(Set<Aptitude> aptitudes) {
+        this.aptitudes = aptitudes;
+    }
+
+    public void setWorkingZones(Set<WorkingZone> workingZones) {
+        this.workingZones = workingZones;
     }
 
     @Override

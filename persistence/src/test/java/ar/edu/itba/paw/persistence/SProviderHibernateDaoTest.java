@@ -2,9 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 
 import ar.edu.itba.paw.interfaces.daos.SProviderDao;
-import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.model.SProvider;
-import ar.edu.itba.paw.model.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
-import javax.validation.constraints.AssertTrue;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

@@ -96,6 +96,9 @@ public class Review {
         return user;
     }
 
+    public Aptitude getAptitude() {
+        return aptitude;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

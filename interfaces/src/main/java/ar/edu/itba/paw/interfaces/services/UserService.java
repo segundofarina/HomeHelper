@@ -1,13 +1,6 @@
 package ar.edu.itba.paw.interfaces.services;
 
 import ar.edu.itba.paw.model.User;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.util.Optional;
 
 public interface UserService {
 
