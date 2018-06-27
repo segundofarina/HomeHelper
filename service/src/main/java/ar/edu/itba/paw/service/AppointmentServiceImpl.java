@@ -170,6 +170,19 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentDao.reviewAppointment(appointmentId,userId,aptitudeId,quality,cleanness,price,punctuality,treatment,comment);
     }
 
+    @Override
+    public Appointment getLastAppointment(int userId) {
+        Appointment appointment = null;
+
+        for(Appointment ap : getAppointmentsByUserId(userId)) {
+            if(appointment == null || ap.getAppointmentId() > appointment.getAppointmentId()) {
+                appointment = ap;
+            }
+        }
+
+        return appointment;
+    }
+
     private Date stringToTimestamp(String str) {
         return new Date(tryParse(str).getTime());
     }

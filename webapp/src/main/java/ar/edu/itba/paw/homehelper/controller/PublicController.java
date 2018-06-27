@@ -136,7 +136,13 @@ public class PublicController {
             throw new InvalidQueryException();
         }
 
-        String address = new String(Base64.getUrlDecoder().decode(address64));
+        String address = "";
+        try {
+            address = new String(Base64.getUrlDecoder().decode(address64));
+        } catch (IllegalArgumentException e) {
+            throw new InvalidQueryException();
+        }
+
 
         final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(lat, lng, serviceTypeId, loggedInUser.getId());
 

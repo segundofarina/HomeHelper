@@ -1,15 +1,13 @@
 package ar.edu.itba.paw.homehelper.controller;
 
 import ar.edu.itba.paw.homehelper.exceptions.InvalidUsernameException;
+import ar.edu.itba.paw.homehelper.exceptions.NotFoundException;
 import ar.edu.itba.paw.homehelper.form.AddWZForm;
 import ar.edu.itba.paw.homehelper.form.AptitudeForm;
 import ar.edu.itba.paw.homehelper.form.ProfileGeneralInfo;
 import ar.edu.itba.paw.homehelper.form.UpdateAptitudeForm;
 import ar.edu.itba.paw.interfaces.services.*;
-import ar.edu.itba.paw.model.SProvider;
-import ar.edu.itba.paw.model.Status;
-import ar.edu.itba.paw.model.TemporaryImage;
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 
 @Controller
@@ -107,17 +106,24 @@ public class ServiceProviderController {
     }
 
     @RequestMapping(value = "/sprovider/messages/{clientId}", method = { RequestMethod.GET })
-    public ModelAndView providerMessages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("clientId") int clientId) throws InvalidUsernameException {
+    public ModelAndView providerMessages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("clientId") int clientId) throws InvalidUsernameException, NotFoundException {
         if(loggedInUser == null) {
             throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
+
+        /* Get current chat and validate it has messages */
+        Chat currentChat = chatService.getChat(providerId, clientId);
+        if(currentChat == null || currentChat.getMessages().size() == 0) {
+            throw new NotFoundException();
+        }
+
         final ModelAndView mav = new ModelAndView("serviceProviderCPMessages");
 
         mav.addObject("provider", loggedInUser);
 
         mav.addObject("chats", chatService.getChatsOf(providerId));
-        mav.addObject("currentChat", chatService.getChat(providerId, clientId));
+        mav.addObject("currentChat", currentChat);
 
 
         return mav;
@@ -260,13 +266,18 @@ public class ServiceProviderController {
 
 
     @RequestMapping("/sprovider/editProfile/updateAptitude/{aptitudeId}")
-    public ModelAndView updateAptitudeId(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("aptitudeId") final int aptitudeId, Model model) throws InvalidUsernameException {
+    public ModelAndView updateAptitudeId(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("aptitudeId") final int aptitudeId, Model model) throws InvalidUsernameException, NotFoundException {
         final ModelAndView mav = new ModelAndView("serviceProviderCPEditProfile");
         if(loggedInUser == null) {
             throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
         final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
+
+        /* Check if valid aptitudeId */
+        if(!isValidAptitude(aptitudeId, provider.getAptitudes())) {
+            throw new NotFoundException();
+        }
 
         if(!model.containsAttribute("updateAptitudeForm")) {
             UpdateAptitudeForm updateAptitudeForm = new UpdateAptitudeForm();
@@ -332,7 +343,16 @@ public class ServiceProviderController {
         return new ModelAndView("redirect:/sprovider/editProfile");
     }
 
-    public String persistImage(MultipartFile imageFile, String redirect, int savedId){
+    private boolean isValidAptitude(int aptitudeId, List<Aptitude> aptitudeList) {
+        for(Aptitude ap : aptitudeList) {
+            if(ap.getId() == aptitudeId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String persistImage(MultipartFile imageFile, String redirect, int savedId){
         byte[] image=null;
         if(imageFile.getSize() > 0) {
             try {
@@ -352,7 +372,7 @@ public class ServiceProviderController {
         return redirect;
     }
 
-    public byte[] retriveImage(MultipartFile imageFile,int savedId){
+    private byte[] retriveImage(MultipartFile imageFile,int savedId){
         byte[] image= null;
         /* Check if image is uploaded */
         if(imageFile.getSize() > 0) {
