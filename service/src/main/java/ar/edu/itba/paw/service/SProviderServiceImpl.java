@@ -20,9 +20,6 @@ public class SProviderServiceImpl implements SProviderService {
     AptitudeDao aptitudeDao;
 
     @Autowired
-    ReviewDao reviewDao;
-
-    @Autowired
     STypeDao sTypeDao;
 
     @Autowired
@@ -33,6 +30,7 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Autowired
     CoordenatesDao coordenatesDao;
+
 
     @Transactional
     @Override

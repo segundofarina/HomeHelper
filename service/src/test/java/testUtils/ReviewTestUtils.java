@@ -2,10 +2,7 @@ package testUtils;
 
 import ar.edu.itba.paw.model.Review;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -20,13 +17,13 @@ public class ReviewTestUtils {
         return new Review(r.nextInt(),r.nextInt(),r.nextInt(),r.nextInt(),r.nextInt(),r.toString(),new Date(),UserTestUtils.dummyUser(),AptitudeTestUtils.dummyAptitude());
     }
 
-    public static List<Review> dummyReviews(int size) {
-        List<Review> reviewsList = new ArrayList<Review>(size);
+    public static Set<Review> dummyReviews(int size) {
+       Set<Review> reviewsSet = new HashSet<>(size);
 
         for (int i = 0; i < size; i++)
-            reviewsList.add(dummyReview());
+            reviewsSet.add(dummyReview());
 
-        return reviewsList;
+        return reviewsSet;
     }
 
     public static void AssertEquals(Review expected, Review actual){
