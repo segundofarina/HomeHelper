@@ -26,9 +26,9 @@ public class SProvider {
     @JoinColumn(name = "userid")
     private Set<Aptitude> aptitudes;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "userid")
-    private Set<WorkingZone> workingZones;
+//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "userid")
+//    private Set<WorkingZone> workingZones;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "userid")
@@ -167,17 +167,17 @@ public class SProvider {
         return id;
     }
 
-    public List<Neighborhood> getNeighborhoods(){
-        List<Neighborhood> neighborhoods = new ArrayList<>();
-        for(WorkingZone workingZone: workingZones){
-            neighborhoods.add(workingZone.getNeighborhood());
-        }
-        return neighborhoods;
-    }
+//    public List<Neighborhood> getNeighborhoods(){
+//        List<Neighborhood> neighborhoods = new ArrayList<>();
+//        for(WorkingZone workingZone: workingZones){
+//            neighborhoods.add(workingZone.getNeighborhood());
+//        }
+//        return neighborhoods;
+//    }
 
-    public Set<WorkingZone> getWorkingZones() {
-        return this.workingZones;
-    }
+//    public Set<WorkingZone> getWorkingZones() {
+//        return this.workingZones;
+//    }
 
 
     public void setDescription(String description) {
@@ -188,9 +188,9 @@ public class SProvider {
         this.aptitudes = aptitudes;
     }
 
-    public void setWorkingZones(Set<WorkingZone> workingZones) {
-        this.workingZones = workingZones;
-    }
+//    public void setWorkingZones(Set<WorkingZone> workingZones) {
+//        this.workingZones = workingZones;
+//    }
 
     @Override
     public boolean equals(Object o) {
