@@ -62,17 +62,9 @@ public class AppointmentHibernateDao implements AppointmentDao {
     public boolean updateStatusOfAppointment(int appointmentId, Status status) {
         Optional<Appointment> appointmentOp = Optional.ofNullable(em.find(Appointment.class,appointmentId));
 
-        switch (status){
-            case Pending: status = Status.Confirmed; break;
-            case Confirmed: status = Status.Done; break;
-            case Done: return false;
-        }
-        if(!appointmentOp.isPresent()){
-            return false;
-       }
 
-        appointmentOp.get().setStatus(status);
-        return true;
+        appointmentOp.ifPresent(appointment -> appointment.setStatus(status));
+        return appointmentOp.isPresent();
     }
 
     @Override

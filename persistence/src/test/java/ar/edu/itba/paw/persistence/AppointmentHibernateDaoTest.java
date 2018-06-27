@@ -116,7 +116,7 @@ public class AppointmentHibernateDaoTest {
 
         em.flush();
 
-        assertFalse(ans);
+        assertTrue(ans);
 
         ans = appointmentDao.updateStatusOfAppointment(Const.INVALID_APPOINTMENT_ID,Status.Confirmed);
 
