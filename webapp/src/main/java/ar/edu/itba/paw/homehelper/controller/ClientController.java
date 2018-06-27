@@ -159,7 +159,10 @@ public class ClientController {
     }
 
     @RequestMapping("/client/messages")
-    public ModelAndView messagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser) {
+    public ModelAndView messagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser, HttpServletResponse response) {
+       /* Remove last post cookie */
+       removeLastPostCookie(response);
+
         final int userId = loggedInUser.getId();
         return new ModelAndView("redirect:/client/messages/" + chatService.getLastMsgThread(userId));
     }
@@ -215,7 +218,10 @@ public class ClientController {
     }
 
     @RequestMapping("/client/appointments")
-    public ModelAndView appointments(@ModelAttribute("loggedInUser") final User loggedInUser) {
+    public ModelAndView appointments(@ModelAttribute("loggedInUser") final User loggedInUser, HttpServletResponse response) {
+        /* Remove last post cookie */
+        removeLastPostCookie(response);
+
        final ModelAndView mav = new ModelAndView("client/appointments");
 
         mav.addObject("user", loggedInUser);
@@ -270,7 +276,10 @@ public class ClientController {
     }
 
     @RequestMapping("/client/settings")
-    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model, @RequestParam(required = false, value="img", defaultValue = "-1")final int img) {
+    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model, @RequestParam(required = false, value="img", defaultValue = "-1")final int img, HttpServletResponse response) {
+        /* Remove last post cookie */
+        removeLastPostCookie(response);
+
        final ModelAndView mav = new ModelAndView("settings");
 
         mav.addObject("user", loggedInUser);
@@ -384,6 +393,14 @@ public class ClientController {
             cookie.setMaxAge(0);
             response.addCookie(cookie);
         }
+    }
+
+    private void removeLastPostCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("HH-LastPost", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+
+        response.addCookie(cookie);
     }
 
     public String persistImage(MultipartFile imageFile,String redirect,int savedId){

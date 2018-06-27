@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -68,7 +70,10 @@ public class ServiceProviderController {
     }
 
     @RequestMapping("/sprovider")
-    public ModelAndView provider(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
+    public ModelAndView provider(@ModelAttribute("loggedInUser") final User loggedInUser, HttpServletResponse response) throws InvalidUsernameException {
+        /* Remove last post cookie */
+        removeLastPostCookie(response);
+
         final ModelAndView mav = new ModelAndView("serviceProviderControlPanel");
 
         if(loggedInUser == null) {
@@ -349,6 +354,14 @@ public class ServiceProviderController {
             }
         }
         return false;
+    }
+
+    private void removeLastPostCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("HH-LastPost", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+
+        response.addCookie(cookie);
     }
 
     private String persistImage(MultipartFile imageFile, String redirect, int savedId){

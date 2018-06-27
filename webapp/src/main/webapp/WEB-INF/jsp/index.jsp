@@ -75,6 +75,32 @@
                 </div>
             </div>
         </div>
+        <c:choose>
+            <c:when test="${lastPostProvider != null}">
+                <a href="<c:url value="/profile/${lastPostProvider.id}?st=${lastPostServiceType}" />" >
+                    <div class="lastPostSuggestion">
+                        <h5>Continue Searching:</h5>
+                        <div class="pull-right close"><i class="fa fa-times"></i></div>
+                        <div class="row">
+                            <div class="col-xs-4 img-container">
+                                <c:choose>
+                                    <c:when test="${lastPostProvider.image == null}">
+                                        <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="profile picture"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <img src="<c:url value="/profile/${lastPostProvider.id}/profileimage" />" alt="profile picture"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <div class="col-xs-8">
+                                <p><c:out value="${lastPostProvider.firstname}" /></p>
+                                <p class="serviceType"><spring:message code="service-type.${lastPostServiceType}"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </c:when>
+        </c:choose>
     </div><!-- /main content -->
 
     <!-- footer content -->
@@ -254,7 +280,16 @@
 
         $(".errorTooltip").tooltip({
             trigger: 'manual'
-        })
+        });
+
+        setTimeout(function () {
+            $(".lastPostSuggestion").addClass("active");
+        }, 3000);
+
+        $(".lastPostSuggestion .close").click(function (e) {
+           e.preventDefault();
+           $(this).closest(".lastPostSuggestion").removeClass("active");
+        });
 
     });
 
