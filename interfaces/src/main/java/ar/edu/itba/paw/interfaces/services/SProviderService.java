@@ -49,4 +49,8 @@ public interface SProviderService {
 
     List<Aptitude> getAllAptitudesExcept(int serviceTypeId, SProvider provider);
 
+    boolean addCoordenates(int providerId, Set<CoordenatesPoint> coordenatesPoints);
+
+    boolean deleteCoordenates(int providerId);
+
 }

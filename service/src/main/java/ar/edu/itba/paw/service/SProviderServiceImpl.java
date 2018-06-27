@@ -31,6 +31,9 @@ public class SProviderServiceImpl implements SProviderService {
     @Autowired
     AppointmentDao appointmentDao;
 
+    @Autowired
+    CoordenatesDao coordenatesDao;
+
     @Transactional
     @Override
     public SProvider create(int userId, String description) {
@@ -117,6 +120,16 @@ public class SProviderServiceImpl implements SProviderService {
             }
         }
         return aptitudes;
+    }
+
+    @Override
+    public boolean addCoordenates(int providerId, Set<CoordenatesPoint> coordenatesPoints) {
+        return coordenatesDao.insertCoordenatesOfProvider(providerId,coordenatesPoints);
+    }
+
+    @Override
+    public boolean deleteCoordenates(int providerId) {
+        return coordenatesDao.deleteCoordenateOfProvideer(providerId);
     }
 
     public List<ServiceType> getServiceTypes(){
