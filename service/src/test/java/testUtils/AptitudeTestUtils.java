@@ -3,10 +3,7 @@ package testUtils;
 import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.Review;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,12 +18,12 @@ public class AptitudeTestUtils {
         return new Aptitude(SProviderTestUtils.dummySProvider(),ServiceTypeTestUtils.dummyServiceType(),r.toString(),new HashSet<Review>());
     }
 
-    public static List<Aptitude> dummyAptitudes(int size){
-        List<Aptitude> aptitudeList = new ArrayList<>();
+    public static Set<Aptitude> dummyAptitudes(int size){
+        Set<Aptitude> aptitudeSet = new HashSet<>();
         for(int i = 0 ; i < size ; i ++){
-            aptitudeList.add(dummyAptitude());
+            aptitudeSet.add(dummyAptitude());
         }
-        return aptitudeList;
+        return aptitudeSet;
     }
 
     public static void assertEqualsAptitudes(Aptitude expected, Aptitude actual){

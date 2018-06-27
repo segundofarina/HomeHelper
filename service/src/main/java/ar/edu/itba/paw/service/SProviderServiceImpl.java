@@ -20,16 +20,10 @@ public class SProviderServiceImpl implements SProviderService {
     AptitudeDao aptitudeDao;
 
     @Autowired
-    ReviewDao reviewDao;
-
-    @Autowired
     STypeDao sTypeDao;
 
     @Autowired
     WZoneDao wZoneDao;
-
-    @Autowired
-    AppointmentDao appointmentDao;
 
     @Transactional
     @Override
