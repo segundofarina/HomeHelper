@@ -9,7 +9,6 @@ import javax.persistence.TypedQuery;
 import java.util.*;
 
 @Repository
-@Transactional
 public class ReviewHibernateDao implements ReviewDao {
 
     @PersistenceContext

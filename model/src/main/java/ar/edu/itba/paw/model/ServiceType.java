@@ -40,20 +40,25 @@ public class ServiceType {
         this.name = name;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ServiceType)) return false;
+
         ServiceType that = (ServiceType) o;
-        return getServiceTypeId() == that.getServiceTypeId() && Objects.equals(getName(), that.getName());
+
+        if (getId() != that.getId()) return false;
+        return getName() != null ? getName().equals(that.getName()) : that.getName() == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getServiceTypeId(), getName());
-    }
-
-    public int getId() {
-        return id;
+        int result = getId();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        return result;
     }
 }

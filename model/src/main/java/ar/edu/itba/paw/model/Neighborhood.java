@@ -38,18 +38,18 @@ public class Neighborhood {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Neighborhood)) return false;
+
         Neighborhood that = (Neighborhood) o;
-        return ngId == that.ngId;
+
+        if (getNgId() != that.getNgId()) return false;
+        return ngname != null ? ngname.equals(that.ngname) : that.ngname == null;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(ngId);
-    }
-
-    public String getNgName() {
-        return this.ngname;
+        int result = getNgId();
+        result = 31 * result + (ngname != null ? ngname.hashCode() : 0);
+        return result;
     }
 }

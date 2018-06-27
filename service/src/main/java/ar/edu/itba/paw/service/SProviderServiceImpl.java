@@ -5,11 +5,10 @@ import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class SProviderServiceImpl implements SProviderService {
@@ -32,15 +31,18 @@ public class SProviderServiceImpl implements SProviderService {
     @Autowired
     AppointmentDao appointmentDao;
 
+    @Transactional
     @Override
     public SProvider create(int userId, String description) {
         return sProviderDao.create(userId,description).get();
     }
 
+    @Transactional
     @Override
-    public List<SProvider> getServiceProviders() {
+    public Set<SProvider> getServiceProviders() {
         return sProviderDao.getServiceProviders();
     }
+
 
     @Override
     public List<SProvider> getServiceProvidersWithServiceType(int serviceType) {
@@ -55,6 +57,7 @@ public class SProviderServiceImpl implements SProviderService {
 
     }
 
+    @Transactional
     @Override
     public SProvider getServiceProviderWithUserId(int userId) {
         Optional<SProvider> sProvider = sProviderDao.getServiceProviderWithUserId(userId);
@@ -65,11 +68,13 @@ public class SProviderServiceImpl implements SProviderService {
     }
 
 
+    @Transactional
     @Override
     public void addAptitude(int userId, int serviceType, String description) {
         aptitudeDao.insertAptitude(userId,serviceType,description);
     }
 
+    @Transactional
     @Override
     public boolean removeAptitude(int userId, int serviceType) {
         int aptitudeId = aptitudeDao.getAptitudeId(userId,serviceType);
@@ -79,6 +84,7 @@ public class SProviderServiceImpl implements SProviderService {
         return aptitudeDao.removeAptitude(aptitudeId);
     }
 
+    @Transactional
     @Override
     public void updateDescriptionOfServiceProvider(int userId, String description) {
         sProviderDao.updateDescriptionOfServiceProvider(userId,description);
@@ -86,25 +92,26 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Override
     public List<Review> getLatestReviewsOfServiceProvider(int providerId) {
-        final List<Review> reviews = getReviewsOfServiceProvider(providerId);
+        final List<Review> reviews = new ArrayList<>(getReviewsOfServiceProvider(providerId));
         int start = 0, end = reviews.size() >= 4 ? 4 : reviews.size();
+
         return reviews.subList(start, end);
     }
 
-    public List<ServiceType> getServiceTypes(){
-        return sTypeDao.getServiceTypes();
-    }
 
+    @Transactional
     @Override
     public boolean updateDescriptionOfAptitude(int aptId, String description) {
         return aptitudeDao.updateDescriptionOfAptitude(aptId,description);
     }
 
+    @Transactional
     @Override
     public boolean updateServiceTypeOfAptitude(int aptId, int stId){
         return aptitudeDao.updateServiceTypeOfAptitude(aptId,stId);
     }
 
+    @Transactional
     @Override
     public boolean removeWorkingZoneOfProvider(int userId, int ngId) {
         return wZoneDao.removeWorkingZoneOfProvider(userId,ngId);
@@ -128,18 +135,21 @@ public class SProviderServiceImpl implements SProviderService {
         return getServiceProviderWithUserId(userId) != null;
     }
 
+    @Transactional
     @Override
     public void insertWorkingZoneOfProvider(int userId, int ngId) {
         wZoneDao.insertWorkingZoneOfProvider(userId,ngId);
     }
 
+    @Transactional
     @Override
     public List<SProvider> getServiceProvidersWorkingIn(int neighborhood) {
             return wZoneDao.getServiceProvidersWorkingIn(neighborhood);
     }
 
+    @Transactional
     @Override
-    public List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId) {
+    public Set<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId) {
         return sProviderDao.getServiceProvidersByNeighborhoodAndServiceType(ngId, stId);
     }
 
@@ -152,22 +162,15 @@ public class SProviderServiceImpl implements SProviderService {
         return false;
     }
 
-    private boolean hasWorkingZone(SProvider sp,int wzId){
-           for(Neighborhood ne :sp.getNeighborhoods()){
-            if(ne.getNgId() == wzId){
-                return true;
-            }
-        }
-        return false;
-    }
 
+    @Transactional
     @Override
-    public List<Review> getReviewsOfServiceProvider(int sproviderId) {
+    public Set<Review> getReviewsOfServiceProvider(int sproviderId) {
         Optional<SProvider> provider = sProviderDao.getServiceProviderWithUserId(sproviderId);
         if(!provider.isPresent()){
             return null;
         }
-        List<Review> reviews = new ArrayList<>();
+        Set<Review> reviews = new HashSet<>();
 
         for(Aptitude aptitude : aptitudeDao.getAptitudesOfUser(provider.get().getId())){
             reviews.addAll(aptitude.getReviews());
@@ -176,8 +179,9 @@ public class SProviderServiceImpl implements SProviderService {
         return reviews;
     }
 
+    @Transactional
     @Override
-    public List<Aptitude> getAptitudesOfUser(int id) {
+    public Set<Aptitude> getAptitudesOfUser(int id) {
         return aptitudeDao.getAptitudesOfUser(id);
     }
 

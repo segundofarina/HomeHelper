@@ -34,6 +34,7 @@ import javax.validation.Valid;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -132,7 +133,7 @@ public class PublicController {
             throw new InvalidQueryException();
         }
 
-        final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId);
+        final Set<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(cityId,serviceTypeId);
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));

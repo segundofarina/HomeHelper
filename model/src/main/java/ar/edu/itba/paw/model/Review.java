@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Entity
 @Table(name = "reviews")
@@ -95,4 +96,18 @@ public class Review {
         return user;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Review)) return false;
+
+        Review review = (Review) o;
+
+        return id == review.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

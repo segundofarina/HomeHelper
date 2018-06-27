@@ -82,8 +82,8 @@
                                                         <c:otherwise>
                                                             <c:choose>
                                                                 <%-- Otherwise if I have a profile img show it --%>
-                                                                <c:when test="${provider.user.image != null}">
-                                                                    <c:url value="/profile/${provider.user.id}/profileimage" var="profileImg" />
+                                                                <c:when test="${provider.image != null}">
+                                                                    <c:url value="/profile/${provider.id}/profileimage" var="profileImg" />
                                                                     <div id="image-preview" style="background-image: url('${profileImg}')"></div>
                                                                 </c:when>
                                                                 <c:otherwise>

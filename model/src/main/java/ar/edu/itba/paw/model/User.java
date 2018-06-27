@@ -2,6 +2,7 @@ package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
 import java.util.Arrays;
+import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -145,29 +146,13 @@ public class User {
         User user = (User) o;
 
         if (getId() != user.getId()) return false;
-        if (!getUsername().equals(user.getUsername())) return false;
-        if (!getPassword().equals(user.getPassword())) return false;
-        if (getFirstname() != null ? !getFirstname().equals(user.getFirstname()) : user.getFirstname() != null)
-            return false;
-        if (getLastname() != null ? !getLastname().equals(user.getLastname()) : user.getLastname() != null)
-            return false;
-        if (!getEmail().equals(user.getEmail())) return false;
-        if (getPhone() != null ? !getPhone().equals(user.getPhone()) : user.getPhone() != null) return false;
-        if (!Arrays.equals(getImage(), user.getImage())) return false;
-        return getAddress() != null ? getAddress().equals(user.getAddress()) : user.getAddress() == null;
+        return getUsername() != null ? getUsername().equals(user.getUsername()) : user.getUsername() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getUsername().hashCode();
-        result = 31 * result + getId();
-        result = 31 * result + getPassword().hashCode();
-        result = 31 * result + (getFirstname() != null ? getFirstname().hashCode() : 0);
-        result = 31 * result + (getLastname() != null ? getLastname().hashCode() : 0);
-        result = 31 * result + getEmail().hashCode();
-        result = 31 * result + (getPhone() != null ? getPhone().hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(getImage());
-        result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
+        int result = getId();
+        result = 31 * result + (getUsername() != null ? getUsername().hashCode() : 0);
         return result;
     }
 }

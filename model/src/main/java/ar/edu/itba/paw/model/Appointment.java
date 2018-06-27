@@ -2,6 +2,7 @@ package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "appointments")
@@ -12,15 +13,15 @@ public class Appointment {
     @Column(name = "appointmentid")
     private int appointmentId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userid",nullable = false)
     private User client;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "providerid", referencedColumnName = "userid", nullable = false)
     private SProvider provider;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "servicetypeid", nullable = false)
     private ServiceType serviceType;
 
@@ -103,5 +104,20 @@ public class Appointment {
 
     public void setClientReview(boolean clientReview) {
         this.clientReview = clientReview;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Appointment)) return false;
+
+        Appointment that = (Appointment) o;
+
+        return getAppointmentId() == that.getAppointmentId();
+    }
+
+    @Override
+    public int hashCode() {
+        return getAppointmentId();
     }
 }

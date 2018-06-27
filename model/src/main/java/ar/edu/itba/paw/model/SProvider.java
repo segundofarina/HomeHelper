@@ -3,6 +3,8 @@ package ar.edu.itba.paw.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "userid")
@@ -22,17 +24,17 @@ public class SProvider {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "userid")
-    private List<Aptitude> aptitudes;
+    private Set<Aptitude> aptitudes;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "userid")
-    private List<WorkingZone> workingZones;
+    private Set<WorkingZone> workingZones;
 
     /*package*/ SProvider(){
 
     }
 
-    public SProvider(User user, String description, List<Aptitude> aptitudes, List<WorkingZone> workingZones) {
+    public SProvider(User user, String description, Set<Aptitude> aptitudes, Set<WorkingZone> workingZones) {
         //super(user.getUsername(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getAddress(),user.getImage(),user.isVerified());
         this.id=user.getId();
         this.user=user;
@@ -45,7 +47,7 @@ public class SProvider {
         return description;
     }
 
-    public List<Aptitude> getAptitudes() {
+    public Set<Aptitude> getAptitudes() {
         return aptitudes;
     }
 
@@ -161,12 +163,30 @@ public class SProvider {
         return neighborhoods;
     }
 
-    public List<WorkingZone> getWorkingZones() {
+    public Set<WorkingZone> getWorkingZones() {
         return this.workingZones;
     }
 
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SProvider)) return false;
+
+        SProvider sProvider = (SProvider) o;
+
+        if (getId() != sProvider.getId()) return false;
+        return getDescription() != null ? getDescription().equals(sProvider.getDescription()) : sProvider.getDescription() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getDescription() != null ? getDescription().hashCode() : 0;
+        result = 31 * result + getId();
+        return result;
     }
 }

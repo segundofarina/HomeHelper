@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.Optional;
 
-@Transactional
+
 @Repository
 public class UserHibernateDao implements UserDao {
     @PersistenceContext

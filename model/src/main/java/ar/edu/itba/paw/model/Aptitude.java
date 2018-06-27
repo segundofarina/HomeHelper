@@ -2,6 +2,8 @@ package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "aptitudes")
@@ -13,7 +15,7 @@ public class Aptitude {
     @Column(name = "aptitudeid")
     private int id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "servicetypeid")
     private ServiceType service;
 
@@ -22,9 +24,9 @@ public class Aptitude {
 
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "aptitudeid")
-    private List<Review> reviews;
+    private Set<Review> reviews;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userid")
     private SProvider sProvider;
 
@@ -33,7 +35,11 @@ public class Aptitude {
     /* package*/ Aptitude(){
 
     }
-    public Aptitude(SProvider sProvider, ServiceType service, String description, List<Review> reviews) {
+    public Aptitude(int id){
+        this.id=id;
+    }
+
+    public Aptitude(SProvider sProvider, ServiceType service, String description, Set<Review> reviews) {
         this.service = service;
         this.description = description;
         this.reviews = reviews;
@@ -48,7 +54,7 @@ public class Aptitude {
         return description;
     }
 
-    public List<Review> getReviews() {
+    public Set<Review> getReviews() {
         return reviews;
     }
 
@@ -158,5 +164,20 @@ public class Aptitude {
 
     public void setService(ServiceType service) {
         this.service = service;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Aptitude)) return false;
+
+        Aptitude aptitude = (Aptitude) o;
+
+        return getId() == aptitude.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return getId();
     }
 }

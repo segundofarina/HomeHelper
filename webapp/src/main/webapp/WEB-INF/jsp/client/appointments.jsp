@@ -75,7 +75,7 @@
                                             </c:choose>
                                         </th>
                                         <td><c:out value="${appointment.serviceType.name}" /></td>
-                                        <td><c:out value="${appointment.provider.firstname}" /></td>
+                                        <td><c:out value="${appointment.provider.user.firstname}" /></td>
                                         <td><c:out value="${appointment.date}" /></td>
                                         <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
                                     </tr>
