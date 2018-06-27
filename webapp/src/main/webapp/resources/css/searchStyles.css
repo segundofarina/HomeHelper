@@ -139,6 +139,13 @@ label {
     text-align: center;
 }
 
+p.empty-stars {
+    text-align: center;
+    color: #afafaf;
+    font-style: italic;
+    font-size: 12px;
+}
+
 @media (min-width: 768px) {
     .container-fluid {
         padding-left: 30px;
