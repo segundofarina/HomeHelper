@@ -1,20 +1,11 @@
 package ar.edu.itba.paw.service;
 
-
-import ar.edu.itba.paw.interfaces.daos.AppointmentDao;
 import ar.edu.itba.paw.interfaces.daos.UserDao;
-import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.interfaces.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.Optional;
 
 
@@ -24,12 +15,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private AppointmentDao appointmentDao;
-
 
     public User findById(int id) {
-        return userDao.findById(id).get();
+        Optional<User> user = userDao.findById(id);
+        return user.isPresent()?user.get():null;
     }
 
     @Override

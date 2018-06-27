@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.daos.AppointmentDao;
-import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
 import ar.edu.itba.paw.model.Status;
 import org.junit.Before;
 import org.junit.Test;

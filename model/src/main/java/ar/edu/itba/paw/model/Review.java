@@ -95,4 +95,7 @@ public class Review {
         return user;
     }
 
+    public Aptitude getAptitude() {
+        return aptitude;
+    }
 }

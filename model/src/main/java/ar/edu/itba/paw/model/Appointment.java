@@ -104,4 +104,5 @@ public class Appointment {
     public void setClientReview(boolean clientReview) {
         this.clientReview = clientReview;
     }
+
 }

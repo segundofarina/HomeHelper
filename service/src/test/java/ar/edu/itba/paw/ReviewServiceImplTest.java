@@ -2,7 +2,7 @@ package ar.edu.itba.paw;
 
 import org.junit.Test;
 
-public class ReviewServiceTest {
+public class ReviewServiceImplTest {
 
     @Test
     public void getReviewsOfAptitude(){
