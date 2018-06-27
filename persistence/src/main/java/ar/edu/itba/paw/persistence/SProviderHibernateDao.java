@@ -41,7 +41,7 @@ public class SProviderHibernateDao implements SProviderDao {
     @Override
     public Set<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId) {
         return
-                new HashSet<>(em.createQuery("from SProvider s join fetch s.aptitudes a join fetch a.reviews",SProvider.class)
+                new HashSet<>(em.createQuery("from SProvider s left join fetch s.aptitudes a left join fetch a.reviews",SProvider.class)
                 .getResultList());
 
     }
