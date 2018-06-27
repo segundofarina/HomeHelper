@@ -218,7 +218,7 @@
                 <!-- reviews -->
                 <div class="row aptitude">
                     <div class="col-xs-12 col-sm-8 col-md-9">
-                        <h4 class="client-reviews">Client Reviews</h4>
+                        <h4 class="client-reviews"><spring:message code="profile.client-reviews" /></h4>
                         <div class="panel">
                             <div class="panel-body">
                                 <c:choose>
@@ -278,13 +278,13 @@
                         <c:choose>
                             <c:when test="${currentAptitude.reviews.size() > 4}">
                                 <!-- Show all reviews -->
-                                <h5 class="show-more-reviews" data-toggle="modal" data-target="#modalReviews<c:out value="${currentAptitude.service.serviceTypeId}"/>">Show all reviews</h5>
+                                <h5 class="show-more-reviews" data-toggle="modal" data-target="#modalReviews<c:out value="${currentAptitude.service.serviceTypeId}"/>"><spring:message code="profile.showAllReviews" /></h5>
                                 <div class="modal fade" id="modalReviews<c:out value="${currentAptitude.service.serviceTypeId}"/>" tabindex="-1" role="dialog">
                                     <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title">Client reviews</h4>
+                                                <h4 class="modal-title"><spring:message code="profile.client-reviews" /></h4>
                                             </div>
                                             <div class="modal-body modal-reviews-container">
 
@@ -345,8 +345,8 @@
                                 <div class="col-xs-12 col-sm-8 col-md-9">
                                     <div class="hline"></div>
                                     <h4 data-toggle="collapse" data-target="#otherAptitudes-container" aria-expanded="false">
-                                        <span class="showApt">Show all aptitudes</span>
-                                        <span class="hideApt">Hide all aptitudes</span>
+                                        <span class="showApt"><spring:message code="profile.showAllApt" /></span>
+                                        <span class="hideApt"><spring:message code="profile.hideAllApt" /></span>
                                         <i class="fa fa-angle-down"></i>
                                     </h4>
                                 </div>
@@ -427,7 +427,7 @@
                                         <!-- reviews -->
                                         <div class="row aptitude">
                                             <div class="col-xs-12 col-sm-8 col-md-9">
-                                                <h4 class="client-reviews">Client Reviews</h4>
+                                                <h4 class="client-reviews"><spring:message code="profile.client-reviews"/> </h4>
                                                 <div class="panel">
                                                     <div class="panel-body">
                                                         <c:choose>

@@ -235,7 +235,7 @@ public class PublicController {
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.appointmentForm", errors);
             redrAttr.addFlashAttribute("appointmentForm", form);
 
-            String redirect = "redirect:/profile/" + form.getProviderId();
+            String redirect = "redirect:/profile/" + form.getProviderId() + "?st=" + form.getServiceTypeId();
             LOGGER.info("user {} tried to make an appointment and had the following errors in form {}",getUserString(loggedInUser),errors);
             return new ModelAndView(redirect);
         }

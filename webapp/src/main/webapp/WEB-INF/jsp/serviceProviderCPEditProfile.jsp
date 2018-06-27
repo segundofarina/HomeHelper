@@ -117,9 +117,9 @@
                                         </div>
                                         <div class="divider-dashed"></div>
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-danger btn-sm pull-right edit-visible btn-cancel"><i class="fa fa-close"></i> Cancel</button>
+                                            <button type="button" class="btn btn-danger btn-sm pull-right edit-visible btn-cancel"><i class="fa fa-close"></i> <spring:message code="general.cancel" /></button>
                                             <form:button type="submit" class="btn btn-success btn-sm pull-right edit-visible"><i class="fa fa-circle-check"></i> <spring:message code="general.update"/></form:button>
-                                            <button type="button" class="btn btn-primary btn-sm pull-right edit-hidden btn-edit"><i class="fa fa-edit"></i> Edit</button>
+                                            <button type="button" class="btn btn-primary btn-sm pull-right edit-hidden btn-edit"><i class="fa fa-edit"></i> <spring:message code="general.edit" /></button>
                                             <div class="clearfix"></div>
                                         </div>
                                     </div>
@@ -170,7 +170,7 @@
                                                 </div>
                                                 <div class="divider-dashed"></div>
                                                 <div class="form-group">
-                                                    <button type="button" class="btn btn-danger btn-sm pull-right btn-cancel"><i class="fa fa-close"></i> Cancel</button>
+                                                    <button type="button" class="btn btn-danger btn-sm pull-right btn-cancel"><i class="fa fa-close"></i> <spring:message code="general.cancel"/></button>
                                                     <form:button type="submit" class="btn btn-success btn-sm pull-right"><i class="fa fa-circle-check"></i> <spring:message code="general.update"/></form:button>
                                                     <div class="clearfix"></div>
                                                 </div>
@@ -208,9 +208,9 @@
                                                     <div class="divider-dashed"></div>
                                                     <div class="form-group">
                                                         <button type="button" class="btn btn-danger btn-xs disabled deleteApt pull-left edit-visible"><i class="fa fa-trash"></i> <spring:message code="aptitude.delete"/></button>
-                                                        <a href="<c:url value="/sprovider/editProfile" />" class="btn btn-danger btn-sm pull-right edit-visible btn-cancel"><i class="fa fa-close"></i> Cancel</a>
+                                                        <a href="<c:url value="/sprovider/editProfile" />" class="btn btn-danger btn-sm pull-right edit-visible btn-cancel"><i class="fa fa-close"></i> <spring:message code="general.cancel"/></a>
                                                         <form:button type="submit" class="btn btn-success btn-sm pull-right edit-visible"><i class="fa fa-circle-check"></i> <spring:message code="general.update"/></form:button>
-                                                        <a href="<c:url value="/sprovider/editProfile/updateAptitude/${aptitude.id}" />" class="btn btn-primary btn-sm pull-right edit-hidden btn-edit"><i class="fa fa-edit"></i> Edit</a>
+                                                        <a href="<c:url value="/sprovider/editProfile/updateAptitude/${aptitude.id}" />" class="btn btn-primary btn-sm pull-right edit-hidden btn-edit"><i class="fa fa-edit"></i> <spring:message code="general.edit"/></a>
                                                     </div>
                                                 </div>
                                             </form:form>
@@ -232,43 +232,9 @@
                         <div class="x_panel">
                             <div class="x_title">
                                 <h2><spring:message code="general.working-details"/></h2>
-                                <!--<button type="button" class="btn btn-default btn-sm add-one pull-right"><i class="fa fa-plus"></i> <spring:message code="ng.add"/></button>-->
                                 <div class="clearfix"></div>
                             </div>
                             <div class="x_content">
-
-                                <%--<c:choose>
-                                    <c:when test="${errorElemId == 3}">
-                                        <div class="dynamic-element new-element">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <div class="dynamic-element new-element new-element-hidden">
-                                    </c:otherwise>
-                                </c:choose>
-                                    <div class="editable">
-                                        <c:url value="/sprovider/editProfile/addNg" var="postUrl" />
-                                        <form:form modelAttribute="addWZForm" action="${postUrl}" method="post">
-                                            <form:input path="elemId" type="hidden" value="3" />
-                                            <div class="form-group">
-                                                <form:label path="ng"><spring:message code="general.city"/>:</form:label>
-                                                <form:select path="ng" id="ng" class="form-control">
-                                                    <form:option value=""><spring:message code="service-type.select"/></form:option>
-                                                    <c:forEach items="${neightbourhoods}" var="ng">
-                                                        <form:option value="${ng.ngId}"><spring:message code="neighborhood.${ng.ngId}" /></form:option>
-                                                    </c:forEach>
-                                                </form:select>
-                                                <form:errors path="ng" element="p" cssClass="form-error" />
-                                            </div>
-                                            <div class="divider-dashed"></div>
-                                            <div class="form-group">
-                                                <button type="button" class="btn btn-danger btn-sm pull-right btn-cancel"><i class="fa fa-close"></i> Cancel</button>
-                                                <button type="submit" class="btn btn-success btn-sm pull-right"><i class="fa fa-circle-check"></i> <spring:message code="general.update"/></button>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </form:form>
-                                    </div>
-                                </div>--%>
-
 
                                 <div class="editable">
                                     <c:url value="/sprovider/editProfile/updateWorkingZone" var="postUrl" />
@@ -281,8 +247,8 @@
                                             <div id="editable-map-canvas" class="map edit-visible"></div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-danger btn-sm pull-right edit-visible btn-cancel"><i class="fa fa-close"></i> Cancel</button>
-                                            <button type="button" class="btn btn-primary btn-sm pull-right edit-hidden btn-edit"><i class="fa fa-edit"></i> Edit</button>
+                                            <button type="button" class="btn btn-danger btn-sm pull-right edit-visible btn-cancel"><i class="fa fa-close"></i> <spring:message code="general.cancel"/></button>
+                                            <button type="button" class="btn btn-primary btn-sm pull-right edit-hidden btn-edit"><i class="fa fa-edit"></i> <spring:message code="general.edit"/></button>
                                             <form:button type="submit" class="btn btn-success btn-sm pull-right edit-visible"><i class="fa fa-circle-check"></i> <spring:message code="general.update"/></form:button>
                                             <div class="clearfix"></div>
                                         </div>

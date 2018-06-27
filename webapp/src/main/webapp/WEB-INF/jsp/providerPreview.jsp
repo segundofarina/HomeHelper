@@ -223,7 +223,7 @@
             <!-- reviews -->
             <div class="row aptitude">
                 <div class="col-xs-12">
-                    <h4 class="client-reviews">Client Reviews</h4>
+                    <h4 class="client-reviews"><spring:message code="profile.client-reviews" /></h4>
                     <div class="panel">
                         <div class="panel-body">
                             <c:choose>

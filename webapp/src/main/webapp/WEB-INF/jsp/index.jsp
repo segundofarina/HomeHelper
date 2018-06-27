@@ -47,12 +47,13 @@
                     <div class="panel-body">
                         <c:url value="/search" var="postPath"/>
                         <form:form modelAttribute="searchForm" action="${postPath}" method="Post">
-                            <div class="form-group errorTooltip" data-toggle="tooltip" title="Unable to get current loaction">
+                            <div class="form-group errorTooltip" data-toggle="tooltip" title="<spring:message code="geoError.geoFaild"/>">
                                 <form:label path="addressField"><spring:message code="form.city"/></form:label>
                                 <div class="googleAutcomplete">
                                     <div class="input-group">
-                                        <form:input path="addressField" class="form-control" type="text" placeholder="Enter an address" onfocus="geolocate()" autocomplete="off" />
-                                        <div class="input-group-addon currentLocation" data-toggle="tooltip" title="Get current location"><i class="fa fa-map-marker"></i></div>
+                                        <spring:message code="index.addrField" var="addrPlace" />
+                                        <form:input path="addressField" class="form-control" type="text" placeholder="${addrPlace}" onfocus="geolocate()" autocomplete="off" />
+                                        <div class="input-group-addon currentLocation" data-toggle="tooltip" title="<spring:message code="geo.getLocation"/>"><i class="fa fa-map-marker"></i></div>
                                     </div>
                                 </div>
                                 <form:errors path="addressField" element="p" cssClass="form-error" />
