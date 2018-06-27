@@ -336,7 +336,6 @@ public class ServiceProviderController {
             double lat = Double.parseDouble(coord[0]);
             double lng = Double.parseDouble(coord[1]);
             //add working zone
-            System.out.println("lat: " + lat + " lng: " + lng);
         }
         //workingZonesService.insertWorkingZoneOfProvider(loggedInUser.getId(), form.getNgId());
 
