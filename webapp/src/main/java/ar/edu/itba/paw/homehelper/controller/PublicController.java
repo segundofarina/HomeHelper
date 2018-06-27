@@ -9,10 +9,10 @@ import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.homehelper.form.SignUpForm;
 import ar.edu.itba.paw.homehelper.validators.EqualsUsernameValidator;
 import ar.edu.itba.paw.interfaces.services.*;
+import ar.edu.itba.paw.model.CoordenatesPoint;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.TemporaryImage;
 import ar.edu.itba.paw.model.User;
-import com.sun.xml.internal.rngom.parse.host.Base;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +28,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import java.util.Base64;
 import java.util.List;
-import java.util.Set;
 
 
 @Controller
@@ -187,7 +185,15 @@ public class PublicController {
         mav.addObject("otherAptitudes", sProviderService.getAllAptitudesExcept(serviceTypeId, provider));
 
         // get coords from db
-        mav.addObject("workingZonesCoords", "-34.557176,-58.430436;-34.588696,-58.431428;-34.575376,-58.403839");
+        StringBuilder sb = new StringBuilder();
+        for(CoordenatesPoint coordenatesPoint : provider.getCoordenates()) {
+            sb.append(coordenatesPoint.getLat());
+            sb.append(",");
+            sb.append(coordenatesPoint.getLng());
+            sb.append(";");
+        }
+        //mav.addObject("workingZonesCoords", "-34.557176,-58.430436;-34.588696,-58.431428;-34.575376,-58.403839");
+        mav.addObject("workingZonesCoords", sb.toString());
 
         LOGGER.info("{} accessed to provider's profile with id {} .",getUserString(loggedInUser),providerId);
         return mav;

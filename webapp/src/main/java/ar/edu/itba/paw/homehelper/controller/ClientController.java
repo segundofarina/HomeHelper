@@ -31,9 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -59,6 +57,9 @@ public class ClientController {
 
     @Autowired
     private TempImagesService tempImagesService;
+
+    @Autowired
+    private CoordenatesService coordenatesService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
 
@@ -193,13 +194,19 @@ public class ClientController {
         sProviderService.addAptitude(loggedInUser.getId(), form.getServiceTypeId(), form.getAptDesc());
 
         /* Add working zone coords */
+        Set<CoordenatesPoint> coordenatesSet = new HashSet<>();
+
         String[] coordsList = form.getAptMap().split(";");
         for(int i=0; i < coordsList.length ; i++) {
             String[] coord = coordsList[i].split(",",2);
             double lat = Double.parseDouble(coord[0]);
             double lng = Double.parseDouble(coord[1]);
             //add working zone
+            coordenatesSet.add(new CoordenatesPoint(lat, lng));
         }
+        coordenatesService.insertCoordenatesOfProvider(loggedInUser.getId(), coordenatesSet);
+        System.out.println(coordenatesSet.size());
+
 
         final int userId = loggedInUser.getId();
         userService.updateFirstNameOfUser(userId, form.getFirstname());
