@@ -114,7 +114,10 @@ label {
 }
 
 .empty-result {
-    width: 80%;
+    padding: 2em;
+    border-radius: 4px;
+    border: 1px solid #e6e9ed;
+    background: #fff;
     margin: auto;
 }
 
