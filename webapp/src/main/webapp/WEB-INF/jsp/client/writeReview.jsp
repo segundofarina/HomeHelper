@@ -60,7 +60,14 @@
                                         <h3><c:out value="${appointment.provider.firstname}" /> <c:out value="${appointment.provider.lastname}" /></h3>
                                     </div>
                                     <div>
-                                        <div class="stars dyn-stars" data-rating="<c:out value="${appointment.provider.generalCalification}"/>"></div>
+                                        <c:choose>
+                                            <c:when test="${appointment.provider.generalCalification == 0}">
+                                                <p class="empty-stars"><spring:message code="emptyStars" /></p>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="stars dyn-stars" data-rating="<c:out value="${appointment.provider.generalCalification}"/>"></div>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                 </div>
                                 <div class="app-section">
@@ -69,7 +76,7 @@
                                 </div>
                                 <div class="app-section">
                                     <h5><spring:message code="form.date"/></h5>
-                                    <p><c:out value="${appointment.date.day}" />/<c:out value="${appointment.date.month}" />/<c:out value="${appointment.date.year}" /></p>
+                                    <p><c:out value="${appointment.dateDMY}" /></p>
                                 </div>
                                 <div class="app-section">
                                     <h5><spring:message code="form.description"/></h5>

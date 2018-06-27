@@ -87,7 +87,7 @@
                                                         </c:choose>
                                                     </td>
                                                     <td><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></td>
-                                                    <td><c:out value="${review.date}" /></td>
+                                                    <td><c:out value="${review.dateDMY}" /></td>
                                                     <td>
                                                         <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
                                                     </td>
