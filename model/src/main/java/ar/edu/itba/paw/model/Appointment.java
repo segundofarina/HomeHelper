@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.model;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Appointment {
@@ -44,6 +46,21 @@ public class Appointment {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getDateDMY() {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        return df.format(getDate());
+    }
+
+    public String getDay() {
+        DateFormat df = new SimpleDateFormat("dd");
+        return df.format(getDate());
+    }
+
+    public String getMonth() {
+        DateFormat df = new SimpleDateFormat("MM");
+        return df.format(getDate());
     }
 
     public String getAddress() {

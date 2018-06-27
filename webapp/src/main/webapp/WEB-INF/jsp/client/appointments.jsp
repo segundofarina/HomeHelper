@@ -66,7 +66,7 @@
                                     <tr>
                                         <th>
                                             <c:choose>
-                                                <c:when test="${provider.image != null}">
+                                                <c:when test="${appointment.provider.image != null}">
                                                     <img class="profileImage" src="<c:url value="/profile/${appointment.provider.id}/profileimage" />" alt="profile picture" />
                                                 </c:when>
                                                 <c:otherwise>
@@ -76,7 +76,7 @@
                                         </th>
                                         <td><c:out value="${appointment.serviceType.name}" /></td>
                                         <td><c:out value="${appointment.provider.firstname}" /></td>
-                                        <td><c:out value="${appointment.date}" /></td>
+                                        <td><c:out value="${appointment.dateDMY}" /></td>
                                         <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
                                     </tr>
                                 </c:forEach>
@@ -126,7 +126,7 @@
                                         </th>
                                         <td><c:out value="${appointment.serviceType.name}" /></td>
                                         <td><c:out value="${appointment.provider.firstname}" /></td>
-                                        <td><c:out value="${appointment.date}" /></td>
+                                        <td><c:out value="${appointment.dateDMY}" /></td>
                                         <td><span class="label label-<spring:message code="css.status.${appointment.status.toString()}" />"><spring:message code="status.${appointment.status.toString()}" /></span></td>
                                         <td>
                                             <c:if test="${appointment.status.numVal != rejectStatus && appointment.clientReview == false}">

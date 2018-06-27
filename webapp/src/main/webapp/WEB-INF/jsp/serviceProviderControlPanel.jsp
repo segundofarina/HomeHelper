@@ -83,8 +83,8 @@
                                         <c:forEach items="${appointments}" var="ap">
                                             <article class="media event">
                                                 <a class="pull-left date">
-                                                    <p class="month"><spring:message code="month.${ap.date.month}" /></p>
-                                                    <p class="day"><c:out value="${ap.date.day}" /></p>
+                                                    <p class="month"><spring:message code="month.${ap.month}" /></p>
+                                                    <p class="day"><c:out value="${ap.day}" /></p>
                                                 </a>
                                                 <div class="media-body">
                                                     <h5 class="title"><c:out value="${ap.client.firstname}" /></h5>

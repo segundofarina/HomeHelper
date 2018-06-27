@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="apt-group">
                                     <h5><spring:message code="form.date"/></h5>
-                                    <p><c:out value="${appointment.date}" /></p>
+                                    <p><c:out value="${appointment.dateDMY}" /></p>
                                 </div>
                                 <div class="apt-group">
                                     <h5><spring:message code="form.description"/></h5>
