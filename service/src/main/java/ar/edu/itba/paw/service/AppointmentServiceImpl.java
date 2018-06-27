@@ -106,6 +106,8 @@ public class AppointmentServiceImpl implements AppointmentService {
             }
         }
 
+        Collections.sort(ans,(o1, o2) -> o2.getAppointmentId()- o1.getAppointmentId());
+
         return ans;
     }
 
@@ -119,6 +121,8 @@ public class AppointmentServiceImpl implements AppointmentService {
                 ans.add(appointment);
             }
         }
+
+        Collections.sort(ans,(o1, o2) -> o2.getAppointmentId()- o1.getAppointmentId());
 
         return ans;
     }
@@ -134,6 +138,8 @@ public class AppointmentServiceImpl implements AppointmentService {
             }
         }
 
+        Collections.sort(ans,(o1, o2) -> o2.getAppointmentId()- o1.getAppointmentId());
+
         return ans;
     }
 
@@ -147,6 +153,8 @@ public class AppointmentServiceImpl implements AppointmentService {
                 ans.add(appointment);
             }
         }
+
+        Collections.sort(ans,(o1, o2) -> o2.getAppointmentId()- o1.getAppointmentId());
 
         return ans;
     }
