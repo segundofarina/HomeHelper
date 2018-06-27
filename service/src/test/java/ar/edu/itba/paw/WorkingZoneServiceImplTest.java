@@ -1,29 +1,22 @@
 package ar.edu.itba.paw;
 
 import ar.edu.itba.paw.interfaces.daos.WZoneDao;
-import ar.edu.itba.paw.interfaces.services.WorkingZonesService;
 import ar.edu.itba.paw.model.*;
-import ar.edu.itba.paw.service.NeighborhoodServiceImpl;
 import ar.edu.itba.paw.service.WorkingZonesServiceImpl;
-import jdk.nashorn.internal.runtime.WithObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static ar.edu.itba.paw.model.NeighborhoodTestUtils.assertEqualsNeighborhoods;
-import static ar.edu.itba.paw.model.NeighborhoodTestUtils.dummyNeighborhoods;
-import static ar.edu.itba.paw.model.WorkingZoneTestUtils.dummyWorkingZone;
-import static ar.edu.itba.paw.model.WorkingZoneTestUtils.dummyWorkingZones;
 import static junit.framework.TestCase.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static testUtils.NeighborhoodTestUtils.*;
+import static testUtils.WorkingZoneTestUtils.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WorkingZoneServiceImplTest {

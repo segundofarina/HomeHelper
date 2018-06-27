@@ -1,4 +1,7 @@
-package ar.edu.itba.paw.model;
+package testUtils;
+
+import ar.edu.itba.paw.model.Appointment;
+import ar.edu.itba.paw.model.Status;
 
 import java.util.ArrayList;
 import java.util.Date;
