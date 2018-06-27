@@ -67,6 +67,7 @@ public interface Const {
 
     int VALID_APPOINTMENT_ID2=2;
 
+
     int INVALID_APPOINTMENT_ID=100;
 
     int INVALID_SERVICE_TYPE_ID=100;

@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional
 public class AppointmentHibernateDao implements AppointmentDao {
 
     @PersistenceContext

@@ -7,12 +7,14 @@ import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -23,11 +25,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Autowired
     AptitudeDao aptitudeDao;
 
+    @Transactional
     @Override
     public List<Appointment> getAppointmentsByProviderId(int providerId) {
         return appointmentDao.getAppointmentsByProviderId(providerId);
     }
 
+    @Transactional
     @Override
     public List<Appointment> getAppointmentsByUserId(int userId) {
         return appointmentDao.getAppointmentsByUserId(userId);
@@ -61,6 +65,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return ans;
     }
 
+    @Transactional
     @Override
     public Appointment getAppointment(int appointmentId) {
         Optional<Appointment> appointment = appointmentDao.getAppointment(appointmentId);
@@ -71,17 +76,20 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
 
+    @Transactional
     @Override
     public Appointment addAppointment(int clientId, int providerId, int serviceTypeId, String date, String address, String jobDescripcion) {
         Optional<Appointment> appointment = appointmentDao.addAppointment(clientId, providerId, serviceTypeId, stringToTimestamp(date), address, jobDescripcion);
         return appointment.isPresent()?appointment.get():null;
     }
 
+    @Transactional
     @Override
     public boolean confirmAppointment(int appointmentId) {
         return appointmentDao.updateStatusOfAppointment(appointmentId,Status.Confirmed);
     }
 
+    @Transactional
     @Override
     public boolean completedAppointment(int appointmentId) {
         return appointmentDao.updateStatusOfAppointment(appointmentId,Status.Done);
@@ -143,6 +151,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return ans;
     }
 
+    @Transactional
     @Override
     public boolean updateDateOfAppointment(int appointmentId, String date) {
         Date appointmentDate = tryParse(date);
@@ -152,6 +161,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentDao.updateDateOfAppointment(appointmentId, (Timestamp) appointmentDate);
     }
 
+    @Transactional
     @Override
     public boolean rejectAppointment(int appointmentId) {
         return appointmentDao.updateStatusOfAppointment(appointmentId,Status.Reject);
@@ -165,6 +175,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
 
+    @Transactional
     @Override
     public void reviewAppointment(int appointmentId, int userId, int serviceTypeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
         int aptitudeId = aptitudeDao.getAptitudeId(userId, serviceTypeId);

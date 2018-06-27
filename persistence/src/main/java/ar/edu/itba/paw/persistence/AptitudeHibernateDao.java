@@ -12,7 +12,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.*;
 
-@Transactional
 @Repository
 public class AptitudeHibernateDao implements AptitudeDao {
     @PersistenceContext
@@ -20,10 +19,10 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
 
     @Override
-    public List<Aptitude> getAptitudesOfUser(int id) {
-        return em.createQuery("from Aptitude as a where a.sProvider.id = :userid", Aptitude.class)
+    public Set<Aptitude> getAptitudesOfUser(int id) {
+        return new HashSet<Aptitude>( em.createQuery("from Aptitude as a join fetch a.reviews where a.sProvider.id = :userid", Aptitude.class)
             .setParameter("userid",id)
-            .getResultList();
+            .getResultList());
     }
 
     @Override
@@ -36,7 +35,7 @@ public class AptitudeHibernateDao implements AptitudeDao {
         if(!st.isPresent()){
             return false;
         }
-        final Aptitude user = new Aptitude(sp.get(),st.get(),description,Collections.emptyList());
+        final Aptitude user = new Aptitude(sp.get(),st.get(),description,Collections.EMPTY_SET);
         em.persist(user);
         return true;
     }
@@ -78,12 +77,12 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public int getAptitudeId(int userId, int stId) {
-        final List<Aptitude> list = em.createQuery("from Aptitude as a where a.sProvider.id = :userid and a.service.id = :stid", Aptitude.class)
+        final List<Aptitude> list = em.createQuery("select a from Aptitude as a join fetch a.reviews where a.sProvider.id = :userid and a.service.id = :stid", Aptitude.class)
             .setParameter("userid",userId)
             .setParameter("stid",stId)
             .getResultList();
 
-        if (list.size() == 1){
+        if (list.size() != 0){
             //System.out.println("Id is "+list.get(0).getId());
             return list.get(0).getId();
         }else{
@@ -93,6 +92,11 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public Optional<Aptitude> getAptitude(int id) {
-        return  Optional.ofNullable(em.find(Aptitude.class,id));
+        return em.createQuery("select a from Aptitude as a join fetch a.reviews where a.id = :id", Aptitude.class)
+                .setParameter("id",id)
+                .getResultList()
+                .stream()
+                .findFirst();
+
     }
 }

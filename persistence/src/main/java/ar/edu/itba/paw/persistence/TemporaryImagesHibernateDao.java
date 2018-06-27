@@ -17,7 +17,7 @@ public class TemporaryImagesHibernateDao implements TemporaryImagesDao {
     public TemporaryImage insertImage(byte[] image) {
         TemporaryImage temporaryImage = new TemporaryImage(image);
         em.persist(temporaryImage);
-        return null;
+        return temporaryImage;
     }
 
     @Override

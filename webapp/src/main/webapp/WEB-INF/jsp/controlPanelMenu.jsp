@@ -13,14 +13,14 @@
                 <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <c:choose>
-                            <c:when test="${provider.user.image != null}">
-                                <img src="<c:url value="/profile/${provider.user.id}/profileimage" />" alt="profile picture" />
+                            <c:when test="${provider.image != null}">
+                                <img src="<c:url value="/profile/${provider.id}/profileimage" />" alt="profile picture" />
                             </c:when>
                             <c:otherwise>
                                 <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
                             </c:otherwise>
                         </c:choose>
-                        <c:out value="${provider.user.firstname}"/>
+                        <c:out value="${provider.firstname}"/>
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
