@@ -603,7 +603,7 @@
         } else {
             console.log("calculate center");
             var maxLat = 0, minLat = 0, maxLng = 0, minLng = 0;
-            for(var i = 0; i < coordsArr.length; i++) {
+            for(var i = 0; i < coordsArr.length - 1; i++) {
                 var coord = coordsArr[i].split(",");
 
                 if(maxLat === 0 || parseFloat(coord[0]) > maxLat) {
@@ -634,7 +634,7 @@
         // read them from #aptMap and crate an array
 
         var polygonCoords = [];
-        for(var i = 0; i < coordsArr.length; i++) {
+        for(var i = 0; i < coordsArr.length - 1; i++) {
             var coord = coordsArr[i].split(",");
             polygonCoords.push(new google.maps.LatLng(coord[0], coord[1]));
         }
