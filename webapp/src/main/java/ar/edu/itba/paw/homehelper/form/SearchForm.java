@@ -1,21 +1,49 @@
 package ar.edu.itba.paw.homehelper.form;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 
 public class SearchForm {
 
-    @Pattern(regexp = "[0-9]+")
-    private String city;
+    @Valid
+    @NotBlank
+    private String addressField;
+
+    @Valid
+    private String lat;
+
+    @Valid
+    private String lng;
+
+    //private String city;
     @Pattern(regexp = "[0-9]+")
     private String serviceType;
 
 
-    public String getCity() {
-        return city;
+    public String getAddressField() {
+        return addressField;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setAddressField(String addressField) {
+        this.addressField = addressField;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 
     public String getServiceType() {
@@ -26,11 +54,16 @@ public class SearchForm {
         this.serviceType = serviceType;
     }
 
-    public int getCityId() {
-        return Integer.valueOf(city);
+    public int getServiceTypeId() {
+        return Integer.parseInt(serviceType);
     }
 
-    public int getServiceTypeId() {
-        return Integer.valueOf(serviceType);
+    public double getLatDouble() {
+        return Double.parseDouble(lat);
     }
+
+    public double getLngDouble() {
+        return Double.parseDouble(lng);
+    }
+
 }

@@ -36,6 +36,9 @@ public class CreateSProviderForm {
     @NotBlank
     private String serviceType;
 
+    @NotBlank
+    private String aptMap;
+
     public String getFirstname() {
         return firstname;
     }
@@ -94,5 +97,13 @@ public class CreateSProviderForm {
 
     public int getServiceTypeId() {
         return Integer.valueOf(serviceType);
+    }
+
+    public String getAptMap() {
+        return aptMap;
+    }
+
+    public void setAptMap(String aptMap) {
+        this.aptMap = aptMap;
     }
 }

@@ -249,6 +249,11 @@ footer.footer {
     padding-right: 15px;
 }
 
+#map-canvas {
+    width: auto;
+    height: 500px;
+}
+
 
 @media (min-width: 768px) {
     .page-content {
