@@ -80,7 +80,7 @@
             <c:when test="${lastPostProvider != null}">
                 <a href="<c:url value="/profile/${lastPostProvider.id}?st=${lastPostServiceType}" />" >
                     <div class="lastPostSuggestion">
-                        <h5>Continue Searching:</h5>
+                        <h5><spring:message code="general.continueSerching" /></h5>
                         <div class="pull-right close"><i class="fa fa-times"></i></div>
                         <div class="row">
                             <div class="col-xs-4 img-container">
