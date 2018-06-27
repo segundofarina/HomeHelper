@@ -29,16 +29,20 @@ public class SProvider {
     @JoinColumn(name = "userid")
     private Set<WorkingZone> workingZones;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userid")
+    private Set<CoordenatesPoint> coordenates;
+
     /*package*/ SProvider(){
 
     }
 
-    public SProvider(User user, String description, Set<Aptitude> aptitudes, Set<WorkingZone> workingZones) {
+    public SProvider(User user, String description, Set<Aptitude> aptitudes, Set<CoordenatesPoint> coordenates) {
         this.id=user.getId();
         this.user=user;
         this.description = description;
         this.aptitudes = aptitudes;
-        this.workingZones = workingZones;
+        this.coordenates = coordenates;
     }
 
     public String getDescription() {
@@ -147,6 +151,14 @@ public class SProvider {
             }
         }
         return false;
+    }
+
+    public Set<CoordenatesPoint> getCoordenates() {
+        return coordenates;
+    }
+
+    public void setCoordenates(Set<CoordenatesPoint> coordenates) {
+        this.coordenates = coordenates;
     }
 
     public int getId() {

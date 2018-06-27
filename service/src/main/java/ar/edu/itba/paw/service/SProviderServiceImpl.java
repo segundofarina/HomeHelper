@@ -142,6 +142,8 @@ public class SProviderServiceImpl implements SProviderService {
         return wZoneDao.removeWorkingZoneOfProvider(userId,ngId);
     }
 
+
+
     @Override
     public int getServiceProviderId(int userId) {
         if(userId == -1) {
@@ -184,10 +186,14 @@ public class SProviderServiceImpl implements SProviderService {
             if(userId < 0 || sp.getId() != userId) {
                 /* Check if service provider works in clientLocation */
 
+
+
                 List<CoordenatesPoint> polygon = new ArrayList<>();
-                polygon.add(new CoordenatesPoint(-34.557176,-58.430436));
-                polygon.add(new CoordenatesPoint(-34.588696,-58.431428));
-                polygon.add(new CoordenatesPoint(-34.575376,-58.403839));
+                polygon.addAll(sp.getCoordenates());
+
+//                  polygon.add(new CoordenatesPoint(-34.557176,-58.430436));
+//                polygon.add(new CoordenatesPoint(-34.588696,-58.431428));
+//                polygon.add(new CoordenatesPoint(-34.575376,-58.403839));
 
                 if(isLatLngInPolygon(clientLocationLat, clientLocationLng, polygon)) {
                     res.add(sp);
@@ -230,10 +236,6 @@ public class SProviderServiceImpl implements SProviderService {
         }
 
         return false;
-//=======
-//    public Set<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId) {
-//        return sProviderDao.getServiceProvidersByNeighborhoodAndServiceType(ngId, stId);
-//>>>>>>> b4a336a0955a5bafc00a485efe175139993778d0
     }
 
     private boolean hasAptitude(SProvider sp,int stId){

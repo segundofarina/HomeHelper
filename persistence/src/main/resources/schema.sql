@@ -81,3 +81,10 @@ CREATE TABLE IF NOT EXISTS temporaryImages (
   image   BYTEA
 );
 
+CREATE TABLE IF NOT EXISTS coordenates (
+  coordId SERIAL PRIMARY KEY,
+  userId INTEGER REFERENCES serviceProviders(userId),
+  lat DOUBLE precision NOT NULL,
+  lng DOUBLE precision NOT NULL
+);
+
