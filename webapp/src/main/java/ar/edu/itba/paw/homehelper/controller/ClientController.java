@@ -123,7 +123,7 @@ public class ClientController {
     public ModelAndView sendMessagePost(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId, @RequestParam("msg") String msg) {
         final int userId = loggedInUser.getId();
 
-        chatService.sendMsg(userId, providerId, msg);
+        chatService.sendMessageToProvider(userId, providerId, msg);
 
         return new ModelAndView("redirect:/client/messages/" + providerId);
     }
@@ -135,12 +135,12 @@ public class ClientController {
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
-        List<Chat> list= chatService.getChatsOf(loggedInUser.getId());
+        List<Chat> list= chatService.getChatsOfUser(loggedInUser.getId());
         mav.addObject("chats", list);
 
         LOGGER.debug("List of chats size: {} for user {}",list.size(),getUserString(loggedInUser));
 
-        mav.addObject("currentChat", chatService.getChat(loggedInUser.getId(), providerId));
+        mav.addObject("currentChat", chatService.getChatOfUser(loggedInUser.getId(), providerId));
 
         return mav;
     }
@@ -148,7 +148,7 @@ public class ClientController {
     @RequestMapping("/client/messages")
     public ModelAndView messagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser) {
         final int userId = loggedInUser.getId();
-        return new ModelAndView("redirect:/client/messages/" + chatService.getLastMsgThread(userId));
+        return new ModelAndView("redirect:/client/messages/" + chatService.getLastMsgThreadUser(userId));
     }
 
     @RequestMapping(value = "/client/createSProvider", method = {RequestMethod.GET})
