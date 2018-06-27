@@ -87,7 +87,8 @@ CREATE TABLE IF NOT EXISTS temporaryImages (
 
 CREATE TABLE IF NOT EXISTS coordenates (
   coordId SERIAL PRIMARY KEY,
-  userId INTEGER REFERENCES serviceProviders(userId),
+  userId INTEGER REFERENCES serviceProviders(userId) ,
+  position INTEGER NOT NULL,
   lat DOUBLE precision NOT NULL,
   lng DOUBLE precision NOT NULL
 );

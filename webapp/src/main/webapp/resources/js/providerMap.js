@@ -2,12 +2,12 @@ function initializeMap(selector, coordsArr) {
 
     /* Center map */
     var myLatLng = null;
-    if(coordsArr.length === 0) {
+    if(coordsArr.length <= 2) {
         myLatLng = new google.maps.LatLng(-34.572902, -58.423161);
     } else {
         console.log("calculate center");
         var maxLat = 0, minLat = 0, maxLng = 0, minLng = 0;
-        for(var i = 0; i < coordsArr.length; i++) {
+        for(var i = 0; i < coordsArr.length - 1; i++) {
             var coord = coordsArr[i].split(",");
 
             if(maxLat === 0 || parseFloat(coord[0]) > maxLat) {
@@ -41,7 +41,7 @@ function initializeMap(selector, coordsArr) {
     return map;
 }
 
-//Display Coordinates below map
+
 function getPolygonCoords() {
     var len = myPolygon.getPath().getLength();
     var htmlStr = "";
@@ -54,7 +54,7 @@ function getPolygonCoords() {
 
 function addPolygon(map, initialCoords, editable) {
     var polygonCoords = [];
-    for(var i = 0; i < initialCoords.length; i++) {
+    for(var i = 0; i < initialCoords.length - 1; i++) {
         var coord = initialCoords[i].split(",");
         polygonCoords.push(new google.maps.LatLng(coord[0], coord[1]));
     }

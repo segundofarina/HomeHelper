@@ -21,6 +21,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -51,6 +52,9 @@ public class ServiceProviderController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CoordenatesService coordenatesService;
 
     @ModelAttribute("profileGeneralInfo")
     public ProfileGeneralInfo profileGeneralInfo(@ModelAttribute("loggedInUser") final User loggedInUser) {
@@ -210,17 +214,27 @@ public class ServiceProviderController {
 
         mav.addObject("provider", loggedInUser);
 
-        mav.addObject("serviceProvider", sProviderService.getServiceProviderWithUserId(providerId));
+        final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
+
+        mav.addObject("serviceProvider", provider);
         mav.addObject("serviceTypes",sTypeService.getServiceTypes());
 
         mav.addObject("errorElemId", elemErrorId);
         mav.addObject("editAptitude", -1);
         mav.addObject("img", img);
 
-        /* cambiar por un string de coordenadas */
-        mav.addObject("workingZonesCoords", "-34.557176,-58.430436;-34.588696,-58.431428;-34.575376,-58.403839");
-        mav.addObject("workingZones", workingZonesService.getWorkingZonesOfProvider(providerId));
-        mav.addObject("neightbourhoods", neighborhoodService.getAllNeighborhoods());
+        // get coords from db
+        StringBuilder sb = new StringBuilder();
+        for(CoordenatesPoint coordenatesPoint : provider.getCoordenates()) {
+            sb.append(coordenatesPoint.getLat());
+            sb.append(",");
+            sb.append(coordenatesPoint.getLng());
+            sb.append(";");
+        }
+
+        mav.addObject("workingZonesCoords", sb.toString());
+        //mav.addObject("workingZones", workingZonesService.getWorkingZonesOfProvider(providerId));
+        //mav.addObject("neightbourhoods", neighborhoodService.getAllNeighborhoods());
 
         /* Profile picture */
 
@@ -336,15 +350,18 @@ public class ServiceProviderController {
             return new ModelAndView(redirect);
         }
 
-        /* Persist coords */
+        /* Add working zone coords */
+        Set<CoordenatesPoint> coordenatesSet = new HashSet<>();
+
         String[] coordsList = form.getCoordsStr().split(";");
         for(int i=0; i < coordsList.length ; i++) {
             String[] coord = coordsList[i].split(",",2);
             double lat = Double.parseDouble(coord[0]);
             double lng = Double.parseDouble(coord[1]);
             //add working zone
+            coordenatesSet.add(new CoordenatesPoint(i,lat, lng));
         }
-        //workingZonesService.insertWorkingZoneOfProvider(loggedInUser.getId(), form.getNgId());
+        coordenatesService.insertCoordenatesOfProvider(loggedInUser.getId(), coordenatesSet);
 
         return new ModelAndView("redirect:/sprovider/editProfile");
     }

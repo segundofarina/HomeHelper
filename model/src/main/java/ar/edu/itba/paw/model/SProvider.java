@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "userid")
@@ -31,13 +32,14 @@ public class SProvider {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "userid")
-    private Set<CoordenatesPoint> coordenates;
+    @OrderBy("position ASC")
+    private SortedSet<CoordenatesPoint> coordenates;
 
     /*package*/ SProvider(){
 
     }
 
-    public SProvider(User user, String description, Set<Aptitude> aptitudes, Set<CoordenatesPoint> coordenates) {
+    public SProvider(User user, String description, Set<Aptitude> aptitudes, SortedSet<CoordenatesPoint> coordenates) {
         this.id=user.getId();
         this.user=user;
         this.description = description;
@@ -157,9 +159,9 @@ public class SProvider {
         return coordenates;
     }
 
-    public void setCoordenates(Set<CoordenatesPoint> coordenates) {
-        this.coordenates = coordenates;
-    }
+//    public void setCoordenates(Set<CoordenatesPoint> coordenates) {
+//        this.coordenates = coordenates;
+//    }
 
     public int getId() {
         return id;

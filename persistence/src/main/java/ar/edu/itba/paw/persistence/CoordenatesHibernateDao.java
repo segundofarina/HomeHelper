@@ -6,6 +6,7 @@ import ar.edu.itba.paw.model.CoordenatesPoint;
 import ar.edu.itba.paw.model.SProvider;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Collections;
@@ -23,7 +24,16 @@ public class CoordenatesHibernateDao implements CoordenatesDao{
         if(sProvider == null){
             return false;
         }
-        sProvider.setCoordenates(coordenatesPointSet);
+//        sProvider.setCoordenates(coordenatesPointSet);
+        for(CoordenatesPoint cor : sProvider.getCoordenates()){
+            em.remove(cor);
+        }
+
+        for(CoordenatesPoint cor: coordenatesPointSet){
+            cor.setUserId(providerId);
+            em.persist(new CoordenatesPoint(providerId,cor.getPosition(),cor.getLat(),cor.getLng()));
+        }
+        //em.merge(sProvider);
         return true;
     }
 
@@ -33,7 +43,9 @@ public class CoordenatesHibernateDao implements CoordenatesDao{
         if(sProvider == null){
             return false;
         }
-        sProvider.setCoordenates(Collections.EMPTY_SET);
+        for(CoordenatesPoint cor : sProvider.getCoordenates()){
+            em.remove(cor);
+        }
         return true;
     }
 

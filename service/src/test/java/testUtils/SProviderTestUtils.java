@@ -8,6 +8,7 @@ import ar.edu.itba.paw.model.WorkingZone;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,7 +20,7 @@ public class SProviderTestUtils {
 
     public static SProvider dummySProvider(){
         Random r = new Random();
-        return new SProvider(UserTestUtils.dummyUser(),r.toString(),new HashSet<Aptitude>(),new HashSet<CoordenatesPoint>());
+        return new SProvider(UserTestUtils.dummyUser(),r.toString(),new HashSet<Aptitude>(),new TreeSet<>());
     }
 
     public static Set<SProvider> dummySProviders(int size){

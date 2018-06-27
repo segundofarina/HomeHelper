@@ -198,7 +198,7 @@ public class ClientController {
         sProviderService.addAptitude(loggedInUser.getId(), form.getServiceTypeId(), form.getAptDesc());
 
         /* Add working zone coords */
-        Set<CoordenatesPoint> coordenatesSet = new HashSet<>();
+        SortedSet<CoordenatesPoint> coordenatesSet = new TreeSet<>();
 
         String[] coordsList = form.getAptMap().split(";");
         for(int i=0; i < coordsList.length ; i++) {
@@ -206,10 +206,9 @@ public class ClientController {
             double lat = Double.parseDouble(coord[0]);
             double lng = Double.parseDouble(coord[1]);
             //add working zone
-            coordenatesSet.add(new CoordenatesPoint(lat, lng));
+            coordenatesSet.add(new CoordenatesPoint(i,lat, lng));
         }
         coordenatesService.insertCoordenatesOfProvider(loggedInUser.getId(), coordenatesSet);
-        System.out.println(coordenatesSet.size());
 
 
         final int userId = loggedInUser.getId();

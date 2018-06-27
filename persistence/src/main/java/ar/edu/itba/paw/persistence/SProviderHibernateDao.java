@@ -22,7 +22,7 @@ public class SProviderHibernateDao implements SProviderDao {
         if(!user.isPresent()){
             return Optional.empty();
         }
-        final SProvider sp =new SProvider(user.get(),description, Collections.EMPTY_SET, Collections.EMPTY_SET);
+        final SProvider sp =new SProvider(user.get(),description, Collections.EMPTY_SET, new TreeSet<>());
         em.persist(sp);
         return Optional.of(sp);
     }
