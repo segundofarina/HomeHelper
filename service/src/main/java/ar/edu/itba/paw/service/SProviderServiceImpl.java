@@ -160,21 +160,24 @@ public class SProviderServiceImpl implements SProviderService {
     }
 
     @Override
-    public List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId) {
+    public List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId) {
         //return sProviderDao.getServiceProvidersByNeighborhoodAndServiceType(ngId, stId);
         List<SProvider> allServiceProviders = getServiceProvidersWithServiceType(stId);
 
         List<SProvider> res = new ArrayList<>();
         for(SProvider sp : allServiceProviders) {
-            /* Check if service provider works in clientLocation */
+            /* Avoid me in the list */
+            if(userId < 0 || sp.getId() != userId) {
+                /* Check if service provider works in clientLocation */
 
-            List<CoordenatesPoint> polygon = new ArrayList<>();
-            polygon.add(new CoordenatesPoint(-34.557176,-58.430436));
-            polygon.add(new CoordenatesPoint(-34.588696,-58.431428));
-            polygon.add(new CoordenatesPoint(-34.575376,-58.403839));
+                List<CoordenatesPoint> polygon = new ArrayList<>();
+                polygon.add(new CoordenatesPoint(-34.557176,-58.430436));
+                polygon.add(new CoordenatesPoint(-34.588696,-58.431428));
+                polygon.add(new CoordenatesPoint(-34.575376,-58.403839));
 
-            if(isLatLngInPolygon(clientLocationLat, clientLocationLng, polygon)) {
-                res.add(sp);
+                if(isLatLngInPolygon(clientLocationLat, clientLocationLng, polygon)) {
+                    res.add(sp);
+                }
             }
         }
 
