@@ -123,8 +123,10 @@ public class ServiceProviderController {
         final int providerId = loggedInUser.getId();
 
         /* Get current chat and validate it has messages */
+        List<Chat> chatList = chatService.getChatsOfProvider(providerId);
         Chat currentChat = chatService.getChatOfProvider(providerId, clientId);
-        if(currentChat == null || currentChat.getMessages().size() == 0) {
+
+        if(chatList.size() > 0 && (currentChat == null || currentChat.getMessages().size() == 0)) {
             throw new NotFoundException();
         }
 
@@ -133,7 +135,7 @@ public class ServiceProviderController {
         mav.addObject("provider", loggedInUser);
 
 
-        mav.addObject("chats", chatService.getChatsOfProvider(providerId));
+        mav.addObject("chats", chatList);
         mav.addObject("currentChat", currentChat);
 
 

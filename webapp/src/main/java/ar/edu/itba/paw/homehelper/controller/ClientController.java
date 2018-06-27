@@ -140,8 +140,10 @@ public class ClientController {
         final ModelAndView mav = new ModelAndView("clientMessages");
 
         /* Get current chat and validate it has messages */
+        List<Chat> chatList= chatService.getChatsOfUser(loggedInUser.getId());
         Chat currentChat = chatService.getChatOfUser(loggedInUser.getId(), providerId);
-        if(currentChat == null || currentChat.getMessages().size() == 0) {
+
+        if(chatList.size() > 0 && (currentChat == null || currentChat.getMessages().size() == 0)) {
             throw new NotFoundException();
         }
 
@@ -150,7 +152,7 @@ public class ClientController {
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
         List<Chat> list= chatService.getChatsOfUser(loggedInUser.getId());
-        mav.addObject("chats", list);
+        mav.addObject("chats", chatList);
 
         LOGGER.debug("List of chats size: {} for user {}",list.size(),getUserString(loggedInUser));
 
