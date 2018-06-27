@@ -1,9 +1,6 @@
 package ar.edu.itba.paw.model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,8 +15,8 @@ public class SProviderTestUtils {
         return new SProvider(UserTestUtils.dummyUser(),r.toString(),new HashSet<Aptitude>(),new HashSet<WorkingZone>());
     }
 
-    public static List<SProvider> dummySProviders(int size){
-        List<SProvider> sProviderList = new ArrayList<>();
+    public static Set<SProvider> dummySProviders(int size){
+        Set<SProvider> sProviderList = new HashSet<>();
 
         for(int i=0; i < size ; i++){
             sProviderList.add(dummySProvider());
