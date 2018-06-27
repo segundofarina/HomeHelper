@@ -1,4 +1,3 @@
-
 CREATE TABLE IF NOT EXISTS users (
   userid SERIAL PRIMARY KEY,
   username varchar(100) UNIQUE NOT NULL ,
@@ -30,6 +29,7 @@ CREATE TABLE IF NOT EXISTS aptitudes(
 );
 
 CREATE TABLE IF NOT EXISTS reviews(
+  reviewId SERIAL PRIMARY KEY,
   userId INTEGER  REFERENCES users(userId),
   aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
   reviewdate DATE default CURRENT_DATE,
@@ -71,17 +71,13 @@ CREATE TABLE IF NOT EXISTS neighborhoods(
 );
 
 CREATE TABLE IF NOT EXISTS workingzones(
+  workingZoneId SERIAL PRIMARY KEY,
   ngId INTEGER REFERENCES neighborhoods(ngId),
   userId INTEGER REFERENCES serviceProviders(userId)
 );
 
 CREATE TABLE IF NOT EXISTS temporaryImages (
   imageid SERIAL PRIMARY KEY,
-  image   BYTEA
-);
-
-CREATE TABLE IF NOT EXISTS defaultImages (
-  imageid INTEGER PRIMARY KEY,
   image   BYTEA
 );
 

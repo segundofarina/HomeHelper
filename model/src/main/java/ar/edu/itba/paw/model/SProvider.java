@@ -1,29 +1,56 @@
 package ar.edu.itba.paw.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class SProvider extends User{
+@Entity
+@PrimaryKeyJoinColumn(name = "userid")
+@Table(name = "serviceProviders")
+public class SProvider {
+
+    @Column(name = "description",length = 100, nullable = false)
     private String description;
-    //@ManyToMany(FetchType.Lazy)
-    private List<Aptitude> aptitudes;
-    private List<Neighborhood> neighborhoods;
 
-    public SProvider(User user, String description, List<Aptitude> aptitudes, List<Neighborhood> neighborhoods) {
-        super(user.getUsername(),user.getId(),user.getPassword(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getPhone(),user.getAddress(),user.getImage(),user.isVerified());
+    @Id
+    @Column(name = "userid")
+    private int id;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userid")
+    private User user;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userid")
+    private Set<Aptitude> aptitudes;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "userid")
+    private Set<WorkingZone> workingZones;
+
+    /*package*/ SProvider(){
+
+    }
+
+    public SProvider(User user, String description, Set<Aptitude> aptitudes, Set<WorkingZone> workingZones) {
+        this.id=user.getId();
+        this.user=user;
         this.description = description;
         this.aptitudes = aptitudes;
-        this.neighborhoods = neighborhoods;
+        this.workingZones = workingZones;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public List<Aptitude> getAptitudes() {
+    public Set<Aptitude> getAptitudes() {
         return aptitudes;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public double getQualityCalification(){
@@ -122,10 +149,50 @@ public class SProvider extends User{
         return false;
     }
 
-    public List<Neighborhood> getNeighborhoods() {
-        return this.neighborhoods;
+    public int getId() {
+        return id;
+    }
+
+    public List<Neighborhood> getNeighborhoods(){
+        List<Neighborhood> neighborhoods = new ArrayList<>();
+        for(WorkingZone workingZone: workingZones){
+            neighborhoods.add(workingZone.getNeighborhood());
+        }
+        return neighborhoods;
+    }
+
+    public Set<WorkingZone> getWorkingZones() {
+        return this.workingZones;
     }
 
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
+    public void setAptitudes(Set<Aptitude> aptitudes) {
+        this.aptitudes = aptitudes;
+    }
+
+    public void setWorkingZones(Set<WorkingZone> workingZones) {
+        this.workingZones = workingZones;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SProvider)) return false;
+
+        SProvider sProvider = (SProvider) o;
+
+        if (getId() != sProvider.getId()) return false;
+        return getDescription() != null ? getDescription().equals(sProvider.getDescription()) : sProvider.getDescription() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getDescription() != null ? getDescription().hashCode() : 0;
+        result = 31 * result + getId();
+        return result;
+    }
 }

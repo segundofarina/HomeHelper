@@ -1,23 +1,35 @@
 package ar.edu.itba.paw.model;
 
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "serviceTypes")
 public class ServiceType {
-    private int serviceTypeId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "serviceTypes_serviceTypeId_seq")
+    @SequenceGenerator(sequenceName = "serviceTypes_serviceTypeId_seq", name = "serviceTypes_serviceTypeId_seq", allocationSize = 1)
+    @Column(name = "serviceTypeId")
+    private int id;
+
+    @Column(name = "serviceName", length = 256)
     private String name;
 
-    public ServiceType(int serviceTypeId, String name) {
-        this.serviceTypeId = serviceTypeId;
+    /* package */ ServiceType(){
+
+    }
+
+    public ServiceType(String name) {
         this.name = name;
     }
 
     public int getServiceTypeId() {
-        return serviceTypeId;
+        return id;
     }
 
     public void setServiceTypeId(int serviceTypeId) {
-        this.serviceTypeId = serviceTypeId;
+        this.id = serviceTypeId;
     }
 
     public String getName() {
@@ -28,16 +40,25 @@ public class ServiceType {
         this.name = name;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ServiceType)) return false;
+
         ServiceType that = (ServiceType) o;
-        return getServiceTypeId() == that.getServiceTypeId() && Objects.equals(getName(), that.getName());
+
+        if (getId() != that.getId()) return false;
+        return getName() != null ? getName().equals(that.getName()) : that.getName() == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getServiceTypeId(), getName());
+        int result = getId();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+        return result;
     }
 }

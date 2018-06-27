@@ -1,27 +1,55 @@
 package ar.edu.itba.paw.model;
 
-import java.sql.Timestamp;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
+@Entity
+@Table(name = "appointments")
 public class Appointment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appointments_appointmentid_seq")
+    @SequenceGenerator(sequenceName = "appointments_appointmentid_seq", name = "appointments_appointmentid_seq", allocationSize = 1)
+    @Column(name = "appointmentid")
     private int appointmentId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userid",nullable = false)
     private User client;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "providerid", referencedColumnName = "userid", nullable = false)
     private SProvider provider;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "servicetypeid", nullable = false)
     private ServiceType serviceType;
+
+    @Column(name = "appointmentDate")
     private Date date;
+
+    @Column(name = "address", length =  10000, nullable = false)
     private String address;
-    private Status status;
+
+    @Column(name = "status", length =  20, nullable = false)
+    private String status;
+
+    @Column(name = "jobDescription", length =  10000, nullable = false)
     private String jobDescripcion;
+
+    @Column(name = "clientReview")
     private boolean clientReview;
 
-    public Appointment(int appointmentId, User client, SProvider provider, ServiceType serviceType, Date date, String address, Status estatus, String jobDescripcion,boolean clientReview) {
-        this.appointmentId = appointmentId;
+    /* package */ Appointment(){
+
+    }
+    public Appointment(User client, SProvider provider, ServiceType serviceType, Date date, String address, Status estatus, String jobDescripcion,boolean clientReview) {
         this.client = client;
         this.provider = provider;
         this.serviceType = serviceType;
         this.date = date;
         this.address = address;
-        this.status = estatus;
+        this.status = estatus.toString();
         this.jobDescripcion = jobDescripcion;
         this.clientReview = clientReview;
     }
@@ -51,18 +79,45 @@ public class Appointment {
     }
 
     public Status getStatus() {
-        return status;
+        return Status.getStatus(status);
     }
 
     public String getJobDescripcion() {
         return jobDescripcion;
     }
 
-    public void setStatus(Status estatus) {
-        this.status = estatus;
+    public void setStatus(Status status) {
+        this.status = status.toString();
     }
 
     public boolean isClientReview() {
         return clientReview;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setClientReview(boolean clientReview) {
+        this.clientReview = clientReview;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Appointment)) return false;
+
+        Appointment that = (Appointment) o;
+
+        return getAppointmentId() == that.getAppointmentId();
+    }
+
+    @Override
+    public int hashCode() {
+        return getAppointmentId();
     }
 }

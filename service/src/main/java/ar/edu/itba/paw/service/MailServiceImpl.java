@@ -20,6 +20,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import freemarker.template.Configuration;
@@ -47,6 +48,7 @@ public class MailServiceImpl implements MailService{
     VerifyEmailDao verifyEmailDao;
 
 
+    @Transactional
     @Override
     @Async
     public void sendConfirmationEmail(int userId, String key) {
@@ -71,15 +73,19 @@ public class MailServiceImpl implements MailService{
         }
     }
 
+    @Transactional
     @Override
     public User verifyUserKey(String key) {
         Optional<Integer> id =verifyEmailDao.getUserId(key);
         if(id.isPresent()){
             verifyEmailDao.deleteEntry(key);
 
-            User user = userDao.verifyUser(id.get());
-            user.setVerified(true);
-            return user;
+            Optional<User> user = userDao.verifyUser(id.get());
+            if(!user.isPresent()){
+                return null;
+            }
+            user.get().setVerified(true);
+            return user.get();
         }else{
             return null;
         }

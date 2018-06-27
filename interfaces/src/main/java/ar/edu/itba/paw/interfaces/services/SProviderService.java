@@ -3,6 +3,7 @@ package ar.edu.itba.paw.interfaces.services;
 import ar.edu.itba.paw.model.*;
 
 import java.util.List;
+import java.util.Set;
 
 public interface SProviderService {
 
@@ -10,7 +11,7 @@ public interface SProviderService {
 
     SProvider create(int userId, String description);
 
-    List<SProvider> getServiceProviders();
+    Set<SProvider> getServiceProviders();
 
     List<SProvider> getServiceProvidersWithServiceType(int serviceType);
 
@@ -26,9 +27,9 @@ public interface SProviderService {
 
     List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId);
 
-    List<Review> getReviewsOfServiceProvider(int sproviderId);
+    Set<Review> getReviewsOfServiceProvider(int sproviderId);
 
-    List<Aptitude> getAptitudesOfUser(int id);
+    Set<Aptitude> getAptitudesOfUser(int id);
 
     boolean updateDescriptionOfAptitude(int aptId, String description);
 

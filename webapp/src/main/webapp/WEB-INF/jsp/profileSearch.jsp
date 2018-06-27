@@ -58,7 +58,7 @@
                                     <form:select path="serviceType" class="form-control" >
                                         <form:option value=""><spring:message code="index.select-serviceType"/></form:option>
                                         <c:forEach items="${serviceTypes}" var="st">
-                                            <form:option value="${st.serviceTypeId}"><spring:message code="service-type.${st.serviceTypeId}"/></form:option>
+                                            <form:option value="${st.id}"><spring:message code="service-type.${st.id}"/></form:option>
                                         </c:forEach>
                                     </form:select>
                                     <form:errors path="serviceType" element="p" cssClass="form-error" />
@@ -82,8 +82,8 @@
                                     <div class="col-xs-6 col-sm-2">
                                         <div class="profileImg">
                                             <c:choose>
-                                                <c:when test="${provider.image != null}">
-                                                    <img src="<c:url value="/profile/${provider.id}/profileimage" />" alt="Profile picture" />
+                                                <c:when test="${provider.user.image != null}">
+                                                    <img src="<c:url value="/profile/${provider.user.id}/profileimage" />" alt="Profile picture" />
                                                 </c:when>
                                                 <c:otherwise>
                                                     <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
@@ -92,17 +92,17 @@
 
                                             <div class="profileBtn hidden-xs">
 
-                                                <a href="<c:url value="/profile/${provider.id}?st=${serviceTypeId}" />" class="btn btn-success btn-sm"><spring:message code="profile.view-profile"/></a>
+                                                <a href="<c:url value="/profile/${provider.user.id}?st=${serviceTypeId}" />" class="btn btn-success btn-sm"><spring:message code="profile.view-profile"/></a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-10">
                                         <div class="moveLeft">
-                                            <h3 class="profileName"><c:out value="${provider.firstname}"/> <c:out value="${provider.lastname}"/></h3>
+                                            <h3 class="profileName"><c:out value="${provider.user.firstname}"/> <c:out value="${provider.user.lastname}"/></h3>
                                             <span class="separatorDot">&#x25CF;</span>
                                             <h5 class="serviceTypes">
                                                 <c:forEach items="${provider.aptitudes}" var="aptitude">
-                                                    <spring:message code="service-type.${aptitude.service.serviceTypeId}"/>
+                                                    <spring:message code="service-type.${aptitude.service.id}"/>
                                                 </c:forEach>
                                             </h5>
                                         </div>
@@ -122,7 +122,7 @@
                                     </div>
                                 </div>
                                 <div class="profileBtn visible-xs">
-                                    <a href="<c:url value="/profile/${provider.id}?st=${serviceTypeId}" />" class="btn btn-success btn-sm btn-full-width"><spring:message code="profile.view-profile"/></a>
+                                    <a href="<c:url value="/profile/${provider.user.id}?st=${serviceTypeId}" />" class="btn btn-success btn-sm btn-full-width"><spring:message code="profile.view-profile"/></a>
                                 </div>
                             </div>
                         </div>

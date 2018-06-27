@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -343,7 +344,7 @@ public class ServiceProviderController {
         return new ModelAndView("redirect:/sprovider/editProfile");
     }
 
-    private boolean isValidAptitude(int aptitudeId, List<Aptitude> aptitudeList) {
+    private boolean isValidAptitude(int aptitudeId, Set<Aptitude> aptitudeList) {
         for(Aptitude ap : aptitudeList) {
             if(ap.getId() == aptitudeId) {
                 return true;

@@ -35,6 +35,7 @@ import javax.validation.Valid;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -65,9 +66,6 @@ public class PublicController {
 
     @Autowired
     private TempImagesService tempImagesService;
-
-    @Autowired
-    private DefaultImagesService defaultImagesService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PublicController.class);
 
@@ -144,7 +142,8 @@ public class PublicController {
         }
 
 
-        final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(lat, lng, serviceTypeId, loggedInUser.getId());
+        final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(lat, lng, serviceTypeId, getUserId(loggedInUser));
+
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));

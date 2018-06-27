@@ -5,12 +5,13 @@ import ar.edu.itba.paw.model.Aptitude;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface AptitudeDao {
 
-    List<Aptitude> getAptitudesOfUser(int id);
+    Set<Aptitude> getAptitudesOfUser(int id);
 
-    void insertAptitude(int sProviderId, int serviceId, String description);
+    boolean insertAptitude(int sProviderId, int serviceId, String description);
 
     boolean updateDescriptionOfAptitude(int aptId, String description);
 

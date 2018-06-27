@@ -48,8 +48,8 @@
                     <div class="content">
                         <div class="profileImg">
                             <c:choose>
-                                <c:when test="${provider.image != null}">
-                                    <img src="<c:url value="/profile/${provider.id}/profileimage" />" alt="profile picture" />
+                                <c:when test="${provider.user.image != null}">
+                                    <img src="<c:url value="/profile/${provider.user.id}/profileimage" />" alt="profile picture" />
                                 </c:when>
                                 <c:otherwise>
                                     <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
@@ -57,11 +57,11 @@
                             </c:choose>
                         </div>
                         <div class="name">
-                            <h3><c:out value="${provider.firstname}"/> <c:out value="${provider.lastname}"/></h3>
+                            <h3><c:out value="${provider.user.firstname}"/> <c:out value="${provider.user.lastname}"/></h3>
                         </div>
                         <div class="serviceType">
                             <c:forEach items="${provider.aptitudes}" var="aptitude">
-                            <em><spring:message code="service-type.${aptitude.service.serviceTypeId}"/></em>
+                            <em><spring:message code="service-type.${aptitude.service.id}"/></em>
                             </c:forEach>
                         </div>
                         <c:choose>
@@ -102,18 +102,18 @@
                             <div class="panel-body">
                                 <c:url value="/profile/sendAppointment" var="postPath"/>
                                 <form:form modelAttribute="appointmentForm" action="${postPath}" method="post">
-                                    <form:input type="hidden" value="${provider.id}" path="providerId" />
+                                    <form:input type="hidden" value="${provider.user.id}" path="providerId" />
                                     <div class="form-group">
                                         <form:label path="serviceType"><spring:message code="form.service-type"/></form:label>
                                         <form:select class="form-control" path="serviceType">
                                             <form:option value="none"><spring:message code="profile.select-serviceType"/></form:option>
                                             <c:forEach items="${provider.aptitudes}" var="aptitude">
                                                 <c:choose>
-                                                    <c:when test="${aptitude.service.serviceTypeId == serviceTypeId}">
-                                                        <form:option value="${aptitude.service.serviceTypeId}" selected="selected"><spring:message code="service-type.${aptitude.service.serviceTypeId}"/></form:option>
+                                                    <c:when test="${aptitude.service.id == serviceTypeId}">
+                                                        <form:option value="${aptitude.service.id}" selected="selected"><spring:message code="service-type.${aptitude.service.id}"/></form:option>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <form:option value="${aptitude.service.serviceTypeId}"><spring:message code="service-type.${aptitude.service.serviceTypeId}"/></form:option>
+                                                        <form:option value="${aptitude.service.id}"><spring:message code="service-type.${aptitude.service.id}"/></form:option>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </c:forEach>
@@ -147,7 +147,7 @@
                 <!-- Aptitudes -->
                 <div class="row aptitude">
                     <div class="col-xs-12 col-sm-8 col-md-9">
-                        <h3> <spring:message code="service-type.${currentAptitude.service.serviceTypeId}"/></h3>
+                        <h3> <spring:message code="service-type.${currentAptitude.service.id}"/></h3>
                         <div class="row">
                             <c:choose>
                                 <c:when test="${currentAptitude.reviews.size() == 0}" >
@@ -588,6 +588,8 @@
         });
 
     });
+
+
 
     function initializeMap() {
         var coordsList = "";

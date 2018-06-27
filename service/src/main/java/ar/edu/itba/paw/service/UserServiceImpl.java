@@ -1,20 +1,12 @@
 package ar.edu.itba.paw.service;
 
-
-import ar.edu.itba.paw.interfaces.daos.AppointmentDao;
 import ar.edu.itba.paw.interfaces.daos.UserDao;
-import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.interfaces.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.Optional;
 
 
@@ -24,14 +16,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private AppointmentDao appointmentDao;
 
-
+    @Transactional
+    @Override
     public User findById(int id) {
-        return userDao.findById(id).get();
+        Optional<User> user = userDao.findById(id);
+        return user.isPresent()?user.get():null;
     }
 
+    @Transactional
     @Override
     public User findByUsername(String username) {
         Optional<User> user = userDao.findByUsername(username);
@@ -41,11 +34,14 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Transactional
+    @Override
     public User create(String username, String password, String firstname, String lastname, String email, String phone,String address,byte[] image) {
         return userDao.create(username, password, firstname, lastname, email,  phone,address ,image);
 
     }
 
+    @Transactional
     @Override
     public boolean login(String username, String password) {
         Optional<User> response =userDao.findByUsername(username);
@@ -59,6 +55,7 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Transactional
     @Override
     public byte[] getProfileImage(int id) {
 
@@ -70,36 +67,43 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Transactional
     @Override
     public boolean updatePasswordOfUser(int userId, String password) {
         return userDao.updatePasswordOfUser(userId,password);
     }
 
+    @Transactional
     @Override
     public boolean updateFirstNameOfUser(int userId, String firstname) {
         return userDao.updateFirstNameOfUser(userId,firstname);
     }
 
+    @Transactional
     @Override
     public boolean updateLastNameOfUser(int userId, String lastname) {
         return userDao.updateLastNameOfUser(userId,lastname);
     }
 
+    @Transactional
     @Override
     public boolean updateEmailOfUser(int userId, String email) {
         return userDao.updateEmailOfUser(userId,email);
     }
 
+    @Transactional
     @Override
     public boolean updatePhoneOfUser(int userId, String phone) {
         return userDao.updatePhoneOfUser(userId,phone);
     }
 
+    @Transactional
     @Override
     public boolean updateImageOfUser(int userId, byte[] image) {
         return userDao.updateImageOfUser(userId,image);
     }
 
+    @Transactional
     @Override
     public boolean updateAddressOfUser(int userId, String address) {
         return userDao.updateAddressOfUser(userId,address);

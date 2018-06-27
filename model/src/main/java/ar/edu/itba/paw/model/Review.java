@@ -1,59 +1,87 @@
 package ar.edu.itba.paw.model;
 
-import java.sql.Timestamp;
+import javax.persistence.*;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
+@Entity
+@Table(name = "reviews")
 public class Review {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reviews_reviewId_seq")
+    @SequenceGenerator(sequenceName = "reviews_reviewId_seq", name = "reviews_reviewId_seq", allocationSize = 1)
+    @Column(name = "reviewId")
+    private int id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId")
     private User user;
-    private HashMap<String,Integer> calification;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "aptitudeId")
+    private Aptitude aptitude;
+
+    @Column(name ="comment", length = 10000)
     private String comment;
+
+    @Column(name = "quality")
+    private int quality;
+
+    @Column(name = "cleanness")
+    private int cleanness;
+
+    @Column(name = "price")
+    private int price;
+
+    @Column(name = "punctuality")
+    private int punctuality;
+
+    @Column(name = "treatment")
+    private int treatment;
+
+    @Column(name = "reviewdate")
     private Date date;
 
-    public Review(int quality, int cleanness, int price, int punctuality, int treatment, String comment, Date date, User user) {
+    /* package */ Review(){
 
-        calification = new HashMap<>();
+    }
 
-        calification.put("Quality",quality);
-        calification.put("Cleanness",cleanness);
-        calification.put("Price",price);
-        calification.put("Punctuality",punctuality);
-        calification.put("Treatment",treatment);
-
+    public Review(int quality, int cleanness, int price, int punctuality, int treatment, String comment, Date date, User user, Aptitude aptitude) {
+        this.quality = quality;
+        this.cleanness = cleanness;
+        this.price = price;
+        this.punctuality = punctuality;
+        this.treatment = treatment;
         this.comment = comment;
         this.date = date;
         this.user = user;
+        this.aptitude = aptitude;
     }
 
-    public int getQualityCalification(){
-        return calification.get("Quality");
-    }
+    public int getQualityCalification(){ return this.quality; }
 
-    public int getCleannessCalification(){
-        return calification.get("Cleanness");
-    }
+    public int getCleannessCalification(){ return this.cleanness; }
 
-    public int getPriceCalification(){
-        return calification.get("Price");
-    }
+    public int getPriceCalification(){ return this.price; }
 
     public int getPunctualityCalification(){
-        return calification.get("Punctuality");
+       return this.punctuality;
     }
 
-    public int getTreatmentCalification(){
-        return calification.get("Treatment");
-    }
+    public int getTreatmentCalification(){ return this.treatment; }
 
     public int getGeneralCalification() {
         int generalCalification = 0;
-
-        for(Map.Entry<String,Integer> entry : calification.entrySet()){
-            generalCalification+= entry.getValue();
-        }
-
-        return generalCalification/calification.size();
+        generalCalification += quality;
+        generalCalification += cleanness;
+        generalCalification += price;
+        generalCalification += punctuality;
+        generalCalification += treatment;
+        return generalCalification/5;
     }
 
     public String getComment() {
@@ -68,4 +96,21 @@ public class Review {
         return user;
     }
 
+    public Aptitude getAptitude() {
+        return aptitude;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Review)) return false;
+
+        Review review = (Review) o;
+
+        return id == review.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }
