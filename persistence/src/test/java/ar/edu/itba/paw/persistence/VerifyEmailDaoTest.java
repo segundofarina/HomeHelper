@@ -20,6 +20,7 @@ import javax.sql.DataSource;
 
 import java.util.Optional;
 
+import static ar.edu.itba.paw.persistence.Const.*;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
@@ -50,12 +51,12 @@ public class VerifyEmailDaoTest {
     @Test
     public void insertTest(){
         int count = JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "verifyUsers");
-        assertTrue(verifyEmailDao.insert(Const.USER4_ID,"asdasdasdasdasd"));
+        assertTrue(verifyEmailDao.insert(USER4_ID,"asdasdasdasdasd"));
         em.flush();
         assertEquals(++count,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "verifyUsers"));
 
         try{
-            verifyEmailDao.insert(Const.USER_ID,"Holaohaosdj");
+            verifyEmailDao.insert(USER_ID,"Holaohaosdj");
         }catch (Exception e){
 
         }
@@ -65,20 +66,20 @@ public class VerifyEmailDaoTest {
 
     @Test
     public void getKeyTest(){
-        Optional<String> keyOp = verifyEmailDao.getKey(Const.USER_ID);
+        Optional<String> keyOp = verifyEmailDao.getKey(USER_ID);
         assertTrue(keyOp.isPresent());
-        assertEquals(Const.USER_KEY,keyOp.get());
+        assertEquals(USER_KEY,keyOp.get());
 
-        keyOp = verifyEmailDao.getKey(Const.USER3_ID);
+        keyOp = verifyEmailDao.getKey(USER3_ID);
         assertFalse(keyOp.isPresent());
 
     }
 
     @Test
     public void getUserIdTest(){
-        Optional<Integer> idOp = verifyEmailDao.getUserId(Const.USER_KEY);
+        Optional<Integer> idOp = verifyEmailDao.getUserId(USER_KEY);
         assertTrue(idOp.isPresent());
-        assertEquals(Const.USER_ID,idOp.get().intValue());
+        assertEquals(USER_ID,idOp.get().intValue());
 
         idOp = verifyEmailDao.getUserId("ihdfiuhfdiu98899889");
         assertFalse(idOp.isPresent());
@@ -87,7 +88,7 @@ public class VerifyEmailDaoTest {
     @Test
     public void deleteEntryTest(){
         int count = JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "verifyUsers");
-        assertTrue(verifyEmailDao.deleteEntry(Const.USER_KEY));
+        assertTrue(verifyEmailDao.deleteEntry(USER_KEY));
         em.flush();
         assertEquals(--count,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "verifyUsers"));
 

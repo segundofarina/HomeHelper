@@ -20,7 +20,8 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import static junit.framework.Assert.*;
+import static ar.edu.itba.paw.persistence.Const.*;
+import static junit.framework.TestCase.*;
 
 @Sql("classpath:schema.sql")
     @RunWith(SpringJUnit4ClassRunner.class)
@@ -65,14 +66,14 @@ import static junit.framework.Assert.*;
         @Test
         public void testFindById(){
 
-            Optional<User> response = userDao.findById(Const.USER_ID);
+            Optional<User> response = userDao.findById(USER_ID);
             assertTrue(response.isPresent());
-            assertEquals(Const.USER_USERNAME,response.get().getUsername());
-            assertEquals(Const.USER_PASSWORD,response.get().getPassword());
-            assertEquals(Const.USER_FIRSTNAME,response.get().getFirstname());
-            assertEquals(Const.USER_LASTNAME,response.get().getLastname());
-            assertEquals(Const.USER_EMAIL,response.get().getEmail());
-            assertEquals(Const.USER_PHONE,response.get().getPhone());
+            assertEquals(USER_USERNAME,response.get().getUsername());
+            assertEquals(USER_PASSWORD,response.get().getPassword());
+            assertEquals(USER_FIRSTNAME,response.get().getFirstname());
+            assertEquals(USER_LASTNAME,response.get().getLastname());
+            assertEquals(USER_EMAIL,response.get().getEmail());
+            assertEquals(USER_PHONE,response.get().getPhone());
 
             response = userDao.findById(115);
             assertFalse(response.isPresent());

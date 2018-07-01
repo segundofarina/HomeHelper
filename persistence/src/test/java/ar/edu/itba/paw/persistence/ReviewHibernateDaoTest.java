@@ -17,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
+import static ar.edu.itba.paw.persistence.Const.*;
 import static org.junit.Assert.assertEquals;
 
 @Sql("classpath:schema.sql")
@@ -43,10 +44,10 @@ public class ReviewHibernateDaoTest extends AbstractTransactionalJUnit4SpringCon
     @Test
     public void getReviewsOfAptitudeTest(){
 
-        assertEquals(2,reviewDao.getReviewsOfAptitude(Const.VALID_APTITUDE_ID).size());
+        assertEquals(2,reviewDao.getReviewsOfAptitude(VALID_APTITUDE_ID).size());
 
-        assertEquals(1,reviewDao.getReviewsOfAptitude(Const.VALID_APTITUDE2_ID).size());
+        assertEquals(1,reviewDao.getReviewsOfAptitude(VALID_APTITUDE2_ID).size());
 
-        assertEquals(0,reviewDao.getReviewsOfAptitude(Const.INVALID_APTITUDE_ID).size());
+        assertEquals(0,reviewDao.getReviewsOfAptitude(INVALID_APTITUDE_ID).size());
     }
 }

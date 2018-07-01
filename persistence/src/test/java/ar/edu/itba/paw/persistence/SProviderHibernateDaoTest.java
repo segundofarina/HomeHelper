@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static ar.edu.itba.paw.persistence.Const.*;
 import static junit.framework.TestCase.*;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -52,11 +53,11 @@ public class SProviderHibernateDaoTest extends AbstractTransactionalJUnit4Spring
     @Test
     public void createTest() {
         int count = JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "serviceProviders");
-        final Optional<SProvider> sProvider = sProviderDao.create(Const.USER_ID,Const.VALID_DESCRIPTION);
+        final Optional<SProvider> sProvider = sProviderDao.create(USER_ID,VALID_DESCRIPTION);
         em.flush();
         assertNotNull(sProvider);
         assertTrue(sProvider.isPresent());
-        assertEquals(Const.USER_ID, sProvider.get().getUser().getId());
+        assertEquals(USER_ID, sProvider.get().getUser().getId());
         assertEquals(count+1,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "serviceProviders"));
     }
 
@@ -65,32 +66,32 @@ public class SProviderHibernateDaoTest extends AbstractTransactionalJUnit4Spring
 
         final Set<SProvider> sProviders = sProviderDao.getServiceProviders();
         assertNotNull(sProviders);
-        assertTrue(containsSpId(sProviders,Const.SPROVIDER_ID) );
-        assertTrue(containsSpId(sProviders,Const.SPROVIDER_ID) );
+        assertTrue(containsSpId(sProviders,SPROVIDER_ID) );
+        assertTrue(containsSpId(sProviders,SPROVIDER_ID) );
         assertEquals(3,sProviders.size());
-        assertFalse(containsSpId(sProviders,Const.USER_ID));
+        assertFalse(containsSpId(sProviders,USER_ID));
     }
 
     @Test
     public void getServiceProviderWithUserIdTest() {
 
-        final Optional<SProvider> sProvider = sProviderDao.getServiceProviderWithUserId(Const.SPROVIDER_ID);
+        final Optional<SProvider> sProvider = sProviderDao.getServiceProviderWithUserId(SPROVIDER_ID);
         assertNotNull(sProvider);
         assertTrue(sProvider.isPresent());
-        assertEquals(Const.SPROVIDER_ID, sProvider.get().getUser().getId());
+        assertEquals(SPROVIDER_ID, sProvider.get().getUser().getId());
     }
 
     @Test
     public void updateDescriptionOfServiceProvider(){
         int count = JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "serviceProviders");
 
-        sProviderDao.updateDescriptionOfServiceProvider(Const.SPROVIDER_ID,Const.VALID_DESCRIPTION);
+        sProviderDao.updateDescriptionOfServiceProvider(SPROVIDER_ID,VALID_DESCRIPTION);
 
-        sProviderDao.updateDescriptionOfServiceProvider(Const.INVALIDAD_USER_ID,Const.VALID_DESCRIPTION);
+        sProviderDao.updateDescriptionOfServiceProvider(INVALIDAD_USER_ID,VALID_DESCRIPTION);
 
         try {
 
-            sProviderDao.updateDescriptionOfServiceProvider(Const.SPROVIDER_ID, Const.INVALID_DESCRIPTION);
+            sProviderDao.updateDescriptionOfServiceProvider(SPROVIDER_ID, INVALID_DESCRIPTION);
         }catch (Exception e){
             assertEquals(count,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "serviceProviders"));
         }
@@ -99,7 +100,7 @@ public class SProviderHibernateDaoTest extends AbstractTransactionalJUnit4Spring
 
     @Test
     public void getServiceProviderAptitudesTest(){
-        Optional<SProvider> sProviderOp = sProviderDao.getServiceProviderWithUserId(Const.SPROVIDER_ID);
+        Optional<SProvider> sProviderOp = sProviderDao.getServiceProviderWithUserId(SPROVIDER_ID);
         assertTrue(sProviderOp.isPresent());
 
        assertEquals(2,sProviderOp.get().getAptitudes().size());
