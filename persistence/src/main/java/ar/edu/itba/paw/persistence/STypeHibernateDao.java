@@ -27,14 +27,14 @@ public class STypeHibernateDao implements STypeDao {
 
     @Override
     public List<ServiceType> getServiceTypes() {
-        return em.createQuery("from ServiceType as st",ServiceType.class)
+        return em.createQuery("from ServiceType as st", ServiceType.class)
                 .getResultList();
     }
 
     @Override
     public Optional<ServiceType> getServiceTypeWithId(int serviceTypeId) {
-        return em.createQuery("from ServiceType as st where st.id = :servicetypeid",ServiceType.class)
-                .setParameter("servicetypeid",serviceTypeId)
+        return em.createQuery("from ServiceType as st where st.id = :servicetypeid", ServiceType.class)
+                .setParameter("servicetypeid", serviceTypeId)
                 .getResultList()
                 .stream()
                 .findFirst();
@@ -42,7 +42,7 @@ public class STypeHibernateDao implements STypeDao {
 
     @Override
     public Optional<ServiceType> updateServiceTypeWithId(int serviceTypeId, String newServiceName) {
-        Optional<ServiceType> serviceTypeOp = Optional.ofNullable(em.find(ServiceType.class,serviceTypeId));
+        Optional<ServiceType> serviceTypeOp = Optional.ofNullable(em.find(ServiceType.class, serviceTypeId));
         serviceTypeOp.ifPresent(serviceType -> serviceType.setName(newServiceName));
         return serviceTypeOp;
 

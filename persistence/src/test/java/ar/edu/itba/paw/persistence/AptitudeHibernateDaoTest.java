@@ -47,48 +47,49 @@ public class AptitudeHibernateDaoTest {
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
     }
+
     @Test
-    public void getAptitudesOfUserTest(){
+    public void getAptitudesOfUserTest() {
 
-        Set<Aptitude> aptitudes =aptitudeDao.getAptitudesOfUser(USER3_ID);
+        Set<Aptitude> aptitudes = aptitudeDao.getAptitudesOfUser(USER3_ID);
 
-        assertEquals(2,aptitudes.size());
+        assertEquals(2, aptitudes.size());
 
-        assertTrue(aptitudes.contains( new Aptitude(VALID_APTITUDE_ID )));
+        assertTrue(aptitudes.contains(new Aptitude(VALID_APTITUDE_ID)));
 
-        assertFalse(aptitudes.contains( new Aptitude(INVALID_APTITUDE_ID )));
+        assertFalse(aptitudes.contains(new Aptitude(INVALID_APTITUDE_ID)));
 
-        assertEquals(0,aptitudeDao.getAptitudesOfUser(INVALIDAD_USER_ID).size());
+        assertEquals(0, aptitudeDao.getAptitudesOfUser(INVALIDAD_USER_ID).size());
 
     }
 
     @Test
-    public void insertAptitudeTest(){
+    public void insertAptitudeTest() {
 
         int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes");
 
-        aptitudeDao.insertAptitude(SPROVIDER_ID,SERVICETYPE3_ID,VALID_DESCRIPTION);
+        aptitudeDao.insertAptitude(SPROVIDER_ID, SERVICETYPE3_ID, VALID_DESCRIPTION);
         em.flush();
         assertEquals(++count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
 
         try {
-            aptitudeDao.insertAptitude(INVALID_SERVICE_PROVIDER_ID, SERVICETYPE3_ID,VALID_DESCRIPTION);
+            aptitudeDao.insertAptitude(INVALID_SERVICE_PROVIDER_ID, SERVICETYPE3_ID, VALID_DESCRIPTION);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
         }
 
-       try{
+        try {
             aptitudeDao.insertAptitude(SPROVIDER_ID, INVALID_SERVICE_TYPE_ID, VALID_DESCRIPTION);
 
-       }catch (Exception e) {
+        } catch (Exception e) {
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
-       }
+        }
 
-        try{
+        try {
             aptitudeDao.insertAptitude(SPROVIDER_ID, SERVICETYPE2_ID, INVALID_DESCRIPTION);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
 
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
         }
@@ -96,48 +97,48 @@ public class AptitudeHibernateDaoTest {
     }
 
     @Test
-    public void updateDescriptionOfAptitudeTest(){
+    public void updateDescriptionOfAptitudeTest() {
 
         int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes");
 
-        assertTrue(aptitudeDao.updateDescriptionOfAptitude(VALID_APTITUDE_ID,VALID_DESCRIPTION));
+        assertTrue(aptitudeDao.updateDescriptionOfAptitude(VALID_APTITUDE_ID, VALID_DESCRIPTION));
 
         try {
             assertFalse(aptitudeDao.updateDescriptionOfAptitude(INVALID_APTITUDE_ID, VALID_DESCRIPTION));
-        }catch(Exception e){
+        } catch (Exception e) {
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
         }
         try {
             assertFalse(aptitudeDao.updateDescriptionOfAptitude(VALID_APTITUDE_ID, INVALID_DESCRIPTION));
-        }catch (Exception e) {
+        } catch (Exception e) {
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
         }
 
     }
 
     @Test
-    public void updateServiceTypeOfAptitudeTest(){
+    public void updateServiceTypeOfAptitudeTest() {
 
         int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes");
 
-        assertTrue(aptitudeDao.updateServiceTypeOfAptitude(VALID_APTITUDE_ID,SERVICETYPE_ID));
+        assertTrue(aptitudeDao.updateServiceTypeOfAptitude(VALID_APTITUDE_ID, SERVICETYPE_ID));
 
-        assertTrue(aptitudeDao.updateServiceTypeOfAptitude(VALID_APTITUDE_ID,SERVICETYPE2_ID));
+        assertTrue(aptitudeDao.updateServiceTypeOfAptitude(VALID_APTITUDE_ID, SERVICETYPE2_ID));
 
         try {
             assertFalse(aptitudeDao.updateServiceTypeOfAptitude(VALID_APTITUDE_ID, INVALID_SERVICE_TYPE_ID));
-        }catch (Exception e) {
+        } catch (Exception e) {
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
         }
-        try{
+        try {
             assertFalse(aptitudeDao.updateServiceTypeOfAptitude(INVALID_APTITUDE_ID, SERVICETYPE2_ID));
-        }catch (Exception e) {
+        } catch (Exception e) {
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
         }
     }
 
     @Test
-    public void removeAptitudeTest(){
+    public void removeAptitudeTest() {
 
         int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes");
 
@@ -152,21 +153,21 @@ public class AptitudeHibernateDaoTest {
     }
 
     @Test
-    public void getAptitudeIdTest(){
+    public void getAptitudeIdTest() {
 
         int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes");
 
-        assertEquals(1,aptitudeDao.getAptitudeId(USER3_ID,SERVICETYPE_ID));
+        assertEquals(1, aptitudeDao.getAptitudeId(USER3_ID, SERVICETYPE_ID));
 
-        assertEquals(2,aptitudeDao.getAptitudeId(USER3_ID,SERVICETYPE2_ID));
+        assertEquals(2, aptitudeDao.getAptitudeId(USER3_ID, SERVICETYPE2_ID));
 
-        assertEquals(-1,aptitudeDao.getAptitudeId(USER3_ID,SERVICETYPE3_ID));
+        assertEquals(-1, aptitudeDao.getAptitudeId(USER3_ID, SERVICETYPE3_ID));
 
-        assertEquals(-1,aptitudeDao.getAptitudeId(USER_ID,SERVICETYPE2_ID));
+        assertEquals(-1, aptitudeDao.getAptitudeId(USER_ID, SERVICETYPE2_ID));
 
-        assertEquals(-1,aptitudeDao.getAptitudeId(INVALIDAD_USER_ID,SERVICETYPE2_ID));
+        assertEquals(-1, aptitudeDao.getAptitudeId(INVALIDAD_USER_ID, SERVICETYPE2_ID));
 
-        assertEquals(-1,aptitudeDao.getAptitudeId(USER3_ID, INVALID_SERVICE_TYPE_ID));
+        assertEquals(-1, aptitudeDao.getAptitudeId(USER3_ID, INVALID_SERVICE_TYPE_ID));
 
         assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "aptitudes"));
     }

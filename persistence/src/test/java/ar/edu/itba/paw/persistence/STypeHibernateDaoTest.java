@@ -49,19 +49,19 @@ public class STypeHibernateDaoTest {
 
     @Test
     public void createTest() {
-        int count =JdbcTestUtils.countRowsInTable(jdbcTemplate,  "serviceTypes");
+        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "serviceTypes");
         final ServiceType serviceType = sTypeDao.create(NAME);
         em.flush();
         assertNotNull(serviceType);
         assertEquals(NAME, serviceType.getName());
-        assertEquals(count+1, JdbcTestUtils.countRowsInTable(jdbcTemplate,  "serviceTypes"));
+        assertEquals(count + 1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "serviceTypes"));
     }
 
     @Test
     public void getServiceTypesTest() {
         final List<ServiceType> list = sTypeDao.getServiceTypes();
         assertNotNull(list);
-        assertEquals( JdbcTestUtils.countRowsInTable(jdbcTemplate, "serviceTypes"),list.size());
+        assertEquals(JdbcTestUtils.countRowsInTable(jdbcTemplate, "serviceTypes"), list.size());
 
     }
 
@@ -79,8 +79,8 @@ public class STypeHibernateDaoTest {
         final ServiceType st = sTypeDao.updateServiceTypeWithId(SERVICETYPE_ID, NAME_UPDATE).get();
         em.flush();
         assertNotNull(st);
-        assertEquals( SERVICETYPE_ID, st.getServiceTypeId());
-        assertEquals( NAME_UPDATE, st.getName());
+        assertEquals(SERVICETYPE_ID, st.getServiceTypeId());
+        assertEquals(NAME_UPDATE, st.getName());
     }
 
 }

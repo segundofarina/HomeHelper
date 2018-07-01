@@ -18,19 +18,19 @@ public class LoginController {
         String referer = request.getHeader("Referer");
         String redirect = referer;
 
-        if(referer !=null && referer.contains("/profile") && sAp) {
+        if (referer != null && referer.contains("/profile") && sAp) {
             redirect = "/client/getSendAppointment";
         }
 
         /* Avoid redirecting to login after login error */
-        if(referer != null && referer.contains("/login")) {
+        if (referer != null && referer.contains("/login")) {
             redirect = (String) request.getSession().getAttribute("url_prior_login");
         }
 
         request.getSession().setAttribute("url_prior_login", redirect);
 
         final ModelAndView mav = new ModelAndView("login");
-        if(error.equals("y")) {
+        if (error.equals("y")) {
             mav.addObject("error", true);
         } else {
             mav.addObject("error", false);

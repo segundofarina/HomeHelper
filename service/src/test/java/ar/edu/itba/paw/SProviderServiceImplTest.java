@@ -27,7 +27,7 @@ import static testUtils.AptitudeTestUtils.dummyAptitudes;
 import static testUtils.SProviderTestUtils.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SProviderServiceImplTest{
+public class SProviderServiceImplTest {
 
     @Mock
     private SProviderDao sProviderDaoMock;
@@ -43,20 +43,20 @@ public class SProviderServiceImplTest{
     private SProviderServiceImpl sProviderService;
 
     @Test
-    public void createTest(){
+    public void createTest() {
         SProvider expected = dummySProvider();
-        when(sProviderDaoMock.create(expected.getId(),expected.getDescription()))
+        when(sProviderDaoMock.create(expected.getId(), expected.getDescription()))
                 .thenReturn(Optional.ofNullable(expected))
                 .thenReturn(Optional.empty());
 
-        SProvider actual = sProviderService.create(expected.getId(),expected.getDescription());
+        SProvider actual = sProviderService.create(expected.getId(), expected.getDescription());
 
         assertEqualsSProviders(expected, actual);
 
-        SProvider shouldBeNull = sProviderService.create(4,expected.getDescription());
+        SProvider shouldBeNull = sProviderService.create(4, expected.getDescription());
         assertNull(shouldBeNull);
 
-        verify(sProviderDaoMock, times(2)).create(anyInt(),anyString());
+        verify(sProviderDaoMock, times(2)).create(anyInt(), anyString());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class SProviderServiceImplTest{
 
         SProvider actual = sProviderService.getServiceProviderWithUserId(expected.getId());
 
-        assertEqualsSProviders(actual,expected);
+        assertEqualsSProviders(actual, expected);
 
         verify(sProviderDaoMock, times(1)).getServiceProviderWithUserId(anyInt());
 
@@ -99,8 +99,8 @@ public class SProviderServiceImplTest{
 
         List<SProvider> actual = sProviderService.getServiceProvidersWorkingIn(1);
 
-        for(int i = 0; i < expected.size(); i++){
-            assertEqualsSProviders(actual.get(i),expected.get(i));
+        for (int i = 0; i < expected.size(); i++) {
+            assertEqualsSProviders(actual.get(i), expected.get(i));
         }
 
         verify(wZoneDaoMock, times(1)).getServiceProvidersWorkingIn(anyInt());
@@ -120,7 +120,7 @@ public class SProviderServiceImplTest{
 
         Set<Review> expected = new HashSet<>();
 
-        for(Aptitude aptitude: aptitudes){
+        for (Aptitude aptitude : aptitudes) {
             expected.addAll(aptitude.getReviews());
         }
 
@@ -129,9 +129,9 @@ public class SProviderServiceImplTest{
         assertTrue(expected.containsAll(actual));
         assertTrue(actual.containsAll(expected));
 
-        verify(aptitudeDaoMock,times(1)).getAptitudesOfUser(anyInt());
+        verify(aptitudeDaoMock, times(1)).getAptitudesOfUser(anyInt());
 
-        verify(sProviderDaoMock,times(1)).getServiceProviderWithUserId(sProvider.getId());
+        verify(sProviderDaoMock, times(1)).getServiceProviderWithUserId(sProvider.getId());
 
     }
 

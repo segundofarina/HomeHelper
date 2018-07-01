@@ -45,25 +45,25 @@ public class TemporaryImageHibernateTest {
     }
 
     @Test
-    public void insertImageTest(){
+    public void insertImageTest() {
 
         int count = JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "temporaryImages");
         temporaryImagesDao.insertImage("Any String you want".getBytes());
         em.flush();
-        assertEquals(++count,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "temporaryImages"));
+        assertEquals(++count, JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "temporaryImages"));
     }
 
     @Test
-    public void deleteImage(){
+    public void deleteImage() {
         int count = JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "temporaryImages");
         assertTrue(temporaryImagesDao.deleteImage(1));
         em.flush();
-        assertEquals(--count,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "temporaryImages"));
+        assertEquals(--count, JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "temporaryImages"));
     }
 
 
     @Test
-    public void getImage(){
+    public void getImage() {
 
     }
 

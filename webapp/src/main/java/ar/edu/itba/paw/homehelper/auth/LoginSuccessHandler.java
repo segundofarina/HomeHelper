@@ -22,18 +22,17 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         HttpSession session = request.getSession();
 
         /* Avoid showing page to unverified users */
-        if(isUnverifiedUser(authentication)) {
+        if (isUnverifiedUser(authentication)) {
             getRedirectStrategy().sendRedirect(request, response, "/unverified/user");
             super.onAuthenticationSuccess(request, response, authentication);
             return;
         }
 
 
-
-        if(session != null) {
+        if (session != null) {
             String redirectUrl = (String) session.getAttribute("url_prior_login");
 
-            if(redirectUrl != null) {
+            if (redirectUrl != null) {
                 session.removeAttribute("url_prior_login");
                 getRedirectStrategy().sendRedirect(request, response, redirectUrl);
                 return;

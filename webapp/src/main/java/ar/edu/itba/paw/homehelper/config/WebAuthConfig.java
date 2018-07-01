@@ -37,13 +37,13 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
         /* Default key */
         String key = "8EE76CDB9A8876AAE26A81FAE178FC387382830D6DD81F90C064CEDCEEAE7CDD";
         try {
-             file = ResourceUtils.getFile("classpath:keyL.pem");
+            file = ResourceUtils.getFile("classpath:keyL.pem");
         } catch (FileNotFoundException e) {
             // Handle remeber me key error loading file
             file = null;
         }
 
-        if(file != null && file.exists()) {
+        if (file != null && file.exists()) {
             try {
                 String content = new String(Files.readAllBytes(file.toPath()));
                 key = content;
@@ -55,26 +55,26 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
         http.userDetailsService(userDetailsService).sessionManagement()
                 .invalidSessionUrl("/")
                 .and().authorizeRequests()
-                    .antMatchers("/login").permitAll()
-                    .antMatchers("/signup").permitAll()
-                    .antMatchers("/sprovider/**").hasRole("PROVIDER")
-                    .antMatchers("/client/**").hasRole("USER")
-                    .antMatchers("/unverified/**").hasRole("UNVERIFIED_USER")
-                    .antMatchers("/**").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/signup").permitAll()
+                .antMatchers("/sprovider/**").hasRole("PROVIDER")
+                .antMatchers("/client/**").hasRole("USER")
+                .antMatchers("/unverified/**").hasRole("UNVERIFIED_USER")
+                .antMatchers("/**").permitAll()
                 .and().formLogin()
-                    .usernameParameter("username").passwordParameter("password")
-                    .successHandler(successHandler())
-                    .loginPage("/login")
-                    .failureUrl("/login?error=y")
+                .usernameParameter("username").passwordParameter("password")
+                .successHandler(successHandler())
+                .loginPage("/login")
+                .failureUrl("/login?error=y")
                 .and().rememberMe()
-                    .userDetailsService(userDetailsService)
-                    .rememberMeParameter("rememberme")
-                    .key(key)
-                    .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
+                .userDetailsService(userDetailsService)
+                .rememberMeParameter("rememberme")
+                .key(key)
+                .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
                 .and().logout()
-                    .logoutUrl("/logout").logoutSuccessUrl("/login")
+                .logoutUrl("/logout").logoutSuccessUrl("/login")
                 .and().exceptionHandling()
-                    .accessDeniedPage("/error/403")
+                .accessDeniedPage("/error/403")
                 .and().csrf().disable();
     }
 

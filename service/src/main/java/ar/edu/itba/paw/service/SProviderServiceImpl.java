@@ -36,8 +36,8 @@ public class SProviderServiceImpl implements SProviderService {
     @Override
     public SProvider create(int userId, String description) {
 
-        Optional<SProvider> sp = sProviderDao.create(userId,description);
-        return sp.isPresent()?sp.get():null;
+        Optional<SProvider> sp = sProviderDao.create(userId, description);
+        return sp.isPresent() ? sp.get() : null;
     }
 
     @Transactional
@@ -51,10 +51,10 @@ public class SProviderServiceImpl implements SProviderService {
     public List<SProvider> getServiceProvidersWithServiceType(int serviceType) {
         List<SProvider> filteredSp = new ArrayList<SProvider>();
 
-        for(SProvider sp: getServiceProviders()){
-           if(hasAptitude(sp,serviceType)){
-               filteredSp.add(sp);
-           }
+        for (SProvider sp : getServiceProviders()) {
+            if (hasAptitude(sp, serviceType)) {
+                filteredSp.add(sp);
+            }
         }
         return filteredSp;
 
@@ -64,7 +64,7 @@ public class SProviderServiceImpl implements SProviderService {
     @Override
     public SProvider getServiceProviderWithUserId(int userId) {
         Optional<SProvider> sProvider = sProviderDao.getServiceProviderWithUserId(userId);
-        if(sProvider.isPresent()) {
+        if (sProvider.isPresent()) {
             return sProvider.get();
         }
         return null;
@@ -74,14 +74,14 @@ public class SProviderServiceImpl implements SProviderService {
     @Transactional
     @Override
     public void addAptitude(int userId, int serviceType, String description) {
-        aptitudeDao.insertAptitude(userId,serviceType,description);
+        aptitudeDao.insertAptitude(userId, serviceType, description);
     }
 
     @Transactional
     @Override
     public boolean removeAptitude(int userId, int serviceType) {
-        int aptitudeId = aptitudeDao.getAptitudeId(userId,serviceType);
-        if(aptitudeId==-1){
+        int aptitudeId = aptitudeDao.getAptitudeId(userId, serviceType);
+        if (aptitudeId == -1) {
             return false;
         }
         return aptitudeDao.removeAptitude(aptitudeId);
@@ -90,7 +90,7 @@ public class SProviderServiceImpl implements SProviderService {
     @Transactional
     @Override
     public void updateDescriptionOfServiceProvider(int userId, String description) {
-        sProviderDao.updateDescriptionOfServiceProvider(userId,description);
+        sProviderDao.updateDescriptionOfServiceProvider(userId, description);
     }
 
     @Override
@@ -103,8 +103,8 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Override
     public Aptitude getAptitudeOfProvider(int serviceTypeId, SProvider provider) {
-        for(Aptitude ap : provider.getAptitudes()) {
-            if(ap.getService().getServiceTypeId() == serviceTypeId) {
+        for (Aptitude ap : provider.getAptitudes()) {
+            if (ap.getService().getServiceTypeId() == serviceTypeId) {
                 return ap;
             }
         }
@@ -114,8 +114,8 @@ public class SProviderServiceImpl implements SProviderService {
     @Override
     public List<Aptitude> getAllAptitudesExcept(int serviceTypeId, SProvider provider) {
         List<Aptitude> aptitudes = new ArrayList<>();
-        for(Aptitude ap : provider.getAptitudes()) {
-            if(ap.getService().getServiceTypeId() != serviceTypeId) {
+        for (Aptitude ap : provider.getAptitudes()) {
+            if (ap.getService().getServiceTypeId() != serviceTypeId) {
                 aptitudes.add(ap);
             }
         }
@@ -124,7 +124,7 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Override
     public boolean addCoordenates(int providerId, Set<CoordenatesPoint> coordenatesPoints) {
-        return coordenatesDao.insertCoordenatesOfProvider(providerId,coordenatesPoints);
+        return coordenatesDao.insertCoordenatesOfProvider(providerId, coordenatesPoints);
     }
 
     @Override
@@ -132,7 +132,7 @@ public class SProviderServiceImpl implements SProviderService {
         return coordenatesDao.deleteCoordenateOfProvideer(providerId);
     }
 
-    public List<ServiceType> getServiceTypes(){
+    public List<ServiceType> getServiceTypes() {
         return sTypeDao.getServiceTypes();
     }
 
@@ -140,31 +140,30 @@ public class SProviderServiceImpl implements SProviderService {
     @Transactional
     @Override
     public boolean updateDescriptionOfAptitude(int aptId, String description) {
-        return aptitudeDao.updateDescriptionOfAptitude(aptId,description);
+        return aptitudeDao.updateDescriptionOfAptitude(aptId, description);
     }
 
     @Transactional
     @Override
-    public boolean updateServiceTypeOfAptitude(int aptId, int stId){
-        return aptitudeDao.updateServiceTypeOfAptitude(aptId,stId);
+    public boolean updateServiceTypeOfAptitude(int aptId, int stId) {
+        return aptitudeDao.updateServiceTypeOfAptitude(aptId, stId);
     }
 
     @Transactional
     @Override
     public boolean removeWorkingZoneOfProvider(int userId, int ngId) {
-        return wZoneDao.removeWorkingZoneOfProvider(userId,ngId);
+        return wZoneDao.removeWorkingZoneOfProvider(userId, ngId);
     }
-
 
 
     @Override
     public int getServiceProviderId(int userId) {
-        if(userId == -1) {
+        if (userId == -1) {
             return -1;
         }
 
         SProvider sProvider = getServiceProviderWithUserId(userId);
-        if(sProvider == null) {
+        if (sProvider == null) {
             return -1;
         }
         return sProvider.getId();
@@ -178,13 +177,13 @@ public class SProviderServiceImpl implements SProviderService {
     @Transactional
     @Override
     public void insertWorkingZoneOfProvider(int userId, int ngId) {
-        wZoneDao.insertWorkingZoneOfProvider(userId,ngId);
+        wZoneDao.insertWorkingZoneOfProvider(userId, ngId);
     }
 
     @Transactional
     @Override
     public List<SProvider> getServiceProvidersWorkingIn(int neighborhood) {
-            return wZoneDao.getServiceProvidersWorkingIn(neighborhood);
+        return wZoneDao.getServiceProvidersWorkingIn(neighborhood);
     }
 
     @Transactional
@@ -194,11 +193,10 @@ public class SProviderServiceImpl implements SProviderService {
         List<SProvider> allServiceProviders = getServiceProvidersWithServiceType(stId);
 
         List<SProvider> res = new ArrayList<>();
-        for(SProvider sp : allServiceProviders) {
+        for (SProvider sp : allServiceProviders) {
             /* Avoid me in the list */
-            if(userId < 0 || sp.getId() != userId) {
+            if (userId < 0 || sp.getId() != userId) {
                 /* Check if service provider works in clientLocation */
-
 
 
                 List<CoordenatesPoint> polygon = new ArrayList<>();
@@ -208,7 +206,7 @@ public class SProviderServiceImpl implements SProviderService {
 //                polygon.add(new CoordenatesPoint(-34.588696,-58.431428));
 //                polygon.add(new CoordenatesPoint(-34.575376,-58.403839));
 
-                if(isLatLngInPolygon(clientLocationLat, clientLocationLng, polygon)) {
+                if (isLatLngInPolygon(clientLocationLat, clientLocationLng, polygon)) {
                     res.add(sp);
                 }
             }
@@ -219,41 +217,41 @@ public class SProviderServiceImpl implements SProviderService {
 
     private boolean isLatLngInPolygon(double lat, double lng, List<CoordenatesPoint> polygon) {
         double lengthToPoint[] = new double[polygon.size()];
-        double sideLength[] = new double [polygon.size()];
+        double sideLength[] = new double[polygon.size()];
         double anglesSum = 0;
 
         /* Get distance to point, distance to side and angles */
-        for(int i = 0; i < polygon.size(); i++) {
-            lengthToPoint[i] = Math.sqrt( Math.pow(polygon.get(i).getLat() - lat, 2) + Math.pow(polygon.get(i).getLng() - lng, 2) );
+        for (int i = 0; i < polygon.size(); i++) {
+            lengthToPoint[i] = Math.sqrt(Math.pow(polygon.get(i).getLat() - lat, 2) + Math.pow(polygon.get(i).getLng() - lng, 2));
 
-            if(i < polygon.size() -1) {
-                sideLength[i]= Math.sqrt( Math.pow(polygon.get(i+1).getLat() - polygon.get(i).getLat(), 2) + Math.pow(polygon.get(i+1).getLng() - polygon.get(i).getLng(), 2) );
+            if (i < polygon.size() - 1) {
+                sideLength[i] = Math.sqrt(Math.pow(polygon.get(i + 1).getLat() - polygon.get(i).getLat(), 2) + Math.pow(polygon.get(i + 1).getLng() - polygon.get(i).getLng(), 2));
 
             } else {
                 int lastSide = polygon.size() - 1;
-                sideLength[lastSide] = Math.sqrt( Math.pow(polygon.get(0).getLat() - polygon.get(lastSide).getLat(), 2) + Math.pow(polygon.get(0).getLng() - polygon.get(lastSide).getLng(), 2) );
+                sideLength[lastSide] = Math.sqrt(Math.pow(polygon.get(0).getLat() - polygon.get(lastSide).getLat(), 2) + Math.pow(polygon.get(0).getLng() - polygon.get(lastSide).getLng(), 2));
             }
         }
 
-        for(int i = 0; i < polygon.size(); i++) {
-            if(i < polygon.size() -1) {
-                anglesSum += ((180/(Math.PI))) * Math.acos( ( Math.pow(lengthToPoint[i], 2) + Math.pow(lengthToPoint[i+1], 2) - Math.pow(sideLength[i], 2) ) / (2 * lengthToPoint[i] * lengthToPoint[i+1]));
+        for (int i = 0; i < polygon.size(); i++) {
+            if (i < polygon.size() - 1) {
+                anglesSum += ((180 / (Math.PI))) * Math.acos((Math.pow(lengthToPoint[i], 2) + Math.pow(lengthToPoint[i + 1], 2) - Math.pow(sideLength[i], 2)) / (2 * lengthToPoint[i] * lengthToPoint[i + 1]));
             } else {
                 int lastSide = polygon.size() - 1;
-                anglesSum += ((180/(Math.PI))) * Math.acos( ( Math.pow(lengthToPoint[lastSide], 2) + Math.pow(lengthToPoint[0], 2) - Math.pow(sideLength[lastSide], 2) ) / (2 * lengthToPoint[0] * lengthToPoint[lastSide]));
+                anglesSum += ((180 / (Math.PI))) * Math.acos((Math.pow(lengthToPoint[lastSide], 2) + Math.pow(lengthToPoint[0], 2) - Math.pow(sideLength[lastSide], 2)) / (2 * lengthToPoint[0] * lengthToPoint[lastSide]));
             }
         }
 
-        if(anglesSum >= 360 - 0.00001 && anglesSum <= 360 + 0.00001) {
+        if (anglesSum >= 360 - 0.00001 && anglesSum <= 360 + 0.00001) {
             return true;
         }
 
         return false;
     }
 
-    private boolean hasAptitude(SProvider sp,int stId){
-        for(Aptitude ap :sp.getAptitudes()){
-            if(ap.getService().getServiceTypeId() == stId){
+    private boolean hasAptitude(SProvider sp, int stId) {
+        for (Aptitude ap : sp.getAptitudes()) {
+            if (ap.getService().getServiceTypeId() == stId) {
                 return true;
             }
         }
@@ -265,12 +263,12 @@ public class SProviderServiceImpl implements SProviderService {
     @Override
     public Set<Review> getReviewsOfServiceProvider(int sproviderId) {
         Optional<SProvider> provider = sProviderDao.getServiceProviderWithUserId(sproviderId);
-        if(!provider.isPresent()){
+        if (!provider.isPresent()) {
             return null;
         }
         Set<Review> reviews = new HashSet<>();
 
-        for(Aptitude aptitude : aptitudeDao.getAptitudesOfUser(provider.get().getId())){
+        for (Aptitude aptitude : aptitudeDao.getAptitudesOfUser(provider.get().getId())) {
             reviews.addAll(aptitude.getReviews());
         }
 
@@ -282,7 +280,6 @@ public class SProviderServiceImpl implements SProviderService {
     public Set<Aptitude> getAptitudesOfUser(int id) {
         return aptitudeDao.getAptitudesOfUser(id);
     }
-
 
 
 }

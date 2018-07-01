@@ -14,28 +14,28 @@ public class User {
     @Column(name = "userid")
     private int id;
 
-    @Column(name = "username",length = 100, nullable = false, unique = true)
+    @Column(name = "username", length = 100, nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password",length = 100, nullable = false)
+    @Column(name = "password", length = 100, nullable = false)
     private String password;
 
-    @Column(name = "firstname",length = 100, nullable = false)
+    @Column(name = "firstname", length = 100, nullable = false)
     private String firstname;
 
-    @Column(name = "lastname",length = 100, nullable = false)
+    @Column(name = "lastname", length = 100, nullable = false)
     private String lastname;
 
-    @Column(name = "email",length = 100, nullable = false)
+    @Column(name = "email", length = 100, nullable = false)
     private String email;
 
-    @Column(name = "phone",length = 100, nullable = false)
+    @Column(name = "phone", length = 100, nullable = false)
     private String phone;
 
     @Column(name = "image")
     private byte[] image;
 
-    @Column(name = "address",length = 100, nullable = false)
+    @Column(name = "address", length = 100, nullable = false)
     private String address;
 
     @Column(name = "verified")

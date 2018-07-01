@@ -34,20 +34,21 @@ public class Message {
     @Column(name = "messageDate")
     private Date date;
 
-    @Column(name = "message",length = 10000)
+    @Column(name = "message", length = 10000)
     private String message;
 
-    /* packakge */ Message(){
+    /* packakge */ Message() {
 
     }
+
     public Message(int from, int to, Date date, int providerId, int userId, String message) {
-        this.from       = from;
-        this.to         = to;
+        this.from = from;
+        this.to = to;
         this.providerId = providerId;
-        this.userId     = userId;
-        this.date       = date;
-        this.message    = message;
-        this.read       = false;
+        this.userId = userId;
+        this.date = date;
+        this.message = message;
+        this.read = false;
     }
 
     public boolean isRead() {

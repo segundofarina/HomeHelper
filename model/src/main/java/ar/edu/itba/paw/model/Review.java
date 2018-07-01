@@ -23,7 +23,7 @@ public class Review {
     @JoinColumn(name = "aptitudeId")
     private Aptitude aptitude;
 
-    @Column(name ="comment", length = 10000)
+    @Column(name = "comment", length = 10000)
     private String comment;
 
     @Column(name = "quality")
@@ -44,7 +44,7 @@ public class Review {
     @Column(name = "reviewdate")
     private Date date;
 
-    /* package */ Review(){
+    /* package */ Review() {
 
     }
 
@@ -60,17 +60,25 @@ public class Review {
         this.aptitude = aptitude;
     }
 
-    public int getQualityCalification(){ return this.quality; }
-
-    public int getCleannessCalification(){ return this.cleanness; }
-
-    public int getPriceCalification(){ return this.price; }
-
-    public int getPunctualityCalification(){
-       return this.punctuality;
+    public int getQualityCalification() {
+        return this.quality;
     }
 
-    public int getTreatmentCalification(){ return this.treatment; }
+    public int getCleannessCalification() {
+        return this.cleanness;
+    }
+
+    public int getPriceCalification() {
+        return this.price;
+    }
+
+    public int getPunctualityCalification() {
+        return this.punctuality;
+    }
+
+    public int getTreatmentCalification() {
+        return this.treatment;
+    }
 
     public int getGeneralCalification() {
         int generalCalification = 0;
@@ -79,7 +87,7 @@ public class Review {
         generalCalification += price;
         generalCalification += punctuality;
         generalCalification += treatment;
-        return generalCalification/5;
+        return generalCalification / 5;
     }
 
     public String getComment() {
@@ -102,6 +110,7 @@ public class Review {
     public Aptitude getAptitude() {
         return aptitude;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

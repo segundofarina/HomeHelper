@@ -19,7 +19,7 @@ import static testUtils.TemporaryImageTestUtils.assertEqualsTemporaryImages;
 import static testUtils.TemporaryImageTestUtils.dummyTemporaryImage;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TemporaryImageServiceImplTest{
+public class TemporaryImageServiceImplTest {
 
     @Mock
     private TemporaryImagesDao temporaryImagesDaoMock;
@@ -36,9 +36,9 @@ public class TemporaryImageServiceImplTest{
 
         TemporaryImage actual = tempImagesService.insertImage(expected.getImage());
 
-        assertEqualsTemporaryImages(expected,actual);
+        assertEqualsTemporaryImages(expected, actual);
 
-        verify(temporaryImagesDaoMock,times(1)).insertImage(expected.getImage());
+        verify(temporaryImagesDaoMock, times(1)).insertImage(expected.getImage());
 
     }
 
@@ -51,8 +51,8 @@ public class TemporaryImageServiceImplTest{
 
         TemporaryImage actual = tempImagesService.getImage(expected.getImageId());
 
-        assertEqualsTemporaryImages(actual,expected);
+        assertEqualsTemporaryImages(actual, expected);
 
-        verify(temporaryImagesDaoMock,times(1)).getImage(anyInt());
+        verify(temporaryImagesDaoMock, times(1)).getImage(anyInt());
     }
 }

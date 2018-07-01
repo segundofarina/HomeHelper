@@ -34,7 +34,7 @@ public class HHUserDetailsService implements UserDetailsService {
         }
         final ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
 
-        if(user.isVerified()) {
+        if (user.isVerified()) {
             LOGGER.info("{} is verified", user.getUsername());
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         } else {
@@ -42,7 +42,7 @@ public class HHUserDetailsService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("ROLE_UNVERIFIED_USER"));
         }
 
-        if(sp.isServiceProvider(user.getId())){
+        if (sp.isServiceProvider(user.getId())) {
             authorities.add((new SimpleGrantedAuthority("ROLE_PROVIDER")));
         }
 

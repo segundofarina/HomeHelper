@@ -15,7 +15,7 @@ public class Appointment {
     private int appointmentId;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "userid",nullable = false)
+    @JoinColumn(name = "userid", nullable = false)
     private User client;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -29,22 +29,23 @@ public class Appointment {
     @Column(name = "appointmentDate")
     private Date date;
 
-    @Column(name = "address", length =  10000, nullable = false)
+    @Column(name = "address", length = 10000, nullable = false)
     private String address;
 
-    @Column(name = "status", length =  20, nullable = false)
+    @Column(name = "status", length = 20, nullable = false)
     private String status;
 
-    @Column(name = "jobDescription", length =  10000, nullable = false)
+    @Column(name = "jobDescription", length = 10000, nullable = false)
     private String jobDescripcion;
 
     @Column(name = "clientReview")
     private boolean clientReview;
 
-    /* package */ Appointment(){
+    /* package */ Appointment() {
 
     }
-    public Appointment(User client, SProvider provider, ServiceType serviceType, Date date, String address, Status estatus, String jobDescripcion,boolean clientReview) {
+
+    public Appointment(User client, SProvider provider, ServiceType serviceType, Date date, String address, Status estatus, String jobDescripcion, boolean clientReview) {
         this.client = client;
         this.provider = provider;
         this.serviceType = serviceType;

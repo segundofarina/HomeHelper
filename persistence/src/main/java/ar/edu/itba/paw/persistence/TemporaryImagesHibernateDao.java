@@ -22,13 +22,13 @@ public class TemporaryImagesHibernateDao implements TemporaryImagesDao {
 
     @Override
     public boolean deleteImage(int imageId) {
-        Optional<TemporaryImage> temporaryImageOp = Optional.ofNullable(em.find(TemporaryImage.class,imageId));
+        Optional<TemporaryImage> temporaryImageOp = Optional.ofNullable(em.find(TemporaryImage.class, imageId));
         temporaryImageOp.ifPresent(temporaryImage -> em.remove(temporaryImage));
         return temporaryImageOp.isPresent();
     }
 
     @Override
     public Optional<TemporaryImage> getImage(int imageId) {
-        return Optional.ofNullable(em.find(TemporaryImage.class,imageId));
+        return Optional.ofNullable(em.find(TemporaryImage.class, imageId));
     }
 }

@@ -16,7 +16,7 @@ public class ServiceType {
     @Column(name = "serviceName", length = 256)
     private String name;
 
-    /* package */ ServiceType(){
+    /* package */ ServiceType() {
 
     }
 

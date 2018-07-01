@@ -49,26 +49,26 @@ public class VerifyEmailDaoTest {
     }
 
     @Test
-    public void insertTest(){
+    public void insertTest() {
         int count = JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "verifyUsers");
-        assertTrue(verifyEmailDao.insert(USER4_ID,"asdasdasdasdasd"));
+        assertTrue(verifyEmailDao.insert(USER4_ID, "asdasdasdasdasd"));
         em.flush();
-        assertEquals(++count,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "verifyUsers"));
+        assertEquals(++count, JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "verifyUsers"));
 
-        try{
-            verifyEmailDao.insert(USER_ID,"Holaohaosdj");
-        }catch (Exception e){
+        try {
+            verifyEmailDao.insert(USER_ID, "Holaohaosdj");
+        } catch (Exception e) {
 
         }
-        assertEquals(count,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "verifyUsers"));
+        assertEquals(count, JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "verifyUsers"));
 
     }
 
     @Test
-    public void getKeyTest(){
+    public void getKeyTest() {
         Optional<String> keyOp = verifyEmailDao.getKey(USER_ID);
         assertTrue(keyOp.isPresent());
-        assertEquals(USER_KEY,keyOp.get());
+        assertEquals(USER_KEY, keyOp.get());
 
         keyOp = verifyEmailDao.getKey(USER3_ID);
         assertFalse(keyOp.isPresent());
@@ -76,27 +76,26 @@ public class VerifyEmailDaoTest {
     }
 
     @Test
-    public void getUserIdTest(){
+    public void getUserIdTest() {
         Optional<Integer> idOp = verifyEmailDao.getUserId(USER_KEY);
         assertTrue(idOp.isPresent());
-        assertEquals(USER_ID,idOp.get().intValue());
+        assertEquals(USER_ID, idOp.get().intValue());
 
         idOp = verifyEmailDao.getUserId("ihdfiuhfdiu98899889");
         assertFalse(idOp.isPresent());
     }
 
     @Test
-    public void deleteEntryTest(){
+    public void deleteEntryTest() {
         int count = JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "verifyUsers");
         assertTrue(verifyEmailDao.deleteEntry(USER_KEY));
         em.flush();
-        assertEquals(--count,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "verifyUsers"));
+        assertEquals(--count, JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "verifyUsers"));
 
         assertFalse(verifyEmailDao.deleteEntry("782378783278"));
         em.flush();
-        assertEquals(count,JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "verifyUsers"));
+        assertEquals(count, JdbcTestUtils.countRowsInTable(this.jdbcTemplate, "verifyUsers"));
     }
-
 
 
 }

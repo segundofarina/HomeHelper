@@ -15,21 +15,21 @@ public class VerifyEmailHibernateDao implements VerifyEmailDao {
 
     @Override
     public boolean insert(int userId, String key) {
-        MailKey mailKey = new MailKey(userId,key);
+        MailKey mailKey = new MailKey(userId, key);
         em.persist(mailKey);
         return true;
     }
 
     @Override
     public Optional<String> getKey(int userId) {
-        return Optional.ofNullable(em.find(MailKey.class,userId))
+        return Optional.ofNullable(em.find(MailKey.class, userId))
                 .map(MailKey::getKey);
 
     }
 
     @Override
     public Optional<Integer> getUserId(String key) {
-        return em.createQuery("FROM MailKey as m  where m.key = :keyval",MailKey.class)
+        return em.createQuery("FROM MailKey as m  where m.key = :keyval", MailKey.class)
                 .setParameter("keyval", key)
                 .getResultList()
                 .stream()
@@ -40,17 +40,16 @@ public class VerifyEmailHibernateDao implements VerifyEmailDao {
 
     @Override
     public boolean deleteEntry(String key) {
-         Optional<MailKey> mailKeyOp =
-                 em.createQuery("FROM MailKey as m  where m.key = :keyval",MailKey.class)
-                .setParameter("keyval", key)
-                .getResultList()
-                .stream()
-                .findFirst();
+        Optional<MailKey> mailKeyOp =
+                em.createQuery("FROM MailKey as m  where m.key = :keyval", MailKey.class)
+                        .setParameter("keyval", key)
+                        .getResultList()
+                        .stream()
+                        .findFirst();
 
-         mailKeyOp.ifPresent(mailKey -> em.remove(mailKey));
+        mailKeyOp.ifPresent(mailKey -> em.remove(mailKey));
 
         return mailKeyOp.isPresent();
-
 
 
     }

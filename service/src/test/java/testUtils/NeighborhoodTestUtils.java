@@ -10,11 +10,11 @@ import static org.junit.Assert.assertEquals;
 
 public class NeighborhoodTestUtils {
 
-    public  NeighborhoodTestUtils(){
+    public NeighborhoodTestUtils() {
 
     }
 
-    public static Neighborhood dummyNeighborhood(){
+    public static Neighborhood dummyNeighborhood() {
         return new Neighborhood(new Random().toString());
     }
 

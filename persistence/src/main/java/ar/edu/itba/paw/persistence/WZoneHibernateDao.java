@@ -17,32 +17,32 @@ public class WZoneHibernateDao implements WZoneDao {
 
     @Override
     public boolean insertWorkingZoneOfProvider(int userId, int ngId) {
-        SProvider user = em.find(SProvider.class,userId);
-        if(user == null){
+        SProvider user = em.find(SProvider.class, userId);
+        if (user == null) {
             return false;
         }
-        Neighborhood neighborhood = em.find(Neighborhood.class,ngId);
-        if(neighborhood == null){
+        Neighborhood neighborhood = em.find(Neighborhood.class, ngId);
+        if (neighborhood == null) {
             return false;
         }
-        WorkingZone wz = new WorkingZone(user,neighborhood);
+        WorkingZone wz = new WorkingZone(user, neighborhood);
         em.persist(wz);
         return true;
     }
 
     @Override
     public List<Neighborhood> getWorkingZonesOfProvider(int providerId) {
-       return em.createQuery("select wz.neighborhood from WorkingZone as wz where wz.sProvider.id = :providerid",Neighborhood.class)
-             .setParameter("providerid",providerId)
-             .getResultList();
+        return em.createQuery("select wz.neighborhood from WorkingZone as wz where wz.sProvider.id = :providerid", Neighborhood.class)
+                .setParameter("providerid", providerId)
+                .getResultList();
 
     }
 
     @Override
     public List<SProvider> getServiceProvidersWorkingIn(int ngId) {
-       return em.createQuery("select wz.sProvider from WorkingZone as wz where wz.neighborhood.ngId = :ngId",SProvider.class)
-        .setParameter("ngId",ngId)
-        .getResultList();
+        return em.createQuery("select wz.sProvider from WorkingZone as wz where wz.neighborhood.ngId = :ngId", SProvider.class)
+                .setParameter("ngId", ngId)
+                .getResultList();
 
     }
 

@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
+
 import static junit.framework.TestCase.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
@@ -32,11 +33,11 @@ public class WorkingZoneServiceImplTest {
     public void insertWorkingZoneOfProvider() {
         WorkingZone expected = dummyWorkingZone();
 
-        when(workingZoneDaoMock.insertWorkingZoneOfProvider(expected.getUser().getId(),expected.getNeighborhood().getNgId())).thenReturn(true);
+        when(workingZoneDaoMock.insertWorkingZoneOfProvider(expected.getUser().getId(), expected.getNeighborhood().getNgId())).thenReturn(true);
 
-        workingZonesService.insertWorkingZoneOfProvider(expected.getUser().getId(),expected.getNeighborhood().getNgId());
+        workingZonesService.insertWorkingZoneOfProvider(expected.getUser().getId(), expected.getNeighborhood().getNgId());
 
-        verify(workingZoneDaoMock, times(1)).insertWorkingZoneOfProvider(anyInt(),anyInt());
+        verify(workingZoneDaoMock, times(1)).insertWorkingZoneOfProvider(anyInt(), anyInt());
     }
 
     @Test
@@ -46,8 +47,8 @@ public class WorkingZoneServiceImplTest {
 
         List<Neighborhood> actual = workingZonesService.getWorkingZonesOfProvider(1);
 
-        for(int i = 0 ; i < neighborhoodList.size(); i ++){
-            assertEqualsNeighborhoods(actual.get(i),neighborhoodList.get(i));
+        for (int i = 0; i < neighborhoodList.size(); i++) {
+            assertEqualsNeighborhoods(actual.get(i), neighborhoodList.get(i));
         }
 
         verify(workingZoneDaoMock, times(1)).getWorkingZonesOfProvider(anyInt());
@@ -57,13 +58,13 @@ public class WorkingZoneServiceImplTest {
     @Test
     public void removeWorkingZoneOfProvider() {
         WorkingZone expected = dummyWorkingZone();
-        when(workingZoneDaoMock.removeWorkingZoneOfProvider(expected.getUser().getId(),expected.getNeighborhood().getNgId())).thenReturn(true);
+        when(workingZoneDaoMock.removeWorkingZoneOfProvider(expected.getUser().getId(), expected.getNeighborhood().getNgId())).thenReturn(true);
 
-        boolean actual = workingZonesService.removeWorkingZoneOfProvider(expected.getUser().getId(),expected.getNeighborhood().getNgId());
+        boolean actual = workingZonesService.removeWorkingZoneOfProvider(expected.getUser().getId(), expected.getNeighborhood().getNgId());
 
         assertTrue(actual);
 
-        verify(workingZoneDaoMock, times(1)).removeWorkingZoneOfProvider(expected.getUser().getId(),expected.getNeighborhood().getNgId());
+        verify(workingZoneDaoMock, times(1)).removeWorkingZoneOfProvider(expected.getUser().getId(), expected.getNeighborhood().getNgId());
 
     }
 }

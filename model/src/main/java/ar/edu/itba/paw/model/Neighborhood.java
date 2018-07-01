@@ -2,6 +2,7 @@ package ar.edu.itba.paw.model;
 
 import javax.persistence.*;
 import java.util.Objects;
+
 @Entity
 @Table(name = "neighborhoods")
 public class Neighborhood {
@@ -11,19 +12,19 @@ public class Neighborhood {
     @Column(name = "ngid")
     private int ngId;
 
-    @Column(name ="ngname", length = 100)
+    @Column(name = "ngname", length = 100)
     private String ngname;
 
-    /* package */ Neighborhood(){
+    /* package */ Neighborhood() {
         // For Hibernate
     }
 
 
-    public Neighborhood(int id){
+    public Neighborhood(int id) {
 
     }
 
-    public Neighborhood(String ngname){
+    public Neighborhood(String ngname) {
         this.ngname = ngname;
     }
 

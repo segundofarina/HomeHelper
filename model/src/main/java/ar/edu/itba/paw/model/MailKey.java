@@ -11,7 +11,7 @@ public class MailKey {
     @Column(name = "userid")
     private int userId;
 
-    @Column(name = "keyCode",length = 1000, nullable = false)
+    @Column(name = "keyCode", length = 1000, nullable = false)
     private String key;
 
     public MailKey(int userId, String key) {

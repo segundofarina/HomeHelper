@@ -18,11 +18,11 @@ public class SProviderHibernateDao implements SProviderDao {
 
     @Override
     public Optional<SProvider> create(int userId, String description) {
-        Optional<User> user = Optional.ofNullable(em.find(User.class,userId));
-        if(!user.isPresent()){
+        Optional<User> user = Optional.ofNullable(em.find(User.class, userId));
+        if (!user.isPresent()) {
             return Optional.empty();
         }
-        final SProvider sp =new SProvider(user.get(),description, Collections.EMPTY_SET, new TreeSet<>());
+        final SProvider sp = new SProvider(user.get(), description, Collections.EMPTY_SET, new TreeSet<>());
         em.persist(sp);
         return Optional.of(sp);
     }
@@ -30,7 +30,7 @@ public class SProviderHibernateDao implements SProviderDao {
     @Override
     public Set<SProvider> getServiceProviders() {
         return new HashSet<>(em.createQuery("from SProvider", SProvider.class)
-         .getResultList());
+                .getResultList());
     }
 
     @Override
@@ -41,18 +41,19 @@ public class SProviderHibernateDao implements SProviderDao {
     @Override
     public Set<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId) {
         return
-                new HashSet<>(em.createQuery("select s from SProvider s left join fetch s.aptitudes a left join fetch a.reviews" +
-                        " left join fetch s.workingZones as w where a.service.id = :stId AND w.neighborhood.ngId = :ngId"
-                        ,SProvider.class)
-                        .setParameter("ngId",ngId)
-                        .setParameter("stId",stId)
+                new HashSet<>(em.createQuery("select s from SProvider s left join fetch s.aptitudes a " +
+                                "left join fetch a.reviews left join fetch s.workingZones as w" +
+                                " where a.service.id = :stId AND w.neighborhood.ngId = :ngId"
+                        , SProvider.class)
+                        .setParameter("ngId", ngId)
+                        .setParameter("stId", stId)
                         .getResultList());
 
     }
 
     @Override
     public boolean updateDescriptionOfServiceProvider(int userId, String description) {
-        Optional<SProvider> sProviderOp = Optional.ofNullable(em.find(SProvider.class,userId));
+        Optional<SProvider> sProviderOp = Optional.ofNullable(em.find(SProvider.class, userId));
         sProviderOp.ifPresent(sProvider -> sProvider.setDescription(description));
 
         return sProviderOp.isPresent();

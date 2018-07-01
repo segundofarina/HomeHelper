@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.persistence;
+
 import ar.edu.itba.paw.interfaces.daos.ReviewDao;
-import ar.edu.itba.paw.interfaces.daos.SProviderDao;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -36,18 +35,19 @@ public class ReviewHibernateDaoTest extends AbstractTransactionalJUnit4SpringCon
     private DataSource ds;
 
     private JdbcTemplate jdbcTemplate;
+
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
     }
 
     @Test
-    public void getReviewsOfAptitudeTest(){
+    public void getReviewsOfAptitudeTest() {
 
-        assertEquals(2,reviewDao.getReviewsOfAptitude(VALID_APTITUDE_ID).size());
+        assertEquals(2, reviewDao.getReviewsOfAptitude(VALID_APTITUDE_ID).size());
 
-        assertEquals(1,reviewDao.getReviewsOfAptitude(VALID_APTITUDE2_ID).size());
+        assertEquals(1, reviewDao.getReviewsOfAptitude(VALID_APTITUDE2_ID).size());
 
-        assertEquals(0,reviewDao.getReviewsOfAptitude(INVALID_APTITUDE_ID).size());
+        assertEquals(0, reviewDao.getReviewsOfAptitude(INVALID_APTITUDE_ID).size());
     }
 }

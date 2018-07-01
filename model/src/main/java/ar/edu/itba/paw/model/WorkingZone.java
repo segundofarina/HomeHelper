@@ -21,10 +21,10 @@ public class WorkingZone {
     @JoinColumn(name = "userid")
     private SProvider sProvider;
 
-    /* package*/ WorkingZone(){
+    /* package*/ WorkingZone() {
     }
 
-    public WorkingZone(SProvider user, Neighborhood neighborhood){
+    public WorkingZone(SProvider user, Neighborhood neighborhood) {
         this.sProvider = user;
         this.neighborhood = neighborhood;
     }

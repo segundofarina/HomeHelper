@@ -26,7 +26,7 @@ import static testUtils.SProviderTestUtils.dummySProvider;
 import static testUtils.UserTestUtils.dummyUser;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AppointmentServiceImplTest{
+public class AppointmentServiceImplTest {
 
     @Mock
     private AppointmentDao appointmentDaoMock;
@@ -79,7 +79,7 @@ public class AppointmentServiceImplTest{
 
         Appointment actual = appointmentService.getAppointment(expected.getAppointmentId());
 
-        assetEqualsAppointments(actual,expected);
+        assetEqualsAppointments(actual, expected);
 
         verify(appointmentDaoMock, times(1)).getAppointment(anyInt());
 

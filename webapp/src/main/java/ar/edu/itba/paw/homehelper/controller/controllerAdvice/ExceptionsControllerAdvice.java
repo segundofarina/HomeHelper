@@ -56,7 +56,7 @@ public class ExceptionsControllerAdvice {
     }
 
     private int getUserId(User user) {
-        if(user == null) {
+        if (user == null) {
             return -1;
         }
         return user.getId();

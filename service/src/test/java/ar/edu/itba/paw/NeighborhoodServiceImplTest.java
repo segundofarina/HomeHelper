@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
@@ -33,7 +34,7 @@ public class NeighborhoodServiceImplTest {
 
         int actual = neighborhoodService.insertNeighborhood(expected.getNgname());
 
-        assertEquals(actual,expected.getNgId());
+        assertEquals(actual, expected.getNgId());
 
         verify(neighborhoodDaoMock, times(1)).insertNeighborhood(anyString());
     }
@@ -45,8 +46,8 @@ public class NeighborhoodServiceImplTest {
 
         List<Neighborhood> actual = neighborhoodService.getAllNeighborhoods();
 
-        for(int i = 0 ; i < neighborhoodList.size(); i ++){
-            assertEqualsNeighborhoods(actual.get(i),neighborhoodList.get(i));
+        for (int i = 0; i < neighborhoodList.size(); i++) {
+            assertEqualsNeighborhoods(actual.get(i), neighborhoodList.get(i));
         }
     }
 }

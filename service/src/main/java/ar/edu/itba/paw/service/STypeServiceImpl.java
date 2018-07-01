@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class STypeServiceImpl implements STypeService {
 
@@ -32,7 +33,7 @@ public class STypeServiceImpl implements STypeService {
     public ServiceType getServiceTypeWithId(int serviceTypeId) {
         Optional<ServiceType> ans = sTypeDao.getServiceTypeWithId(serviceTypeId);
 
-        if(ans.isPresent()){
+        if (ans.isPresent()) {
             return ans.get();
         }
         return null;
@@ -41,9 +42,9 @@ public class STypeServiceImpl implements STypeService {
     @Transactional
     @Override
     public ServiceType updateServiceTypeWithId(int serviceTypeId, String newServiceName) {
-        Optional<ServiceType> ans = sTypeDao.updateServiceTypeWithId(serviceTypeId,newServiceName);
+        Optional<ServiceType> ans = sTypeDao.updateServiceTypeWithId(serviceTypeId, newServiceName);
 
-        if(ans.isPresent()){
+        if (ans.isPresent()) {
             return ans.get();
         }
         return null;

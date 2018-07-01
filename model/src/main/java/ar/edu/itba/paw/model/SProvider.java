@@ -11,7 +11,7 @@ import java.util.SortedSet;
 @Table(name = "serviceProviders")
 public class SProvider {
 
-    @Column(name = "description",length = 100, nullable = false)
+    @Column(name = "description", length = 100, nullable = false)
     private String description;
 
     @Id
@@ -35,13 +35,13 @@ public class SProvider {
     @OrderBy("position ASC")
     private SortedSet<CoordenatesPoint> coordenates;
 
-    /*package*/ SProvider(){
+    /*package*/ SProvider() {
 
     }
 
     public SProvider(User user, String description, Set<Aptitude> aptitudes, SortedSet<CoordenatesPoint> coordenates) {
-        this.id=user.getId();
-        this.user=user;
+        this.id = user.getId();
+        this.user = user;
         this.description = description;
         this.aptitudes = aptitudes;
         this.coordenates = coordenates;
@@ -59,96 +59,96 @@ public class SProvider {
         return user;
     }
 
-    public double getQualityCalification(){
+    public double getQualityCalification() {
 
-        if(aptitudes.size() == 0 ){
+        if (aptitudes.size() == 0) {
             return 0;
         }
 
         double quality = 0;
 
-        for(Aptitude aptitude : aptitudes){
+        for (Aptitude aptitude : aptitudes) {
             quality += aptitude.getQualityCalification();
         }
-        return Math.floor((quality/aptitudes.size()) * 100) / 100;
+        return Math.floor((quality / aptitudes.size()) * 100) / 100;
     }
 
-    public double getCleannessCalification(){
+    public double getCleannessCalification() {
 
-        if(aptitudes.size() == 0 ){
+        if (aptitudes.size() == 0) {
             return 0;
         }
 
         double cleanness = 0;
 
-        for(Aptitude aptitude : aptitudes){
+        for (Aptitude aptitude : aptitudes) {
             cleanness += aptitude.getCleannessCalification();
         }
 
-        return Math.floor((cleanness/aptitudes.size()) * 100) / 100;
+        return Math.floor((cleanness / aptitudes.size()) * 100) / 100;
     }
 
-    public double getPriceCalification(){
+    public double getPriceCalification() {
 
-        if(aptitudes.size() == 0 ){
+        if (aptitudes.size() == 0) {
             return 0;
         }
 
         double price = 0;
 
-        for(Aptitude aptitude : aptitudes){
+        for (Aptitude aptitude : aptitudes) {
             price += aptitude.getPriceCalification();
         }
 
-        return Math.floor((price/aptitudes.size()) * 100) / 100;
+        return Math.floor((price / aptitudes.size()) * 100) / 100;
     }
 
-    public double getPunctualityCalification(){
+    public double getPunctualityCalification() {
 
-        if(aptitudes.size() == 0 ){
+        if (aptitudes.size() == 0) {
             return 0;
         }
 
         double punctuality = 0;
 
-        for(Aptitude aptitude : aptitudes){
+        for (Aptitude aptitude : aptitudes) {
             punctuality += aptitude.getPunctualityCalification();
         }
-        return Math.floor((punctuality/aptitudes.size()) * 100) / 100;
+        return Math.floor((punctuality / aptitudes.size()) * 100) / 100;
     }
 
-    public double getTreatmentCalification(){
+    public double getTreatmentCalification() {
 
-        if(aptitudes.size() == 0 ){
+        if (aptitudes.size() == 0) {
             return 0;
         }
 
         double treatment = 0;
 
-        for(Aptitude aptitude : aptitudes){
+        for (Aptitude aptitude : aptitudes) {
             treatment += aptitude.getTreatmentCalification();
         }
-        return Math.floor((treatment/aptitudes.size()) * 100) / 100;
+        return Math.floor((treatment / aptitudes.size()) * 100) / 100;
     }
 
     public double getGeneralCalification() {
 
-        if(aptitudes.size() == 0 ){
+        if (aptitudes.size() == 0) {
             return 0;
         }
 
         double general = 0;
 
-        for(Aptitude aptitude : aptitudes){
+        for (Aptitude aptitude : aptitudes) {
             general += aptitude.getGeneralCalification();
         }
-        return Math.floor((general/aptitudes.size()) * 100) / 100;
+        return Math.floor((general / aptitudes.size()) * 100) / 100;
     }
 
-    public boolean hasReviews(){
+    public boolean hasReviews() {
 
-        for(Aptitude aptitude: aptitudes){
-            if(aptitude.hasReviews()){
+        for (Aptitude aptitude : aptitudes) {
+            if (aptitude.hasReviews()) {
                 return true;
             }
         }

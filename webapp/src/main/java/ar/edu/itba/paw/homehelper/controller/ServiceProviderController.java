@@ -81,7 +81,7 @@ public class ServiceProviderController {
 
         final ModelAndView mav = new ModelAndView("serviceProviderControlPanel");
 
-        if(loggedInUser == null) {
+        if (loggedInUser == null) {
             throw new InvalidUsernameException();
         }
 
@@ -103,9 +103,9 @@ public class ServiceProviderController {
         return mav;
     }
 
-    @RequestMapping(value = "/sprovider/messages/{clientId}", method = { RequestMethod.POST })
+    @RequestMapping(value = "/sprovider/messages/{clientId}", method = {RequestMethod.POST})
     public ModelAndView sendMessagePost(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("clientId") int clientId, @RequestParam("msg") String msg) throws InvalidUsernameException {
-        if(loggedInUser == null) {
+        if (loggedInUser == null) {
             throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
@@ -115,9 +115,9 @@ public class ServiceProviderController {
         return new ModelAndView("redirect:/sprovider/messages/" + clientId);
     }
 
-    @RequestMapping(value = "/sprovider/messages/{clientId}", method = { RequestMethod.GET })
+    @RequestMapping(value = "/sprovider/messages/{clientId}", method = {RequestMethod.GET})
     public ModelAndView providerMessages(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("clientId") int clientId) throws InvalidUsernameException, NotFoundException {
-        if(loggedInUser == null) {
+        if (loggedInUser == null) {
             throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
@@ -126,7 +126,7 @@ public class ServiceProviderController {
         List<Chat> chatList = chatService.getChatsOfProvider(providerId);
         Chat currentChat = chatService.getChatOfProvider(providerId, clientId);
 
-        if(chatList.size() > 0 && (currentChat == null || currentChat.getMessages().size() == 0)) {
+        if (chatList.size() > 0 && (currentChat == null || currentChat.getMessages().size() == 0)) {
             throw new NotFoundException();
         }
 
@@ -142,9 +142,9 @@ public class ServiceProviderController {
         return mav;
     }
 
-    @RequestMapping(value = "/sprovider/messages", method = { RequestMethod.GET })
+    @RequestMapping(value = "/sprovider/messages", method = {RequestMethod.GET})
     public ModelAndView providerMessagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
-        if(loggedInUser == null) {
+        if (loggedInUser == null) {
             throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
@@ -154,7 +154,7 @@ public class ServiceProviderController {
 
     @RequestMapping("/sprovider/appointments")
     public ModelAndView providerAppointments(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
-        if(loggedInUser == null) {
+        if (loggedInUser == null) {
             throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
@@ -170,7 +170,7 @@ public class ServiceProviderController {
 
     @RequestMapping("/sprovider/reviews")
     public ModelAndView providerReviews(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
-        if(loggedInUser == null) {
+        if (loggedInUser == null) {
             throw new InvalidUsernameException();
         }
         final ModelAndView mav = new ModelAndView("serviceProviderCPReviews");
@@ -204,9 +204,9 @@ public class ServiceProviderController {
     }
 
     @RequestMapping("/sprovider/editProfile")
-    public ModelAndView providerPosts(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "-1") final int elemErrorId, Model model,@RequestParam(required = false,value="img",defaultValue = "-1")final int img) throws InvalidUsernameException {
+    public ModelAndView providerPosts(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(required = false, value = "error", defaultValue = "-1") final int elemErrorId, Model model, @RequestParam(required = false, value = "img", defaultValue = "-1") final int img) throws InvalidUsernameException {
         final ModelAndView mav = new ModelAndView("serviceProviderCPEditProfile");
-        if(loggedInUser == null) {
+        if (loggedInUser == null) {
             throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
@@ -219,7 +219,7 @@ public class ServiceProviderController {
         final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
 
         mav.addObject("serviceProvider", provider);
-        mav.addObject("serviceTypes",sTypeService.getServiceTypes());
+        mav.addObject("serviceTypes", sTypeService.getServiceTypes());
 
         mav.addObject("errorElemId", elemErrorId);
         mav.addObject("editAptitude", -1);
@@ -227,7 +227,7 @@ public class ServiceProviderController {
 
         // get coords from db
         StringBuilder sb = new StringBuilder();
-        for(CoordenatesPoint coordenatesPoint : provider.getCoordenates()) {
+        for (CoordenatesPoint coordenatesPoint : provider.getCoordenates()) {
             sb.append(coordenatesPoint.getLat());
             sb.append(",");
             sb.append(coordenatesPoint.getLng());
@@ -246,26 +246,25 @@ public class ServiceProviderController {
 
     @RequestMapping(value = "/sprovider/editProfile/editGeneralInfo", method = RequestMethod.POST)
     public ModelAndView editGeneralInfo(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("profileGeneralInfo") final ProfileGeneralInfo form, BindingResult errors, RedirectAttributes redrAttr) {
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.profileGeneralInfo", errors);
             redrAttr.addFlashAttribute("profileGeneralInfo", form);
 
-            String red =persistImage(form.getProfilePicture(),"",form.getSavedImgId());
+            String red = persistImage(form.getProfilePicture(), "", form.getSavedImgId());
 
-            String redirect = "redirect:/sprovider/editProfile?error=" + form.getElemId()+red;
+            String redirect = "redirect:/sprovider/editProfile?error=" + form.getElemId() + red;
             return new ModelAndView(redirect);
         }
-
 
 
         sProviderService.updateDescriptionOfServiceProvider(loggedInUser.getId(), form.getGeneralDescription());
         //update Image
 
-        byte[] image =null;
+        byte[] image = null;
         /* Check if image is uploaded */
-        image = retriveImage(form.getProfilePicture(),form.getSavedImgId());
-        if(image != null){
-            userService.updateImageOfUser(loggedInUser.getId(),image);
+        image = retriveImage(form.getProfilePicture(), form.getSavedImgId());
+        if (image != null) {
+            userService.updateImageOfUser(loggedInUser.getId(), image);
         }
 
 
@@ -274,7 +273,7 @@ public class ServiceProviderController {
 
     @RequestMapping(value = "/sprovider/editProfile/addAptitude", method = RequestMethod.POST)
     public ModelAndView addAptitude(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("aptitudeForm") final AptitudeForm form, final BindingResult errors, RedirectAttributes redrAttr) {
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.aptitudeForm", errors);
             redrAttr.addFlashAttribute("aptitudeForm", form);
             String redirect = "redirect:/sprovider/editProfile?error=" + form.getElemId();
@@ -287,22 +286,21 @@ public class ServiceProviderController {
     }
 
 
-
     @RequestMapping("/sprovider/editProfile/updateAptitude/{aptitudeId}")
     public ModelAndView updateAptitudeId(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("aptitudeId") final int aptitudeId, Model model) throws InvalidUsernameException, NotFoundException {
         final ModelAndView mav = new ModelAndView("serviceProviderCPEditProfile");
-        if(loggedInUser == null) {
+        if (loggedInUser == null) {
             throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
         final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
 
         /* Check if valid aptitudeId */
-        if(!isValidAptitude(aptitudeId, provider.getAptitudes())) {
+        if (!isValidAptitude(aptitudeId, provider.getAptitudes())) {
             throw new NotFoundException();
         }
 
-        if(!model.containsAttribute("updateAptitudeForm")) {
+        if (!model.containsAttribute("updateAptitudeForm")) {
             UpdateAptitudeForm updateAptitudeForm = new UpdateAptitudeForm();
             updateAptitudeForm.setAptDescription(aptitudeService.getAptitude(aptitudeId).get().getDescription());
             model.addAttribute("updateAptitudeForm", updateAptitudeForm);
@@ -326,7 +324,7 @@ public class ServiceProviderController {
 
     @RequestMapping(value = "/sprovider/editProfile/updateAptitude", method = RequestMethod.POST)
     public ModelAndView updateAptitude(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("updateAptitudeForm") final UpdateAptitudeForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.updateAptitudeForm", errors);
             redrAttr.addFlashAttribute("updateAptitudeForm", form);
 
@@ -334,7 +332,7 @@ public class ServiceProviderController {
             return new ModelAndView(redirect);
         }
 
-        if(form.getAction().equals("delete")) {
+        if (form.getAction().equals("delete")) {
             aptitudeService.removeAptitude(form.getAptitutdeId());
         } else {
             sProviderService.updateDescriptionOfAptitude(form.getAptitutdeId(), form.getAptDescription());
@@ -345,7 +343,7 @@ public class ServiceProviderController {
 
     @RequestMapping(value = "/sprovider/editProfile/updateWorkingZone", method = RequestMethod.POST)
     public ModelAndView addWZ(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("addWZForm") final AddWZForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.addWZForm", errors);
             redrAttr.addFlashAttribute("addWZForm", form);
             String redirect = "redirect:/sprovider/editProfile?error=3";
@@ -356,12 +354,12 @@ public class ServiceProviderController {
         Set<CoordenatesPoint> coordenatesSet = new HashSet<>();
 
         String[] coordsList = form.getCoordsStr().split(";");
-        for(int i=0; i < coordsList.length ; i++) {
-            String[] coord = coordsList[i].split(",",2);
+        for (int i = 0; i < coordsList.length; i++) {
+            String[] coord = coordsList[i].split(",", 2);
             double lat = Double.parseDouble(coord[0]);
             double lng = Double.parseDouble(coord[1]);
             //add working zone
-            coordenatesSet.add(new CoordenatesPoint(i,lat, lng));
+            coordenatesSet.add(new CoordenatesPoint(i, lat, lng));
         }
         coordenatesService.insertCoordenatesOfProvider(loggedInUser.getId(), coordenatesSet);
 
@@ -373,13 +371,13 @@ public class ServiceProviderController {
     public ModelAndView getProfilePreview(@ModelAttribute("loggedInUser") final User loggedInUser) throws InvalidUsernameException {
         final ModelAndView mav = new ModelAndView("providerPreview");
 
-        if(loggedInUser == null) {
+        if (loggedInUser == null) {
             throw new InvalidUsernameException();
         }
         final int providerId = loggedInUser.getId();
         final SProvider provider = sProviderService.getServiceProviderWithUserId(providerId);
 
-        if(provider == null) {
+        if (provider == null) {
             throw new InvalidUsernameException();
         }
 
@@ -393,8 +391,8 @@ public class ServiceProviderController {
     }
 
     private boolean isValidAptitude(int aptitudeId, Set<Aptitude> aptitudeList) {
-        for(Aptitude ap : aptitudeList) {
-            if(ap.getId() == aptitudeId) {
+        for (Aptitude ap : aptitudeList) {
+            if (ap.getId() == aptitudeId) {
                 return true;
             }
         }
@@ -409,37 +407,37 @@ public class ServiceProviderController {
         response.addCookie(cookie);
     }
 
-    private String persistImage(MultipartFile imageFile, String redirect, int savedId){
-        byte[] image=null;
-        if(imageFile.getSize() > 0) {
+    private String persistImage(MultipartFile imageFile, String redirect, int savedId) {
+        byte[] image = null;
+        if (imageFile.getSize() > 0) {
             try {
                 image = imageFile.getBytes();
             } catch (IOException e) {
                 image = null;
             }
 
-            if(image != null && image.length !=0) {
+            if (image != null && image.length != 0) {
                 TemporaryImage img = tempImagesService.insertImage(image);
                 redirect += "&img=" + img.getImageId();
             }
-        } else if(savedId != -1) {
+        } else if (savedId != -1) {
             redirect += "&img=" + savedId;
         }
 
         return redirect;
     }
 
-    private byte[] retriveImage(MultipartFile imageFile,int savedId){
-        byte[] image= null;
+    private byte[] retriveImage(MultipartFile imageFile, int savedId) {
+        byte[] image = null;
         /* Check if image is uploaded */
-        if(imageFile.getSize() > 0) {
-            try{
+        if (imageFile.getSize() > 0) {
+            try {
                 image = imageFile.getBytes();
-            }catch (Exception e){
+            } catch (Exception e) {
                 //Handle exception?
                 image = null;
             }
-        } else if(savedId != -1) { /* If not check if image was uploaded before */
+        } else if (savedId != -1) { /* If not check if image was uploaded before */
             image = tempImagesService.getImage(savedId).getImage();
             tempImagesService.deleteImage(savedId);
         }

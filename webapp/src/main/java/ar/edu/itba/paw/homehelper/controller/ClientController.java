@@ -76,57 +76,57 @@ public class ClientController {
 
 
     /* Este metodo deberia ser post pero solo post no puedo hacerle la redireccion */
-   @RequestMapping(value = "/client/getSendAppointment", method ={RequestMethod.POST, RequestMethod.GET})
-   public ModelAndView getSendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, final HttpServletRequest request, final HttpServletResponse response) throws InvalidQueryException {
+    @RequestMapping(value = "/client/getSendAppointment", method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView getSendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, final HttpServletRequest request, final HttpServletResponse response) throws InvalidQueryException {
 
-       LOGGER.debug("User in getSendAppointment");
+        LOGGER.debug("User in getSendAppointment");
 
-       AppointmentForm form = getAppointmentFromCookies(request);
-       removeFormCookies(response);
+        AppointmentForm form = getAppointmentFromCookies(request);
+        removeFormCookies(response);
 
-       if(form == null) {
-           LOGGER.debug("Cookies failed");
-           throw new InvalidQueryException();
-       }
+        if (form == null) {
+            LOGGER.debug("Cookies failed");
+            throw new InvalidQueryException();
+        }
 
-       Appointment ap= appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  loggedInUser.getAddress(), form.getDescription());
-       chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId(), form.getDate(), form.getDescription());
+        Appointment ap = appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(), loggedInUser.getAddress(), form.getDescription());
+        chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId(), form.getDate(), form.getDescription());
 
-       String redirect = "redirect:/client/appointmentConfirmed?appt=" + ap.getAppointmentId();
+        String redirect = "redirect:/client/appointmentConfirmed?appt=" + ap.getAppointmentId();
 
-       return new ModelAndView(redirect);
-   }
+        return new ModelAndView(redirect);
+    }
 
-   @RequestMapping(value = "/client/sendAppointment", method = RequestMethod.POST)
-   public ModelAndView sendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("appointmentForm") final AppointmentForm form) throws InvalidQueryException {
-       if(form == null) {
-           throw new InvalidQueryException();
-       }
+    @RequestMapping(value = "/client/sendAppointment", method = RequestMethod.POST)
+    public ModelAndView sendAppointment(@ModelAttribute("loggedInUser") final User loggedInUser, @ModelAttribute("appointmentForm") final AppointmentForm form) throws InvalidQueryException {
+        if (form == null) {
+            throw new InvalidQueryException();
+        }
 
-       Appointment ap= appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(),  loggedInUser.getAddress(), form.getDescription());
-       chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId(), form.getDate(), form.getDescription());
+        Appointment ap = appointmentService.addAppointment(loggedInUser.getId(), form.getProviderId(), form.getServiceTypeId(), form.getDate(), loggedInUser.getAddress(), form.getDescription());
+        chatService.sendAppointmentMsg(loggedInUser.getId(), form.getProviderId(), form.getDate(), form.getDescription());
 
-       String redirect = "redirect:/client/appointmentConfirmed?appt=" + ap.getAppointmentId();
+        String redirect = "redirect:/client/appointmentConfirmed?appt=" + ap.getAppointmentId();
 
-       return new ModelAndView(redirect);
-   }
+        return new ModelAndView(redirect);
+    }
 
-   @RequestMapping("/client/appointmentConfirmed")
-   public ModelAndView appointmentConfirmed(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "appt") final int apId) throws NotFoundException {
-       Appointment lastAp = appointmentService.getLastAppointment(loggedInUser.getId());
-       if(lastAp == null || lastAp.getAppointmentId() != apId) {
-           throw new NotFoundException();
-       }
+    @RequestMapping("/client/appointmentConfirmed")
+    public ModelAndView appointmentConfirmed(@ModelAttribute("loggedInUser") final User loggedInUser, @RequestParam(value = "appt") final int apId) throws NotFoundException {
+        Appointment lastAp = appointmentService.getLastAppointment(loggedInUser.getId());
+        if (lastAp == null || lastAp.getAppointmentId() != apId) {
+            throw new NotFoundException();
+        }
 
-       final ModelAndView mav = new ModelAndView("appointmentConfirmed");
-       mav.addObject("user", loggedInUser);
-       mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
+        final ModelAndView mav = new ModelAndView("appointmentConfirmed");
+        mav.addObject("user", loggedInUser);
+        mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
-       mav.addObject("appointment", appointmentService.getAppointment(apId));
-       return mav;
-   }
+        mav.addObject("appointment", appointmentService.getAppointment(apId));
+        return mav;
+    }
 
-    @RequestMapping(value = "/client/messages/{providerId}", method = { RequestMethod.POST })
+    @RequestMapping(value = "/client/messages/{providerId}", method = {RequestMethod.POST})
     public ModelAndView sendMessagePost(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("providerId") int providerId, @RequestParam("msg") String msg) {
         final int userId = loggedInUser.getId();
 
@@ -140,10 +140,10 @@ public class ClientController {
         final ModelAndView mav = new ModelAndView("clientMessages");
 
         /* Get current chat and validate it has messages */
-        List<Chat> chatList= chatService.getChatsOfUser(loggedInUser.getId());
+        List<Chat> chatList = chatService.getChatsOfUser(loggedInUser.getId());
         Chat currentChat = chatService.getChatOfUser(loggedInUser.getId(), providerId);
 
-        if(chatList.size() > 0 && (currentChat == null || currentChat.getMessages().size() == 0)) {
+        if (chatList.size() > 0 && (currentChat == null || currentChat.getMessages().size() == 0)) {
             throw new NotFoundException();
         }
 
@@ -151,10 +151,10 @@ public class ClientController {
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
-        List<Chat> list= chatService.getChatsOfUser(loggedInUser.getId());
+        List<Chat> list = chatService.getChatsOfUser(loggedInUser.getId());
         mav.addObject("chats", chatList);
 
-        LOGGER.debug("List of chats size: {} for user {}",list.size(),getUserString(loggedInUser));
+        LOGGER.debug("List of chats size: {} for user {}", list.size(), getUserString(loggedInUser));
 
         mav.addObject("currentChat", currentChat);
 
@@ -164,8 +164,8 @@ public class ClientController {
 
     @RequestMapping("/client/messages")
     public ModelAndView messagesGeneral(@ModelAttribute("loggedInUser") final User loggedInUser, HttpServletResponse response) {
-       /* Remove last post cookie */
-       removeLastPostCookie(response);
+        /* Remove last post cookie */
+        removeLastPostCookie(response);
 
         final int userId = loggedInUser.getId();
         return new ModelAndView("redirect:/client/messages/" + chatService.getLastMsgThreadUser(userId));
@@ -176,9 +176,9 @@ public class ClientController {
         final ModelAndView mav = new ModelAndView("createSProvider");
 
         mav.addObject("user", loggedInUser);
-        mav.addObject("serviceTypes",sTypeService.getServiceTypes());
+        mav.addObject("serviceTypes", sTypeService.getServiceTypes());
 
-        if(error.equals("n")) {
+        if (error.equals("n")) {
             mav.addObject("hasError", 0);
         } else {
             mav.addObject("hasError", 1);
@@ -203,12 +203,12 @@ public class ClientController {
         SortedSet<CoordenatesPoint> coordenatesSet = new TreeSet<>();
 
         String[] coordsList = form.getAptMap().split(";");
-        for(int i=0; i < coordsList.length ; i++) {
-            String[] coord = coordsList[i].split(",",2);
+        for (int i = 0; i < coordsList.length; i++) {
+            String[] coord = coordsList[i].split(",", 2);
             double lat = Double.parseDouble(coord[0]);
             double lng = Double.parseDouble(coord[1]);
             //add working zone
-            coordenatesSet.add(new CoordenatesPoint(i,lat, lng));
+            coordenatesSet.add(new CoordenatesPoint(i, lat, lng));
         }
         coordenatesService.insertCoordenatesOfProvider(loggedInUser.getId(), coordenatesSet);
 
@@ -231,7 +231,7 @@ public class ClientController {
         /* Remove last post cookie */
         removeLastPostCookie(response);
 
-       final ModelAndView mav = new ModelAndView("client/appointments");
+        final ModelAndView mav = new ModelAndView("client/appointments");
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
@@ -240,62 +240,62 @@ public class ClientController {
         mav.addObject("appointmentsDone", appointmentService.getCompleteAppointmentWithUserId(loggedInUser.getId()));
         mav.addObject("rejectStatus", Status.Reject.getNumVal());
 
-       return mav;
+        return mav;
     }
 
     @RequestMapping("/client/writeReview/{appointmentId}")
     public ModelAndView writeReview(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("appointmentId") final int appointmentId) throws NotFoundException {
-       /* Validate params */
-       Appointment appointment = appointmentService.getAppointment(appointmentId);
-       if(appointment == null || appointment.getStatus() != Status.Done || appointment.getClient().getId() != loggedInUser.getId() || appointment.isClientReview()) {
-           throw new NotFoundException();
-       }
+        /* Validate params */
+        Appointment appointment = appointmentService.getAppointment(appointmentId);
+        if (appointment == null || appointment.getStatus() != Status.Done || appointment.getClient().getId() != loggedInUser.getId() || appointment.isClientReview()) {
+            throw new NotFoundException();
+        }
 
-       final ModelAndView mav = new ModelAndView("client/writeReview");
+        final ModelAndView mav = new ModelAndView("client/writeReview");
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
 
         mav.addObject("appointment", appointment);
 
-       return mav;
+        return mav;
     }
 
     @RequestMapping(value = "/client/sendReview", method = RequestMethod.POST)
     public ModelAndView sendReview(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("reviewForm") final ReviewForm form, final BindingResult errors, final RedirectAttributes redrAttr) throws InvalidQueryException {
-       if(form == null) {
-           throw new InvalidQueryException();
-       }
+        if (form == null) {
+            throw new InvalidQueryException();
+        }
 
-       if(errors.hasErrors()) {
-           redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.reviewForm", errors);
-           redrAttr.addFlashAttribute("reviewForm", form);
-           String redirect = "redirect:/client/writeReview/" + form.getAppointmentId();
-           return new ModelAndView(redirect);
-       }
+        if (errors.hasErrors()) {
+            redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.reviewForm", errors);
+            redrAttr.addFlashAttribute("reviewForm", form);
+            String redirect = "redirect:/client/writeReview/" + form.getAppointmentId();
+            return new ModelAndView(redirect);
+        }
 
-       Appointment ap = appointmentService.getAppointment(form.getAppointmentId());
-       if(ap == null) {
-           throw new InvalidQueryException();
-       }
-       /* ap.getServiceType().getServiceTypeId() eso esta mal tengo que mandar el id de la aptitud */
-       appointmentService.reviewAppointment(form.getAppointmentId(),form.getProviderId(), ap.getServiceType().getServiceTypeId(), form.getQualityInt(), form.getCleannesInt(), form.getPriceInt(), form.getPunctualityInt(), form.getTreatmentInt(), form.getMsg());
+        Appointment ap = appointmentService.getAppointment(form.getAppointmentId());
+        if (ap == null) {
+            throw new InvalidQueryException();
+        }
+        /* ap.getServiceType().getServiceTypeId() eso esta mal tengo que mandar el id de la aptitud */
+        appointmentService.reviewAppointment(form.getAppointmentId(), form.getProviderId(), ap.getServiceType().getServiceTypeId(), form.getQualityInt(), form.getCleannesInt(), form.getPriceInt(), form.getPunctualityInt(), form.getTreatmentInt(), form.getMsg());
 
-       return new ModelAndView("redirect:/client/appointments");
+        return new ModelAndView("redirect:/client/appointments");
     }
 
     @RequestMapping("/client/settings")
-    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model, @RequestParam(required = false, value="img", defaultValue = "-1")final int img, @RequestParam(required = false, value="sp", defaultValue = "0") final int toProvider, HttpServletResponse response) {
+    public ModelAndView settings(@ModelAttribute("loggedInUser") final User loggedInUser, Model model, @RequestParam(required = false, value = "img", defaultValue = "-1") final int img, @RequestParam(required = false, value = "sp", defaultValue = "0") final int toProvider, HttpServletResponse response) {
         /* Remove last post cookie */
         removeLastPostCookie(response);
 
-       final ModelAndView mav = new ModelAndView("settings");
+        final ModelAndView mav = new ModelAndView("settings");
 
         mav.addObject("user", loggedInUser);
         mav.addObject("userProviderId", sProviderService.getServiceProviderId(getUserId(loggedInUser)));
         mav.addObject("img", img);
 
-        if(!model.containsAttribute("settingsForm")) {
+        if (!model.containsAttribute("settingsForm")) {
             SettingsForm settingsForm = new SettingsForm();
             settingsForm.setFirstname(loggedInUser.getFirstname());
             settingsForm.setLastname(loggedInUser.getLastname());
@@ -307,16 +307,15 @@ public class ClientController {
 
         mav.addObject("username", loggedInUser.getUsername());
 
-       return mav;
+        return mav;
     }
 
     @RequestMapping("/client/settings/update")
     public ModelAndView settingsUpdate(@ModelAttribute("loggedInUser") final User loggedInUser, @Valid @ModelAttribute("settingsForm") final SettingsForm form, final BindingResult errors, final RedirectAttributes redrAttr) {
-       byte[] image = null;
-       if(errors.hasErrors()) {
+        byte[] image = null;
+        if (errors.hasErrors()) {
 
-           String redirect = persistImage(form.getProfilePicture(),"redirect:/client/settings",form.getSavedImgId());
-
+            String redirect = persistImage(form.getProfilePicture(), "redirect:/client/settings", form.getSavedImgId());
 
 
             redrAttr.addFlashAttribute("org.springframework.validation.BindingResult.settingsForm", errors);
@@ -332,19 +331,19 @@ public class ClientController {
         userService.updateEmailOfUser(userId, form.getEmail());
         userService.updatePhoneOfUser(userId, form.getPhone());
 
-        if(!form.getPasswordForm().getPassword().isEmpty()) {
+        if (!form.getPasswordForm().getPassword().isEmpty()) {
             userService.updatePasswordOfUser(userId, form.getPasswordForm().getPassword());
         }
 
         //update profile picture
 
         /* Check if image is uploaded */
-        image = retriveImage(form.getProfilePicture(),form.getSavedImgId());
-        if(image != null){
-            userService.updateImageOfUser(userId,image);
+        image = retriveImage(form.getProfilePicture(), form.getSavedImgId());
+        if (image != null) {
+            userService.updateImageOfUser(userId, image);
         }
 
-        if(form.getRedirSP() == 1) {
+        if (form.getRedirSP() == 1) {
             return new ModelAndView("redirect:/sprovider");
         }
 
@@ -352,45 +351,45 @@ public class ClientController {
     }
 
     private int getUserId(User user) {
-        if(user == null) {
+        if (user == null) {
             return -1;
         }
         return user.getId();
     }
 
-    private String getUserString(User user){
-        if (user == null){
+    private String getUserString(User user) {
+        if (user == null) {
             return "Annonymous";
-        }else{
-            return user.getUsername()+"["+user.getId()+"]";
+        } else {
+            return user.getUsername() + "[" + user.getId() + "]";
         }
     }
 
     private AppointmentForm getAppointmentFromCookies(HttpServletRequest request) {
-       boolean provId = false, sType = false, date = false, desc = false;
-       AppointmentForm form = new AppointmentForm();
+        boolean provId = false, sType = false, date = false, desc = false;
+        AppointmentForm form = new AppointmentForm();
 
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("ApForm-ProviderId")) {
-                form.setProviderId( Integer.parseInt(cookie.getValue()) );
+                form.setProviderId(Integer.parseInt(cookie.getValue()));
                 provId = true;
             }
             if (cookie.getName().equals("ApForm-ServiceType")) {
-                form.setServiceType( cookie.getValue() );
+                form.setServiceType(cookie.getValue());
                 sType = true;
             }
             if (cookie.getName().equals("ApForm-Date")) {
-                form.setDate( cookie.getValue() );
+                form.setDate(cookie.getValue());
                 date = true;
             }
             if (cookie.getName().equals("ApForm-Description")) {
-                form.setDescription( cookie.getValue() );
+                form.setDescription(cookie.getValue());
                 desc = true;
             }
         }
 
-        if(provId && sType && date && desc) {
+        if (provId && sType && date && desc) {
             return form;
         }
 
@@ -400,7 +399,7 @@ public class ClientController {
     private void removeFormCookies(HttpServletResponse response) {
         List<String> cookies = new ArrayList<>(Arrays.asList("ApForm-ProviderId", "ApForm-ServiceType", "ApForm-Date", "ApForm-Description"));
 
-        for(String cookieName : cookies) {
+        for (String cookieName : cookies) {
             Cookie cookie = new Cookie(cookieName, "");
             cookie.setPath("/");
             cookie.setMaxAge(0);
@@ -416,42 +415,42 @@ public class ClientController {
         response.addCookie(cookie);
     }
 
-    public String persistImage(MultipartFile imageFile,String redirect,int savedId){
-       byte[] image=null;
-        if(imageFile.getSize() > 0) {
+    public String persistImage(MultipartFile imageFile, String redirect, int savedId) {
+        byte[] image = null;
+        if (imageFile.getSize() > 0) {
             try {
                 image = imageFile.getBytes();
             } catch (IOException e) {
                 image = null;
             }
 
-            if(image != null && image.length !=0) {
+            if (image != null && image.length != 0) {
                 TemporaryImage img = tempImagesService.insertImage(image);
                 redirect += "?img=" + img.getImageId();
             }
-        } else if(savedId != -1) {
+        } else if (savedId != -1) {
             redirect += "?img=" + savedId;
         }
 
         return redirect;
     }
 
-    public byte[] retriveImage(MultipartFile imageFile,int savedId){
-       byte[] image= null;
+    public byte[] retriveImage(MultipartFile imageFile, int savedId) {
+        byte[] image = null;
         /* Check if image is uploaded */
-        if(imageFile.getSize() > 0) {
-            try{
+        if (imageFile.getSize() > 0) {
+            try {
                 image = imageFile.getBytes();
-            }catch (Exception e){
+            } catch (Exception e) {
                 //Handle exception?
                 image = null;
             }
-        } else if(savedId != -1) { /* If not check if image was uploaded before */
+        } else if (savedId != -1) { /* If not check if image was uploaded before */
             image = tempImagesService.getImage(savedId).getImage();
             tempImagesService.deleteImage(savedId);
         }
         return image;
-   }
+    }
 
 
 }

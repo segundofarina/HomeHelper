@@ -1,4 +1,5 @@
 package ar.edu.itba.paw.persistence;
+
 import ar.edu.itba.paw.interfaces.daos.WZoneDao;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +37,7 @@ public class WZoneHibernateDaoTest {
     WZoneDao wZoneDao;
 
     private JdbcTemplate jdbcTemplate;
+
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
@@ -48,29 +50,30 @@ public class WZoneHibernateDaoTest {
 
         em.flush();
 
-       wZoneDao.insertWorkingZoneOfProvider(USER4_ID,VALID_NG);
+        wZoneDao.insertWorkingZoneOfProvider(USER4_ID, VALID_NG);
 
-       em.flush();
+        em.flush();
 
         assertEquals(++count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "workingzones"));
 
         try {
             wZoneDao.insertWorkingZoneOfProvider(INVALIDAD_USER_ID, INVALID_NG);
-        }catch (Exception e){
+        } catch (Exception e) {
             em.flush();
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "workingzones"));
         }
         try {
             em.flush();
             wZoneDao.insertWorkingZoneOfProvider(USER_ID, INVALID_NG);
-        }catch (Exception e){
+        } catch (Exception e) {
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "workingzones"));
         }
     }
+
     @Test
     public void getWorkingZonesOfProvider() {
 
-        assertEquals(0,wZoneDao.getWorkingZonesOfProvider(INVALID_SERVICE_PROVIDER_ID).size());
+        assertEquals(0, wZoneDao.getWorkingZonesOfProvider(INVALID_SERVICE_PROVIDER_ID).size());
 
         assertEquals(3, wZoneDao.getWorkingZonesOfProvider(SPROVIDER3_ID).size());
 

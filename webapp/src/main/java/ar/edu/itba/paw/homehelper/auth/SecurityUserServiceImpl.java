@@ -27,12 +27,12 @@ public class SecurityUserServiceImpl implements SecurityUserService {
     public User getLoggedInUser() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if(authentication == null) {
+        if (authentication == null) {
             return null;
         }
         User user = userService.findByUsername(authentication.getName());
 
-        if(user != null && user.isVerified() && authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_UNVERIFIED_USER"))) {
+        if (user != null && user.isVerified() && authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_UNVERIFIED_USER"))) {
             /* Add roles */
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());

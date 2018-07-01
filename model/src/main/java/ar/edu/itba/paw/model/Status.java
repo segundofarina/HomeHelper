@@ -15,16 +15,16 @@ public enum Status {
 
     @Override
     public String toString() {
-        if(numVal == 1) {
+        if (numVal == 1) {
             return "Pending";
         }
-        if(numVal == 2) {
+        if (numVal == 2) {
             return "Confirmed";
         }
-        if(numVal == 3) {
+        if (numVal == 3) {
             return "Done";
         }
-        if(numVal == 4) {
+        if (numVal == 4) {
             return "Reject";
         }
         return "Undefined";
@@ -32,13 +32,13 @@ public enum Status {
 
 
     public static Status getStatus(int status) {
-        if(status == 1){
+        if (status == 1) {
             return Pending;
-        }else if(status == 2){
+        } else if (status == 2) {
             return Confirmed;
-        }else if(status == 3){
+        } else if (status == 3) {
             return Done;
-        }else if(status == 4){
+        } else if (status == 4) {
             return Reject;
         } else {
             return null;
@@ -46,15 +46,15 @@ public enum Status {
     }
 
     public static Status getStatus(String status) {
-        if(status.equals("Pending")){
+        if (status.equals("Pending")) {
             return Pending;
-        }else if(status.equals("Confirmed")){
+        } else if (status.equals("Confirmed")) {
             return Confirmed;
-        }else if(status.equals("Done")){
+        } else if (status.equals("Done")) {
             return Done;
-        }else if(status.equals("Reject")){
+        } else if (status.equals("Reject")) {
             return Reject;
-        }else{
+        } else {
             return null;
         }
     }

@@ -9,12 +9,12 @@ import static org.junit.Assert.assertEquals;
 
 public class WorkingZoneTestUtils {
 
-    public WorkingZoneTestUtils(){
+    public WorkingZoneTestUtils() {
 
     }
 
-    public static WorkingZone dummyWorkingZone(){
-        return new WorkingZone(SProviderTestUtils.dummySProvider(),NeighborhoodTestUtils.dummyNeighborhood());
+    public static WorkingZone dummyWorkingZone() {
+        return new WorkingZone(SProviderTestUtils.dummySProvider(), NeighborhoodTestUtils.dummyNeighborhood());
     }
 
     public static List<WorkingZone> dummyWorkingZones(int size) {
@@ -28,7 +28,7 @@ public class WorkingZoneTestUtils {
 
     public static void assertEqualsWorkingZones(WorkingZone expected, WorkingZone actual) {
         assertEquals(expected, actual);
-        NeighborhoodTestUtils.assertEqualsNeighborhoods(expected.getNeighborhood(),actual.getNeighborhood());
-        SProviderTestUtils.assertEqualsSProviders(expected.getUser(),actual.getUser());
+        NeighborhoodTestUtils.assertEqualsNeighborhoods(expected.getNeighborhood(), actual.getNeighborhood());
+        SProviderTestUtils.assertEqualsSProviders(expected.getUser(), actual.getUser());
     }
 }
