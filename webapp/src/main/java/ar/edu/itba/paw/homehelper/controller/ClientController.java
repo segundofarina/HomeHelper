@@ -279,7 +279,7 @@ public class ClientController {
            throw new InvalidQueryException();
        }
        /* ap.getServiceType().getServiceTypeId() eso esta mal tengo que mandar el id de la aptitud */
-       appointmentService.reviewAppointment(form.getAppointmentId(),form.getProviderId(), ap.getServiceType().getServiceTypeId(), form.getQualityInt(), form.getCleannesInt(), form.getPriceInt(), form.getPunctualityInt(), form.getTreatmentInt(), form.getMsg());
+       appointmentService.reviewAppointment(form.getAppointmentId(),ap.getClient().getId(), ap.getServiceType().getServiceTypeId(), form.getQualityInt(), form.getCleannesInt(), form.getPriceInt(), form.getPunctualityInt(), form.getTreatmentInt(), form.getMsg());
 
        return new ModelAndView("redirect:/client/appointments");
     }

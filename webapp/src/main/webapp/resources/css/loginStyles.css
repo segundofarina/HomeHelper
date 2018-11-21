@@ -48,6 +48,7 @@ html, body {
 }
 
 .login-clean form .checkbox {
+    padding: auto;
     margin-top: 2em;
     text-align: center;
 }

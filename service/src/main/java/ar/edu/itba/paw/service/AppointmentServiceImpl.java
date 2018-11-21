@@ -51,20 +51,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         return ans;
     }
 
-    @Override
-    public List<Appointment> getAppointmentsByUserId(int userId, Status status) {
-        List<Appointment> appointments = getAppointmentsByUserId(userId);
-        List<Appointment> ans = new ArrayList<>();
-
-        for(Appointment appointment : appointments){
-            if(appointment.getStatus().equals(status)){
-                ans.add(appointment);
-            }
-        }
-
-        return ans;
-    }
-
     @Transactional
     @Override
     public Appointment getAppointment(int appointmentId) {

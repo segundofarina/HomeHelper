@@ -14,8 +14,6 @@ public interface AppointmentService {
 
     List<Appointment> getAppointmentsByProviderId(int providerId, Status status);
 
-    List<Appointment> getAppointmentsByUserId(int userId, Status status);
-
     Appointment getAppointment(int appointmentId);
 
     Appointment addAppointment(int clientId, int providerId, int serviceTypeId, String date, String address, String jobDescripcion);
