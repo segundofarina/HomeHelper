@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title>Chat WebSocket</title>
+        <script src="sockjs.js"></script>
+        <script src="stomp.js"></script>
+        <script type="text/javascript">
+            var stompClient = null;
+             
+            var socket = new SockJS('/websocket');
+            stompClient = Stomp.over(socket);  
+            stompClient.connect({'X-Authorization': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0aW5jaG92aWN0b3J5IiwianRpIjoiMSJ9.5jxlU2uCoV_xWl9IAL-CDPJePYUSmXe-CNlPifNUBU5b4guDWJT6eHCMKuXUdZp6AEQ4Tc0BQ-e6Hjg4DSiMXg'}, function(frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/user/queue/messages', function(messageOutput) {
+                    console.log('msgOutput: ' + messageOutput)
+                    try {
+                        var msgObj = JSON.parse(messageOutput.body)
+                        document.getElementById("msg").innerHTML = document.getElementById("msg").innerHTML + '<br />' + msgObj.text
+                    } catch (e) {
+                        console.log(e)
+                    }
+                }, {'X-Authorization' : 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0aW5jaG92aWN0b3J5IiwianRpIjoiMSJ9.5jxlU2uCoV_xWl9IAL-CDPJePYUSmXe-CNlPifNUBU5b4guDWJT6eHCMKuXUdZp6AEQ4Tc0BQ-e6Hjg4DSiMXg'});
+            });
+                
+            function sendMessage() {
+                var text = document.getElementById("text").value;
+
+                stompClient.send("/app/messages", {'X-Authorization' : 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0aW5jaG92aWN0b3J5IiwianRpIjoiMSJ9.5jxlU2uCoV_xWl9IAL-CDPJePYUSmXe-CNlPifNUBU5b4guDWJT6eHCMKuXUdZp6AEQ4Tc0BQ-e6Hjg4DSiMXg'},
+                  JSON.stringify({'text': text}));
+            }
+        </script>
+    </head>
+    <body>
+        <div>
+            <p>USER: tinchovictory</p>
+            <div id="conversationDiv">
+                <input type="text" id="text" placeholder="Write a message..."/>
+                <button id="sendMessage" onclick="sendMessage();">Send</button>
+            </div>
+            <p id="msg"></p>
+        </div>
+ 
+    </body>
+</html>
