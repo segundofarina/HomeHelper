@@ -51,20 +51,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         return ans;
     }
 
-    @Override
-    public List<Appointment> getAppointmentsByUserId(int userId, Status status) {
-        List<Appointment> appointments = getAppointmentsByUserId(userId);
-        List<Appointment> ans = new ArrayList<>();
-
-        for (Appointment appointment : appointments) {
-            if (appointment.getStatus().equals(status)) {
-                ans.add(appointment);
-            }
-        }
-
-        return ans;
-    }
-
     @Transactional
     @Override
     public Appointment getAppointment(int appointmentId) {
@@ -185,8 +171,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Transactional
     @Override
-    public void reviewAppointment(int appointmentId, int userId, int serviceTypeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
-        int aptitudeId = aptitudeDao.getAptitudeId(userId, serviceTypeId);
+    public void reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
         appointmentDao.reviewAppointment(appointmentId, userId, aptitudeId, quality, cleanness, price, punctuality, treatment, comment);
     }
 

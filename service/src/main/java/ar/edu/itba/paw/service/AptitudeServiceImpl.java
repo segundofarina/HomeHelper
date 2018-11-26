@@ -17,6 +17,12 @@ public class AptitudeServiceImpl implements AptitudeService {
 
     @Transactional
     @Override
+    public Aptitude addAptitude(int sProviderId, int serviceId, String description){
+        return aptitudeDao.insertAptitude(sProviderId,serviceId,description);
+    }
+
+    @Transactional
+    @Override
     public Optional<Aptitude> getAptitude(int aptitudeId) {
         return aptitudeDao.getAptitude(aptitudeId);
     }

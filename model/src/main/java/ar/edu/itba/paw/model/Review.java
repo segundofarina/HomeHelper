@@ -125,4 +125,8 @@ public class Review {
     public int hashCode() {
         return id;
     }
+
+    public int getId() {
+        return id;
+    }
 }

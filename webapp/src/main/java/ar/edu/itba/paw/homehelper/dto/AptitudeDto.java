@@ -4,7 +4,8 @@ import ar.edu.itba.paw.model.Aptitude;
 
 public class AptitudeDto {
      private int id;
-        private ServiceTypeDTO serviceType;
+        private ProviderDto sProvider;
+        private ServiceTypeDto serviceType;
         private String description;
         private CalificationDto calification;
 
@@ -13,7 +14,8 @@ public class AptitudeDto {
 
         public AptitudeDto(Aptitude aptitude) {
             this.id = aptitude.getId();
-            this.serviceType = new ServiceTypeDTO(aptitude.getService());
+            this.sProvider = new ProviderDto(aptitude.getsProvider());
+            this.serviceType = new ServiceTypeDto(aptitude.getService());
             this.description = aptitude.getDescription();
             this.calification = new CalificationDto(aptitude);
         }
@@ -26,11 +28,11 @@ public class AptitudeDto {
             this.id = id;
         }
 
-        public ServiceTypeDTO getServiceType() {
+        public ServiceTypeDto getServiceType() {
             return serviceType;
         }
 
-        public void setServiceType(ServiceTypeDTO serviceType) {
+        public void setServiceType(ServiceTypeDto serviceType) {
             this.serviceType = serviceType;
         }
 
@@ -49,4 +51,8 @@ public class AptitudeDto {
         public void setCalification(CalificationDto calification) {
             this.calification = calification;
         }
+
+    public ProviderDto getsProvider() {
+        return sProvider;
+    }
 }

@@ -7,7 +7,7 @@ import ar.edu.itba.paw.model.User;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ProviderDTO {
+public class ProviderDto {
     private int id;
     private String firstName;
     private String lastName;
@@ -16,10 +16,10 @@ public class ProviderDTO {
     private String pictureUrl;
     private List<AptitudeDto> aptitudes;
 
-    public ProviderDTO() {
+    public ProviderDto() {
     }
 
-    public ProviderDTO(SProvider provider) {
+    public ProviderDto(SProvider provider) {
         this.id = provider.getId();
         this.description = provider.getDescription();
         this.generalCalification = provider.getGeneralCalification();

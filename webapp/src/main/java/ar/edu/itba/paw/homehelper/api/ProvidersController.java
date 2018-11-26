@@ -1,6 +1,6 @@
 package ar.edu.itba.paw.homehelper.api;
 
-import ar.edu.itba.paw.homehelper.dto.ProviderDTO;
+import ar.edu.itba.paw.homehelper.dto.ProviderDto;
 import ar.edu.itba.paw.homehelper.dto.ProvidersListDto;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.SProvider;
@@ -67,7 +67,7 @@ public class ProvidersController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(new ProviderDTO(provider)).build();
+        return Response.ok(new ProviderDto(provider)).build();
     }
 
 

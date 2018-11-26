@@ -2,14 +2,14 @@ package ar.edu.itba.paw.homehelper.dto;
 
 import ar.edu.itba.paw.model.ServiceType;
 
-public class ServiceTypeDTO {
+public class ServiceTypeDto {
     private int id;
     private String name;
 
-    public ServiceTypeDTO() {
+    public ServiceTypeDto() {
     }
 
-    public ServiceTypeDTO(ServiceType serviceType) {
+    public ServiceTypeDto(ServiceType serviceType) {
         this.id = serviceType.getId();
         this.name = serviceType.getName();
     }

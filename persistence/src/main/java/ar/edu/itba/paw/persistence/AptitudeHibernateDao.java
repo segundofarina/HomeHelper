@@ -26,18 +26,18 @@ public class AptitudeHibernateDao implements AptitudeDao {
     }
 
     @Override
-    public boolean insertAptitude(int sProviderId, int serviceId, String description) {
+    public Aptitude insertAptitude(int sProviderId, int serviceId, String description) {
         Optional<SProvider> sp = Optional.ofNullable(em.find(SProvider.class, sProviderId));
         if (!sp.isPresent()) {
-            return false;
+            return null;
         }
         Optional<ServiceType> st = Optional.ofNullable(em.find(ServiceType.class, serviceId));
         if (!st.isPresent()) {
-            return false;
+            return null;
         }
         final Aptitude user = new Aptitude(sp.get(), st.get(), description, Collections.EMPTY_SET);
         em.persist(user);
-        return true;
+        return user;
     }
 
     @Override

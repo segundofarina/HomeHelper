@@ -14,8 +14,6 @@ public interface AppointmentService {
 
     List<Appointment> getAppointmentsByProviderId(int providerId, Status status);
 
-    List<Appointment> getAppointmentsByUserId(int userId, Status status);
-
     Appointment getAppointment(int appointmentId);
 
     Appointment addAppointment(int clientId, int providerId, int serviceTypeId, String date, String address, String jobDescripcion);
@@ -42,7 +40,7 @@ public interface AppointmentService {
 
     List<Appointment> getLatestPendingAppointmentWithProviderId(int providerId);
 
-    void reviewAppointment(int appointmentId, int userId, int serviceTypeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
+    void reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
 
     Appointment getLastAppointment(int userId);
 }

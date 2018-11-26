@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.homehelper.api;
 
-import ar.edu.itba.paw.homehelper.dto.ServiceTypeDTO;
-import ar.edu.itba.paw.homehelper.dto.ServiceTypesListDTO;
+import ar.edu.itba.paw.homehelper.dto.ServiceTypeDto;
+import ar.edu.itba.paw.homehelper.dto.ServiceTypesListDto;
 import ar.edu.itba.paw.interfaces.services.STypeService;
 import ar.edu.itba.paw.model.ServiceType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class ServiceTypesController {
     public Response getServiceTypes() {
         List<ServiceType> serviceTypes = sTypeService.getServiceTypes();
 
-        return Response.ok(new ServiceTypesListDTO(serviceTypes)).build();
+        return Response.ok(new ServiceTypesListDto(serviceTypes)).build();
     }
 
     @GET
@@ -43,13 +43,13 @@ public class ServiceTypesController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(new ServiceTypeDTO(serviceType)).build();
+        return Response.ok(new ServiceTypeDto(serviceType)).build();
     }
 
     @POST
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createServiceType(final ServiceTypeDTO serviceTypeDTO) {
+    public Response createServiceType(final ServiceTypeDto serviceTypeDTO) {
         final ServiceType newServiceType = sTypeService.create(serviceTypeDTO.getName());
 
         if(newServiceType == null) {
@@ -64,7 +64,7 @@ public class ServiceTypesController {
     @PUT
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateServiceType(@PathParam("id") final int id, final ServiceTypeDTO serviceTypeDTO) {
+    public Response updateServiceType(@PathParam("id") final int id, final ServiceTypeDto serviceTypeDTO) {
         final ServiceType serviceType = sTypeService.getServiceTypeWithId(id);
 
         if(serviceType == null) {
