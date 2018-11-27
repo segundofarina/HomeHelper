@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.util.*;
 
 
-@Controller
 public class ClientController {
 
     @Autowired

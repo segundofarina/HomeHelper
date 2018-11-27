@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import java.security.Principal;
 
 @Controller
-public class ChatController {
+public class WebsocketChatController {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
