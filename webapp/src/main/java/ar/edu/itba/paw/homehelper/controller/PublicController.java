@@ -37,7 +37,6 @@ import java.util.Base64;
 import java.util.List;
 
 
-@Controller
 public class PublicController {
     @Autowired
     private SProviderService sProviderService;
