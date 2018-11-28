@@ -107,7 +107,7 @@ public class Appointment {
         this.status = status.toString();
     }
 
-    public boolean isClientReview() {
+    public boolean hasClientReview() {
         return clientReview;
     }
 

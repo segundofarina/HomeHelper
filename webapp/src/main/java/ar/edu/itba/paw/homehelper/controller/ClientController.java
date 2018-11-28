@@ -246,7 +246,7 @@ public class ClientController {
     public ModelAndView writeReview(@ModelAttribute("loggedInUser") final User loggedInUser, @PathVariable("appointmentId") final int appointmentId) throws NotFoundException {
         /* Validate params */
         Appointment appointment = appointmentService.getAppointment(appointmentId);
-        if (appointment == null || appointment.getStatus() != Status.Done || appointment.getClient().getId() != loggedInUser.getId() || appointment.isClientReview()) {
+        if (appointment == null || appointment.getStatus() != Status.Done || appointment.getClient().getId() != loggedInUser.getId()) {
             throw new NotFoundException();
         }
 

@@ -29,7 +29,7 @@ public class AppointmentsController {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAppointments() {
-        List<Appointment> appointments = appointmentService.getAppointmentsByUserId(20);
+        List<Appointment> appointments = appointmentService.getAppointmentsByUserId(2);
 
         if(appointments == null){
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -57,7 +57,7 @@ public class AppointmentsController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addAppointment(final AppointmentDto appointmentDTO) {
 
-        if(appointmentDTO == null){
+       /* if(appointmentDTO == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -70,7 +70,8 @@ public class AppointmentsController {
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newAppointment.getAppointmentId())).build();
 
-        return Response.created(uri).build();
+        return Response.created(uri).build();*/
+        return Response.ok().build();
     }
 
     @PUT
@@ -78,7 +79,7 @@ public class AppointmentsController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateAppointment(@PathParam("id") final int id, final String action) {
 
-        final Appointment newAppointment = appointmentService.getAppointment(id);
+       /* final Appointment newAppointment = appointmentService.getAppointment(id);
 
         if(newAppointment == null){
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -100,7 +101,7 @@ public class AppointmentsController {
 
         if(!updateAppointment) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+        }*/
 
         return Response.ok().build();
     }
@@ -109,7 +110,7 @@ public class AppointmentsController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response reviewAppointment(@PathParam("id") final int id,final ReviewDto reviewDTO){
-
+/*
         final Appointment newAppointment = appointmentService.getAppointment(id);
 
         if(newAppointment == null){
@@ -122,7 +123,8 @@ public class AppointmentsController {
 
         appointmentService.reviewAppointment(newAppointment.getAppointmentId(),reviewDTO.getUser().getId(),reviewDTO.getAptitude().getId(),(int) reviewDTO.getCalificationDto().getQuality(),
                 (int) reviewDTO.getCalificationDto().getCleanness(),(int) reviewDTO.getCalificationDto().getPrice(),(int) reviewDTO.getCalificationDto().getPunctuality(),
-                (int) reviewDTO.getCalificationDto().getTreatement(),reviewDTO.getComment());
+                (int) reviewDTO.getCalificationDto().getTreatment(),reviewDTO.getComment());
+ */
         return Response.ok().build();
     }
 

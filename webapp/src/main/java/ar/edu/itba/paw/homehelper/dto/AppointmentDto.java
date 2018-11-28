@@ -5,52 +5,80 @@ import ar.edu.itba.paw.model.Appointment;
 import java.util.Date;
 
 public class AppointmentDto {
-    private int appointmentId;
-    private ServiceTypeDto serviceTtype;
-    private ClientDto client;
-    private ProviderDto provider;
+    private int id;
+    private ServiceTypeDto serviceType;
+    private BasicProviderDto provider;
     private String address;
-    private Date date;
-    private String jobDescription;
+    private String date;
+    private String description;
+    private boolean hasReview;
 
     public AppointmentDto() {
     }
 
     public AppointmentDto(Appointment appointment) {
-        this.appointmentId = appointment.getAppointmentId();
-        this.serviceTtype = new ServiceTypeDto(appointment.getServiceType());
-        this.client = new ClientDto(appointment.getClient());
-        this.provider = new ProviderDto(appointment.getProvider());
+        this.id = appointment.getAppointmentId();
+        this.serviceType = new ServiceTypeDto(appointment.getServiceType());
         this.address = appointment.getAddress();
-        this.date = appointment.getDate();
-        this.jobDescription = appointment.getJobDescripcion();
+        this.date = appointment.getDateDMY(); // TODO: Date should be formated according to given locale
+        this.description = appointment.getJobDescripcion();
+        this.provider = new BasicProviderDto(appointment.getProvider());
+        this.hasReview = appointment.hasClientReview();
     }
 
-    public int getAppointmentId() {
-        return appointmentId;
+    public int getId() {
+        return id;
     }
 
-    public ServiceTypeDto getServiceTtype() {
-        return serviceTtype;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public ClientDto getClient() {
-        return client;
+    public ServiceTypeDto getServiceType() {
+        return serviceType;
     }
 
-    public ProviderDto getProvider() {
-        return provider;
+    public void setServiceType(ServiceTypeDto serviceType) {
+        this.serviceType = serviceType;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public Date getDate() {
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getDate() {
         return date;
     }
 
-    public String getJobDescription() {
-        return jobDescription;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public BasicProviderDto getProvider() {
+        return provider;
+    }
+
+    public void setProvider(BasicProviderDto provider) {
+        this.provider = provider;
+    }
+
+    public boolean isHasReview() {
+        return hasReview;
+    }
+
+    public void setHasReview(boolean hasReview) {
+        this.hasReview = hasReview;
     }
 }
