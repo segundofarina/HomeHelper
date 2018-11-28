@@ -7,7 +7,7 @@ public class CalificationDto {
     private double cleanness;
     private double price;
     private double punctuality;
-    private double treatement;
+    private double treatment;
     private double general;
 
     public CalificationDto() {
@@ -18,7 +18,7 @@ public class CalificationDto {
         this.cleanness = aptitude.getCleannessCalification();
         this.price = aptitude.getPriceCalification();
         this.punctuality = aptitude.getPunctualityCalification();
-        this.treatement = aptitude.getTreatmentCalification();
+        this.treatment = aptitude.getTreatmentCalification();
         this.general = aptitude.getGeneralCalification();
     }
 
@@ -54,12 +54,12 @@ public class CalificationDto {
         this.punctuality = punctuality;
     }
 
-    public double getTreatement() {
-        return treatement;
+    public double getTreatment() {
+        return treatment;
     }
 
-    public void setTreatement(double treatement) {
-        this.treatement = treatement;
+    public void setTreatment(double treatment) {
+        this.treatment = treatment;
     }
 
     public double getGeneral() {
