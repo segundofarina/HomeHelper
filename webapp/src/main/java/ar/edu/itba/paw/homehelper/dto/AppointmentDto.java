@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper.dto;
 
 import ar.edu.itba.paw.model.Appointment;
+import ar.edu.itba.paw.model.ServiceType;
 
 import java.util.Date;
 
@@ -81,4 +82,6 @@ public class AppointmentDto {
     public void setHasReview(boolean hasReview) {
         this.hasReview = hasReview;
     }
+
+
 }

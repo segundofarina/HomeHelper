@@ -9,7 +9,7 @@ public class ReviewDto {
     private ClientDto user;
     private AptitudeDto aptitude;
     private String comment;
-    private CalificationDto calificationDto;
+    private CalificationDto calification;
     private Date reviewDate;
 
     public ReviewDto(Review review) {
@@ -17,7 +17,7 @@ public class ReviewDto {
         this.user = new ClientDto(review.getUser());
         this.aptitude = new AptitudeDto(review.getAptitude());
         this.comment = review.getComment();
-        this.calificationDto = new CalificationDto(review.getAptitude());
+        this.calification = new CalificationDto(review.getAptitude());
         this.reviewDate = review.getDate();
     }
 
@@ -25,7 +25,7 @@ public class ReviewDto {
         return id;
     }
 
-    public ClientDto getUser() {
+   public ClientDto getUser() {
         return user;
     }
 
@@ -38,7 +38,7 @@ public class ReviewDto {
     }
 
     public CalificationDto getCalificationDto() {
-        return calificationDto;
+        return calification;
     }
 
     public Date getReviewDate() {
