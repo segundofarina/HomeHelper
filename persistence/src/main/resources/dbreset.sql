@@ -10,7 +10,7 @@ drop table if exists neighborhoods CASCADE;
 drop table if exists workingzones CASCADE;
 DROP TABLE if EXISTS temporaryImages CASCADE ;
 drop table if exists workingzones CASCADE;
-
+drop table if exists coordenates CASCADE ;
 
 CREATE TABLE IF NOT EXISTS users (
   userid SERIAL PRIMARY KEY,
