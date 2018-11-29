@@ -1,9 +1,7 @@
 package testUtils;
 
 import ar.edu.itba.paw.model.Aptitude;
-import ar.edu.itba.paw.model.CoordenatesPoint;
 import ar.edu.itba.paw.model.SProvider;
-import ar.edu.itba.paw.model.WorkingZone;
 
 import java.util.HashSet;
 import java.util.Random;

@@ -22,8 +22,6 @@ public class SProviderServiceImpl implements SProviderService {
     @Autowired
     STypeDao sTypeDao;
 
-    @Autowired
-    WZoneDao wZoneDao;
 
     @Autowired
     AppointmentDao appointmentDao;
@@ -149,11 +147,6 @@ public class SProviderServiceImpl implements SProviderService {
         return aptitudeDao.updateServiceTypeOfAptitude(aptId, stId);
     }
 
-    @Transactional
-    @Override
-    public boolean removeWorkingZoneOfProvider(int userId, int ngId) {
-        return wZoneDao.removeWorkingZoneOfProvider(userId, ngId);
-    }
 
 
     @Override
@@ -174,17 +167,6 @@ public class SProviderServiceImpl implements SProviderService {
         return getServiceProviderWithUserId(userId) != null;
     }
 
-    @Transactional
-    @Override
-    public void insertWorkingZoneOfProvider(int userId, int ngId) {
-        wZoneDao.insertWorkingZoneOfProvider(userId, ngId);
-    }
-
-    @Transactional
-    @Override
-    public List<SProvider> getServiceProvidersWorkingIn(int neighborhood) {
-        return wZoneDao.getServiceProvidersWorkingIn(neighborhood);
-    }
 
     @Transactional
     @Override

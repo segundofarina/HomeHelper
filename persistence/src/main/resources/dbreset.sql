@@ -9,7 +9,6 @@ drop table if EXISTS verifyUsers CASCADE;
 drop table if exists neighborhoods CASCADE;
 drop table if exists workingzones CASCADE;
 DROP TABLE if EXISTS temporaryImages CASCADE ;
-drop table if exists workingzones CASCADE;
 drop table if exists coordenates CASCADE ;
 
 CREATE TABLE IF NOT EXISTS users (
@@ -83,17 +82,6 @@ create TABLE if NOT EXISTS verifyUsers(
   keyCode VARCHAR(1000)
 );
 
-CREATE TABLE IF NOT EXISTS neighborhoods(
-  ngId SERIAL PRIMARY KEY,
-  ngname VARCHAR(100)
-);
-
-CREATE TABLE IF NOT EXISTS workingzones(
-  workingZoneId SERIAL PRIMARY KEY,
-  ngId INTEGER REFERENCES neighborhoods(ngId),
-  userId INTEGER REFERENCES serviceProviders(userId)
-);
-
 CREATE TABLE IF NOT EXISTS temporaryImages (
   imageid SERIAL PRIMARY KEY,
   image   BYTEA
@@ -124,30 +112,6 @@ insert into users VALUES (13,'plifer','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrc
 insert into users VALUES (14,'aballardini','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Axel','Ballardini','aballardini@itba.edu.ar','1563880943',null,'cuba 2546', TRUE);
 insert into users VALUES (15,'frojas','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Fernando','Rojas','frojas@google.com','1542548790',null,'cuba 2546', TRUE);
 insert into users VALUES (16,'nzeta','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nicolas','Zeta','nico_zeta@outlook.com','1534890542',null,'cuba 2546', TRUE);
-
-
-insert into neighborhoods VALUES (1);
-insert into neighborhoods VALUES (2);
-insert into neighborhoods VALUES (3);
-insert into neighborhoods VALUES (4);
-insert into neighborhoods VALUES (5);
-insert into neighborhoods VALUES (6);
-insert into neighborhoods VALUES (7);
-insert into neighborhoods VALUES (8);
-insert into neighborhoods VALUES (9);
-insert into neighborhoods VALUES (10);
-insert into neighborhoods VALUES (11);
-insert into neighborhoods VALUES (12);
-insert into neighborhoods VALUES (13);
-insert into neighborhoods VALUES (14);
-insert into neighborhoods VALUES (15);
-insert into neighborhoods VALUES (16);
-insert into neighborhoods VALUES (17);
-insert into neighborhoods VALUES (18);
-insert into neighborhoods VALUES (19);
-insert into neighborhoods VALUES (20);
-insert into neighborhoods VALUES (21);
-insert into neighborhoods VALUES (22);
 
 
 insert into serviceProviders VALUES (1,'Mi nombre es Segundo y tengo 22 años, trabajo en el negocio desde 2010. Trabaje en la fabrica de mubles de Noray desde el 2010 al 2015. En el 2015 comence mi propia empresa de mubles a medida. Contactate con nosotros y a la brevedad te contestaremos!!');
@@ -509,156 +473,6 @@ insert into messages VALUES (4,2,9,2,9,'Este tambien es un chat',FALSE ,DEFAULT 
 insert into messages VALUES (5,9,2,2,9,'AAA mira que bueno',FALSE ,DEFAULT );
 insert into messages VALUES (6,2,9,2,9,'Jajaja',FALSE ,DEFAULT );
 
-insert into workingzones VALUES (1,1,1);
-insert into workingzones VALUES (2,2,1);
-insert into workingzones VALUES (3,3,1);
-insert into workingzones VALUES (4,4,1);
-insert into workingzones VALUES (5,5,1);
-insert into workingzones VALUES (6,6,1);
-insert into workingzones VALUES (7,7,1);
-insert into workingzones VALUES (8,8,1);
-insert into workingzones VALUES (9,9,1);
-insert into workingzones VALUES (10,10,1);
-insert into workingzones VALUES (11,11,1);
-insert into workingzones VALUES (12,12,1);
-insert into workingzones VALUES (13,13,1);
-insert into workingzones VALUES (14,14,1);
-insert into workingzones VALUES (15,15,1);
-insert into workingzones VALUES (16,16,1);
-insert into workingzones VALUES (17,17,1);
-insert into workingzones VALUES (18,18,1);
-insert into workingzones VALUES (19,1,2);
-insert into workingzones VALUES (20,2,2);
-insert into workingzones VALUES (21,3,2);
-insert into workingzones VALUES (22,4,2);
-insert into workingzones VALUES (23,5,2);
-insert into workingzones VALUES (24,6,2);
-insert into workingzones VALUES (25,7,2);
-insert into workingzones VALUES (26,8,2);
-insert into workingzones VALUES (27,9,2);
-insert into workingzones VALUES (28,10,3);
-insert into workingzones VALUES (29,11,3);
-insert into workingzones VALUES (30,12,3);
-insert into workingzones VALUES (31,13,3);
-insert into workingzones VALUES (32,14,3);
-insert into workingzones VALUES (33,15,3);
-insert into workingzones VALUES (34,16,3);
-insert into workingzones VALUES (35,17,3);
-insert into workingzones VALUES (36,18,3);
-insert into workingzones VALUES (37,10,4);
-insert into workingzones VALUES (38,11,4);
-insert into workingzones VALUES (39,12,4);
-insert into workingzones VALUES (40,13,4);
-insert into workingzones VALUES (41,14,4);
-insert into workingzones VALUES (42,15,4);
-insert into workingzones VALUES (43,16,4);
-insert into workingzones VALUES (44,17,4);
-insert into workingzones VALUES (45,18,4);
-insert into workingzones VALUES (46,21,5);
-insert into workingzones VALUES (47,22,5);
-insert into workingzones VALUES (48,21,5);
-insert into workingzones VALUES (49,22,5);
-insert into workingzones VALUES (50,1,5);
-insert into workingzones VALUES (51,2,5);
-insert into workingzones VALUES (52,3,5);
-insert into workingzones VALUES (53,4,5);
-insert into workingzones VALUES (54,5,5);
-insert into workingzones VALUES (55,1,6);
-insert into workingzones VALUES (56,2,6);
-insert into workingzones VALUES (57,3,6);
-insert into workingzones VALUES (58,4,6);
-insert into workingzones VALUES (59,5,6);
-insert into workingzones VALUES (60,6,6);
-insert into workingzones VALUES (61,7,6);
-insert into workingzones VALUES (62,8,6);
-insert into workingzones VALUES (63,9,6);
-insert into workingzones VALUES (64,10,7);
-insert into workingzones VALUES (65,11,7);
-insert into workingzones VALUES (66,12,7);
-insert into workingzones VALUES (67,13,7);
-insert into workingzones VALUES (68,14,7);
-insert into workingzones VALUES (69,15,7);
-insert into workingzones VALUES (70,16,7);
-insert into workingzones VALUES (71,17,7);
-insert into workingzones VALUES (72,18,7);
-insert into workingzones VALUES (73,1,8);
-insert into workingzones VALUES (74,2,8);
-insert into workingzones VALUES (75,3,8);
-insert into workingzones VALUES (76,4,8);
-insert into workingzones VALUES (77,5,8);
-insert into workingzones VALUES (78,6,8);
-insert into workingzones VALUES (79,7,8);
-insert into workingzones VALUES (80,8,8);
-insert into workingzones VALUES (81,9,8);
-insert into workingzones VALUES (82,10,9);
-insert into workingzones VALUES (83,11,9);
-insert into workingzones VALUES (84,12,9);
-insert into workingzones VALUES (85,13,9);
-insert into workingzones VALUES (86,14,9);
-insert into workingzones VALUES (87,15,9);
-insert into workingzones VALUES (88,16,9);
-insert into workingzones VALUES (89,17,9);
-insert into workingzones VALUES (90,18,9);
-insert into workingzones VALUES (91,10,9);
-insert into workingzones VALUES (92,11,9);
-insert into workingzones VALUES (93,12,9);
-insert into workingzones VALUES (94,13,9);
-insert into workingzones VALUES (95,14,9);
-insert into workingzones VALUES (96,15,9);
-insert into workingzones VALUES (97,16,9);
-insert into workingzones VALUES (98,17,9);
-insert into workingzones VALUES (99,18,9);
-insert into workingzones VALUES (100,21,10);
-insert into workingzones VALUES (101,22,10);
-insert into workingzones VALUES (102,4,10);
-insert into workingzones VALUES (103,7,10);
-insert into workingzones VALUES (104,10,10);
-insert into workingzones VALUES (105,2,10);
-insert into workingzones VALUES (106,15,10);
-insert into workingzones VALUES (107,17,10);
-insert into workingzones VALUES (108,20,10);
-insert into workingzones VALUES (109,21,11);
-insert into workingzones VALUES (110,17,11);
-insert into workingzones VALUES (111,18,11);
-insert into workingzones VALUES (112,1,12);
-insert into workingzones VALUES (113,2,12);
-insert into workingzones VALUES (114,3,12);
-insert into workingzones VALUES (115,4,12);
-insert into workingzones VALUES (116,5,12);
-insert into workingzones VALUES (117,6,12);
-insert into workingzones VALUES (118,7,12);
-insert into workingzones VALUES (119,8,12);
-insert into workingzones VALUES (120,9,12);
-insert into workingzones VALUES (121,10,13);
-insert into workingzones VALUES (122,11,13);
-insert into workingzones VALUES (123,12,13);
-insert into workingzones VALUES (124,13,13);
-insert into workingzones VALUES (125,14,13);
-insert into workingzones VALUES (126,15,13);
-insert into workingzones VALUES (127,16,13);
-insert into workingzones VALUES (128,13,14);
-insert into workingzones VALUES (129,14,14);
-insert into workingzones VALUES (130,15,14);
-insert into workingzones VALUES (131,16,14);
-insert into workingzones VALUES (132,17,14);
-insert into workingzones VALUES (133,18,14);
-insert into workingzones VALUES (134,21,15);
-insert into workingzones VALUES (135,22,15);
-insert into workingzones VALUES (136,18,15);
-insert into workingzones VALUES (137,10,15);
-insert into workingzones VALUES (138,11,15);
-insert into workingzones VALUES (139,12,15);
-insert into workingzones VALUES (140,13,15);
-insert into workingzones VALUES (141,14,15);
-insert into workingzones VALUES (142,15,15);
-insert into workingzones VALUES (143,16,16);
-insert into workingzones VALUES (144,17,16);
-insert into workingzones VALUES (145,18,16);
-insert into workingzones VALUES (146,1,16);
-insert into workingzones VALUES (147,2,16);
-insert into workingzones VALUES (148,3,16);
-insert into workingzones VALUES (149,4,16);
-
 INSERT INTO coordenates (pos,userid, lat, lng) SELECT 1,userid, -34.557176,-58.430436 FROM serviceProviders;
 INSERT INTO coordenates (pos,userid, lat, lng) SELECT 2,userid, -34.575376,-58.403839 FROM serviceProviders;
 INSERT INTO coordenates (pos,userid, lat, lng) SELECT 3,userid, -34.588696,-58.431428 FROM serviceProviders;
@@ -667,8 +481,6 @@ SELECT setval('users_userid_seq',               (SELECT MAX(userid)         from
 SELECT setval('serviceTypes_serviceTypeId_seq', (SELECT MAX(serviceTypeId)  from serviceTypes));
 SELECT setval('aptitudes_aptitudeId_seq',       (SELECT MAX(aptitudeId)     from aptitudes));
 SELECT setval('appointments_appointmentId_seq', (SELECT MAX(appointmentId)  from appointments));
-SELECT setval('neighborhoods_ngid_seq',         (SELECT MAX(ngid)           from neighborhoods));
-SELECT setval('workingzones_workingZoneId_seq', (SELECT MAX(workingZoneId)  from workingzones));
 SELECT setval('temporaryImages_imageid_seq',    (SELECT MAX(imageid)        from temporaryImages));
 SELECT setval('reviews_reviewId_seq',           (SELECT MAX(reviewId)        from reviews));
 SELECT setval('messages_msgId_seq',             (SELECT MAX(msgId)        from messages));

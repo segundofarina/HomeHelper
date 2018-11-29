@@ -42,12 +42,6 @@ public class ServiceProviderController {
     private AptitudeService aptitudeService;
 
     @Autowired
-    private WorkingZonesService workingZonesService;
-
-    @Autowired
-    private NeighborhoodService neighborhoodService;
-
-    @Autowired
     private TempImagesService tempImagesService;
 
     @Autowired
@@ -316,8 +310,6 @@ public class ServiceProviderController {
 
         mav.addObject("img", -1);
 
-        mav.addObject("workingZones", workingZonesService.getWorkingZonesOfProvider(providerId));
-        mav.addObject("neightbourhoods", neighborhoodService.getAllNeighborhoods());
 
         return mav;
     }
