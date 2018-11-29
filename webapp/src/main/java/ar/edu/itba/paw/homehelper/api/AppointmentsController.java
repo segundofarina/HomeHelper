@@ -2,7 +2,6 @@ package ar.edu.itba.paw.homehelper.api;
 import ar.edu.itba.paw.homehelper.dto.ActionDto;
 import ar.edu.itba.paw.homehelper.dto.AppointmentDto;
 import ar.edu.itba.paw.homehelper.dto.AppointmentListDto;
-import ar.edu.itba.paw.homehelper.dto.ReviewDto;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,25 +104,5 @@ public class AppointmentsController {
         return Response.ok().build();
     }
 
-    @POST
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response reviewAppointment(@PathParam("id") final int id,final ReviewDto reviewDTO){
-/*
-        final Appointment appointment = appointmentService.getAppointment(id);
-
-        if(appointment == null){
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        if(reviewDTO == null || appointment.hasClientReview()){
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-
-        appointmentService.reviewAppointment(id,appointment.getClient().getId(),reviewDTO.getAptitude().getId(),(int) reviewDTO.getCalificationDto().getQuality(),
-                (int) reviewDTO.getCalificationDto().getCleanness(),(int) reviewDTO.getCalificationDto().getPrice(),(int) reviewDTO.getCalificationDto().getPunctuality(),
-                (int) reviewDTO.getCalificationDto().getTreatment(),reviewDTO.getComment());*/
-        return Response.ok().build();
-    }
 
 }

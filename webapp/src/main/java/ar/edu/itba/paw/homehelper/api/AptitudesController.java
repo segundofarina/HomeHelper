@@ -23,6 +23,20 @@ public class AptitudesController {
     @Context
     private UriInfo uriInfo;
 
+/*
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAptitude(@PathParam("id") final int id){
+        final Optional<Aptitude> aptitude = aptitudeService.getAptitude(id);
+
+        if(!aptitude.isPresent()){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(new AptitudeDto(aptitude.get())).build();
+    }
+*/
 
     @DELETE
     @Path("/{id}")
@@ -48,19 +62,18 @@ public class AptitudesController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addAptitude(final AptitudeDto aptitudeDTO){
 
-       /* if(aptitudeDTO == null){
+       if(aptitudeDTO == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        final Aptitude newAptitude = aptitudeService.addAptitude(aptitudeDTO.getsProvider().getId(),aptitudeDTO.getServiceType().getId(),aptitudeDTO.getDescription());
+        final Aptitude newAptitude = aptitudeService.addAptitude(1,aptitudeDTO.getServiceType().getId(),aptitudeDTO.getDescription());
 
         if(newAptitude == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); // TODO:Internal Server Error?
         }
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(aptitudeDTO.getId())).build();
-*/
- //       return Response.created(uri).build();
-        return Response.ok().build();
+
+       return Response.created(uri).build();
     }
 }

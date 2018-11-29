@@ -3,6 +3,7 @@ package ar.edu.itba.paw.homehelper.api;
 import ar.edu.itba.paw.homehelper.dto.ReviewDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewsListDto;
 import ar.edu.itba.paw.model.Review;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.*;
@@ -43,9 +44,8 @@ public class ReviewsController {
     @POST
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response postReview(final ReviewDto review) {
+    public Response addReview(final ReviewDto review) {
         final Review newReview = dummyReview();
-        System.out.println("new review:" + review);
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newReview.getId())).build();
 
