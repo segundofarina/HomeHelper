@@ -2,7 +2,6 @@ package ar.edu.itba.paw.homehelper.api;
 import ar.edu.itba.paw.homehelper.dto.ActionDto;
 import ar.edu.itba.paw.homehelper.dto.AppointmentDto;
 import ar.edu.itba.paw.homehelper.dto.AppointmentListDto;
-import ar.edu.itba.paw.homehelper.dto.ReviewDto;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,12 +56,12 @@ public class AppointmentsController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addAppointment(final AppointmentDto appointmentDTO) {
 
-       /* if(appointmentDTO == null){
+       if(appointmentDTO == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        final Appointment newAppointment = appointmentService.addAppointment(appointmentDTO.getClient().getId(),appointmentDTO.getProvider().getId(),
-                appointmentDTO.getServiceTtype().getId(),appointmentDTO.getDate().toString(),appointmentDTO.getAddress(),appointmentDTO.getJobDescription());
+        final Appointment newAppointment = appointmentService.addAppointment(1,appointmentDTO.getProvider().getId(),
+                appointmentDTO.getServiceType().getId(),appointmentDTO.getDate(),appointmentDTO.getAddress(),appointmentDTO.getDescription());
 
         if(newAppointment == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); // TODO:Internal Server Error?
@@ -70,8 +69,7 @@ public class AppointmentsController {
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newAppointment.getAppointmentId())).build();
 
-        return Response.created(uri).build();*/
-        return Response.ok().build();
+        return Response.created(uri).build();
     }
 
     @PUT
@@ -79,9 +77,9 @@ public class AppointmentsController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateAppointment(@PathParam("id") final int id, final String action) {
 
-       /* final Appointment newAppointment = appointmentService.getAppointment(id);
+        final Appointment appointment = appointmentService.getAppointment(id);
 
-        if(newAppointment == null){
+        if(appointment == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
@@ -92,40 +90,19 @@ public class AppointmentsController {
         if(update == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }else if(update.equals(ActionDto.CONFIRM)){
-            updateAppointment = appointmentService.confirmAppointment(newAppointment.getAppointmentId());
+            updateAppointment = appointmentService.confirmAppointment(appointment.getAppointmentId());
         }else if(update.equals(ActionDto.COMPLETE)){
-            updateAppointment = appointmentService.completedAppointment(newAppointment.getAppointmentId());
+            updateAppointment = appointmentService.completedAppointment(appointment.getAppointmentId());
         }else{
-            updateAppointment = appointmentService.rejectAppointment(newAppointment.getAppointmentId());
+            updateAppointment = appointmentService.rejectAppointment(appointment.getAppointmentId());
         }
 
         if(!updateAppointment) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }*/
+        }
 
         return Response.ok().build();
     }
 
-    @POST
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response reviewAppointment(@PathParam("id") final int id,final ReviewDto reviewDTO){
-/*
-        final Appointment newAppointment = appointmentService.getAppointment(id);
-
-        if(newAppointment == null){
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        if(newAppointment.isClientReview() || reviewDTO == null){
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-
-        appointmentService.reviewAppointment(newAppointment.getAppointmentId(),reviewDTO.getUser().getId(),reviewDTO.getAptitude().getId(),(int) reviewDTO.getCalificationDto().getQuality(),
-                (int) reviewDTO.getCalificationDto().getCleanness(),(int) reviewDTO.getCalificationDto().getPrice(),(int) reviewDTO.getCalificationDto().getPunctuality(),
-                (int) reviewDTO.getCalificationDto().getTreatment(),reviewDTO.getComment());
- */
-        return Response.ok().build();
-    }
 
 }

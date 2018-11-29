@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper.dto;
 
 import ar.edu.itba.paw.model.Appointment;
+import ar.edu.itba.paw.model.ServiceType;
 
 import java.util.Date;
 
@@ -12,6 +13,7 @@ public class AppointmentDto {
     private String date;
     private String description;
     private boolean hasReview;
+    private AppointmentStatusDto status;
 
     public AppointmentDto() {
     }
@@ -24,6 +26,7 @@ public class AppointmentDto {
         this.description = appointment.getJobDescripcion();
         this.provider = new BasicProviderDto(appointment.getProvider());
         this.hasReview = appointment.hasClientReview();
+        this.status = new AppointmentStatusDto(appointment.getStatus());
     }
 
     public int getId() {
@@ -80,5 +83,13 @@ public class AppointmentDto {
 
     public void setHasReview(boolean hasReview) {
         this.hasReview = hasReview;
+    }
+
+    public AppointmentStatusDto getStatus() {
+        return status;
+    }
+
+    public void setStatus(AppointmentStatusDto status) {
+        this.status = status;
     }
 }

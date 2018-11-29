@@ -4,13 +4,11 @@ public enum ActionDto {
     CONFIRM, COMPLETE, REJECT;
 
     public static ActionDto parse(String action) {
-       if(action == null){
-           return null;
-       }else if(action.compareToIgnoreCase("confirm")==0){
+        if("confirm".compareToIgnoreCase(action)==0){
            return CONFIRM;
-       }else if(action.compareToIgnoreCase("complete")==0){
+       }else if("complete".compareToIgnoreCase(action)==0){
            return COMPLETE;
-       }else if(action.compareToIgnoreCase("reject")==0){
+       }else if("reject".compareToIgnoreCase(action)==0){
            return REJECT;
        }else{
            return null;

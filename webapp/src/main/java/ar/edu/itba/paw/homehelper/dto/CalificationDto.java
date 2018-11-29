@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper.dto;
 
 import ar.edu.itba.paw.model.Aptitude;
+import ar.edu.itba.paw.model.Review;
 
 public class CalificationDto {
     private double quality;
@@ -20,6 +21,15 @@ public class CalificationDto {
         this.punctuality = aptitude.getPunctualityCalification();
         this.treatment = aptitude.getTreatmentCalification();
         this.general = aptitude.getGeneralCalification();
+    }
+
+    public CalificationDto(Review review) {
+        this.quality = review.getQualityCalification();
+        this.cleanness = review.getCleannessCalification();
+        this.price = review.getPriceCalification();
+        this.punctuality = review.getPunctualityCalification();
+        this.treatment = review.getTreatmentCalification();
+        this.general = review.getGeneralCalification();
     }
 
     public double getQuality() {
@@ -68,5 +78,20 @@ public class CalificationDto {
 
     public void setGeneral(double general) {
         this.general = general;
+    }
+
+
+    /* Debugging */
+
+    @Override
+    public String toString() {
+        return "CalificationDto{" +
+                "quality=" + quality +
+                ", cleanness=" + cleanness +
+                ", price=" + price +
+                ", punctuality=" + punctuality +
+                ", treatment=" + treatment +
+                ", general=" + general +
+                '}';
     }
 }
