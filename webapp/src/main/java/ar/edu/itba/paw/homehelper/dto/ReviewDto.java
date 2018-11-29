@@ -6,42 +6,66 @@ import java.util.Date;
 
 public class ReviewDto {
     private int id;
-    private ClientDto user;
-    private AptitudeDto aptitude;
+    //private ClientDto user;
+    //private AptitudeDto aptitude;
     private String comment;
-    private CalificationDto calificationDto;
-    private Date reviewDate;
+    private CalificationDto scores;
+    private String date;
+
+    public ReviewDto() {
+    }
 
     public ReviewDto(Review review) {
         this.id = review.getId();
-        this.user = new ClientDto(review.getUser());
-        this.aptitude = new AptitudeDto(review.getAptitude());
+        //this.user = new ClientDto(review.getUser());
+        //this.aptitude = new AptitudeDto(review.getAptitude());
         this.comment = review.getComment();
-        this.calificationDto = new CalificationDto(review.getAptitude());
-        this.reviewDate = review.getDate();
+        this.scores = new CalificationDto(review);
+        this.date = review.getDateDMY();
     }
 
     public int getId() {
         return id;
     }
 
-    public ClientDto getUser() {
-        return user;
-    }
-
-    public AptitudeDto getAptitude() {
-        return aptitude;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getComment() {
         return comment;
     }
 
-    public CalificationDto getCalificationDto() {
-        return calificationDto;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
-    public Date getReviewDate() {
-        return reviewDate;
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public CalificationDto getScores() {
+        return scores;
+    }
+
+    public void setScores(CalificationDto scores) {
+        this.scores = scores;
+    }
+
+
+    /* Debugging */
+
+    @Override
+    public String toString() {
+        return "ReviewDto{" +
+                "id=" + id +
+                ", comment='" + comment + '\'' +
+                ", scores=" + scores +
+                ", date='" + date + '\'' +
+                '}';
     }
 }

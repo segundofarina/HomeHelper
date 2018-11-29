@@ -1,5 +1,4 @@
 package ar.edu.itba.paw.homehelper.api;
-import ar.edu.itba.paw.homehelper.dto.ActionDto;
 import ar.edu.itba.paw.homehelper.dto.AppointmentDto;
 import ar.edu.itba.paw.homehelper.dto.AppointmentListDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewDto;
@@ -13,7 +12,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.net.URI;
 import java.util.List;
 
 @Path("/appointments")
