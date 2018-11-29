@@ -48,7 +48,7 @@ public class AptitudesController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addAptitude(final AptitudeDto aptitudeDTO){
 
-        if(aptitudeDTO == null){
+       /* if(aptitudeDTO == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -59,7 +59,8 @@ public class AptitudesController {
         }
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(aptitudeDTO.getId())).build();
-
-        return Response.created(uri).build();
+*/
+ //       return Response.created(uri).build();
+        return Response.ok().build();
     }
 }

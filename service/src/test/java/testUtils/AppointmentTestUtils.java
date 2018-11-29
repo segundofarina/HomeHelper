@@ -32,7 +32,7 @@ public class AppointmentTestUtils {
     public static void assetEqualsAppointments(Appointment expected, Appointment actual) {
         assertEquals(expected, actual);
         assertEquals(expected.getAppointmentId(), actual.getAppointmentId());
-        assertEquals(expected.isClientReview(), actual.isClientReview());
+        assertEquals(expected.hasClientReview(), actual.hasClientReview());
         UserTestUtils.assertEqualsUsers(expected.getClient(), actual.getClient());
         SProviderTestUtils.assertEqualsSProviders(expected.getProvider(), actual.getProvider());
         ServiceTypeTestUtils.assertEqualsServiceTypes(expected.getServiceType(), actual.getServiceType());
