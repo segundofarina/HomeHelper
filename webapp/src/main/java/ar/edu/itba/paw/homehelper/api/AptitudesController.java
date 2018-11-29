@@ -23,7 +23,7 @@ public class AptitudesController {
     @Context
     private UriInfo uriInfo;
 
-/*
+
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -36,7 +36,7 @@ public class AptitudesController {
 
         return Response.ok(new AptitudeDto(aptitude.get())).build();
     }
-*/
+
 
     @DELETE
     @Path("/{id}")
