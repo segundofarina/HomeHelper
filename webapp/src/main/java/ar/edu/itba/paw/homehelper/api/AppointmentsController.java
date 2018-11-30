@@ -1,5 +1,8 @@
 package ar.edu.itba.paw.homehelper.api;
 import ar.edu.itba.paw.homehelper.dto.*;
+import ar.edu.itba.paw.homehelper.dto.ActionDto;
+import ar.edu.itba.paw.homehelper.dto.AppointmentDto;
+import ar.edu.itba.paw.homehelper.dto.AppointmentListDto;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,8 +125,6 @@ public class AppointmentsController {
                 (int) reviewDTO.getCalificationDto().getTreatment(),reviewDTO.getComment());*/
         return Response.ok().build();
     }
-
-
 
 
     @GET
