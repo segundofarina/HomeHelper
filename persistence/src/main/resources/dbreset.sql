@@ -41,18 +41,7 @@ CREATE TABLE IF NOT EXISTS aptitudes(
   description varchar(10000) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS reviews(
-  reviewId SERIAL PRIMARY KEY,
-  userId INTEGER  REFERENCES users(userId),
-  aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
-  reviewdate DATE default CURRENT_DATE,
-  quality INTEGER CHECK(quality > 0 AND  quality < 6),
-  cleanness INTEGER CHECK(cleanness > 0 AND cleanness < 6),
-  price INTEGER CHECK(price > 0 AND price < 6),
-  punctuality INTEGER CHECK(punctuality > 0 AND punctuality < 6),
-  treatment INTEGER CHECK(treatment > 0 AND treatment < 6),
-  comment varchar(10000) NOT NULL
-);
+
 CREATE TABLE IF NOT EXISTS messages(
   msgId SERIAL PRIMARY KEY,
   userFrom INTEGER REFERENCES users(userId),
@@ -76,6 +65,19 @@ CREATE TABLE IF NOT EXISTS appointments(
   clientReview boolean default false
 );
 
+CREATE TABLE IF NOT EXISTS reviews(
+  reviewId SERIAL PRIMARY KEY,
+  userId INTEGER  REFERENCES users(userId),
+  aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
+  appointmentId INTEGER REFERENCES appointments(appointmentId),
+  reviewdate DATE default CURRENT_DATE,
+  quality INTEGER CHECK(quality > 0 AND  quality < 6),
+  cleanness INTEGER CHECK(cleanness > 0 AND cleanness < 6),
+  price INTEGER CHECK(price > 0 AND price < 6),
+  punctuality INTEGER CHECK(punctuality > 0 AND punctuality < 6),
+  treatment INTEGER CHECK(treatment > 0 AND treatment < 6),
+  comment varchar(10000) NOT NULL
+);
 
 create TABLE if NOT EXISTS verifyUsers(
   userId INTEGER PRIMARY KEY REFERENCES users(userId),
