@@ -1,8 +1,5 @@
 package ar.edu.itba.paw.homehelper.api;
-import ar.edu.itba.paw.homehelper.dto.ActionDto;
-import ar.edu.itba.paw.homehelper.dto.AppointmentDto;
-import ar.edu.itba.paw.homehelper.dto.AppointmentListDto;
-import ar.edu.itba.paw.homehelper.dto.ReviewDto;
+import ar.edu.itba.paw.homehelper.dto.*;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,7 @@ import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.List;
 
-@Path("/appointments")
+@Path("/")
 @Controller
 public class AppointmentsController {
     @Autowired
@@ -26,7 +23,7 @@ public class AppointmentsController {
     private UriInfo uriInfo;
 
     @GET
-    @Path("/")
+    @Path("user/appointments/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAppointments() {
         List<Appointment> appointments = appointmentService.getAppointmentsByUserId(2);
@@ -40,7 +37,7 @@ public class AppointmentsController {
 
 
     @GET
-    @Path("/{id}")
+    @Path("user/appointments/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAppointment(@PathParam("id") final int id) {
         Appointment appointment = appointmentService.getAppointment(id);
@@ -53,7 +50,7 @@ public class AppointmentsController {
     }
 
     @POST
-    @Path("/")
+    @Path("user/appointments/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response addAppointment(final AppointmentDto appointmentDTO) {
 
@@ -74,7 +71,7 @@ public class AppointmentsController {
     }
 
     @PUT
-    @Path("/{id}")
+    @Path("user/appointments/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateAppointment(@PathParam("id") final int id, final String action) {
 
@@ -106,7 +103,7 @@ public class AppointmentsController {
     }
 
     @POST
-    @Path("/{id}")
+    @Path("user/appointments/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response reviewAppointment(@PathParam("id") final int id,final ReviewDto reviewDTO){
 /*
@@ -126,4 +123,33 @@ public class AppointmentsController {
         return Response.ok().build();
     }
 
+
+
+
+    @GET
+    @Path("provider/appointments/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProviderAppointments() {
+        List<Appointment> appointments = appointmentService.getAppointmentsByProviderId(1);
+
+        if(appointments == null){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(new ProviderAppointmentListDto(appointments)).build();
+    }
+
+
+    @GET
+    @Path("provider/appointments/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProviderAppointment(@PathParam("id") final int id) {
+        Appointment appointment = appointmentService.getAppointment(id);
+
+        if(appointment == null){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(new ProviderAppointmentDto(appointment)).build();
+    }
 }
