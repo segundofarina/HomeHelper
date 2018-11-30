@@ -86,11 +86,13 @@ After these you should have the backup on your woking directory. You can downloa
 For downloading your backup to your local machine you may use STP
 
 1. Connect to pampero via sftp:
+
     ```
     $> sftp afarina@pampero.it.itba.edu.ar
     ```
 
-2. Run get and the name of your file: 
+2. Run get and the name of your file:
+ 
     ```
     $> get backup20-11-2018.sql
     ```
