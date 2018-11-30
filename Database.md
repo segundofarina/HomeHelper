@@ -30,7 +30,7 @@ For accesing the databse you will always need to have an open tunnel between you
  For making a tunnel via ssh execute:
 
 ```
-ssh -L 5400:10.16.1.110:5432 afarina@pampero.it.itba.edu.ar
+$> ssh -L 5400:10.16.1.110:5432 afarina@pampero.it.itba.edu.ar
 ```
 
 Then you should be prompt for your passowrd.
@@ -56,6 +56,7 @@ The first time you will need to configure DbVisualizer for accesing the database
     * **Database**: paw-2018a-4 
     * **Database userId**: paw-2018a-4
     * **Database password**: zmjTo52wS
+
 4. If the tunnel is still open you should click on Connect and have a succesful connection
 
 ### Useful tips
@@ -92,7 +93,7 @@ For downloading your backup to your local machine you may use STP
     ```
 
 2. Run get and the name of your file:
- 
+
     ```
     $> get backup20-11-2018.sql
     ```
@@ -101,6 +102,7 @@ For downloading your backup to your local machine you may use STP
 
 
 If you have previous databse you can drop it by executing
+
 
 ```
 $> dropdb 'paw-2018a-4'
@@ -122,6 +124,7 @@ $> dropdb 'paw-2018a-4'
 
     ```
     $> psql postgres
+
     psql=# alter user <username> with encrypted password '<password>';
     ```
 
