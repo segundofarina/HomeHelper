@@ -43,8 +43,11 @@ As this tunnnel will need to be open everytime you want to access the databse, y
 ### Configuiring DbVisualizer
 The first time you will need to configure DbVisualizer for accesing the database.
 1. Open DbVisualizer and go to: `Databse > Create Database Connection`
+
 2. Select option no Wizard
+
 3. Fill the form with the following info:
+
     * **Name**: Paw Server (or the name you want)
     * **Database Type**: PostgreSQL
     * **Driver** (JDBC): PostgreSQL
@@ -102,23 +105,32 @@ $> dropdb 'paw-2018a-4'
 ```
 
 1. Creating user:
+
     ```
     $> createuser 'paw-2018a-4'
     ```
+
 2. Creating Database
+
     ```
     $> createdb -T template0 'paw-2018a-4' -O 'paw-2018a-4'
     ```
+
 3. Giving the user a password
+
     ```
     $> psql postgres
     psql=# alter user <username> with encrypted password '<password>';
     ```
+
 4. Granting privileges on database
+
     ```
     psql=# grant all privileges on database <dbname> to <username> ;
     ```
+
 5. Dumping the backup to the new database
+
     ```
     $> psql --set ON_ERROR_STOP=on 'paw-2018a-4' < backup20-11-2018.sql
     ```
