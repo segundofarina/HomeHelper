@@ -29,6 +29,9 @@ public class WebsocketChatController {
 
         /* TODO: VALIDATE USERNAME */
 
-        messagingTemplate.convertAndSendToUser(msg.getUsername(), "/queue/messages", msg);
+        MsgEntity outputMsg = msg;
+        outputMsg.setUsingAsClient(!msg.isUsingAsClient());
+
+        messagingTemplate.convertAndSendToUser(msg.getUsername(), "/queue/messages", outputMsg);
     }
 }
