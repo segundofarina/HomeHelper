@@ -124,8 +124,7 @@ $> dropdb 'paw-2018a-4'
 
     ```
     $> psql postgres
-
-    psql=# alter user <username> with encrypted password '<password>';
+    psql=# alter user "paw-2018a-4" with encrypted password 'zmjTo52wS';
     ```
 
 4. Granting privileges on database

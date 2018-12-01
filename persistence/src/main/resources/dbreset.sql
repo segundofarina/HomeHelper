@@ -36,21 +36,21 @@ CREATE TABLE IF NOT EXISTS serviceProviders(
 
 CREATE TABLE IF NOT EXISTS aptitudes(
   aptitudeId SERIAL PRIMARY KEY,
-  userId INTEGER REFERENCES serviceProviders(userId),
-  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId),
+  userId INTEGER REFERENCES serviceProviders(userId) NOT NULL,
+  serviceTypeId INTEGER REFERENCES serviceTypes(serviceTypeId) NOT NULL,
   description varchar(10000) NOT NULL
 );
 
 
 CREATE TABLE IF NOT EXISTS messages(
   msgId SERIAL PRIMARY KEY,
-  userFrom INTEGER REFERENCES users(userId),
-  userTo  INTEGER REFERENCES users(userId),
-  userId INTEGER REFERENCES users(userId),
-  providerId INTEGER REFERENCES users(userId),
-  message VARCHAR(10000),
-  read BOOLEAN,
-  messageDate TIMESTAMP  default CURRENT_TIMESTAMP
+  userFrom INTEGER REFERENCES users(userId) NOT NULL,
+  userTo  INTEGER REFERENCES users(userId) NOT NULL,
+  userId INTEGER REFERENCES users(userId) NOT NULL,
+  providerId INTEGER REFERENCES users(userId) NOT NULL,
+  message VARCHAR(10000) NOT NULL,
+  read BOOLEAN NOT NULL,
+  messageDate TIMESTAMP  default CURRENT_TIMESTAMP NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS appointments(
@@ -67,21 +67,21 @@ CREATE TABLE IF NOT EXISTS appointments(
 
 CREATE TABLE IF NOT EXISTS reviews(
   reviewId SERIAL PRIMARY KEY,
-  userId INTEGER  REFERENCES users(userId),
-  aptitudeId INTEGER REFERENCES aptitudes(aptitudeId),
-  appointmentId INTEGER REFERENCES appointments(appointmentId),
-  reviewdate DATE default CURRENT_DATE,
-  quality INTEGER CHECK(quality > 0 AND  quality < 6),
-  cleanness INTEGER CHECK(cleanness > 0 AND cleanness < 6),
-  price INTEGER CHECK(price > 0 AND price < 6),
-  punctuality INTEGER CHECK(punctuality > 0 AND punctuality < 6),
-  treatment INTEGER CHECK(treatment > 0 AND treatment < 6),
+  userId INTEGER  REFERENCES users(userId) NOT NULL,
+  aptitudeId INTEGER REFERENCES aptitudes(aptitudeId) NOT NULL,
+  appointmentId INTEGER REFERENCES appointments(appointmentId) NOT NULL,
+  reviewdate DATE default CURRENT_DATE NOT NULL,
+  quality INTEGER CHECK(quality > 0 AND  quality < 6) NOT NULL,
+  cleanness INTEGER CHECK(cleanness > 0 AND cleanness < 6) NOT NULL,
+  price INTEGER CHECK(price > 0 AND price < 6) NOT NULL,
+  punctuality INTEGER CHECK(punctuality > 0 AND punctuality < 6) NOT NULL,
+  treatment INTEGER CHECK(treatment > 0 AND treatment < 6) NOT NULL,
   comment varchar(10000) NOT NULL
 );
 
 create TABLE if NOT EXISTS verifyUsers(
   userId INTEGER PRIMARY KEY REFERENCES users(userId),
-  keyCode VARCHAR(1000)
+  keyCode VARCHAR(1000) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS temporaryImages (
@@ -93,7 +93,8 @@ CREATE TABLE IF NOT EXISTS coordenates (
   userId INTEGER REFERENCES serviceProviders(userId) ,
   pos INTEGER NOT NULL,
   lat DOUBLE precision NOT NULL,
-  lng DOUBLE precision NOT NULL
+  lng DOUBLE precision NOT NULL,
+  unique (userid,pos)
 );
 
 
