@@ -21,10 +21,6 @@ public interface SProviderService {
 
     boolean isServiceProvider(int userId);
 
-    void insertWorkingZoneOfProvider(int userId, int ngId);
-
-    List<SProvider> getServiceProvidersWorkingIn(int ngId);
-
     List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId);
 
     Set<Review> getReviewsOfServiceProvider(int sproviderId);
@@ -35,7 +31,6 @@ public interface SProviderService {
 
     boolean updateServiceTypeOfAptitude(int aptId, int stId);
 
-    boolean removeWorkingZoneOfProvider(int userId, int ngId);
 
     void addAptitude(int userId, int serviceType, String description);
 

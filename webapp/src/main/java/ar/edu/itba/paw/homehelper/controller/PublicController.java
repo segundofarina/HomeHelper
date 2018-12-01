@@ -42,8 +42,6 @@ public class PublicController {
     @Autowired
     private SProviderService sProviderService;
 
-    @Autowired
-    private NeighborhoodService neighborhoodService;
 
     @Autowired
     private UserService userService;
