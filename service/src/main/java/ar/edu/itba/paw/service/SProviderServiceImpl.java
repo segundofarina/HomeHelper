@@ -188,8 +188,21 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Transactional
     @Override
-    public List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId) {
-        //return sProviderDao.getServiceProvidersByNeighborhoodAndServiceType(ngId, stId);
+    public List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId, int page, int pageSize) {
+        List<SProvider> provider = getServiceProvidersByNeighborhoodAndServiceType(clientLocationLat,clientLocationLng,stId,userId);
+
+        int start = page * pageSize;
+        int end = start + pageSize;
+
+        if(end > provider.size()){
+            return provider.subList(start,provider.size());
+        }else if(start > provider.size()){
+            return provider;
+        }
+
+        return provider.subList(start,end);
+    }
+    private List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId) {
         List<SProvider> allServiceProviders = getServiceProvidersWithServiceType(stId);
 
         List<SProvider> res = new ArrayList<>();
@@ -201,10 +214,6 @@ public class SProviderServiceImpl implements SProviderService {
 
                 List<CoordenatesPoint> polygon = new ArrayList<>();
                 polygon.addAll(sp.getCoordenates());
-
-//                  polygon.add(new CoordenatesPoint(-34.557176,-58.430436));
-//                polygon.add(new CoordenatesPoint(-34.588696,-58.431428));
-//                polygon.add(new CoordenatesPoint(-34.575376,-58.403839));
 
                 if (isLatLngInPolygon(clientLocationLat, clientLocationLng, polygon)) {
                     res.add(sp);

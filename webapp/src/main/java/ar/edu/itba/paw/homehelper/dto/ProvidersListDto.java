@@ -15,7 +15,7 @@ public class ProvidersListDto {
     public ProvidersListDto() {
     }
 
-    public ProvidersListDto(Set<SProvider> providers, int page, int pageSize, int maxPage) { // TODO: providers should be sorted as list
+    public ProvidersListDto(List<SProvider> providers, int page, int pageSize, int maxPage) { // TODO: providers should be sorted as list
         this.page = page;
         this.pageSize = pageSize;
         this.maxPage = maxPage;

@@ -23,7 +23,7 @@ public class ProvidersController {
     @Context
     private UriInfo uriInfo;
 
-    private final static String CURRENT_PAGE = "1";
+    private final static String CURRENT_PAGE = "0";
     private final static String PAGE_SIZE = "100";
 
     @GET
@@ -40,15 +40,17 @@ public class ProvidersController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        if(page < 1 || pageSize < 1) {
+        if(page < 0 || pageSize < 1) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        Set<SProvider> providers = sProviderService.getServiceProviders(); // TODO: get sorted and paginated providers, procesing all params (st, lat, lng, page, pageSize)
+       List<SProvider> providers = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(latitude,longitude,serviceTypeId,1,page, pageSize); // TODO: get sorted and paginated providers, procesing all params (st, lat, lng, page, pageSize)
+
 
         final int maxPage = (int) Math.ceil((double) providers.size() / pageSize); // TODO: get max page from sProviderService
 
         if(page > maxPage) { // TODO: this should be before searching for providers
+
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
