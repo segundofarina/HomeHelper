@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS coordenates (
 
 CREATE TABLE IF NOT EXISTS userImages (
   imageId SERIAL PRIMARY KEY,
-  userId INTEGER  REFERENCES users(userId) NOT NULL,
+  userId INTEGER  REFERENCES users(userId) NOT NULL UNIQUE,
   image   BYTEA
 );
 
