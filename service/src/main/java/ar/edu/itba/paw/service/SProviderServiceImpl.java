@@ -22,7 +22,6 @@ public class SProviderServiceImpl implements SProviderService {
     @Autowired
     STypeDao sTypeDao;
 
-
     @Autowired
     AppointmentDao appointmentDao;
 
@@ -120,6 +119,7 @@ public class SProviderServiceImpl implements SProviderService {
         return aptitudes;
     }
 
+    @Transactional
     @Override
     public boolean addCoordenates(int providerId, Set<CoordenatesPoint> coordenatesPoints) {
         return coordenatesDao.insertCoordenatesOfProvider(providerId, coordenatesPoints);
