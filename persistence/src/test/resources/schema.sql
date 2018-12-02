@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS users (
   lastname varchar(100) NOT NULL,
   email varchar(100) NOT NULL,
   phone varchar(100) NOT NULL,
-  image blob,
+--   image blob,
   address varchar(100) NOT NULL,
   verified boolean
 );
@@ -134,12 +134,12 @@ CREATE TABLE IF NOT EXISTS coordenates (
   unique (userid,pos)
 );
 
-insert into users VALUES(1,'segundofarina','dulcedeleche','Segundo','Farina','segundofarina@me.com','1134373920','1010101010','cuba 2546',FALSE );
-insert into users VALUES(2,'florcavallin','dulcedeleche','Florencia','Cavallin','fcavallin@itba.edu.ar','1140910035',null,'cuba 2546',FALSE);
-insert into users VALUES(3,'tinchovictory','dulcedeleche','Martin','Victory','martin@victory.com.ar','1159540388',null,'cuba 2546',FALSE);
-insert into users VALUES(4,'carlosrodriguez','dulcedeleche','Carlos','Rodriguez','carlosrod@gmail.com','1156984231',null,'cuba 2546',FALSE);
-insert into users VALUES(5,'juliovelez','dulcedeleche','Julio','Velez','julitogallina@hotmail.com','1148526584',null,'cuba 2546',FALSE);
-insert into users VALUES(6,'elnue','dulcedeleche','nuevo','usuario','julitogallina@hotmail.com','2323232323',null,'cuba 2546',FALSE);
+insert into users VALUES(1,'segundofarina','dulcedeleche','Segundo','Farina','segundofarina@me.com','1134373920','cuba 2546',FALSE );
+insert into users VALUES(2,'florcavallin','dulcedeleche','Florencia','Cavallin','fcavallin@itba.edu.ar','1140910035','cuba 2546',FALSE);
+insert into users VALUES(3,'tinchovictory','dulcedeleche','Martin','Victory','martin@victory.com.ar','1159540388','cuba 2546',FALSE);
+insert into users VALUES(4,'carlosrodriguez','dulcedeleche','Carlos','Rodriguez','carlosrod@gmail.com','1156984231','cuba 2546',FALSE);
+insert into users VALUES(5,'juliovelez','dulcedeleche','Julio','Velez','julitogallina@hotmail.com','1148526584','cuba 2546',FALSE);
+insert into users VALUES(6,'elnue','dulcedeleche','nuevo','usuario','julitogallina@hotmail.com','2323232323','cuba 2546',FALSE);
 
 insert into neighborhoods VALUES (1,'Belgrano');
 insert into neighborhoods VALUES (2,'Palermo');

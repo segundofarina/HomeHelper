@@ -10,6 +10,7 @@ drop table if exists neighborhoods CASCADE;
 drop table if exists workingzones CASCADE;
 DROP TABLE if EXISTS temporaryImages CASCADE ;
 drop table if exists coordenates CASCADE ;
+drop table if exists userImages CASCADE ;
 
 CREATE TABLE IF NOT EXISTS users (
   userid SERIAL PRIMARY KEY,
@@ -19,7 +20,6 @@ CREATE TABLE IF NOT EXISTS users (
   lastname varchar(100) NOT NULL,
   email varchar(100) NOT NULL,
   phone varchar(100),
-  image bytea,
   address varchar(100) NOT NULL,
   verified boolean
 );
@@ -97,24 +97,31 @@ CREATE TABLE IF NOT EXISTS coordenates (
   unique (userid,pos)
 );
 
+CREATE TABLE IF NOT EXISTS userImages (
+  imageId SERIAL PRIMARY KEY,
+  userId INTEGER  REFERENCES users(userId) NOT NULL,
+  image   BYTEA
+);
 
 
-insert into users VALUES (1,'mlopez','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcos','Lopez','mlopez@itba.edu.ar','1541234567',null,'cuba 2546', TRUE);
-insert into users VALUES (2,'amartinez','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Alvaro','Martinez','amartinez@itba.edu.ar','1563498751',null,'cuba 2546', TRUE);
-insert into users VALUES (3,'lblanco','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Lucía','Blanco','lblanco@itba.edu.ar','1563287519',null,'cuba 2546', TRUE);
-insert into users VALUES (4,'mmiozzo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcelo','Miozzo','marcemiozzo@google.com','1532357421',null,'cuba 2546', TRUE);
-insert into users VALUES (5,'nsanchez','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nadia','Sanchez','nadisanchez@fibertel.com.ar','1561182277',null,'cuba 2546', TRUE);
-insert into users VALUES (6,'htorres','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Hugo','Torres','huguito_t@pluspetrol.net','1540910023',null,'cuba 2546', TRUE);
-insert into users VALUES (7,'bmatus','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Bianca','Matus','bianqmatus@google.com','1542366653',null,'cuba 2546', TRUE);
-insert into users VALUES (8,'lparque','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Luis','Parque','lpark@itba.edu.ar','1563325569',null,'cuba 2546', TRUE);
-insert into users VALUES (9,'dservito','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Daniel','Servito','servito@itba.edu.ar','1562009879',null,'cuba 2546', TRUE);
-insert into users VALUES (10,'mtessino','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Mario','Tessino','maritotessino@outlook.com','1562341209',null,'cuba 2546', TRUE);
-insert into users VALUES (11,'jlynch','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Juan Pablo','Lynch','juanpalynch@google.com','1563277639',null,'cuba 2546', TRUE);
-insert into users VALUES (12,'elamir','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Esteban','Lamir','elamir@itba.edu.ar','1562874621',null,'cuba 2546', TRUE);
-insert into users VALUES (13,'plifer','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Paula','Fernandez','paufernandez@outlook.com','1539098798',null,'cuba 2546', TRUE);
-insert into users VALUES (14,'aballardini','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Axel','Ballardini','aballardini@itba.edu.ar','1563880943',null,'cuba 2546', TRUE);
-insert into users VALUES (15,'frojas','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Fernando','Rojas','frojas@google.com','1542548790',null,'cuba 2546', TRUE);
-insert into users VALUES (16,'nzeta','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nicolas','Zeta','nico_zeta@outlook.com','1534890542',null,'cuba 2546', TRUE);
+
+
+insert into users VALUES (1,'mlopez','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcos','Lopez','mlopez@itba.edu.ar','1541234567','cuba 2546', TRUE);
+insert into users VALUES (2,'amartinez','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Alvaro','Martinez','amartinez@itba.edu.ar','1563498751','cuba 2546', TRUE);
+insert into users VALUES (3,'lblanco','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Lucía','Blanco','lblanco@itba.edu.ar','1563287519','cuba 2546', TRUE);
+insert into users VALUES (4,'mmiozzo','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Marcelo','Miozzo','marcemiozzo@google.com','1532357421','cuba 2546', TRUE);
+insert into users VALUES (5,'nsanchez','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nadia','Sanchez','nadisanchez@fibertel.com.ar','1561182277','cuba 2546', TRUE);
+insert into users VALUES (6,'htorres','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Hugo','Torres','huguito_t@pluspetrol.net','1540910023','cuba 2546', TRUE);
+insert into users VALUES (7,'bmatus','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Bianca','Matus','bianqmatus@google.com','1542366653','cuba 2546', TRUE);
+insert into users VALUES (8,'lparque','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Luis','Parque','lpark@itba.edu.ar','1563325569','cuba 2546', TRUE);
+insert into users VALUES (9,'dservito','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Daniel','Servito','servito@itba.edu.ar','1562009879','cuba 2546', TRUE);
+insert into users VALUES (10,'mtessino','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Mario','Tessino','maritotessino@outlook.com','1562341209','cuba 2546', TRUE);
+insert into users VALUES (11,'jlynch','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Juan Pablo','Lynch','juanpalynch@google.com','1563277639','cuba 2546', TRUE);
+insert into users VALUES (12,'elamir','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Esteban','Lamir','elamir@itba.edu.ar','1562874621','cuba 2546', TRUE);
+insert into users VALUES (13,'plifer','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Paula','Fernandez','paufernandez@outlook.com','1539098798','cuba 2546', TRUE);
+insert into users VALUES (14,'aballardini','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Axel','Ballardini','aballardini@itba.edu.ar','1563880943','cuba 2546', TRUE);
+insert into users VALUES (15,'frojas','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Fernando','Rojas','frojas@google.com','1542548790','cuba 2546', TRUE);
+insert into users VALUES (16,'nzeta','$2a$10$JVM./2Vs7ZHtuVSGlHXxSe.JH8LeGljjrciAFVAb46qrYrQo3LSRW','Nicolas','Zeta','nico_zeta@outlook.com','1534890542','cuba 2546', TRUE);
 
 
 insert into serviceProviders VALUES (1,'Mi nombre es Segundo y tengo 22 años, trabajo en el negocio desde 2010. Trabaje en la fabrica de mubles de Noray desde el 2010 al 2015. En el 2015 comence mi propia empresa de mubles a medida. Contactate con nosotros y a la brevedad te contestaremos!!');
