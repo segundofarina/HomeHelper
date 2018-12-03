@@ -2,8 +2,10 @@ package ar.edu.itba.paw.homehelper.dto;
 
 import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.ServiceType;
+import org.springframework.context.MessageSource;
 
 import java.util.Date;
+import java.util.Locale;
 
 public class AppointmentDto {
     private int id;
@@ -18,15 +20,15 @@ public class AppointmentDto {
     public AppointmentDto() {
     }
 
-    public AppointmentDto(Appointment appointment) {
+    public AppointmentDto(Appointment appointment, Locale locale, MessageSource messageSource) {
         this.id = appointment.getAppointmentId();
-        this.serviceType = new ServiceTypeDto(appointment.getServiceType());
+        this.serviceType = new ServiceTypeDto(appointment.getServiceType(),locale, messageSource);
         this.address = appointment.getAddress();
         this.date = appointment.getDateDMY(); // TODO: Date should be formated according to given locale
         this.description = appointment.getJobDescripcion();
         this.provider = new BasicProviderDto(appointment.getProvider());
         this.hasReview = appointment.hasClientReview();
-        this.status = new AppointmentStatusDto(appointment.getStatus());
+        this.status = new AppointmentStatusDto(appointment.getStatus(),locale, messageSource);
     }
 
     public int getId() {

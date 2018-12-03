@@ -6,8 +6,10 @@ import ar.edu.itba.paw.homehelper.dto.AppointmentListDto;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -15,6 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 
 @Path("/")
 @Controller
@@ -25,10 +28,13 @@ public class AppointmentsController {
     @Context
     private UriInfo uriInfo;
 
+
+
     @GET
     @Path("user/appointments/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAppointments() {
+
         List<Appointment> appointments = appointmentService.getAppointmentsByUserId(2);
 
         if(appointments == null){

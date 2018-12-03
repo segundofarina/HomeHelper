@@ -1,6 +1,9 @@
 package ar.edu.itba.paw.homehelper.dto;
 
 import ar.edu.itba.paw.model.Aptitude;
+import org.springframework.context.MessageSource;
+
+import java.util.Locale;
 
 public class AptitudeDto {
      private int id;
@@ -11,11 +14,11 @@ public class AptitudeDto {
         public AptitudeDto() {
         }
 
-        public AptitudeDto(Aptitude aptitude) {
+        public AptitudeDto(Aptitude aptitude, Locale locale, MessageSource messageSource) {
             this.id = aptitude.getId();
-            this.serviceType = new ServiceTypeDto(aptitude.getService());
+            this.serviceType = new ServiceTypeDto(aptitude.getService(),locale, messageSource);
             this.description = aptitude.getDescription();
-            this.calification = new CalificationDto(aptitude);
+            this.calification = new CalificationDto(aptitude,locale, messageSource);
         }
 
         public int getId() {

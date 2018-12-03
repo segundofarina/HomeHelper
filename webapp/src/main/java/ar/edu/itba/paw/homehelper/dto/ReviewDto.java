@@ -1,13 +1,13 @@
 package ar.edu.itba.paw.homehelper.dto;
 
 import ar.edu.itba.paw.model.Review;
+import org.springframework.context.MessageSource;
 
 import java.util.Date;
+import java.util.Locale;
 
 public class ReviewDto {
     private int id;
-    //private ClientDto user;
-    //private AptitudeDto aptitude;
     private String comment;
     private CalificationDto scores;
     private String date;
@@ -15,12 +15,10 @@ public class ReviewDto {
     public ReviewDto() {
     }
 
-    public ReviewDto(Review review) {
+    public ReviewDto(Review review, Locale locale, MessageSource messageSource) {
         this.id = review.getId();
-        //this.user = new ClientDto(review.getUser());
-        //this.aptitude = new AptitudeDto(review.getAptitude());
         this.comment = review.getComment();
-        this.scores = new CalificationDto(review);
+        this.scores = new CalificationDto(review,locale,messageSource);
         this.date = review.getDateDMY();
     }
 

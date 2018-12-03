@@ -1,6 +1,9 @@
 package ar.edu.itba.paw.homehelper.dto;
 
 import ar.edu.itba.paw.model.Status;
+import org.springframework.context.MessageSource;
+
+import java.util.Locale;
 
 public class AppointmentStatusDto {
     private int id;
@@ -9,9 +12,9 @@ public class AppointmentStatusDto {
     public AppointmentStatusDto() {
     }
 
-    public AppointmentStatusDto(Status status) {
+    public AppointmentStatusDto(Status status, Locale locale, MessageSource messageSource) {
         this.id = status.getNumVal();
-        this.value = status.toString(); /* TODO: Internationalize value */
+        this.value = messageSource.getMessage("status."+id,null,locale);
     }
 
     public int getId() {
