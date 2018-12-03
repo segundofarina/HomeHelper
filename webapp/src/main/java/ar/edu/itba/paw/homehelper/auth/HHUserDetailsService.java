@@ -37,6 +37,9 @@ public class HHUserDetailsService implements UserDetailsService {
         boolean isVerified = false;
         boolean isProvider = false;
         int userId = user.getId();
+        String firstName = user.getFirstname();
+        String lastName = user.getLastname();
+        String imgUrl = "";
 
         final ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
 
@@ -56,11 +59,11 @@ public class HHUserDetailsService implements UserDetailsService {
 
         LOGGER.info("{} logged in", user.getUsername());
 
-        return new HHUserDetails(username, user.getPassword(), authorities, userId, isProvider, isVerified);
+        return new HHUserDetails(username, user.getPassword(), authorities, userId, firstName, lastName, isProvider, isVerified, imgUrl);
     }
 
 
-    public HHUserDetails loadFromToken(final String username, final int id, final boolean isProvider, final boolean isVerified) {
+    public HHUserDetails loadFromToken(final String username, final int id, final String firstName, final String lastName, final boolean isProvider, final boolean isVerified, final String urlImg) {
         final ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
         if(isVerified) {
@@ -75,7 +78,7 @@ public class HHUserDetailsService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("ROLE_PROVIDER"));
         }
 
-        return new HHUserDetails(username, "", authorities, id, isProvider, isVerified);
+        return new HHUserDetails(username, "", authorities, id, firstName, lastName, isProvider, isVerified, urlImg);
     }
 
 

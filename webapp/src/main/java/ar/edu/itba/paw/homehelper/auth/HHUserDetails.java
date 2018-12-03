@@ -9,15 +9,21 @@ import java.util.Collection;
 public class HHUserDetails extends User implements Principal {
     private final int id;
     private final String username;
+    private final String firstName;
+    private final String lastName;
+    private final String imgUrl;
     private final boolean isProvider;
     private final boolean isVerified;
 
-    public HHUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, int id, boolean isProvider, boolean isVerified) {
+    public HHUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, int id, String firstName, String lastName, boolean isProvider, boolean isVerified, String imgUrl) {
         super(username, password, authorities);
         this.id = id;
         this.username = username;
         this.isProvider = isProvider;
         this.isVerified = isVerified;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.imgUrl = imgUrl;
     }
 
     @Override
@@ -40,5 +46,17 @@ public class HHUserDetails extends User implements Principal {
 
     public boolean isVerified() {
         return isVerified;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
     }
 }
