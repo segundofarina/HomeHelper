@@ -2,6 +2,7 @@ package ar.edu.itba.paw.homehelper.api.providers.reviews;
 
 import ar.edu.itba.paw.homehelper.dto.ReviewDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewsListDto;
+import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,44 +16,42 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/reviews")
 @Controller
-public class ReviewsController {
+public class ReviewsProvidersController {
+
+    private int loggedInUser = 1;
 
     @Context
     private UriInfo uriInfo;
+
+
+
+    @Autowired
+    private SProviderService sProviderService;
 
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getReviews() {
-        List<Review> reviews = dummyReviews();
+        List<Review> reviews = new ArrayList<>(sProviderService.getReviewsOfServiceProvider(loggedInUser));
 
         return Response.ok(new ReviewsListDto(reviews)).build(); /* TODO: this should be paginated */
     }
 
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getReview(@PathParam("id") final int id) {
-        Review review = dummyReview();
-        return Response.ok(new ReviewDto(review)).build();
-    }
 
-    /* POST on / creates a new review */
-    @POST
-    @Path("/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addReview(final ReviewDto review) {
-        final Review newReview = dummyReview();
 
-        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newReview.getId())).build();
+//    @GET
+//    @Path("/{id}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getReview(@PathParam("id") final int id) {
+//        Review review = dummyReview();
+//        return Response.ok(new ReviewDto(review)).build();
+//    }
 
-        return Response.created(uri).build();
-    }
 
-    /* PUT on /{id} replaces the review id */
 
 
     private List<Review> dummyReviews() {

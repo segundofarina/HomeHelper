@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.homehelper.api.users.messages;
+package ar.edu.itba.paw.homehelper.api.providers.messages;
 
 import ar.edu.itba.paw.homehelper.dto.ChatListDTO;
 import ar.edu.itba.paw.interfaces.services.ChatService;
@@ -13,10 +13,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("messages")
-@Controller
-public class ChatController {
 
+@Path("/providers/messages")
+@Controller
+public class MessagesProviderController {
+
+    int loggedInProvider =18;
     @Autowired
     private ChatService chatService;
 
@@ -24,7 +26,7 @@ public class ChatController {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMessages() {
-        List<Chat> chatList = chatService.getChatsOfUser(2);
+        List<Chat> chatList = chatService.getChatsOfProvider(loggedInProvider);
         return Response.ok(new ChatListDTO(chatList)).build();
     }
 }

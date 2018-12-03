@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.homehelper.api;
+package ar.edu.itba.paw.homehelper.api.servicetypes;
 
 import ar.edu.itba.paw.homehelper.dto.ServiceTypeDto;
 import ar.edu.itba.paw.homehelper.dto.ServiceTypesListDto;
@@ -49,6 +49,7 @@ public class ServiceTypesController {
     @POST
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response createServiceType(final ServiceTypeDto serviceTypeDTO) {
         final ServiceType newServiceType = sTypeService.create(serviceTypeDTO.getName());
 
@@ -79,4 +80,6 @@ public class ServiceTypesController {
 
         return Response.ok().build();
     }
+
+
 }
