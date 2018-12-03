@@ -1,7 +1,9 @@
 package ar.edu.itba.paw.homehelper.api.providers.appointments;
 
 import ar.edu.itba.paw.homehelper.dto.ActionDto;
+import ar.edu.itba.paw.homehelper.dto.AppointmentDto;
 import ar.edu.itba.paw.homehelper.dto.AppointmentListDto;
+import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,10 @@ import java.util.List;
 @Controller
 public class AppointmentsProviderController {
 
-    int loggedInProvider=1;
+    //int loggedInProvider=1;
+
+    @Autowired
+    LoggedUser loggedUser;
 
     @Autowired
     AppointmentService appointmentService;
@@ -25,8 +30,24 @@ public class AppointmentsProviderController {
     @Path("/")
     @Produces(value = MediaType.APPLICATION_JSON)
     public Response getProviderAppointments(){
-        List<Appointment> list = appointmentService.getAppointmentsByProviderId(loggedInProvider);
+
+//          TODO: Use spring security Roles
+//        if(!loggedUser.isProvider()){
+//            return Response.status(Response.Status.FORBIDDEN).build();
+//        }
+        List<Appointment> list = appointmentService.getAppointmentsByProviderId(loggedUser.id());
         return Response.ok(new AppointmentListDto(list)).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getProviderAppointment(@PathParam("id") final Integer id){
+        Appointment ap = appointmentService.getAppointment(id);
+        if(ap == null || ap.getProvider().getId() != loggedUser.id()){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(new AppointmentDto(ap)).build();
     }
 
     @PUT

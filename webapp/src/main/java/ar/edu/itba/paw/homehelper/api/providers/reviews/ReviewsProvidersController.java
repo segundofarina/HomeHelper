@@ -2,6 +2,7 @@ package ar.edu.itba.paw.homehelper.api.providers.reviews;
 
 import ar.edu.itba.paw.homehelper.dto.ReviewDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewsListDto;
+import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.Review;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ import java.util.stream.Collectors;
 @Controller
 public class ReviewsProvidersController {
 
-    private int loggedInUser = 1;
+    @Autowired
+    LoggedUser loggedUser;
 
     @Context
     private UriInfo uriInfo;
@@ -36,7 +38,7 @@ public class ReviewsProvidersController {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getReviews() {
-        List<Review> reviews = new ArrayList<>(sProviderService.getReviewsOfServiceProvider(loggedInUser));
+        List<Review> reviews = new ArrayList<>(sProviderService.getReviewsOfServiceProvider(loggedUser.id()));
 
         return Response.ok(new ReviewsListDto(reviews)).build(); /* TODO: this should be paginated */
     }

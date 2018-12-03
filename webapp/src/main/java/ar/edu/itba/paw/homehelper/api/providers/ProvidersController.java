@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper.api.providers;
 
 import ar.edu.itba.paw.homehelper.dto.*;
+import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.CoordenatesPoint;
 import ar.edu.itba.paw.model.SProvider;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-//import javax.ws.rs.core.MediaType;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,8 @@ import java.util.stream.IntStream;
 public class ProvidersController {
 
 
-    private final int loggedInUser= 40;
+    @Autowired
+    LoggedUser loggedUser;
     @Autowired
     SProviderService sProviderService;
 
@@ -68,29 +69,27 @@ public class ProvidersController {
     @Produces(value = MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createProvider(CreateProviderDto providerDto){
-        SProvider provider = sProviderService.create(loggedInUser,providerDto.getDescription());
+
+        if(loggedUser.isProvider()){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        //TODO make only one transactional service
+        SProvider provider = sProviderService.create(loggedUser.id(),providerDto.getDescription());
 
         providerDto.getAptitudes().stream().forEach( apt -> sProviderService.addAptitude(provider.getId(),apt.getServiceTypeId(), apt.getDescription()));
 
         List<CoordenateDto> workingZone = providerDto.getWorkingZone();
 
-        sProviderService.addCoordenates(loggedInUser,
+        sProviderService.addCoordenates(loggedUser.id(),
                 IntStream.range(0,workingZone.size())
                         .mapToObj(i -> new CoordenatesPoint(i,workingZone.get(i).getLat(),workingZone.get(i).getLat())).collect(Collectors.toSet())
         );
+
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(provider.getId())).build();
         return Response.created(uri).build();
 
     }
 
-//    @POST
-//    @Path("/")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public Response test(ProviderDto providerDto) {
-//        final URI uri = uriInfo.getAbsolutePathBuilder().path("/10").build();
-//        return Response.created(uri).build();
-//    }
 
 
     private Link[] getPaginationLinks(final int page, final int maxPage) {

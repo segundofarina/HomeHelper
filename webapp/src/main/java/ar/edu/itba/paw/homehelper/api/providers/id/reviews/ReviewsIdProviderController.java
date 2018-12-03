@@ -3,6 +3,7 @@ package ar.edu.itba.paw.homehelper.api.providers.id.reviews;
 
 import ar.edu.itba.paw.homehelper.dto.ReviewDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewsListDto;
+import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.Review;
@@ -21,7 +22,8 @@ import java.util.List;
 public class ReviewsIdProviderController {
 
 
-    private final int loggedinUser= 1;
+    @Autowired
+    LoggedUser loggedUser;
 
     @Autowired
     SProviderService sProviderService;
@@ -49,7 +51,7 @@ public class ReviewsIdProviderController {
 
         appointmentService.reviewAppointment(
                 appointmentId,
-                loggedinUser,
+                loggedUser.id(),
                 1,
                 (int) review.getScores().getQuality(),
                 (int) review.getScores().getCleanness(),

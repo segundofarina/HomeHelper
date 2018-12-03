@@ -2,6 +2,7 @@ package ar.edu.itba.paw.homehelper.api.users.appointments;
 
 import ar.edu.itba.paw.homehelper.dto.AppointmentDto;
 import ar.edu.itba.paw.homehelper.dto.AppointmentListDto;
+import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,14 @@ public class UserAppointmentsController {
     @Context
     private UriInfo uriInfo;
 
+    @Autowired
+    private LoggedUser loggedUser;
 
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAppointments() {
-        List<Appointment> appointments = appointmentService.getAppointmentsByUserId(2);
+        List<Appointment> appointments = appointmentService.getAppointmentsByUserId(loggedUser.id());
 
         if(appointments == null){
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -48,7 +51,7 @@ public class UserAppointmentsController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        final Appointment newAppointment = appointmentService.addAppointment(1,appointmentDTO.getProvider().getId(),
+        final Appointment newAppointment = appointmentService.addAppointment(loggedUser.id(),appointmentDTO.getProvider().getId(),
                 appointmentDTO.getServiceType().getId(),appointmentDTO.getDate(),appointmentDTO.getAddress(),appointmentDTO.getDescription());
 
         if(newAppointment == null) {
@@ -64,10 +67,16 @@ public class UserAppointmentsController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAppointment(@PathParam("id") final int id) {
+
+        //TODO: check if user is allowed to access  (done,needs testing)
         Appointment appointment = appointmentService.getAppointment(id);
+
 
         if(appointment == null){
             return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        if(appointment.getClient().getId() != loggedUser.id()){
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
 
         return Response.ok(new AppointmentDto(appointment)).build();
