@@ -50,7 +50,7 @@ public class ReviewsProvidersController {
 
         return Response.ok(new ReviewsListDto(reviews,locale,messageSource)).build(); /* TODO: this should be paginated */
     }
-    
+
     private List<Review> dummyReviews () {
         List<Review> reviews = new ArrayList<>();
         reviews.add(dummyReview());
