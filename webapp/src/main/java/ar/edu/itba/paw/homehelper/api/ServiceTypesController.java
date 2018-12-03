@@ -34,8 +34,6 @@ public class ServiceTypesController {
     public Response getServiceTypes() {
         List<ServiceType> serviceTypes = sTypeService.getServiceTypes();
 
-        System.out.println(loggedUser.username());
-
         return Response.ok(new ServiceTypesListDto(serviceTypes)).build();
     }
 
