@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @ControllerAdvice
 public class UserControllerAdvice {
 
-    @Autowired
-    SecurityUserService securityUserService;
-
     @ModelAttribute("loggedInUser")
     public User loggedInUser() {
-        return securityUserService.getLoggedInUser();
+        return null;
+        //return securityUserService.getLoggedInUser();
     }
 }
