@@ -2,10 +2,13 @@ package ar.edu.itba.paw.homehelper.config;
 
 import ar.edu.itba.paw.homehelper.auth.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -40,9 +43,6 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private StatelessAuthenticationFilter statelessAuthenticationFilter;
 
-    @Autowired
-    private CustomAuthenticationManager customAuthenticationManager;
-
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.userDetailsService(userDetailsService).sessionManagement()
@@ -59,8 +59,6 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                     .successHandler(statelessLoginSuccessHandler)
                     .failureHandler(new SimpleUrlAuthenticationFailureHandler())
                 .and()
-    //                .addFilterBefore(statelessAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                    .addFilterBefore(customAuthenticationManager, UsernamePasswordAuthenticationFilter.class)
                     .addFilterBefore(statelessAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

@@ -50,21 +50,8 @@ public class ReviewsProvidersController {
 
         return Response.ok(new ReviewsListDto(reviews,locale,messageSource)).build(); /* TODO: this should be paginated */
     }
-
-
-
-//    @GET
-//    @Path("/{id}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getReview(@PathParam("id") final int id) {
-//        Review review = dummyReview();
-//        return Response.ok(new ReviewDto(review)).build();
-//    }
-
-
-
-
-    private List<Review> dummyReviews() {
+    
+    private List<Review> dummyReviews () {
         List<Review> reviews = new ArrayList<>();
         reviews.add(dummyReview());
         reviews.add(dummyReview());
@@ -77,4 +64,14 @@ public class ReviewsProvidersController {
     private Review dummyReview() {
         return new Review(1,2,3,4,5,"Comment", new Date(), null, null);
     }
+
+
+//    @GET
+//    @Path("/{id}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getReview(@PathParam("id") final int id) {
+//        Review review = dummyReview();
+//        return Response.ok(new ReviewDto(review)).build();
+//    }
+
 }
