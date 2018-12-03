@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.homehelper.websocket;
 
+import ar.edu.itba.paw.homehelper.auth.HHUserDetails;
 import ar.edu.itba.paw.homehelper.auth.JwtAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -22,13 +23,16 @@ public class WebsocketChatController {
         }
 
         /* Current user sendig the message */
-        UserEntity user = (UserEntity) ((JwtAuthentication) principal).getPrincipal();
-        //System.out.println(user.getUserId());
-        //System.out.println(user.getUsername());
+        HHUserDetails user = (HHUserDetails) ((JwtAuthentication) principal).getPrincipal();
+        System.out.println(user.getId());
+        System.out.println(user.getUsername());
         //System.out.println(principal.getName());
 
         /* TODO: VALIDATE USERNAME */
 
-        messagingTemplate.convertAndSendToUser(msg.getUsername(), "/queue/messages", msg);
+        MsgEntity outputMsg = msg;
+        outputMsg.setUsingAsClient(!msg.isUsingAsClient());
+
+        messagingTemplate.convertAndSendToUser(msg.getUsername(), "/queue/messages", outputMsg);
     }
 }

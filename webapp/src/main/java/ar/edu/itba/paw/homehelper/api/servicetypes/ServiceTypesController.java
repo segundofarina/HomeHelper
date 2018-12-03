@@ -2,6 +2,7 @@ package ar.edu.itba.paw.homehelper.api.servicetypes;
 
 import ar.edu.itba.paw.homehelper.dto.ServiceTypeDto;
 import ar.edu.itba.paw.homehelper.dto.ServiceTypesListDto;
+import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.STypeService;
 import ar.edu.itba.paw.model.ServiceType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,21 @@ import java.util.List;
 @Controller
 public class ServiceTypesController {
     @Autowired
-    STypeService sTypeService;
+    private STypeService sTypeService;
 
     @Context
     private UriInfo uriInfo;
+
+    @Autowired
+    private LoggedUser loggedUser;
 
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getServiceTypes() {
         List<ServiceType> serviceTypes = sTypeService.getServiceTypes();
+
+        System.out.println(loggedUser.username());
 
         return Response.ok(new ServiceTypesListDto(serviceTypes)).build();
     }

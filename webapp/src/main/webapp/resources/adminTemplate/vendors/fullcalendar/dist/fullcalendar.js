@@ -443,7 +443,7 @@ function unbindAnyScroll(handler) {
 }
 
 
-/* General Geometry Utils
+/* General Geometry utils
 ----------------------------------------------------------------------------------------------------------------------*/
 
 FC.intersectRects = intersectRects;
@@ -1523,7 +1523,7 @@ function formatSimilarChunk(date1, date2, unzonedDate1, unzonedDate2, chunk) {
 }
 
 
-// Chunking Utils
+// Chunking utils
 // -------------------------------------------------------------------------------------------------
 
 
@@ -1563,7 +1563,7 @@ function chunkFormatString(formatStr) {
 }
 
 
-// Misc Utils
+// Misc utils
 // -------------------------------------------------------------------------------------------------
 
 
@@ -2765,7 +2765,7 @@ var DragListener = FC.DragListener = Class.extend(ListenerMixin, MouseIgnorerMix
 	},
 
 
-	// Utils
+	// utils
 	// -----------------------------------------------------------------------------------------------------------------
 
 
@@ -4910,7 +4910,7 @@ Grid.mixin({
 	},
 
 
-	/* Rendering Utils
+	/* Rendering utils
 	------------------------------------------------------------------------------------------------------------------*/
 
 
@@ -5723,7 +5723,7 @@ var DayTableMixin = FC.DayTableMixin = {
 	// wrapTr (scheduler)
 
 
-	/* Utils
+	/* utils
 	------------------------------------------------------------------------------------------------------------------*/
 
 
@@ -7596,7 +7596,7 @@ TimeGrid.mixin({
 	},
 
 
-	/* Seg Rendering Utils
+	/* Seg Rendering utils
 	------------------------------------------------------------------------------------------------------------------*/
 
 
@@ -7650,7 +7650,7 @@ TimeGrid.mixin({
 
 
 
-	/* Foreground Event Rendering Utils
+	/* Foreground Event Rendering utils
 	------------------------------------------------------------------------------------------------------------------*/
 
 
@@ -7746,7 +7746,7 @@ TimeGrid.mixin({
 	},
 
 
-	/* Seg Position Utils
+	/* Seg Position utils
 	------------------------------------------------------------------------------------------------------------------*/
 
 
@@ -7791,7 +7791,7 @@ TimeGrid.mixin({
 	},
 
 
-	/* Foreground Event Positioning Utils
+	/* Foreground Event Positioning utils
 	------------------------------------------------------------------------------------------------------------------*/
 
 
@@ -9067,7 +9067,7 @@ var View = FC.View = Class.extend(EmitterMixin, ListenerMixin, {
 	},
 
 
-	// Event Rendering Utils
+	// Event Rendering utils
 	// -----------------------------------------------------------------------------------------------------------------
 
 
@@ -9428,7 +9428,7 @@ var View = FC.View = Class.extend(EmitterMixin, ListenerMixin, {
 	},
 
 
-	/* Date Utils
+	/* Date utils
 	------------------------------------------------------------------------------------------------------------------*/
 
 
