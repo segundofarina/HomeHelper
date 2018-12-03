@@ -44,7 +44,9 @@ public class ReviewsController {
     @POST
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response addReview(final ReviewDto review) {
+        System.out.println(review.getComment());
         final Review newReview = dummyReview();
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newReview.getId())).build();
