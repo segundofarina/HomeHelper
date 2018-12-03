@@ -4,14 +4,17 @@ import ar.edu.itba.paw.homehelper.dto.AptitudeDto;
 import ar.edu.itba.paw.interfaces.services.AptitudeService;
 import ar.edu.itba.paw.model.Aptitude;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import java.util.Locale;
 import java.util.Optional;
 
 @Path("/aptitudes")
@@ -23,18 +26,27 @@ public class AptitudesController {
     @Context
     private UriInfo uriInfo;
 
+    @Context
+    HttpServletRequest request;
+
+    @Autowired
+    private MessageSource messageSource;
+
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAptitude(@PathParam("id") final int id){
+
+        Locale locale = request.getLocale();
+
         final Optional<Aptitude> aptitude = aptitudeService.getAptitude(id);
 
         if(!aptitude.isPresent()){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(new AptitudeDto(aptitude.get())).build();
+        return Response.ok(new AptitudeDto(aptitude.get(),locale,messageSource)).build();
     }
 
 

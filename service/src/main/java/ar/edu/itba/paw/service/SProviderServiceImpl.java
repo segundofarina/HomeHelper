@@ -122,11 +122,13 @@ public class SProviderServiceImpl implements SProviderService {
         return aptitudes;
     }
 
+    @Transactional
     @Override
     public boolean addCoordenates(int providerId, Set<CoordenatesPoint> coordenatesPoints) {
         return coordenatesDao.insertCoordenatesOfProvider(providerId, coordenatesPoints);
     }
 
+    @Transactional
     @Override
     public boolean deleteCoordenates(int providerId) {
         return coordenatesDao.deleteCoordenateOfProvideer(providerId);

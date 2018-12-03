@@ -55,4 +55,8 @@ public class CalificationDto {
 
         return ans;
     }
+
+    public TreeMap<String, Double> getCalifications() {
+        return califications;
+    }
 }

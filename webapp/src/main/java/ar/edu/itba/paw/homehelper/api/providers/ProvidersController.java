@@ -1,26 +1,40 @@
-package ar.edu.itba.paw.homehelper.api;
+package ar.edu.itba.paw.homehelper.api.providers;
 
-import ar.edu.itba.paw.homehelper.dto.ProviderDto;
-import ar.edu.itba.paw.homehelper.dto.ProvidersListDto;
+import ar.edu.itba.paw.homehelper.dto.*;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
+import ar.edu.itba.paw.model.CoordenatesPoint;
 import ar.edu.itba.paw.model.SProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-@Path("/providers")
+@Path("providers")
 @Controller
 public class ProvidersController {
 
+
+    private final int loggedInUser= 40;
     @Autowired
     SProviderService sProviderService;
 
     @Context
     private UriInfo uriInfo;
+
+    @Context
+    HttpServletRequest request;
+
+    @Autowired
+    private MessageSource messageSource;
 
     private final static String CURRENT_PAGE = "0";
     private final static String PAGE_SIZE = "100";
@@ -34,6 +48,8 @@ public class ProvidersController {
             @QueryParam("lng") final Double longitude,
             @QueryParam("page") @DefaultValue(CURRENT_PAGE) final int page,
             @QueryParam("pageSize") @DefaultValue(PAGE_SIZE) final int pageSize) {
+
+        Locale locale = request.getLocale();
 
         if(latitude == null && longitude != null || latitude != null && longitude == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -55,21 +71,37 @@ public class ProvidersController {
 
         final Link[] links = getPaginationLinks(page, maxPage);
 
-        return Response.ok(new ProvidersListDto(providers, page, pageSize, maxPage)).links(links).build();
+        return Response.ok(new ProvidersListDto(providers, page, pageSize, maxPage,locale,messageSource)).links(links).build();
     }
 
-    @GET
-    @Path("/{id}")
+    @POST
+    @Path("/")
     @Produces(value = MediaType.APPLICATION_JSON)
-    public Response getProviderById(@PathParam("id") final int id) {
-        final SProvider provider = sProviderService.getServiceProviderWithUserId(id);
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createProvider(CreateProviderDto providerDto){
+        SProvider provider = sProviderService.create(loggedInUser,providerDto.getDescription());
 
-        if(provider == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+        providerDto.getAptitudes().stream().forEach( apt -> sProviderService.addAptitude(provider.getId(),apt.getServiceTypeId(), apt.getDescription()));
 
-        return Response.ok(new ProviderDto(provider)).build();
+        List<CoordenateDto> workingZone = providerDto.getWorkingZone();
+
+        sProviderService.addCoordenates(loggedInUser,
+                IntStream.range(0,workingZone.size())
+                        .mapToObj(i -> new CoordenatesPoint(i,workingZone.get(i).getLat(),workingZone.get(i).getLat())).collect(Collectors.toSet())
+        );
+        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(provider.getId())).build();
+        return Response.created(uri).build();
+
     }
+
+//    @POST
+//    @Path("/")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public Response test(ProviderDto providerDto) {
+//        final URI uri = uriInfo.getAbsolutePathBuilder().path("/10").build();
+//        return Response.created(uri).build();
+//    }
 
 
     private Link[] getPaginationLinks(final int page, final int maxPage) {

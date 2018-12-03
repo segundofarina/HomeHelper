@@ -28,12 +28,18 @@ public class AppointmentsController {
     @Context
     private UriInfo uriInfo;
 
+    @Context
+    HttpServletRequest request;
 
+    @Autowired
+    private MessageSource messageSource;
 
     @GET
     @Path("user/appointments/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAppointments() {
+
+        Locale locale = request.getLocale();
 
         List<Appointment> appointments = appointmentService.getAppointmentsByUserId(2);
 
@@ -41,7 +47,7 @@ public class AppointmentsController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(new AppointmentListDto(appointments)).build();
+        return Response.ok(new AppointmentListDto(appointments,locale,messageSource)).build();
     }
 
 
@@ -49,13 +55,16 @@ public class AppointmentsController {
     @Path("user/appointments/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAppointment(@PathParam("id") final int id) {
+
+        Locale locale = request.getLocale();
+
         Appointment appointment = appointmentService.getAppointment(id);
 
         if(appointment == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(new AppointmentDto(appointment)).build();
+        return Response.ok(new AppointmentDto(appointment,locale,messageSource)).build();
     }
 
     @POST
@@ -137,13 +146,16 @@ public class AppointmentsController {
     @Path("provider/appointments/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProviderAppointments() {
+
+        Locale locale = request.getLocale();
+
         List<Appointment> appointments = appointmentService.getAppointmentsByProviderId(1);
 
         if(appointments == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(new ProviderAppointmentListDto(appointments)).build();
+        return Response.ok(new ProviderAppointmentListDto(appointments,locale,messageSource)).build();
     }
 
 
@@ -151,12 +163,15 @@ public class AppointmentsController {
     @Path("provider/appointments/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProviderAppointment(@PathParam("id") final int id) {
+
+        Locale locale = request.getLocale();
+
         Appointment appointment = appointmentService.getAppointment(id);
 
         if(appointment == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(new ProviderAppointmentDto(appointment)).build();
+        return Response.ok(new ProviderAppointmentDto(appointment,locale,messageSource)).build();
     }
 }

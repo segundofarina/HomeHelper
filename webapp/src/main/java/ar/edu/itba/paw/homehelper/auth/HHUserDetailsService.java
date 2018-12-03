@@ -29,14 +29,21 @@ public class HHUserDetailsService implements UserDetailsService {
 
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         final User user = us.findByUsername(username);
+
         if (user == null) {
             throw new UsernameNotFoundException("No user by the name " + username);
         }
+
+        boolean isVerified = false;
+        boolean isProvider = false;
+        int userId = user.getId();
+
         final ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
 
         if (user.isVerified()) {
             LOGGER.info("{} is verified", user.getUsername());
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            isVerified = true;
         } else {
             LOGGER.info("{} is unverified", user.getUsername());
             authorities.add(new SimpleGrantedAuthority("ROLE_UNVERIFIED_USER"));
@@ -44,11 +51,31 @@ public class HHUserDetailsService implements UserDetailsService {
 
         if (sp.isServiceProvider(user.getId())) {
             authorities.add((new SimpleGrantedAuthority("ROLE_PROVIDER")));
+            isProvider = true;
         }
 
         LOGGER.info("{} logged in", user.getUsername());
 
-        return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
+        return new HHUserDetails(username, user.getPassword(), authorities, userId, isProvider, isVerified);
+    }
+
+
+    public HHUserDetails loadFromToken(final String username, final int id, final boolean isProvider, final boolean isVerified) {
+        final ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        if(isVerified) {
+            LOGGER.info("{} is verified", username);
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        } else {
+            LOGGER.info("{} is unverified", username);
+            authorities.add(new SimpleGrantedAuthority("ROLE_UNVERIFIED_USER"));
+        }
+
+        if(isProvider) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_PROVIDER"));
+        }
+
+        return new HHUserDetails(username, "", authorities, id, isProvider, isVerified);
     }
 
 

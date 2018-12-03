@@ -1,7 +1,8 @@
-package ar.edu.itba.paw.homehelper.api;
+package ar.edu.itba.paw.homehelper.api.servicetypes;
 
 import ar.edu.itba.paw.homehelper.dto.ServiceTypeDto;
 import ar.edu.itba.paw.homehelper.dto.ServiceTypesListDto;
+import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.STypeService;
 import ar.edu.itba.paw.model.ServiceType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import java.util.Locale;
 @Controller
 public class ServiceTypesController {
     @Autowired
-    STypeService sTypeService;
+    private STypeService sTypeService;
 
     @Autowired
     private MessageSource messageSource;
@@ -32,6 +33,9 @@ public class ServiceTypesController {
 
     @Context
     private UriInfo uriInfo;
+
+    @Autowired
+    private LoggedUser loggedUser;
 
     @GET
     @Path("/")
@@ -43,7 +47,7 @@ public class ServiceTypesController {
         List<ServiceType> serviceTypes = sTypeService.getServiceTypes();
 
         return Response.ok(new ServiceTypesListDto(serviceTypes,locale,messageSource)).build();
-    }
+}
 
     @GET
     @Path("/{id}")
@@ -64,6 +68,7 @@ public class ServiceTypesController {
     @POST
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response createServiceType(final ServiceTypeDto serviceTypeDTO) {
         final ServiceType newServiceType = sTypeService.create(serviceTypeDTO.getName());
 
@@ -94,4 +99,6 @@ public class ServiceTypesController {
 
         return Response.ok().build();
     }
+
+
 }

@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.homehelper.api;
+package ar.edu.itba.paw.homehelper.api.users.messages;
 
 import ar.edu.itba.paw.homehelper.dto.ChatListDTO;
 import ar.edu.itba.paw.interfaces.services.ChatService;
