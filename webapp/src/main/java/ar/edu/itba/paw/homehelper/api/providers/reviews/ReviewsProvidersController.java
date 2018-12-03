@@ -1,4 +1,4 @@
-package ar.edu.itba.paw.homehelper.api;
+package ar.edu.itba.paw.homehelper.api.providers.reviews;
 
 import ar.edu.itba.paw.homehelper.dto.ReviewDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewsListDto;
