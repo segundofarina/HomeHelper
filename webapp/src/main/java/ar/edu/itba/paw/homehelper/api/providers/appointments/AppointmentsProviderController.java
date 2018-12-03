@@ -22,8 +22,6 @@ import java.util.Locale;
 @Controller
 public class AppointmentsProviderController {
 
-    //int loggedInProvider=1;
-
     @Autowired
     LoggedUser loggedUser;
 
