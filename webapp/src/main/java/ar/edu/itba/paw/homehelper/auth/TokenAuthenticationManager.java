@@ -3,6 +3,7 @@ package ar.edu.itba.paw.homehelper.auth;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.interfaces.services.UserService;
 import ar.edu.itba.paw.model.User;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
@@ -33,6 +35,7 @@ public class TokenAuthenticationManager implements AuthenticationManager {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        System.out.println("Authentication manager");
         JwtAuthentication token = (JwtAuthentication) authentication;
         String tokenString = (String) token.getCredentials();
 
@@ -73,8 +76,8 @@ public class TokenAuthenticationManager implements AuthenticationManager {
         final int id = Integer.parseInt(claims.getId());
         final String username = claims.getSubject();
 
-        final boolean isVerified = (boolean) claims.get("isVerified");
-        final boolean isProvider = (boolean) claims.get("isProvider");
+        final boolean isVerified = Boolean.parseBoolean((String) claims.get("isVerified"));
+        final boolean isProvider = Boolean.parseBoolean((String) claims.get("isProvider"));
 
         return userDetailsService.loadFromToken(username, id, isProvider, isVerified);
     }

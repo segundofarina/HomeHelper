@@ -7,9 +7,11 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -22,8 +24,8 @@ public class CustomAuthenticationManager extends UsernamePasswordAuthenticationF
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         super.setAuthenticationManager(authenticationManager);
     }
-
-    /* Accept Content-type: application/json on login */
+/*
+    // Accept Content-type: application/json on login
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -65,5 +67,25 @@ public class CustomAuthenticationManager extends UsernamePasswordAuthenticationF
     public static class AuthReq {
         String username;
         String password;
+    }*/
+
+    @Override
+    protected String obtainUsername(HttpServletRequest request) {
+        //return super.obtainUsername(request);
+        return "mlopez";
     }
+
+    @Override
+    protected String obtainPassword(HttpServletRequest request) {
+        //return super.obtainPassword(request);
+        return "1234";
+    }
+
+    //@Override
+    //protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
+        //if(request.getHeader("X-Authorization") == null) {
+        //    return true;
+        //}
+        //return false;
+    //}
 }
