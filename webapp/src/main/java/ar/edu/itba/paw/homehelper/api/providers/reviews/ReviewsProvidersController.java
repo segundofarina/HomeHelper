@@ -43,7 +43,7 @@ public class ReviewsProvidersController {
         return Response.ok(new ReviewsListDto(reviews)).build(); /* TODO: this should be paginated */
     }
 
-    
+
 
 //    @GET
 //    @Path("/{id}")
