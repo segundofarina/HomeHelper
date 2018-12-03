@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper.api.providers.messages;
 
 import ar.edu.itba.paw.homehelper.dto.ChatListDTO;
+import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.model.Chat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,9 @@ import java.util.List;
 @Controller
 public class MessagesProviderController {
 
-    int loggedInProvider =18;
+    @Autowired
+    LoggedUser loggedUser;
+
     @Autowired
     private ChatService chatService;
 
@@ -26,7 +29,8 @@ public class MessagesProviderController {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMessages() {
-        List<Chat> chatList = chatService.getChatsOfProvider(loggedInProvider);
+        List<Chat> chatList = chatService.getChatsOfProvider(loggedUser.id());
+        //TODO: Spring ROLES
         return Response.ok(new ChatListDTO(chatList)).build();
     }
 }
