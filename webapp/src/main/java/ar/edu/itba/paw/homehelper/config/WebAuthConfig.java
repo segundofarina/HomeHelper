@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.BeanIds;
@@ -50,7 +51,15 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                     .csrf().disable()
                     .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and().authorizeRequests()
-                    .antMatchers("/api/login").permitAll()
+                    .antMatchers(HttpMethod.POST, "/api/login").anonymous()
+                    .antMatchers(HttpMethod.GET, "/api/serviceTypes").permitAll()
+                    .antMatchers(HttpMethod.POST, "/api/users").permitAll()
+                    .antMatchers(HttpMethod.GET, "/api/providers").permitAll()
+                    .antMatchers(HttpMethod.GET, "/api/providers/{id}").permitAll()
+                    .antMatchers(HttpMethod.GET, "/api/providers/{id}/**").permitAll()
+                    .antMatchers("/api/users/**").hasRole("USER")
+                    .antMatchers(HttpMethod.POST, "/api/providers").hasRole("USER")
+                    .antMatchers("/api/providers/**").hasRole("PROVIDER")
                     .antMatchers("/api/**").authenticated()
                 .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

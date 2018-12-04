@@ -35,7 +35,6 @@ public class TokenAuthenticationManager implements AuthenticationManager {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        System.out.println("Authentication manager");
         JwtAuthentication token = (JwtAuthentication) authentication;
         String tokenString = (String) token.getCredentials();
 
@@ -65,6 +64,9 @@ public class TokenAuthenticationManager implements AuthenticationManager {
         return Jwts.builder()
                         .setId( String.valueOf(user.getId()) )
                         .setSubject(username)
+                        .claim("firstName", user.getFirstname())
+                        .claim("lastName", user.getLastname())
+                        .claim("imgUrl", "")
                         .claim("isVerified", String.valueOf(user.isVerified()))
                         .claim("isProvider", String.valueOf(providerService.isServiceProvider(user.getId())))
                     .signWith(key)
@@ -75,11 +77,14 @@ public class TokenAuthenticationManager implements AuthenticationManager {
     private HHUserDetails getUserDetailFromToken(Claims claims) {
         final int id = Integer.parseInt(claims.getId());
         final String username = claims.getSubject();
+        final String firstName = (String) claims.get("firstName");
+        final String lastName = (String) claims.get("lastName");
+        final String imgUrl = (String) claims.get("imgUrl");
 
         final boolean isVerified = Boolean.parseBoolean((String) claims.get("isVerified"));
         final boolean isProvider = Boolean.parseBoolean((String) claims.get("isProvider"));
 
-        return userDetailsService.loadFromToken(username, id, isProvider, isVerified);
+        return userDetailsService.loadFromToken(username, id, firstName, lastName, isProvider, isVerified, imgUrl);
     }
 
 }

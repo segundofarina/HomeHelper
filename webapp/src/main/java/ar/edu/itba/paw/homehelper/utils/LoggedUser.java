@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggedUser {
     public HHUserDetails getUserDetails() {
-        return (HHUserDetails) ((JwtAuthentication) SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
+        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated() && SecurityContextHolder.getContext().getAuthentication() instanceof JwtAuthentication) {
+            return (HHUserDetails) ((JwtAuthentication) SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
+        }
+        return null;
     }
 
     public String username() {
