@@ -1,0 +1,103 @@
+.LoginContainer {
+    width: 100%;
+    height: 100%;
+    background-color: #F7F7F7;
+    flex: 1;
+    padding: 80px 0;
+}
+
+.Form {
+    max-width: 320px;
+    width: 90%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Link {
+    text-decoration: none;
+    color: #444444;
+    text-align: center;
+}
+
+.Logo {
+    width: 6em;
+    height: 6em;
+    object-fit: contain;
+
+}
+
+.Title {
+    margin-bottom: 40px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.Input {
+    margin-bottom: 15px;
+    background: #f7f9fc;
+    border: none;
+    border-bottom: 1px solid #dfe7f1;
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+    text-indent: 8px;
+    height: 42px;
+    display: block;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.Checkbox {
+    margin-top: 2em;
+    font-size: 13px;
+    color: #6f7a85;
+    margin-bottom: 10px;
+}
+
+.Checkbox label {
+    min-height: 20px;
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.Checkbox input {
+    width: auto;
+    height: auto;
+}
+
+.SignInBtn {
+    border-radius: 4px;
+    font-weight: 500;
+    margin-top: 1em;
+}
+
+.Forgot {
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: #6f7a85;
+    opacity: 0.9;
+    text-decoration: none;
+    margin-top: 2.5em;
+}
+
+.SignUp {
+    font-style: italic;
+    text-decoration: none;
+    color: #6f7a85;
+    margin-left: 0.5em;
+}

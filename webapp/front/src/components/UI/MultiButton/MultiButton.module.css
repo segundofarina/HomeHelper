@@ -1,0 +1,29 @@
+.MultiButton {
+    display: flex;
+}
+
+.Button {
+    padding: 8px 10px;
+    border: 1px solid #dedede;
+    border-right: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+}
+
+.Button:first-of-type {
+    border-radius: 4px 0 0 4px;
+}
+
+.Button:last-of-type {
+    border-radius: 0 4px 4px 0;
+    border-right: 1px solid #dedede;
+}
+
+.Button.Active {
+    color: #FE4C89;
+}
+
+.Button:hover {
+    background: #e4e4e4;
+}

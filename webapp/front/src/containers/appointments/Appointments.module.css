@@ -1,0 +1,39 @@
+.Appointments {
+    width: 100%;
+    flex: 1;
+    background-color: #f7f7f7;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Content {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+@media (min-width: 768px) {
+    .Content {
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) {
+    .Content {
+        width: 970px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .Content {
+        width: 1170px;
+    }
+}
+
+.ProfilePicture {
+    height: 38px;
+    width: 38px;
+    border-radius: 100%;
+    object-fit: cover;
+}

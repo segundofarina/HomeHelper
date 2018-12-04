@@ -1,0 +1,11 @@
+.ReviewItem {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ReviewItem h5 {
+    color: #73879C;
+    font-size: 15px;
+}

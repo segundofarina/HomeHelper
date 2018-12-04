@@ -1,0 +1,14 @@
+.footer {
+    align-self: flex-end;
+    flex-shrink: 0;
+    display: flex;
+    background-color: #444444;
+    color: #fff;
+    padding: 15px 20px;
+    height: 40px;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 14px;
+    z-index: 1;
+}

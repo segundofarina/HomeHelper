@@ -1,0 +1,14 @@
+.ContactList {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    max-width: 340px;
+    height: 100%;
+    background: #f6f6f6;
+    overflow: hidden;
+}
+
+.Contacts {
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
