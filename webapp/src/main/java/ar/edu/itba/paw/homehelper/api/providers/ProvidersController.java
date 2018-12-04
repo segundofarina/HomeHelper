@@ -6,13 +6,16 @@ import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.CoordenatesPoint;
 import ar.edu.itba.paw.model.SProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -30,7 +33,13 @@ public class ProvidersController {
     @Context
     private UriInfo uriInfo;
 
-    private final static String CURRENT_PAGE = "1";
+    @Context
+    HttpServletRequest request;
+
+    @Autowired
+    private MessageSource messageSource;
+
+    private final static String CURRENT_PAGE = "0";
     private final static String PAGE_SIZE = "100";
 
     @GET
@@ -42,6 +51,7 @@ public class ProvidersController {
             @QueryParam("lng") final Double longitude,
             @QueryParam("page") @DefaultValue(CURRENT_PAGE) final int page,
             @QueryParam("pageSize") @DefaultValue(PAGE_SIZE) final int pageSize) {
+
 
         if(page < 1 || pageSize < 1) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -63,15 +73,19 @@ public class ProvidersController {
 
          // TODO: get sorted and paginated providers, procesing all params (st, lat, lng, page, pageSize)
 
+        Locale locale = request.getLocale();
+
+
         final int maxPage = (int) Math.ceil((double) providers.size() / pageSize); // TODO: get max page from sProviderService
 
         if(page > maxPage) { // TODO: this should be before searching for providers
+
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         final Link[] links = getPaginationLinks(page, maxPage);
 
-        return Response.ok(new ProvidersListDto(providers, page, pageSize, maxPage)).links(links).build();
+        return Response.ok(new ProvidersListDto(new ArrayList<>(providers), page, pageSize, maxPage,locale,messageSource)).links(links).build();
     }
 
     @POST

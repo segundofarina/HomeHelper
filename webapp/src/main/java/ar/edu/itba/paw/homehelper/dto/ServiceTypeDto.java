@@ -1,6 +1,9 @@
 package ar.edu.itba.paw.homehelper.dto;
 
 import ar.edu.itba.paw.model.ServiceType;
+import org.springframework.context.MessageSource;
+
+import java.util.Locale;
 
 public class ServiceTypeDto {
     private int id;
@@ -9,9 +12,9 @@ public class ServiceTypeDto {
     public ServiceTypeDto() {
     }
 
-    public ServiceTypeDto(ServiceType serviceType) {
+    public ServiceTypeDto(ServiceType serviceType, Locale locale, MessageSource messageSource) {
         this.id = serviceType.getId();
-        this.name = serviceType.getName();
+        this.name = messageSource.getMessage("service-type."+id,null,locale);
     }
 
     public int getId() {

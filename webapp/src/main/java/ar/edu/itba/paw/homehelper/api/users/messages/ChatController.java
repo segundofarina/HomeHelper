@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper.api.users.messages;
 
 import ar.edu.itba.paw.homehelper.dto.ChatListDTO;
+import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.model.Chat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("messages")
+@Path("/users/messages")
 @Controller
 public class ChatController {
+    @Autowired
+    LoggedUser loggedUser;
 
     @Autowired
     private ChatService chatService;
@@ -24,15 +27,9 @@ public class ChatController {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getMessages(@QueryParam("provider") final boolean usingAsProvider) {
-        List<Chat> chatList;
-        if(!usingAsProvider) {
-            chatList = chatService.getChatsOfUser(2);
-        } else {
-            chatList = chatService.getChatsOfProvider(6);
-        }
+    public Response getMessages() {
 
-        System.out.println("using as provider" + usingAsProvider);
+        List<Chat> chatList = chatService.getChatsOfUser(loggedUser.id());
 
         return Response.ok(new ChatListDTO(chatList)).build();
     }

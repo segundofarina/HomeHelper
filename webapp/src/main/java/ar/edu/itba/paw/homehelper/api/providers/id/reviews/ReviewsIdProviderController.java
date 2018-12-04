@@ -8,7 +8,9 @@ import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.Review;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -17,6 +19,8 @@ import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Path("/providers/{id}/reviews")
 public class ReviewsIdProviderController {
@@ -34,14 +38,23 @@ public class ReviewsIdProviderController {
     @Context
     private UriInfo uriInfo;
 
+    @Context
+    HttpServletRequest request;
+
+    @Autowired
+    private MessageSource messageSource;
+
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     //TODO add st parameter
     public Response getReviews(@PathParam("id") final int id) {
+
+        Locale locale = request.getLocale();
+
         List<Review> reviews = new ArrayList<>(sProviderService.getReviewsOfServiceProvider(id));
 
-        return Response.ok(new ReviewsListDto(reviews)).build(); /* TODO: this should be paginated */
+        return Response.ok(new ReviewsListDto(reviews,locale,messageSource)).build(); /* TODO: this should be paginated */
     }
 
     @POST
@@ -50,15 +63,23 @@ public class ReviewsIdProviderController {
     public Response addReview(@QueryParam("appId") final Integer appointmentId,final ReviewDto review) {
         /* TODO check if user is allowed to make the review" */
 
+        double [] score = new double [review.getScores().getCalifications().size()];
+
+        int i = 0;
+
+        for(Map.Entry<String,Double> calification : review.getScores().getCalifications().entrySet()){
+            score[i++] = (double) calification.getValue();
+        }
+
         appointmentService.reviewAppointment(
                 appointmentId,
                 loggedUser.id(),
                 1,
-                (int) review.getScores().getQuality(),
-                (int) review.getScores().getCleanness(),
-                (int) review.getScores().getPrice(),
-                (int) review.getScores().getPunctuality(),
-                (int) review.getScores().getTreatment(),
+                (int)score[1],
+                (int)score[2],
+                (int) score[3],
+                (int)score[4],
+                (int)score[5],
                 review.getComment()
                 );
         final Review newReview = null;

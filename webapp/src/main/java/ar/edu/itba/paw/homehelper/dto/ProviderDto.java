@@ -3,9 +3,11 @@ package ar.edu.itba.paw.homehelper.dto;
 import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
+import org.springframework.context.MessageSource;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class ProviderDto {
     private int id;
@@ -19,7 +21,7 @@ public class ProviderDto {
     public ProviderDto() {
     }
 
-    public ProviderDto(SProvider provider) {
+    public ProviderDto(SProvider provider, Locale locale, MessageSource messageSource) {
         this.id = provider.getId();
         this.description = provider.getDescription();
         this.generalCalification = provider.getGeneralCalification();
@@ -31,7 +33,7 @@ public class ProviderDto {
 
         this.aptitudes = new LinkedList<>();
         for(Aptitude aptitude : provider.getAptitudes()) {
-            this.aptitudes.add(new AptitudeDto(aptitude));
+            this.aptitudes.add(new AptitudeDto(aptitude,locale,messageSource));
         }
     }
 

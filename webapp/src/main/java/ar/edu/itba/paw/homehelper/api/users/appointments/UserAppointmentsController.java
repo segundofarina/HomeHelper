@@ -6,8 +6,10 @@ import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -15,6 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 
 
 @Path("/users/appointments")
@@ -26,6 +29,12 @@ public class UserAppointmentsController {
     @Context
     private UriInfo uriInfo;
 
+    @Context
+    HttpServletRequest request;
+
+    @Autowired
+    private MessageSource messageSource;
+
     @Autowired
     private LoggedUser loggedUser;
 
@@ -33,13 +42,16 @@ public class UserAppointmentsController {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAppointments() {
+
+        Locale locale = request.getLocale();
+
         List<Appointment> appointments = appointmentService.getAppointmentsByUserId(loggedUser.id());
 
         if(appointments == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(new AppointmentClientListDto(appointments)).build();
+        return Response.ok(new AppointmentClientListDto(appointments,locale,messageSource)).build();
     }
 
     @POST
@@ -68,7 +80,8 @@ public class UserAppointmentsController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAppointment(@PathParam("id") final int id) {
 
-        //TODO: check if user is allowed to access  (done,needs testing)
+        Locale locale = request.getLocale();
+
         Appointment appointment = appointmentService.getAppointment(id);
 
 
@@ -79,7 +92,9 @@ public class UserAppointmentsController {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        return Response.ok(new AppointmentClientDto(appointment)).build();
+
+        return Response.ok(new AppointmentClientDto(appointment,locale,messageSource)).build();
+
     }
 
 

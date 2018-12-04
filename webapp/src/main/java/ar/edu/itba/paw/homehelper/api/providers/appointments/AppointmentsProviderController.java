@@ -7,18 +7,20 @@ import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Locale;
 
 @Path("/providers/appointments")
 @Controller
 public class AppointmentsProviderController {
-
-    //int loggedInProvider=1;
 
     @Autowired
     LoggedUser loggedUser;
@@ -26,28 +28,42 @@ public class AppointmentsProviderController {
     @Autowired
     AppointmentService appointmentService;
 
+    @Context
+    HttpServletRequest request;
+
+    @Autowired
+    private MessageSource messageSource;
+
     @GET
     @Path("/")
     @Produces(value = MediaType.APPLICATION_JSON)
     public Response getProviderAppointments(){
+
+        Locale locale = request.getLocale();
 
 //          TODO: Use spring security Roles
 //        if(!loggedUser.isProvider()){
 //            return Response.status(Response.Status.FORBIDDEN).build();
 //        }
         List<Appointment> list = appointmentService.getAppointmentsByProviderId(loggedUser.id());
-        return Response.ok(new AppointmentProviderListDto(list)).build();
+
+        return Response.ok(new AppointmentProviderListDto(list,locale,messageSource)).build();
+
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProviderAppointment(@PathParam("id") final Integer id){
+
+        Locale locale = request.getLocale();
+
         Appointment ap = appointmentService.getAppointment(id);
         if(ap == null || ap.getProvider().getId() != loggedUser.id()){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        return Response.ok(new AppointmentProviderDto(ap)).build();
+
+        return Response.ok(new AppointmentProviderDto(ap,locale,messageSource)).build();
     }
 
     @PUT
