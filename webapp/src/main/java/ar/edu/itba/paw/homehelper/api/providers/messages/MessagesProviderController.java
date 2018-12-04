@@ -30,7 +30,6 @@ public class MessagesProviderController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMessages() {
         List<Chat> chatList = chatService.getChatsOfProvider(loggedUser.id());
-        //TODO: Spring ROLES
         return Response.ok(new ChatListDTO(chatList)).build();
     }
 }
