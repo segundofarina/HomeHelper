@@ -48,8 +48,8 @@
                                 <div class="app-header">
                                     <div>
                                         <c:choose>
-                                            <c:when test="${appointment.provider.user.image != null}">
-                                                <img src="<c:url value="/profile/${appointment.provider.user.id}/profileimage" />" alt="profile picture" />
+                                            <c:when test="${appointment.provider.client.image != null}">
+                                                <img src="<c:url value="/profile/${appointment.provider.client.id}/profileimage" />" alt="profile picture" />
                                             </c:when>
                                             <c:otherwise>
                                                 <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
@@ -57,7 +57,7 @@
                                         </c:choose>
                                     </div>
                                     <div>
-                                        <h3><c:out value="${appointment.provider.user.firstname}" /> <c:out value="${appointment.provider.user.lastname}" /></h3>
+                                        <h3><c:out value="${appointment.provider.client.firstname}" /> <c:out value="${appointment.provider.client.lastname}" /></h3>
                                     </div>
                                     <div>
                                         <c:choose>
@@ -98,7 +98,7 @@
                                     <c:url value="/client/sendReview" var="postPath"/>
                                     <form:form modelAttribute="reviewForm" action="${postPath}" method="post">
                                         <form:input path="appointmentId" type="hidden" value="${appointment.appointmentId}" />
-                                        <form:input path="providerId" type="hidden" value="${appointment.provider.user.id}" />
+                                        <form:input path="providerId" type="hidden" value="${appointment.provider.client.id}" />
 
                                         <div class="star-container">
                                             <div class="row">

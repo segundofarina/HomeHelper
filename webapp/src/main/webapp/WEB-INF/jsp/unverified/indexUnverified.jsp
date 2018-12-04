@@ -44,7 +44,7 @@
                     <div class="row">
                         <div class="col-xs-12 result">
                             <h1><spring:message code="unverified.title"/></h1>
-                            <p> <spring:message code="unverified.detail" arguments="${user.firstname}, ${user.email}" /></p>
+                            <p> <spring:message code="unverified.detail" arguments="${client.firstname}, ${client.email}" /></p>
 
                             <div class="bgImg">
                                 <div class="img failedImg"></div>

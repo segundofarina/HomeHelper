@@ -42,7 +42,7 @@
                 <h3><spring:message code="general.general"/></h3>
                 <ul class="nav side-menu">
                     <li><a href="<c:url value="/sprovider" />"><i class="fa fa-home"></i> <spring:message code="general.home"/></a></li>
-                    <li><a><i class="fa fa-user"></i><spring:message code="general.profile"/> <span class="fa fa-chevron-down"></span></a>
+                    <li><a><i class="fa fa-client"></i><spring:message code="general.profile"/> <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="<c:url value="/sprovider/editProfile" /> "><spring:message code="leftBarMenu.edit-profile"/></a></li>
                             <li><a href="<c:url value="/sprovider/profilePreview"/> "><spring:message code="leftBarMenu.profile-preview"/></a></li>

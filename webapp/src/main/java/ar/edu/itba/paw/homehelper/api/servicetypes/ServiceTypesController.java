@@ -8,11 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import java.net.URI;
 import java.util.List;
 
 @Path("serviceTypes")
@@ -21,8 +18,6 @@ public class ServiceTypesController {
     @Autowired
     private STypeService sTypeService;
 
-    @Context
-    private UriInfo uriInfo;
 
 
     @GET

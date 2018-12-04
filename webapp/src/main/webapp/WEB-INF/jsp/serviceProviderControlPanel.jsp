@@ -43,7 +43,7 @@
                 <!-- top tiles -->
                 <div class="row tile_count">
                     <div class="col-md-3 col-sm-3 col-xs-6 tile_stats_count">
-                        <span class="count_top"><i class="fa fa-user"></i> <spring:message code="dashboard.tiles.aptitudes" /></span>
+                        <span class="count_top"><i class="fa fa-client"></i> <spring:message code="dashboard.tiles.aptitudes" /></span>
                         <div class="count"><c:out value="${totalAp}" /></div>
                     </div>
                     <div class="col-md-3 col-sm-3 col-xs-6 tile_stats_count">
@@ -161,8 +161,8 @@
                                                 <a href="<c:url value="/sprovider/reviews" />">
                                                     <div class="pull-left img">
                                                         <c:choose>
-                                                            <c:when test="${review.user.image != null}">
-                                                                <img src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
+                                                            <c:when test="${review.client.image != null}">
+                                                                <img src="<c:url value="/profile/${review.client.id}/profileimage" />" alt="profile picture" />
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
@@ -170,7 +170,7 @@
                                                         </c:choose>
                                                     </div>
                                                     <div class="media-body">
-                                                        <h5 class="title"><c:out value="${review.user.firstname}" /></h5>
+                                                        <h5 class="title"><c:out value="${review.client.firstname}" /></h5>
                                                         <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
                                                     </div>
                                                 </a>

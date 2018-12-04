@@ -17,7 +17,7 @@ public class ReviewDto {
 
     public ReviewDto(Review review) {
         this.id = review.getId();
-        //this.user = new ClientDto(review.getUser());
+        //this.user = new ClientDto(review.getClient());
         //this.aptitude = new AptitudeDto(review.getAptitude());
         this.comment = review.getComment();
         this.scores = new CalificationDto(review);

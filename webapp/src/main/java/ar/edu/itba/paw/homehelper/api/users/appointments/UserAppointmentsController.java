@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.homehelper.api.users.appointments;
 
-import ar.edu.itba.paw.homehelper.dto.AppointmentDto;
-import ar.edu.itba.paw.homehelper.dto.AppointmentListDto;
+import ar.edu.itba.paw.homehelper.dto.AppointmentClientDto;
+import ar.edu.itba.paw.homehelper.dto.AppointmentClientListDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
@@ -39,13 +39,13 @@ public class UserAppointmentsController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(new AppointmentListDto(appointments)).build();
+        return Response.ok(new AppointmentClientListDto(appointments)).build();
     }
 
     @POST
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addAppointment(final AppointmentDto appointmentDTO) {
+    public Response addAppointment(final AppointmentClientDto appointmentDTO) {
 
         if(appointmentDTO == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -79,7 +79,7 @@ public class UserAppointmentsController {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        return Response.ok(new AppointmentDto(appointment)).build();
+        return Response.ok(new AppointmentClientDto(appointment)).build();
     }
 
 

@@ -11,7 +11,7 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="">
-                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <a href="javascript:;" class="client-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <c:choose>
                             <c:when test="${provider.image != null}">
                                 <img src="<c:url value="/profile/${provider.id}/profileimage" />" alt="profile picture" />

@@ -40,13 +40,13 @@
         </div>
         <div class="checkbox">
             <label>
-                <input type="checkbox" name="rememberme" /> <spring:message code="user.rememberme"/>
+                <input type="checkbox" name="rememberme" /> <spring:message code="client.rememberme"/>
             </label>
         </div>
         <div class="form-group">
             <button class="btn btn-primary btn-block" type="submit"><spring:message code="general.login"/></button>
         </div>
-        <div class="forgot"><spring:message code="user.new-user"/>? <a href="<c:url value="/signup"/>" class="register"><spring:message code="general.signup"/></a></div>
+        <div class="forgot"><spring:message code="client.new-client"/>? <a href="<c:url value="/signup"/>" class="register"><spring:message code="general.signup"/></a></div>
     </form>
 </div>
 <!-- jQuery -->

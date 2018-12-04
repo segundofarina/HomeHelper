@@ -44,9 +44,9 @@
                         <div class="row">
                             <div class="col-xs-12 result">
                                 <c:choose>
-                                    <c:when test="${user!= null}">
+                                    <c:when test="${client!= null}">
                                         <h1><spring:message code="verify.success.title"/></h1>
-                                        <p> <spring:message code="verify.success.detail" arguments="${user.firstname}" /></p>
+                                        <p> <spring:message code="verify.success.detail" arguments="${client.firstname}" /></p>
 
                                         <div class="bgImg">
                                             <div class="img successImg"></div>

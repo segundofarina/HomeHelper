@@ -50,7 +50,7 @@
                                 <li role="presentation" class="active">
                                     <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="User details">
                                         <span class="round-tab">
-                                            <i class="fa fa-user"></i>
+                                            <i class="fa fa-client"></i>
                                         </span>
                                     </a>
                                 </li>
@@ -97,7 +97,7 @@
                                             <div class="alert alert-danger"><spring:message code="form.invalid-fields"/></div>
                                         </c:if>
                                         <div class="subtitle">
-                                            <h4><spring:message code="user.details"/></h4>
+                                            <h4><spring:message code="client.details"/></h4>
                                         </div>
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-6">
@@ -106,7 +106,7 @@
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
                                                             <spring:message code="general.firstname" var="placeholder"/>
-                                                            <form:input path="firstname" value="${user.firstname}" type="text" cssClass="form-control" placeholder="${placeholder}"/>
+                                                            <form:input path="firstname" value="${client.firstname}" type="text" cssClass="form-control" placeholder="${placeholder}"/>
                                                         </c:when>
                                                         <c:otherwise>
                                                             <spring:message code="general.firstname" var="placeholder"/>
@@ -121,7 +121,7 @@
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
                                                             <spring:message code="general.lastname" var="placeholder"/>
-                                                            <form:input path="lastname" value="${user.lastname}" type="text" cssClass="form-control" placeholder="${placeholder}"/>
+                                                            <form:input path="lastname" value="${client.lastname}" type="text" cssClass="form-control" placeholder="${placeholder}"/>
                                                         </c:when>
                                                         <c:otherwise>
                                                             <spring:message code="general.lastname" var="placeholder"/>
@@ -137,7 +137,7 @@
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
                                                             <spring:message code="general.email" var="placholder"/>
-                                                            <form:input path="email" value="${user.email}" type="text" cssClass="form-control" placeholder="${placeholder}"/>
+                                                            <form:input path="email" value="${client.email}" type="text" cssClass="form-control" placeholder="${placeholder}"/>
                                                         </c:when>
                                                         <c:otherwise>
                                                             <spring:message code="general.email" var="placeholder"/>
@@ -151,7 +151,7 @@
                                                     <c:choose>
                                                         <c:when test="${hasError == 0}">
                                                             <spring:message code="general.phone" var="placeholder"/>
-                                                            <form:input path="phone" value="${user.phone}" type="text" cssClass="form-control" placeholder="${placeholder}"/>
+                                                            <form:input path="phone" value="${client.phone}" type="text" cssClass="form-control" placeholder="${placeholder}"/>
                                                         </c:when>
                                                         <c:otherwise>
                                                             <spring:message code="general.phone" var="placeholder"/>

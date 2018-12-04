@@ -75,18 +75,18 @@
                                             </thead>
                                             <tbody>
                                             <c:forEach items="${reviews}" var="review">
-                                                <tr class="review-header" data-toggle="collapse" data-target="#review<c:out value="${review.user.id}"/>" aria-expanded="false">
+                                                <tr class="review-header" data-toggle="collapse" data-target="#review<c:out value="${review.client.id}"/>" aria-expanded="false">
                                                     <td>
                                                         <c:choose>
-                                                            <c:when test="${review.user.image != null}">
-                                                                <img class="profileImage" src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
+                                                            <c:when test="${review.client.image != null}">
+                                                                <img class="profileImage" src="<c:url value="/profile/${review.client.id}/profileimage" />" alt="profile picture" />
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <img class="profileImage" src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </td>
-                                                    <td><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></td>
+                                                    <td><c:out value="${review.client.firstname}" /> <c:out value="${review.client.lastname}" /></td>
                                                     <td><c:out value="${review.dateDMY}" /></td>
                                                     <td>
                                                         <div class="stars dyn-stars" data-rating="<c:out value="${review.generalCalification}"/>"></div>
@@ -100,7 +100,7 @@
                                                 <tr class="review-detail">
                                                     <td colspan="5">
                                                         <!-- cambiar por review id -->
-                                                        <div class="collapse info" id="review<c:out value="${review.user.id}"/>">
+                                                        <div class="collapse info" id="review<c:out value="${review.client.id}"/>">
                                                             <div class="content">
                                                                 <div class="row">
                                                                     <div class="col-xs-12 col-md-6 firstCol">

@@ -1,8 +1,8 @@
 package ar.edu.itba.paw.homehelper.api.providers.appointments;
 
 import ar.edu.itba.paw.homehelper.dto.ActionDto;
-import ar.edu.itba.paw.homehelper.dto.AppointmentDto;
-import ar.edu.itba.paw.homehelper.dto.AppointmentListDto;
+import ar.edu.itba.paw.homehelper.dto.AppointmentProviderDto;
+import ar.edu.itba.paw.homehelper.dto.AppointmentProviderListDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
@@ -36,7 +36,7 @@ public class AppointmentsProviderController {
 //            return Response.status(Response.Status.FORBIDDEN).build();
 //        }
         List<Appointment> list = appointmentService.getAppointmentsByProviderId(loggedUser.id());
-        return Response.ok(new AppointmentListDto(list)).build();
+        return Response.ok(new AppointmentProviderListDto(list)).build();
     }
 
     @GET
@@ -47,7 +47,7 @@ public class AppointmentsProviderController {
         if(ap == null || ap.getProvider().getId() != loggedUser.id()){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        return Response.ok(new AppointmentDto(ap)).build();
+        return Response.ok(new AppointmentProviderDto(ap)).build();
     }
 
     @PUT

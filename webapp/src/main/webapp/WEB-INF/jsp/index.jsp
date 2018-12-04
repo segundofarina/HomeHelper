@@ -85,7 +85,7 @@
                         <div class="row">
                             <div class="col-xs-4 img-container">
                                 <c:choose>
-                                    <c:when test="${lastPostProvider.user.image == null}">
+                                    <c:when test="${lastPostProvider.client.image == null}">
                                         <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="profile picture"/>
                                     </c:when>
                                     <c:otherwise>
@@ -94,7 +94,7 @@
                                 </c:choose>
                             </div>
                             <div class="col-xs-8">
-                                <p><c:out value="${lastPostProvider.user.firstname}" /></p>
+                                <p><c:out value="${lastPostProvider.client.firstname}" /></p>
                                 <p class="serviceType"><spring:message code="service-type.${lastPostServiceType}"/></p>
                             </div>
                         </div>
@@ -138,7 +138,7 @@
             (document.getElementById('addressField')),
             {types: ['geocode']});
 
-        // When the user selects an address from the dropdown, populate the address
+        // When the client selects an address from the dropdown, populate the address
         // fields in the form.
         autocomplete.addListener('place_changed', fillInAddress);
     }
@@ -156,7 +156,7 @@
         modifiedAddress = false;
     }
 
-    // Bias the autocomplete object to the user's geographical location,
+    // Bias the autocomplete object to the client's geographical location,
     // as supplied by the browser's 'navigator.geolocation' object.
     function geolocate() {
         if (navigator.geolocation) {

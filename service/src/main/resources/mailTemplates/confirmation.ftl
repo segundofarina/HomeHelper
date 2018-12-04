@@ -190,7 +190,7 @@
                                             </p>
 
                                             <h2 style="font-family: Whitney, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;font-weight: 500;font-size: 20px;color: #4F545C;letter-spacing: 0.27px;">
-                                                Hey ${user.firstname},</h2>
+                                                Hey ${client.firstname},</h2>
                                             <p>Thanks for registering an account with HomeHelper! You're just one step
                                                 away from getting the services you need.</p>
                                             <p>Before we get started, we'll need to verify your email.</p>

@@ -19,32 +19,32 @@
         <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
 
             <c:choose>
-                <c:when test="${user == null}">
+                <c:when test="${client == null}">
                     <a href="<c:url value="/login" />" class="btn btn-custom btn-rounded navbar-right navbar-btn"><spring:message code="general.login"/></a>
                 </c:when>
                 <c:otherwise>
                     <ul class="nav navbar-nav navbar-right">
-                        <%-- Show menu btns only if the user is verified --%>
-                        <c:if test="${user.verified == true}" >
+                        <%-- Show menu btns only if the client is verified --%>
+                        <c:if test="${client.verified == true}" >
                             <li class="active"><a href="<c:url value="/client/messages" />" class="hvr-underline-from-center"><spring:message code="general.messages"/></a></li>
                             <li><a href="<c:url value="/client/appointments" />" class="hvr-underline-from-center"><spring:message code="general.appointments"/></a></li>
                         </c:if>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <c:choose>
-                                    <c:when test="${user.image != null}">
-                                        <img src="<c:url value="/profile/${user.id}/profileimage" />" alt="profile picture" />
+                                    <c:when test="${client.image != null}">
+                                        <img src="<c:url value="/profile/${client.id}/profileimage" />" alt="profile picture" />
                                     </c:when>
                                     <c:otherwise>
                                         <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
                                     </c:otherwise>
                                 </c:choose>
-                                <c:out value="${user.firstname}" />
+                                <c:out value="${client.firstname}" />
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <%-- Show menu btns only if the user is verified --%>
-                                <c:if test="${user.verified == true}" >
+                                <%-- Show menu btns only if the client is verified --%>
+                                <c:if test="${client.verified == true}" >
                                     <c:choose>
                                         <c:when test="${userProviderId != -1}">
                                             <li><a href="<c:url value="/sprovider"/>"><spring:message code="general.switchToProvider"/></a></li>

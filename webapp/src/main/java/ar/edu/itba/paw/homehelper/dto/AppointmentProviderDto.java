@@ -1,30 +1,28 @@
 package ar.edu.itba.paw.homehelper.dto;
 
 import ar.edu.itba.paw.model.Appointment;
-import ar.edu.itba.paw.model.ServiceType;
 
-import java.util.Date;
+public class AppointmentProviderDto {
 
-public class AppointmentDto {
     private int id;
     private ServiceTypeDto serviceType;
-    private BasicProviderDto provider;
+    private BasicUserDto client;
     private String address;
     private String date;
     private String description;
     private boolean hasReview;
     private AppointmentStatusDto status;
 
-    public AppointmentDto() {
+    public AppointmentProviderDto() {
     }
 
-    public AppointmentDto(Appointment appointment) {
+    public AppointmentProviderDto(Appointment appointment) {
         this.id = appointment.getAppointmentId();
         this.serviceType = new ServiceTypeDto(appointment.getServiceType());
         this.address = appointment.getAddress();
         this.date = appointment.getDateDMY(); // TODO: Date should be formated according to given locale
         this.description = appointment.getJobDescripcion();
-        this.provider = new BasicProviderDto(appointment.getProvider());
+        this.client = new BasicUserDto(appointment.getClient());
         this.hasReview = appointment.hasClientReview();
         this.status = new AppointmentStatusDto(appointment.getStatus());
     }
@@ -43,6 +41,14 @@ public class AppointmentDto {
 
     public void setServiceType(ServiceTypeDto serviceType) {
         this.serviceType = serviceType;
+    }
+
+    public BasicUserDto getClient() {
+        return client;
+    }
+
+    public void setClient(BasicUserDto client) {
+        this.client = client;
     }
 
     public String getAddress() {
@@ -67,14 +73,6 @@ public class AppointmentDto {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public BasicProviderDto getProvider() {
-        return provider;
-    }
-
-    public void setProvider(BasicProviderDto provider) {
-        this.provider = provider;
     }
 
     public boolean isHasReview() {

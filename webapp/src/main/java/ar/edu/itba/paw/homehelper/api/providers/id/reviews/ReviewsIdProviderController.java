@@ -37,6 +37,7 @@ public class ReviewsIdProviderController {
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
+    //TODO add st parameter
     public Response getReviews(@PathParam("id") final int id) {
         List<Review> reviews = new ArrayList<>(sProviderService.getReviewsOfServiceProvider(id));
 

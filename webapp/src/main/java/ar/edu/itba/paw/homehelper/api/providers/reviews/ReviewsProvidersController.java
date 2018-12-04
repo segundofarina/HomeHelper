@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Path("/reviews")
+@Path("/providers/reviews")
 @Controller
 public class ReviewsProvidersController {
 

@@ -69,8 +69,8 @@
                             <div class="apt-profile">
                                 <div class="apt-section">
                                     <c:choose>
-                                        <c:when test="${appointment.provider.user.image != null}">
-                                            <img src="<c:url value="/profile/${appointment.provider.user.id}/profileimage" />" alt="profile picture" />
+                                        <c:when test="${appointment.provider.client.image != null}">
+                                            <img src="<c:url value="/profile/${appointment.provider.client.id}/profileimage" />" alt="profile picture" />
                                         </c:when>
                                         <c:otherwise>
                                             <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
@@ -78,7 +78,7 @@
                                     </c:choose>
                                 </div>
                                 <div class="apt-section">
-                                    <h3><c:out value="${appointment.provider.user.firstname}" /> <c:out value="${appointment.provider.user.lastname}" /></h3>
+                                    <h3><c:out value="${appointment.provider.client.firstname}" /> <c:out value="${appointment.provider.client.lastname}" /></h3>
                                 </div>
                                 <div class="apt-section">
                                     <div class="stars dyn-stars" data-rating="<c:out value="${appointment.provider.generalCalification}"/>"></div>

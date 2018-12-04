@@ -58,14 +58,14 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <c:choose>
-                                <c:when test="${provider.user.image != null}">
+                                <c:when test="${provider.client.image != null}">
                                     <img src="<c:url value="/profile/${provider.id}/profileimage" />" alt="profile picture" />
                                 </c:when>
                                 <c:otherwise>
                                     <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
                                 </c:otherwise>
                             </c:choose>
-                            <c:out value="${provider.user.firstname}" />
+                            <c:out value="${provider.client.firstname}" />
                             <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu">
@@ -94,7 +94,7 @@
                 <div class="content">
                     <div class="profileImg">
                         <c:choose>
-                            <c:when test="${provider.user.image != null}">
+                            <c:when test="${provider.client.image != null}">
                                 <img src="<c:url value="/profile/${provider.id}/profileimage" />" alt="profile picture" />
                             </c:when>
                             <c:otherwise>
@@ -103,7 +103,7 @@
                         </c:choose>
                     </div>
                     <div class="name">
-                        <h3><c:out value="${provider.user.firstname}"/> <c:out value="${provider.user.lastname}"/></h3>
+                        <h3><c:out value="${provider.client.firstname}"/> <c:out value="${provider.client.lastname}"/></h3>
                     </div>
                     <div class="serviceType">
                         <c:forEach items="${provider.aptitudes}" var="aptitude">
@@ -243,21 +243,21 @@
                                                         <div class="col-xs-6 col-sm-3 col-md-2">
                                                             <div class="profileImg">
                                                                 <c:choose>
-                                                                    <c:when test="${review.user.image != null}">
-                                                                        <img src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
+                                                                    <c:when test="${review.client.image != null}">
+                                                                        <img src="<c:url value="/profile/${review.client.id}/profileimage" />" alt="profile picture" />
                                                                     </c:when>
                                                                     <c:otherwise>
                                                                         <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                                 <div class="name hidden-xs">
-                                                                    <h5><c:out value="" /><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></h5>
+                                                                    <h5><c:out value="" /><c:out value="${review.client.firstname}" /> <c:out value="${review.client.lastname}" /></h5>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-6 col-sm-9 col-md-10 divider-left">
                                                             <div class="name visible-xs">
-                                                                <h5><c:out value="${review.user.username}" /></h5>
+                                                                <h5><c:out value="${review.client.username}" /></h5>
                                                             </div>
                                                             <div class="date"><c:out value="${review.date}" /></div>
                                                             <div class="dotDivider hidden-xs">&#x25CF;</div>
@@ -299,21 +299,21 @@
                                                         <div class="col-xs-6 col-sm-3 col-md-2">
                                                             <div class="profileImg">
                                                                 <c:choose>
-                                                                    <c:when test="${review.user.image != null}">
-                                                                        <img src="<c:url value="/profile/${review.user.id}/profileimage" />" alt="profile picture" />
+                                                                    <c:when test="${review.client.image != null}">
+                                                                        <img src="<c:url value="/profile/${review.client.id}/profileimage" />" alt="profile picture" />
                                                                     </c:when>
                                                                     <c:otherwise>
                                                                         <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
                                                                     </c:otherwise>
                                                                 </c:choose>
                                                                 <div class="name hidden-xs">
-                                                                    <h5><c:out value="" /><c:out value="${review.user.firstname}" /> <c:out value="${review.user.lastname}" /></h5>
+                                                                    <h5><c:out value="" /><c:out value="${review.client.firstname}" /> <c:out value="${review.client.lastname}" /></h5>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-xs-6 col-sm-9 col-md-10 divider-left">
                                                             <div class="name visible-xs">
-                                                                <h5><c:out value="${review.user.username}" /></h5>
+                                                                <h5><c:out value="${review.client.username}" /></h5>
                                                             </div>
                                                             <div class="date"><c:out value="${review.date}" /></div>
                                                             <div class="dotDivider hidden-xs">&#x25CF;</div>

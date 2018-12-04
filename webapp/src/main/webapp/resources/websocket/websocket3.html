@@ -10,7 +10,7 @@
             stompClient = Stomp.over(socket);  
             stompClient.connect({'X-Authorization': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0aW5jaG92aWN0b3J5MyIsImp0aSI6IjIifQ.0qa8ryVqu0qlIc2NhAPYAxb9QWi4F0s6I4qPrl8WV9th209wvEt4QxSIvseXBu_FCzx6rAWiT1oC7qpe9oF24Q'}, function(frame) {
                 console.log('Connected: ' + frame);
-                stompClient.subscribe('/user/queue/messages', function(messageOutput) {
+                stompClient.subscribe('/client/queue/messages', function(messageOutput) {
                     console.log('msgOutput: ' + messageOutput)
                     try {
                         var msgObj = JSON.parse(messageOutput.bod)

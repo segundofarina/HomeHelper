@@ -43,15 +43,25 @@ public class ProvidersController {
             @QueryParam("page") @DefaultValue(CURRENT_PAGE) final int page,
             @QueryParam("pageSize") @DefaultValue(PAGE_SIZE) final int pageSize) {
 
-        if(latitude == null && longitude != null || latitude != null && longitude == null) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-
         if(page < 1 || pageSize < 1) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+        Set<SProvider> providers;
 
-        Set<SProvider> providers = sProviderService.getServiceProviders(); // TODO: get sorted and paginated providers, procesing all params (st, lat, lng, page, pageSize)
+        if(latitude == null && longitude == null && serviceTypeId!= null){
+            providers = sProviderService.getServiceProviders(); // TODO: service to get providers by serviceType
+        } else if(latitude != null && longitude != null && serviceTypeId == null){
+            providers = sProviderService.getServiceProviders(); // TODO: service to get providers by workingZone
+        } else if(latitude !=null && longitude != null && serviceTypeId != null){
+            providers = sProviderService.getServiceProviders();
+        }else{
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+
+
+
+         // TODO: get sorted and paginated providers, procesing all params (st, lat, lng, page, pageSize)
 
         final int maxPage = (int) Math.ceil((double) providers.size() / pageSize); // TODO: get max page from sProviderService
 

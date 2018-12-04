@@ -82,8 +82,8 @@
                                     <div class="col-xs-6 col-sm-2">
                                         <div class="profileImg">
                                             <c:choose>
-                                                <c:when test="${provider.user.image != null}">
-                                                    <img src="<c:url value="/profile/${provider.user.id}/profileimage" />" alt="Profile picture" />
+                                                <c:when test="${provider.client.image != null}">
+                                                    <img src="<c:url value="/profile/${provider.client.id}/profileimage" />" alt="Profile picture" />
                                                 </c:when>
                                                 <c:otherwise>
                                                     <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="Profile picture" />
@@ -92,13 +92,13 @@
 
                                             <div class="profileBtn hidden-xs">
 
-                                                <a href="<c:url value="/profile/${provider.user.id}?st=${serviceTypeId}" />" class="btn btn-success btn-sm"><spring:message code="profile.view-profile"/></a>
+                                                <a href="<c:url value="/profile/${provider.client.id}?st=${serviceTypeId}" />" class="btn btn-success btn-sm"><spring:message code="profile.view-profile"/></a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-10">
                                         <div class="moveLeft">
-                                            <h3 class="profileName"><c:out value="${provider.user.firstname}"/> <c:out value="${provider.user.lastname}"/></h3>
+                                            <h3 class="profileName"><c:out value="${provider.client.firstname}"/> <c:out value="${provider.client.lastname}"/></h3>
                                             <span class="separatorDot">&#x25CF;</span>
                                             <h5 class="serviceTypes">
                                                 <c:forEach items="${provider.aptitudes}" var="aptitude">
@@ -128,7 +128,7 @@
                                     </div>
                                 </div>
                                 <div class="profileBtn visible-xs">
-                                    <a href="<c:url value="/profile/${provider.user.id}?st=${serviceTypeId}" />" class="btn btn-success btn-sm btn-full-width"><spring:message code="profile.view-profile"/></a>
+                                    <a href="<c:url value="/profile/${provider.client.id}?st=${serviceTypeId}" />" class="btn btn-success btn-sm btn-full-width"><spring:message code="profile.view-profile"/></a>
                                 </div>
                             </div>
                         </div>
@@ -184,7 +184,7 @@
             (document.getElementById('addressField')),
             {types: ['geocode']});
 
-        // When the user selects an address from the dropdown, populate the address
+        // When the client selects an address from the dropdown, populate the address
         // fields in the form.
         autocomplete.addListener('place_changed', fillInAddress);
     }
@@ -202,7 +202,7 @@
         modifiedAddress = false;
     }
 
-    // Bias the autocomplete object to the user's geographical location,
+    // Bias the autocomplete object to the client's geographical location,
     // as supplied by the browser's 'navigator.geolocation' object.
     function geolocate() {
         if (navigator.geolocation) {

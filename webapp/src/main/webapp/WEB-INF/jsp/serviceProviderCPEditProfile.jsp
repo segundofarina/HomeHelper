@@ -104,7 +104,7 @@
                                             <div class="col-md-8 col-sm-8 col-xs-12">
                                                 <div class="form-group">
                                                     <label><spring:message code="sprovider.full-name"/>:</label>
-                                                    <p data-ref="fullName"><c:out value="${serviceProvider.user.firstname}" /> <c:out value="${serviceProvider.user.lastname}" /></p>
+                                                    <p data-ref="fullName"><c:out value="${serviceProvider.client.firstname}" /> <c:out value="${serviceProvider.client.lastname}" /></p>
                                                 </div>
                                                 <div class="form-group">
                                                     <form:label path="generalDescription"><spring:message code="general.description"/>:</form:label>

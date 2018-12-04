@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS messages(
   msgId SERIAL PRIMARY KEY,
   userFrom INTEGER REFERENCES users(userId),
   userTo  INTEGER REFERENCES users(userId),
-  user INTEGER REFERENCES users(userId),
+  client INTEGER REFERENCES users(userId),
   provider INTEGER REFERENCES users(userId),
   message VARCHAR(10000),
   read BOOLEAN,
