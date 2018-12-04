@@ -1,0 +1,62 @@
+.AppointmentTable {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+@media (min-width: 768px) {
+    .AppointmentTable {
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) {
+    .AppointmentTable {
+        width: 970px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .AppointmentTable {
+        width: 1170px;
+    }
+}
+
+.Title {
+    border-bottom: 2px solid #E6E9ED;
+    padding: 1px 5px 6px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.Title h3 {
+    margin: 5px 0 6px;
+    font-size: 18px;
+    color: #73879C;
+    font-weight: 500;
+}
+
+.TableContainer {
+    padding: 15px;
+}
+
+.ReviewIcon {
+    margin-right: 5px;
+    font-size: 10px;
+    vertical-align: baseline;
+}
+
+.ChangeBtn {
+    margin: 0;
+    font-weight: 700;
+    background-color: transparent;
+    border: 1px solid #6c757d;
+    color: #6c757d;
+    transition: 0.5s ease-in-out;
+}
+
+.ChangeBtn:hover {
+    background-color: #6c757d;
+    border: 1px solid #6c757d;
+    color: #fff;
+}

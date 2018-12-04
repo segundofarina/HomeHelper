@@ -1,0 +1,45 @@
+.ContactItem {
+    color: #32465a;
+    text-decoration: none;
+    margin: auto;
+    padding: 10px 0;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.ContactItem:hover {
+    background: #eaeaea;
+}
+
+.ContactItem.Active {
+    background: #d8d8d8;
+}
+
+.Wrap {
+    width: 88%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+
+.ProfilePicture {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.Name {
+    font-weight: 600;
+    margin: 0 0 10px 0;
+}
+
+.Msg {
+    margin: 5px 0 0 0;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12.6px;
+}

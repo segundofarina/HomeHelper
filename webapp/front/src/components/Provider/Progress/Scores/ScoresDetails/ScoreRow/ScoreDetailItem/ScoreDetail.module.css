@@ -1,0 +1,27 @@
+.ScoreDetailItem {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    font-size: 16px;
+    padding: 7px 0;
+}
+
+.Star {
+    margin-right: 20px;
+    margin-left: 10px;
+    color: #efe002;
+}
+
+.ProgressBar {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.ScoreDetailItem p {
+    margin: 0;
+}
+
+.Percentage {
+    width: 50px;
+    text-align: right;
+}

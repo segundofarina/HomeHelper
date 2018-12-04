@@ -1,0 +1,39 @@
+.Appointments {
+    width: 100%;
+    flex: 1;
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.ProfilePicture {
+    height: 38px;
+    width: 38px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.ActionBtns {
+    margin: 0;
+}
+
+.AcceptBtn {
+    margin: 0;
+    margin-left: 10px;
+}
+
+.ActionBtnsContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.SectionTitle {
+    margin-top: 40px;
+    margin-bottom: 0;
+}
+
+.Multibutton {
+    margin-left: 20px;
+    margin-top: 20px;
+}

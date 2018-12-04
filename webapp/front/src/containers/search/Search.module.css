@@ -1,0 +1,27 @@
+.Container{
+    display: flex;
+    flex-wrap: nowrap;
+    background-color: #F7F7F7;
+    min-height: 100%;
+    width: 100%;
+    justify-content: space-between;
+}
+.LeftPanel{
+    width: 25%;
+    position: -webkit-sticky;
+    position:sticky;
+    height: 300px;
+    top: 95px;
+    margin-top: 30px;
+}
+
+.SearchComponent{
+    margin: 20px 20px 0 40px;
+    
+}
+.Results{
+    display: flex;
+    padding: 40px 40px 40px 0;
+    flex-direction: column;
+    width: 75%;
+}

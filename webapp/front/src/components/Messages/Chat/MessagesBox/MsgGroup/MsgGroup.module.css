@@ -1,0 +1,14 @@
+.MsgGroup {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    flex-shrink: 0;
+}
+
+.Yours {
+    align-items: flex-start;
+}
+
+.Mine {
+    align-items: flex-end;
+}

@@ -1,0 +1,47 @@
+.MenuBtn {
+    padding: 15px 20px;
+    color: #444444;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 32px;
+    vertical-align: middle;
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.MenuBtn:hover {
+    background-color: #eee;
+}
+
+.MenuBtn:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 51%;
+    right: 51%;
+    bottom: 0;
+    background: #26b99a;
+    height: 4px;
+    -webkit-transition-property: left, right;
+    transition-property: left, right;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+.MenuBtn:hover:before, .MenuBtn:focus:before, .MenuBtn:active:before, .MenuBtn.active:before {
+    left: 0;
+    right: 0;
+}
+
+.active:before {
+    left: 0;
+    right: 0;
+}
+
+.MenuBtn.Provider:before {
+    background: #FE4C89;
+}
