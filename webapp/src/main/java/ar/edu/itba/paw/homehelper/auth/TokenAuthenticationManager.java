@@ -40,7 +40,6 @@ public class TokenAuthenticationManager implements AuthenticationManager {
 
         try {
             Jws<Claims> verifiedToken = Jwts.parser().setSigningKey(key).parseClaimsJws(tokenString);
-            System.out.println(verifiedToken);
 
             HHUserDetails userDetails = getUserDetailFromToken(verifiedToken.getBody());
 
