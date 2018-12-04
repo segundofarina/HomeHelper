@@ -3,10 +3,18 @@ import styles from './Progress.module.css'
 import MultiButton from '../../../components/UI/MultiButton/MultiButton'
 import Scores from '../../../components/Provider/Progress/Scores/Scores'
 import Reviews from '../../../components/Provider/Progress/Reviews/Reviews'
+import { connect } from 'react-redux'
+import * as userDataActions from '../../../store/actions/userDataActions'
 
 class Progress extends Component {
     state = {
         showingSection: 1,
+    }
+
+    componentWillMount() {
+        if(!this.props.showingProvider) {
+            this.props.setUsingProvider()
+        }
     }
 
     handleBtnChange = (id) => {
@@ -47,4 +55,16 @@ class Progress extends Component {
     }
 }
 
-export default Progress
+const mapStateToProps = state => {
+    return {
+        showingProvider: state.userData.showingProvider,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setUsingProvider: () => dispatch(userDataActions.updateUsingProvider(true)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Progress)

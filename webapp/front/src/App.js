@@ -14,6 +14,11 @@ import Review from './containers/review/Review'
 import Forbidden from './components/Errors/Forbidden/Forbidden'
 import Loading from './components/Status/Loading/Loading'
 
+import ProviderDashboard from './containers/provider/dashboard/Dashboard'
+import ProviderMessages from './containers/provider/messages/Messages'
+import ProviderAppointments from './containers/provider/appointments/Appointments'
+import ProviderProgress from './containers/provider/progress/Progress'
+
 import * as userDataAction from './store/actions/userDataActions'
 
 import Test from './containers/testing/testing'
@@ -33,7 +38,7 @@ class App extends Component {
     }
 
     return (
-      <BrowserRouter>
+      <BrowserRouter basename='/paw-2018a-4'>
         <div className={styles.app}>
           <Switch>
             <Route path="/login" exact component={Login} />
@@ -47,10 +52,10 @@ class App extends Component {
                 <PrivateRoute path="/appointments" exact component={Appointments} authenticated={this.props.isAuthenticated} />
                 <PrivateRoute path="/writeReview" exact component={Review} authenticated={this.props.isAuthenticated} />
 
-                <PrivateRoute path="/provider" exact component={Forbidden} authenticated={this.props.isProvider} />
-                <PrivateRoute path="/provider/messages" exact component={Forbidden} authenticated={this.props.isProvider} />
-                <PrivateRoute path="/provider/appointments" exact component={Forbidden} authenticated={this.props.isProvider} />
-                <PrivateRoute path="/provider/progress" exact component={Forbidden} authenticated={this.props.isProvider} />
+                <PrivateRoute path="/provider" exact component={ProviderDashboard} authenticated={this.props.isProvider} />
+                <PrivateRoute path="/provider/messages" exact component={ProviderMessages} authenticated={this.props.isProvider} />
+                <PrivateRoute path="/provider/appointments" exact component={ProviderAppointments} authenticated={this.props.isProvider} />
+                <PrivateRoute path="/provider/progress" exact component={ProviderProgress} authenticated={this.props.isProvider} />
                 
                 <Route path="/test" exact component={Test}/>
                 <Route path="/forbidden" exact component={Forbidden} />

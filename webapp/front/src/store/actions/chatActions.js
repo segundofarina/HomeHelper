@@ -59,9 +59,9 @@ export const chatInit = (args = chatInitDefault) => {
         dispatch(loadingChats())
         dispatch(currentChatUpdate(null))
 
-        let path = '/messages'
+        let path = '/users/messages'
         if(!args.usingAsClient) {
-            path += '?provider=true'
+            path = '/providers/messages'
         }
 
         /* Async fetch the api */

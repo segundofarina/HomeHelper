@@ -36,7 +36,7 @@ export const profileInit = (id) =>{
     return async dispatch =>{
         dispatch(profileInitLoading())
         try{
-            const results = await axios.get('/providers/'+id)
+            const results = await axios.get(`/providers/${id}`)
             dispatch(profileInitDone(results.data))
         }
         catch(error){

@@ -8,6 +8,7 @@ import Status from '../../../components/Messages/Status/Status'
 import SelectChatMsg from '../../../components/Messages/SelectChatMsg/SelectChatMsg'
 import * as chatActions from '../../../store/actions/chatActions'
 import * as apiStatus from '../../../store/apiStatus'
+import * as userDataActions from '../../../store/actions/userDataActions'
 
 class Messages extends Component {
     state = {
@@ -15,6 +16,12 @@ class Messages extends Component {
     }
 
     websocketRef = React.createRef()
+
+    componentWillMount() {
+        if(!this.props.showingProvider) {
+            this.props.setUsingProvider()
+        }
+    }
 
     componentDidMount() {
         if(this.props.status === apiStatus.API_STATUS_NONE || this.props.usingAsClient) {
@@ -110,7 +117,7 @@ class Messages extends Component {
             } else {
                 element = (
                     <Fragment>
-                        <SockJsClient url="http://localhost:8080/websocket" 
+                        <SockJsClient url="http://localhost:8080/ws/websocket" 
                                     ref={this.websocketRef} 
                                     topics={["/user/queue/messages"]} 
                                     onMessage={this.handleRecvMsg} 
@@ -143,6 +150,7 @@ const mapStateToProps = state => {
         status: state.chat.status,
         usingAsClient: state.chat.usingAsClient,
         token: state.userData.userData.token,
+        showingProvider: state.userData.showingProvider,
     }
 }
 
@@ -155,6 +163,7 @@ const mapDispatchToProps = dispatch => {
         })),
         chatUpdateIsNewMsg: () => dispatch(chatActions.chatUpdateIsNewMsg()),
         chatUseAsProvider: () => dispatch(chatActions.chatUpdateUsingAsClient(false)),
+        setUsingProvider: () => dispatch(userDataActions.updateUsingProvider(true)),
     }
 }
 

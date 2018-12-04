@@ -17,7 +17,7 @@ import appointmentsReducer from './store/reducers/appointmentsReducer'
 import userDataReducer from './store/reducers/userDataReducer'
 import providerAppointmentsReducer from './store/reducers/providerAppointmentsReducer'
 
-axios.defaults.baseURL = 'http://localhost:8080/api'
+axios.defaults.baseURL = '/api'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

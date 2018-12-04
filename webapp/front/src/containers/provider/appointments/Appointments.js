@@ -11,6 +11,7 @@ import Badge from '../../../components/UI/Badge/Badge'
 import Button from '../../../components/UI/Button/Button'
 import EmptyTable from '../../../components/Provider/Appointments/EmptyTable/EmptyTable'
 import MultiButton from '../../../components/UI/MultiButton/MultiButton'
+import * as userDataActions from '../../../store/actions/userDataActions'
 
 class Appointments extends Component {
     state = {
@@ -23,6 +24,12 @@ class Appointments extends Component {
         2: 'info',
         3: 'success',
         4: 'danger'
+    }
+    
+    componentWillMount() {
+        if(!this.props.showingProvider) {
+            this.props.setUsingProvider()
+        }
     }
 
     componentDidMount () {
@@ -83,7 +90,7 @@ class Appointments extends Component {
         */
 
         let rows = []
-        if(this.state.showingPending) {
+        if(this.state.showingSection === 1) {
             rows = this.props.appointments.filter(appointment => {
                 return appointment.status.id === 1 ||  appointment.status.id === 2
             }).map(appointment => {
@@ -106,7 +113,7 @@ class Appointments extends Component {
                     id: appointment.id,
                     columns: [
                         (<img src={defaultImg} alt="" className={styles.ProfilePicture} />),
-                        `${appointment.user.firstName}`,
+                        `${appointment.client.firstName}`,
                         `${appointment.date}`,
                         `${appointment.address}`,
                         `${appointment.serviceType.name}`,
@@ -124,7 +131,7 @@ class Appointments extends Component {
                     id: appointment.id,
                     columns: [
                         (<img src={defaultImg} alt="" className={styles.ProfilePicture} />),
-                        `${appointment.user.firstName} ${appointment.user.lastName}`,
+                        `${appointment.client.firstName} ${appointment.client.lastName}`,
                         `${appointment.date}`,
                         `${appointment.address}`,
                         `${appointment.serviceType.name}`,
@@ -178,12 +185,14 @@ const mapStateToProps = state => {
     return {
         status: state.providerAppointments.status,
         appointments: state.providerAppointments.appointments,
+        showingProvider: state.userData.showingProvider,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         appointmentsInit: () => dispatch(providerAppointmentsActions.providerAppointmentsInit()),
+        setUsingProvider: () => dispatch(userDataActions.updateUsingProvider(true)),
     }
 }
 

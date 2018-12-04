@@ -104,7 +104,7 @@ class Messages extends Component {
             } else {
                 element = (
                     <Fragment>
-                        <SockJsClient url="http://localhost:8080/websocket" 
+                        <SockJsClient url="http://localhost:8080/ws/websocket" 
                                     ref={this.websocketRef} 
                                     topics={["/user/queue/messages"]} 
                                     onMessage={this.handleRecvMsg} 

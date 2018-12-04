@@ -26,10 +26,15 @@ export const searchResultsUpdateDone = (providers, currentPage) => {
 export const searchResultsUpdate = (location, serviceType) => {
     return async dispatch => {
         dispatch(searchResultsUpdateLoading())
+
+        let url = `/providers?st=${serviceType}`
+        if(location) {
+            url += `&location=${location}`
+        }
  
         /* Async code to fetch new results */
         try {
-            const ans = await axios.get(`/providers?st=${serviceType}`)
+            const ans = await axios.get(url)
             dispatch(searchResultsUpdateDone(ans.data.providers, ans.data.page))
         } catch(error) {
             dispatch(searchResultsUpdateError())
