@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper.api.providers.id.reviews;
 
 
+import ar.edu.itba.paw.homehelper.dto.CalificationDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewsListDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
@@ -20,7 +21,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 @Path("/providers/{id}/reviews")
 public class ReviewsIdProviderController {
@@ -63,26 +63,26 @@ public class ReviewsIdProviderController {
     public Response addReview(@QueryParam("appId") final Integer appointmentId,final ReviewDto review) {
         /* TODO check if user is allowed to make the review" */
 
-        double [] score = new double [review.getScores().getCalifications().size()];
-
-        int i = 0;
-
-        for(Map.Entry<String,Double> calification : review.getScores().getCalifications().entrySet()){
-            score[i++] = (double) calification.getValue();
+        if(appointmentId == null || review == null || review.getComment() == null || review.getScores() ==null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        if(review.getScores().getQuality() == null || review.getScores().getCleanness()== null ||
+                review.getScores().getPrice()== null || review.getScores().getPunctuality()== null || review.getScores().getTreatment() == null ){
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        appointmentService.reviewAppointment(
+            appointmentService.reviewAppointment(
                 appointmentId,
                 loggedUser.id(),
-                1,
-                (int)score[1],
-                (int)score[2],
-                (int) score[3],
-                (int)score[4],
-                (int)score[5],
+                -1,//TODO review only by appointment id
+                review.getScores().getQuality().intValue(),
+                review.getScores().getCleanness().intValue(),
+                review.getScores().getPrice().intValue(),
+                review.getScores().getPunctuality().intValue(),
+                review.getScores().getTreatment().intValue(),
                 review.getComment()
                 );
-        final Review newReview = null;
+        final Review newReview = null;//TODO esto
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(/*newReview.getId()*/"1")).build();
 
         return Response.created(uri).build();

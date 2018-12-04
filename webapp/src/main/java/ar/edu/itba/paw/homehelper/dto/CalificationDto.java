@@ -9,56 +9,78 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class CalificationDto {
-
-    //TODO change this it does not work
-    private TreeMap<String,Double> califications;
+    private Double quality;
+    private Double cleanness;
+    private Double price;
+    private Double punctuality;
+    private Double treatment;
+    private Double general;
 
     public CalificationDto() {
     }
 
-    public CalificationDto(Aptitude aptitude, Locale locale, MessageSource messageSource) {
-        califications = new TreeMap<>();
-        int i = 1;
-        califications.put(messageSource.getMessage("form.calification."+i++,null,locale),aptitude.getQualityCalification());
-        califications.put(messageSource.getMessage("form.calification."+i++,null,locale),aptitude.getCleannessCalification());
-        califications.put(messageSource.getMessage("form.calification."+i++,null,locale),aptitude.getPriceCalification());
-        califications.put(messageSource.getMessage("form.calification."+i++,null,locale),aptitude.getPunctualityCalification());
-        califications.put(messageSource.getMessage("form.calification."+i++,null,locale),aptitude.getTreatmentCalification());
-        califications.put(messageSource.getMessage("form.calification."+i++,null,locale),aptitude.getGeneralCalification());
+    public CalificationDto(Aptitude aptitude) {
+        this.quality = aptitude.getQualityCalification();
+        this.cleanness = aptitude.getCleannessCalification();
+        this.price = aptitude.getPriceCalification();
+        this.punctuality = aptitude.getPunctualityCalification();
+        this.treatment = aptitude.getTreatmentCalification();
+        this.general = aptitude.getGeneralCalification();
     }
 
-    public CalificationDto(Review review, Locale locale, MessageSource messageSource) {
-        califications = new TreeMap<>();
-        int i=1;
-        califications.put(messageSource.getMessage("form.calification."+i++,null,locale), (double) review.getQualityCalification());
-        califications.put(messageSource.getMessage("form.calification."+i++,null,locale), (double) review.getCleannessCalification());
-        califications.put(messageSource.getMessage("form.calification."+i++,null,locale), (double) review.getPriceCalification());
-        califications.put(messageSource.getMessage("form.calification."+i++,null,locale), (double) review.getPunctualityCalification());
-        califications.put(messageSource.getMessage("form.calification."+i++,null,locale), (double) review.getTreatmentCalification());
-
-        int general = 0;
-        for(Double calification: califications.values()){
-            general+=calification;
-        }
-        califications.put("form.calification."+i,(double) general/califications.size());
+    public CalificationDto(Review review) {
+        this.quality =  (double) review.getQualityCalification();
+        this.cleanness = (double) review.getCleannessCalification();
+        this.price = (double) review.getPriceCalification();
+        this.punctuality =(double) review.getPunctualityCalification();
+        this.treatment = (double)review.getTreatmentCalification();
+        this.general =(double) review.getGeneralCalification();
+    }
+    public Double getQuality() {
+        return quality;
     }
 
-    /* Debugging */
-
-    @Override
-    public String toString() {
-        String ans = "CalificationDto{";
-
-        for(Map.Entry<String,Double> calification : califications.entrySet()){
-            ans += calification.getKey()+":"+calification.getValue();
-        }
-
-        ans += "}";
-
-        return ans;
+    public void setQuality(double quality) {
+        this.quality = quality;
     }
 
-    public TreeMap<String, Double> getCalifications() {
-        return califications;
+    public Double getCleanness() {
+        return cleanness;
+    }
+
+    public void setCleanness(double cleanness) {
+        this.cleanness = cleanness;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public Double getPunctuality() {
+        return punctuality;
+    }
+
+    public void setPunctuality(double punctuality) {
+        this.punctuality = punctuality;
+    }
+
+    public Double getTreatment() {
+        return treatment;
+    }
+
+    public void setTreatment(double treatment) {
+        this.treatment = treatment;
+    }
+
+    public Double getGeneral() {
+        return general;
+    }
+
+    public void setGeneral(double general) {
+        this.general = general;
     }
 }

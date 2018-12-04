@@ -52,6 +52,10 @@ public class AppointmentsProviderController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProviderAppointment(@PathParam("id") final Integer id){
 
+        if(id == null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
         Locale locale = request.getLocale();
 
         Appointment ap = appointmentService.getAppointment(id);
@@ -65,12 +69,18 @@ public class AppointmentsProviderController {
     @PUT
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateAppointment(@PathParam("id") final int id, final String action) {
+    public Response updateAppointment(@PathParam("id") final Integer id, final String action) {
 
+        if(id == null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
         final Appointment appointment = appointmentService.getAppointment(id);
 
-        if(appointment == null){
+        if(appointment == null ){
             return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        if(appointment.getProvider().getId() != loggedUser.id()){
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
 
         final boolean updateAppointment;
@@ -80,7 +90,7 @@ public class AppointmentsProviderController {
         if(update == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }else if(update.equals(ActionDto.CONFIRM)){
-            updateAppointment = appointmentService.confirmAppointment(appointment.getAppointmentId()); //TODO check if logged in user is allowed to change the status
+            updateAppointment = appointmentService.confirmAppointment(appointment.getAppointmentId());
         }else if(update.equals(ActionDto.COMPLETE)){
             updateAppointment = appointmentService.completedAppointment(appointment.getAppointmentId());
         }else{

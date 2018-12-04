@@ -21,7 +21,7 @@ public class ReviewDto {
         //this.aptitude = new AptitudeDto(review.getAptitude());
 
         this.comment = review.getComment();
-        this.scores = new CalificationDto(review,locale,messageSource);
+        this.scores = new CalificationDto(review);
         this.date = review.getDateDMY();
     }
 

@@ -1,12 +1,9 @@
 package ar.edu.itba.paw.homehelper.api.providers;
-
 import ar.edu.itba.paw.homehelper.dto.*;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
-import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.CoordenatesPoint;
 import ar.edu.itba.paw.model.SProvider;
-import ar.edu.itba.paw.model.ServiceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -15,8 +12,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Path("providers")
 @Controller
@@ -37,7 +32,7 @@ public class ProvidersController {
     @Autowired
     private MessageSource messageSource;
 
-    private final static String CURRENT_PAGE = "0";
+    private final static String CURRENT_PAGE = "1";
     private final static String PAGE_SIZE = "100";
 
     @GET
@@ -55,6 +50,7 @@ public class ProvidersController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         List<SProvider> providers;
+
 
         if(latitude == null && longitude == null && serviceTypeId!= null){
             providers = sProviderService.getServiceProvidersByServiceType(serviceTypeId,loggedUser.id(),page,pageSize);
@@ -74,7 +70,7 @@ public class ProvidersController {
 
         final int maxPage = (int) Math.ceil((double) providers.size() / pageSize); // TODO: get max page from sProviderService
 
-        if(page > maxPage) { // TODO: this should be before searching for providers
+        if(page > maxPage && maxPage != 0) { // TODO: this should be before searching for providers
 
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

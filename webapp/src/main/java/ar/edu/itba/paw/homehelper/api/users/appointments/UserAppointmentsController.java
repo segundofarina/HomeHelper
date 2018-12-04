@@ -26,6 +26,7 @@ public class UserAppointmentsController {
 
     @Autowired
     AppointmentService appointmentService;
+
     @Context
     private UriInfo uriInfo;
 
