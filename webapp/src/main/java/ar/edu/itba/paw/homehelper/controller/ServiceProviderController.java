@@ -42,12 +42,6 @@ public class ServiceProviderController {
     private AptitudeService aptitudeService;
 
     @Autowired
-    private WorkingZonesService workingZonesService;
-
-    @Autowired
-    private NeighborhoodService neighborhoodService;
-
-    @Autowired
     private TempImagesService tempImagesService;
 
     @Autowired
@@ -316,8 +310,6 @@ public class ServiceProviderController {
 
         mav.addObject("img", -1);
 
-        mav.addObject("workingZones", workingZonesService.getWorkingZonesOfProvider(providerId));
-        mav.addObject("neightbourhoods", neighborhoodService.getAllNeighborhoods());
 
         return mav;
     }
@@ -359,7 +351,7 @@ public class ServiceProviderController {
             double lat = Double.parseDouble(coord[0]);
             double lng = Double.parseDouble(coord[1]);
             //add working zone
-            coordenatesSet.add(new CoordenatesPoint(i, lat, lng));
+            coordenatesSet.add(new CoordenatesPoint(loggedInUser.getId(),i, lat, lng));
         }
         coordenatesService.insertCoordenatesOfProvider(loggedInUser.getId(), coordenatesSet);
 

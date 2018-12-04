@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.daos;
 
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.UserImage;
 
 import java.util.Optional;
 
@@ -29,6 +30,8 @@ public interface UserDao {
 
 
     Optional<User> findById(int id);
+
+    Optional<UserImage> getImage(int userId);
 
     boolean updatePasswordOfUser(int userId, String password);
 

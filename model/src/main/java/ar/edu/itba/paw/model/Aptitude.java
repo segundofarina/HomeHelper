@@ -46,6 +46,11 @@ public class Aptitude {
         this.sProvider = sProvider;
     }
 
+    public Aptitude(ServiceType service, String description) {
+        this.service = service;
+        this.description = description;
+    }
+
     public ServiceType getService() {
         return service;
     }

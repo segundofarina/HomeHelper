@@ -3,21 +3,18 @@ package ar.edu.itba.paw.homehelper.api.providers;
 import ar.edu.itba.paw.homehelper.dto.*;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
+import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.CoordenatesPoint;
-import ar.edu.itba.paw.model.Neighborhood;
 import ar.edu.itba.paw.model.SProvider;
+import ar.edu.itba.paw.model.ServiceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -96,19 +93,41 @@ public class ProvidersController {
         if(loggedUser.isProvider()){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        //TODO make only one transactional service
-        SProvider provider = sProviderService.create(loggedUser.id(),providerDto.getDescription());
 
-        providerDto.getAptitudes().stream().forEach( apt -> sProviderService.addAptitude(provider.getId(),apt.getServiceTypeId(), apt.getDescription()));
+        Map<Integer,String> aptitudes = new HashMap<>();
 
-        List<CoordenateDto> workingZone = providerDto.getWorkingZone();
+        for(BasicAptitudeDto aptitudeDto: providerDto.getAptitudes()){
+            aptitudes.put(aptitudeDto.getServiceTypeId(),aptitudeDto.getDescription());
+        }
 
-        sProviderService.addCoordenates(loggedUser.id(),
-                IntStream.range(0,workingZone.size())
-                        .mapToObj(i -> new CoordenatesPoint(i,workingZone.get(i).getLat(),workingZone.get(i).getLat())).collect(Collectors.toSet())
-        );
+        Set<CoordenatesPoint> coordenates = new HashSet<>();
 
-        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(provider.getId())).build();
+        int i = 0;
+
+        for(CoordenateDto coordenateDto: providerDto.getWorkingZone()){
+            coordenates.add(new CoordenatesPoint(loggedUser.id(),i++,coordenateDto.getLat(),coordenateDto.getLng()));
+        }
+
+        Optional<SProvider> provider = sProviderService.create(loggedUser.id(),providerDto.getDescription(),aptitudes,coordenates);
+
+        if(!provider.isPresent()){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
+
+//        SProvider provider = sProviderService.create(loggedUser.id(),providerDto.getDescription());
+//
+//        providerDto.getAptitudes().stream().forEach( apt -> sProviderService.addAptitude(provider.getId(),apt.getServiceTypeId(), apt.getDescription()));
+//
+//        List<CoordenateDto> workingZone = providerDto.getWorkingZone();
+//
+//        sProviderService.addCoordenates(loggedUser.id(),
+//                IntStream.range(0,workingZone.size())
+//                        .mapToObj(i -> new CoordenatesPoint(loggedUser.id(),i,workingZone.get(i).getLat(),workingZone.get(i).getLat())).collect(Collectors.toSet())
+//        );
+
+        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(provider.get().getId())).build();
+
         return Response.created(uri).build();
 
     }

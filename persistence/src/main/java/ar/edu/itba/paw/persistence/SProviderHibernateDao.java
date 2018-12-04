@@ -27,8 +27,8 @@ public class SProviderHibernateDao implements SProviderDao {
 
     @Override
     public List<SProvider> getServiceProviders() {
-        return new HashSet<>(em.createQuery("from SProvider", SProvider.class)
-                .getResultList());
+        return em.createQuery("from SProvider", SProvider.class)
+                .getResultList();
     }
 
     @Override
@@ -36,18 +36,6 @@ public class SProviderHibernateDao implements SProviderDao {
         return Optional.ofNullable(em.find(SProvider.class, userId));
     }
 
-    @Override
-    public Set<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId) {
-        return
-                new HashSet<>(em.createQuery("select s from SProvider s left join fetch s.aptitudes a " +
-                                "left join fetch a.reviews left join fetch s.workingZones as w" +
-                                " where a.service.id = :stId AND w.neighborhood.ngId = :ngId"
-                        , SProvider.class)
-                        .setParameter("ngId", ngId)
-                        .setParameter("stId", stId)
-                        .getResultList());
-
-    }
 
     @Override
     public boolean updateDescriptionOfServiceProvider(int userId, String description) {

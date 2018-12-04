@@ -41,10 +41,6 @@ public class AppointmentsProviderController {
 
         Locale locale = request.getLocale();
 
-//          TODO: Use spring security Roles
-//        if(!loggedUser.isProvider()){
-//            return Response.status(Response.Status.FORBIDDEN).build();
-//        }
         List<Appointment> list = appointmentService.getAppointmentsByProviderId(loggedUser.id());
 
         return Response.ok(new AppointmentProviderListDto(list,locale,messageSource)).build();
