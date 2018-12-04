@@ -98,7 +98,7 @@ public class AppointmentsProviderController {
         }
 
         if(!updateAppointment) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); //TODO check if it should return internal server error
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         return Response.ok().build();

@@ -51,4 +51,6 @@ public interface SProviderService {
     boolean deleteCoordenates(int providerId);
 
     Optional<SProvider> create(int id, String description, Map<Integer, String> aptitudes, Set<CoordenatesPoint> coordenates);
+
+    List<SProvider> getServiceProviders(int id, int page, int pageSize);
 }

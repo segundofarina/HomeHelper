@@ -60,7 +60,7 @@ public class UserAppointmentsController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addAppointment(final AppointmentClientDto appointmentDTO) {
 
-        if(appointmentDTO == null){
+        if(appointmentDTO == null || appointmentDTO.getProvider() == null || appointmentDTO.getServiceType() == null || appointmentDTO.getDate() == null || appointmentDTO.getDescription() == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -68,7 +68,7 @@ public class UserAppointmentsController {
                 appointmentDTO.getServiceType().getId(),appointmentDTO.getDate(),appointmentDTO.getAddress(),appointmentDTO.getDescription());
 
         if(newAppointment == null) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); // TODO:Internal Server Error?
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newAppointment.getAppointmentId())).build();

@@ -19,9 +19,6 @@ public class SProviderServiceImpl implements SProviderService {
     AptitudeDao aptitudeDao;
 
     @Autowired
-    STypeDao sTypeDao;
-
-    @Autowired
     AppointmentDao appointmentDao;
 
     @Autowired
@@ -124,10 +121,6 @@ public class SProviderServiceImpl implements SProviderService {
         coordenatesDao.insertCoordenatesOfProvider(id,coordenates);
 
         return Optional.ofNullable(provider);
-    }
-
-    public List<ServiceType> getServiceTypes() {
-        return sTypeDao.getServiceTypes();
     }
 
     @Transactional
@@ -282,6 +275,36 @@ public class SProviderServiceImpl implements SProviderService {
         return res;
     }
 
+    @Transactional
+    @Override
+    public List<SProvider> getServiceProviders(int userId, int page, int pageSize) {
+        List<SProvider> provider = getServiceProviders(userId);
+
+        int start = page * pageSize;
+        int end = start + pageSize;
+
+        if(end > provider.size()){
+            return provider.subList(start,provider.size());
+        }else if(start > provider.size()){
+            return provider;
+        }
+
+        return provider.subList(start,end);
+    }
+    private List<SProvider> getServiceProviders(int userId) {
+        List<SProvider> allServiceProviders = getServiceProviders();
+
+        List<SProvider> res = new ArrayList<>();
+
+        for (SProvider sp : allServiceProviders) {
+            if (userId < 0 || sp.getId() != userId) {
+                res.add(sp);
+            }
+        }
+
+        return res;
+    }
+
     private boolean isLatLngInPolygon(double lat, double lng, List<CoordenatesPoint> polygon) {
         double lengthToPoint[] = new double[polygon.size()];
         double sideLength[] = new double[polygon.size()];
@@ -315,7 +338,6 @@ public class SProviderServiceImpl implements SProviderService {
 
         return false;
     }
-
     private boolean hasAptitude(SProvider sp, int stId) {
         for (Aptitude ap : sp.getAptitudes()) {
             if (ap.getService().getServiceTypeId() == stId) {

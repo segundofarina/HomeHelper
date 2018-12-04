@@ -49,8 +49,8 @@ public class ProvidersController {
         if(page < 1 || pageSize < 1) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        List<SProvider> providers;
 
+        List<SProvider> providers;
 
         if(latitude == null && longitude == null && serviceTypeId!= null){
             providers = sProviderService.getServiceProvidersByServiceType(serviceTypeId,loggedUser.id(),page,pageSize);
@@ -58,10 +58,11 @@ public class ProvidersController {
             providers = sProviderService.getServiceProvidersByNeighborhood(latitude,longitude,loggedUser.id(),page,pageSize);
         } else if(latitude !=null && longitude != null && serviceTypeId != null){
             providers = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(latitude,longitude,serviceTypeId,loggedUser.id(),page,pageSize);
+        }else if(latitude == null && longitude == null && serviceTypeId == null) {
+            providers = sProviderService.getServiceProviders(loggedUser.id(),page,pageSize);
         }else{
-            return Response.status(Response.Status.BAD_REQUEST).build();
+                return Response.status(Response.Status.BAD_REQUEST).build();
         }
-
 
          // TODO: get sorted and paginated providers, procesing all params (st, lat, lng, page, pageSize)
 
@@ -90,6 +91,10 @@ public class ProvidersController {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
+        if(providerDto == null || providerDto.getWorkingZone()== null || providerDto.getAptitudes() == null || providerDto.getDescription() == null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
         Map<Integer,String> aptitudes = new HashMap<>();
 
         for(BasicAptitudeDto aptitudeDto: providerDto.getAptitudes()){
@@ -106,21 +111,7 @@ public class ProvidersController {
 
         Optional<SProvider> provider = sProviderService.create(loggedUser.id(),providerDto.getDescription(),aptitudes,coordenates);
 
-        if(!provider.isPresent()){
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-
-
-//        SProvider provider = sProviderService.create(loggedUser.id(),providerDto.getDescription());
-//
-//        providerDto.getAptitudes().stream().forEach( apt -> sProviderService.addAptitude(provider.getId(),apt.getServiceTypeId(), apt.getDescription()));
-//
-//        List<CoordenateDto> workingZone = providerDto.getWorkingZone();
-//
-//        sProviderService.addCoordenates(loggedUser.id(),
-//                IntStream.range(0,workingZone.size())
-//                        .mapToObj(i -> new CoordenatesPoint(loggedUser.id(),i,workingZone.get(i).getLat(),workingZone.get(i).getLat())).collect(Collectors.toSet())
-//        );
+        if(!provider.isPresent()){ return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); }
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(provider.get().getId())).build();
 
