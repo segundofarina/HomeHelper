@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -46,5 +47,8 @@ public class CoordenatesHibernateDao implements CoordenatesDao {
         }
         return true;
     }
+
+
+
 
 }

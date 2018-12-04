@@ -4,6 +4,7 @@ import ar.edu.itba.paw.homehelper.dto.*;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.CoordenatesPoint;
+import ar.edu.itba.paw.model.Neighborhood;
 import ar.edu.itba.paw.model.SProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -56,19 +57,17 @@ public class ProvidersController {
         if(page < 1 || pageSize < 1) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        Set<SProvider> providers;
+        List<SProvider> providers;
 
         if(latitude == null && longitude == null && serviceTypeId!= null){
-            providers = sProviderService.getServiceProviders(); // TODO: service to get providers by serviceType
+            providers = sProviderService.getServiceProvidersByServiceType(serviceTypeId,loggedUser.id(),page,pageSize);
         } else if(latitude != null && longitude != null && serviceTypeId == null){
-            providers = sProviderService.getServiceProviders(); // TODO: service to get providers by workingZone
+            providers = sProviderService.getServiceProvidersByNeighborhood(latitude,longitude,loggedUser.id(),page,pageSize);
         } else if(latitude !=null && longitude != null && serviceTypeId != null){
-            providers = sProviderService.getServiceProviders();
+            providers = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(latitude,longitude,serviceTypeId,loggedUser.id(),page,pageSize);
         }else{
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-
-
 
 
          // TODO: get sorted and paginated providers, procesing all params (st, lat, lng, page, pageSize)

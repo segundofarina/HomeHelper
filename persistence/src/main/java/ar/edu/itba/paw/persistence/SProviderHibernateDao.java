@@ -4,11 +4,9 @@ import ar.edu.itba.paw.interfaces.daos.SProviderDao;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.User;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.*;
 
 @Repository
@@ -28,7 +26,7 @@ public class SProviderHibernateDao implements SProviderDao {
     }
 
     @Override
-    public Set<SProvider> getServiceProviders() {
+    public List<SProvider> getServiceProviders() {
         return new HashSet<>(em.createQuery("from SProvider", SProvider.class)
                 .getResultList());
     }

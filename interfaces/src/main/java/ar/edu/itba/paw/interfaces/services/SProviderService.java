@@ -11,7 +11,7 @@ public interface SProviderService {
 
     SProvider create(int userId, String description);
 
-    Set<SProvider> getServiceProviders();
+    List<SProvider> getServiceProviders();
 
     List<SProvider> getServiceProvidersWithServiceType(int serviceType);
 
@@ -25,7 +25,11 @@ public interface SProviderService {
 
     List<SProvider> getServiceProvidersWorkingIn(int ngId);
 
+    List<SProvider> getServiceProvidersByNeighborhood(double clientLocationLat, double clientLocationLng, int userId,int page, int pageSize);
+
     List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId, int page, int pageSize);
+
+    List<SProvider> getServiceProvidersByServiceType(int stId, int userId, int page, int pageSize);
 
     Set<Review> getReviewsOfServiceProvider(int sproviderId);
 

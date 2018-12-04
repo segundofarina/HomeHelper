@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 @Service
@@ -42,11 +41,11 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Transactional
     @Override
-    public Set<SProvider> getServiceProviders() {
+    public List<SProvider> getServiceProviders() {
         return sProviderDao.getServiceProviders();
     }
 
-
+    @Transactional
     @Override
     public List<SProvider> getServiceProvidersWithServiceType(int serviceType) {
         List<SProvider> filteredSp = new ArrayList<SProvider>();
@@ -190,6 +189,44 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Transactional
     @Override
+    public List<SProvider> getServiceProvidersByNeighborhood(double clientLocationLat, double clientLocationLng, int userId, int page, int pageSize) {
+        List<SProvider> provider = getServiceProvidersByNeighborhood(clientLocationLat,clientLocationLng,userId);
+
+        int start = page * pageSize;
+        int end = start + pageSize;
+
+        if(end > provider.size()){
+            return provider.subList(start,provider.size());
+        }else if(start > provider.size()){
+            return provider;
+        }
+
+        return provider.subList(start,end);
+    }
+    private List<SProvider> getServiceProvidersByNeighborhood(double clientLocationLat, double clientLocationLng, int userId) {
+
+        List<SProvider> allServiceProviders = getServiceProviders();
+
+        List<SProvider> res = new ArrayList<>();
+
+        for (SProvider sp : allServiceProviders) {
+            if (userId < 0 || sp.getId() != userId) {
+                /* Check if service provider works in clientLocation */
+
+                List<CoordenatesPoint> polygon = new ArrayList<>();
+                polygon.addAll(sp.getCoordenates());
+
+                if (isLatLngInPolygon(clientLocationLat, clientLocationLng, polygon)) {
+                    res.add(sp);
+                }
+            }
+        }
+
+        return res;
+    }
+
+    @Transactional
+    @Override
     public List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId, int page, int pageSize) {
         List<SProvider> provider = getServiceProvidersByNeighborhoodAndServiceType(clientLocationLat,clientLocationLng,stId,userId);
 
@@ -220,6 +257,36 @@ public class SProviderServiceImpl implements SProviderService {
                 if (isLatLngInPolygon(clientLocationLat, clientLocationLng, polygon)) {
                     res.add(sp);
                 }
+            }
+        }
+
+        return res;
+    }
+
+    @Transactional
+    @Override
+    public List<SProvider> getServiceProvidersByServiceType(int stId, int userId, int page, int pageSize) {
+        List<SProvider> provider = getServiceProvidersByServiceType(stId,userId);
+
+        int start = page * pageSize;
+        int end = start + pageSize;
+
+        if(end > provider.size()){
+            return provider.subList(start,provider.size());
+        }else if(start > provider.size()){
+            return provider;
+        }
+
+        return provider.subList(start,end);
+    }
+    private List<SProvider> getServiceProvidersByServiceType(int stId, int userId) {
+        List<SProvider> allServiceProviders = getServiceProvidersWithServiceType(stId);
+
+        List<SProvider> res = new ArrayList<>();
+        for (SProvider sp : allServiceProviders) {
+            /* Avoid me in the list */
+            if (userId < 0 || sp.getId() != userId) {
+                res.add(sp);
             }
         }
 
