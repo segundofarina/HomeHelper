@@ -117,7 +117,7 @@ class Messages extends Component {
             } else {
                 element = (
                     <Fragment>
-                        <SockJsClient url="http://pawserver.it.itba.edu.ar/ws/websocket"
+                        <SockJsClient url="http://pawserver.it.itba.edu.ar/paw-2018a-4/ws/websocket"
                                     ref={this.websocketRef} 
                                     topics={["/user/queue/messages"]} 
                                     onMessage={this.handleRecvMsg} 

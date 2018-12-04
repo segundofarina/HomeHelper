@@ -5,6 +5,8 @@ import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.CoordenatesPoint;
 import ar.edu.itba.paw.model.SProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -42,6 +44,8 @@ public class ProvidersController {
     private final static String CURRENT_PAGE = "1";
     private final static String PAGE_SIZE = "100";
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProvidersController.class);
+
     @GET
     @Path("/")
     @Produces(value = MediaType.APPLICATION_JSON)
@@ -52,11 +56,14 @@ public class ProvidersController {
             @QueryParam("page") @DefaultValue(CURRENT_PAGE) final int page,
             @QueryParam("pageSize") @DefaultValue(PAGE_SIZE) final int pageSize) {
 
+        LOGGER.debug("Entramos");
 
         if(page < 1 || pageSize < 1) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         Set<SProvider> providers;
+
+        LOGGER.debug("Page size validado");
 
         if(latitude == null && longitude == null && serviceTypeId!= null) { // search only by service type
             providers = sProviderService.getServiceProviders(); // TODO: service to get providers by serviceType
@@ -70,13 +77,14 @@ public class ProvidersController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-
+        LOGGER.debug("Tenemos los providers");
 
 
          // TODO: get sorted and paginated providers, procesing all params (st, lat, lng, page, pageSize)
 
         Locale locale = request.getLocale();
 
+        LOGGER.debug("Tenemos el locale");
 
         final int maxPage = (int) Math.ceil((double) providers.size() / pageSize); // TODO: get max page from sProviderService
 
@@ -85,7 +93,11 @@ public class ProvidersController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
+        LOGGER.debug("Genero los links");
+
         final Link[] links = getPaginationLinks(page, maxPage);
+
+        LOGGER.debug("Return");
 
         return Response.ok(new ProvidersListDto(new ArrayList<>(providers), page, pageSize, maxPage,locale,messageSource)).links(links).build();
     }

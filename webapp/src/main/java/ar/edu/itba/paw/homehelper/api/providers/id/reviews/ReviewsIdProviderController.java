@@ -66,8 +66,8 @@ public class ReviewsIdProviderController {
         if(appointmentId == null || review == null || review.getComment() == null || review.getScores() ==null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        if(review.getScores().getQuality() == null || review.getScores().getCleanness()== null ||
-                review.getScores().getPrice()== null || review.getScores().getPunctuality()== null || review.getScores().getTreatment() == null ){
+        if(review.getScores().getQuality() == 0 || review.getScores().getCleanness() == 0 ||
+                review.getScores().getPrice() == 0 || review.getScores().getPunctuality() == 0 || review.getScores().getTreatment() == 0 ){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -75,11 +75,11 @@ public class ReviewsIdProviderController {
                 appointmentId,
                 loggedUser.id(),
                 -1,//TODO review only by appointment id
-                review.getScores().getQuality().intValue(),
-                review.getScores().getCleanness().intValue(),
-                review.getScores().getPrice().intValue(),
-                review.getScores().getPunctuality().intValue(),
-                review.getScores().getTreatment().intValue(),
+                (int) review.getScores().getQuality(),
+                (int) review.getScores().getCleanness(),
+                (int) review.getScores().getPrice(),
+                (int) review.getScores().getPunctuality(),
+                (int) review.getScores().getTreatment(),
                 review.getComment()
                 );
         final Review newReview = null;//TODO esto

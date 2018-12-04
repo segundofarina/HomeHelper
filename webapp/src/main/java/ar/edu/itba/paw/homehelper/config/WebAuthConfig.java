@@ -49,14 +49,22 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                     .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and().authorizeRequests()
                     .antMatchers(HttpMethod.POST, "/api/login").anonymous()
-                    .antMatchers(HttpMethod.GET, "/api/serviceTypes").permitAll()
-                    .antMatchers(HttpMethod.POST, "/api/users").permitAll()
-                    .antMatchers(HttpMethod.GET, "/api/providers").permitAll()
-                    .antMatchers(HttpMethod.GET, "/api/providers/{id}").permitAll()
-                    .antMatchers(HttpMethod.GET, "/api/providers/{id}/**").permitAll()
-                    .antMatchers("/api/users/**").hasRole("USER")
+                    .antMatchers(HttpMethod.GET, "/api/providers/{\\d+}/reviews").permitAll()
+                    .antMatchers(HttpMethod.POST, "/api/providers/{\\d+}/reviews").hasRole("USER")
+                    .antMatchers(HttpMethod.GET, "/api/providers/{\\d+}/image").permitAll()
+                    .antMatchers(HttpMethod.GET, "/api/providers/{\\d+}").permitAll()
+                    .antMatchers(HttpMethod.PUT, "/api/providers/{\\d+}").hasRole("PROVIDER")
+                    .antMatchers(HttpMethod.PATCH, "/api/providers/{\\d+}").hasRole("PROVIDER")
+                    .antMatchers("/api/providers/reviews").hasRole("PROVIDER")
+                    .antMatchers("/api/providers/appointments").hasRole("PROVIDER")
+                    .antMatchers("/api/providers/messages").hasRole("PROVIDER")
                     .antMatchers(HttpMethod.POST, "/api/providers").hasRole("USER")
-                    .antMatchers("/api/providers/**").hasRole("PROVIDER")
+                    .antMatchers(HttpMethod.GET, "/api/providers").permitAll()
+                    .antMatchers(HttpMethod.GET, "/api/serviceTypes").permitAll()
+                    .antMatchers(HttpMethod.GET, "/api/users/{\\d+}/image").permitAll()
+                    .antMatchers( HttpMethod.POST,"/api/users").permitAll()
+                    .antMatchers( "/api/users/**").hasRole("USER")
+                    .antMatchers( "/api/users").hasRole("USER")
                     .antMatchers("/api/**").authenticated()
                 .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -71,7 +79,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(final WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/error/*", "/resources/**", "/websocket/**");
+        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/error/*", "/resources/**", "/ws/**");
     }
 
     @Override
