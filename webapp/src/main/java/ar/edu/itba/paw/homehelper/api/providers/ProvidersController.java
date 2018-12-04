@@ -39,7 +39,7 @@ public class ProvidersController {
     @Autowired
     private MessageSource messageSource;
 
-    private final static String CURRENT_PAGE = "0";
+    private final static String CURRENT_PAGE = "1";
     private final static String PAGE_SIZE = "100";
 
     @GET
@@ -58,13 +58,15 @@ public class ProvidersController {
         }
         Set<SProvider> providers;
 
-        if(latitude == null && longitude == null && serviceTypeId!= null){
+        if(latitude == null && longitude == null && serviceTypeId!= null) { // search only by service type
             providers = sProviderService.getServiceProviders(); // TODO: service to get providers by serviceType
-        } else if(latitude != null && longitude != null && serviceTypeId == null){
+        } else if(latitude != null && longitude != null && serviceTypeId == null) {  // search only by lat lng
             providers = sProviderService.getServiceProviders(); // TODO: service to get providers by workingZone
-        } else if(latitude !=null && longitude != null && serviceTypeId != null){
+        } else if(latitude !=null && longitude != null && serviceTypeId != null) { // search by service type and lat lng
+            providers = sProviderService.getServiceProviders(); // TODO: service to get providers by serviceType and workinZone
+        } else if (latitude == null && longitude == null && serviceTypeId == null) { // search all
             providers = sProviderService.getServiceProviders();
-        }else{
+        }else{ // handle all other cases
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -78,7 +80,7 @@ public class ProvidersController {
 
         final int maxPage = (int) Math.ceil((double) providers.size() / pageSize); // TODO: get max page from sProviderService
 
-        if(page > maxPage) { // TODO: this should be before searching for providers
+        if(page > maxPage && maxPage != 0) { // TODO: this should be before searching for providers
 
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
