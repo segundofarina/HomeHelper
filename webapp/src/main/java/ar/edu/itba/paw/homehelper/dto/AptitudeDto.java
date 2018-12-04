@@ -18,7 +18,7 @@ public class AptitudeDto {
             this.id = aptitude.getId();
             this.serviceType = new ServiceTypeDto(aptitude.getService(),locale, messageSource);
             this.description = aptitude.getDescription();
-            this.calification = new CalificationDto(aptitude,locale, messageSource);
+            this.calification = new CalificationDto(aptitude);
         }
 
         public int getId() {
