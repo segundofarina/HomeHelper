@@ -3,28 +3,43 @@ package ar.edu.itba.paw.homehelper.dto;
 import ar.edu.itba.paw.model.Review;
 import org.springframework.context.MessageSource;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class ReviewsListDto {
-    private List<ReviewDto> reviews;
+    private List<AppointmentReviewDto> reviews;
 
     public ReviewsListDto() {
     }
 
     public ReviewsListDto(List<Review> reviews, Locale locale, MessageSource messageSource) {
         this.reviews = new LinkedList<>();
+
+        Map<Integer, List<Review>> appointmentReviewMap = new HashMap<>();
+
         for(Review review : reviews) {
-            this.reviews.add(new ReviewDto(review,locale,messageSource));
+            List<Review> reviewList = null;
+            int aptitudeId = review.getAptitude().getId();
+
+            if(!appointmentReviewMap.containsKey(aptitudeId)) {
+                reviewList = new ArrayList<>();
+            } else {
+                reviewList = appointmentReviewMap.get(aptitudeId);
+            }
+
+            reviewList.add(review);
+            appointmentReviewMap.put(aptitudeId, reviewList);
+
+            for(Integer appointmentId : appointmentReviewMap.keySet()) {
+                this.reviews.add(new AppointmentReviewDto(appointmentId, appointmentReviewMap.get(appointmentId)));
+            }
         }
     }
 
-    public List<ReviewDto> getReviews() {
+    public List<AppointmentReviewDto> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<ReviewDto> reviews) {
+    public void setReviews(List<AppointmentReviewDto> reviews) {
         this.reviews = reviews;
     }
 }
