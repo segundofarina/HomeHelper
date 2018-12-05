@@ -58,6 +58,19 @@ public class User {
         this.verified = verified;
     }
 
+    public User(int userid,String username, String password, String firstname, String lastname, String email, String phone, String address /*, byte[] image */, boolean verified) {
+        this.id=userid;
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phone = phone;
+//        this.image = image;
+        this.address = address;
+        this.verified = verified;
+    }
+
     public boolean isVerified() {
         return verified;
     }
@@ -154,5 +167,20 @@ public class User {
         int result = getId();
         result = 31 * result + (getUsername() != null ? getUsername().hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", verified=" + verified +
+                '}';
     }
 }

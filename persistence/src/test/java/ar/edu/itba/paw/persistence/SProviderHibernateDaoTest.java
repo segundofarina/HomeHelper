@@ -65,6 +65,7 @@ public class SProviderHibernateDaoTest extends AbstractTransactionalJUnit4Spring
     public void getServiceProvidersTest() {
 
         final List<SProvider> sProviders = sProviderDao.getServiceProviders();
+        System.out.println(sProviders);
         assertNotNull(sProviders);
         assertTrue(containsSpId(sProviders, SPROVIDER_ID));
         assertTrue(containsSpId(sProviders, SPROVIDER_ID));

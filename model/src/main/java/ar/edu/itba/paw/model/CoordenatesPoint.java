@@ -41,6 +41,10 @@ public class CoordenatesPoint implements Comparable<CoordenatesPoint> {
         this.position = position;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
     public int getId(){
         return id;
     }

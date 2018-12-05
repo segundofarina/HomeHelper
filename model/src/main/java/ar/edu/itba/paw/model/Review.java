@@ -1,5 +1,8 @@
 package ar.edu.itba.paw.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -15,9 +18,13 @@ public class Review {
     @Column(name = "reviewId")
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "userId")
+    @Fetch(FetchMode.JOIN)
     private User user;
+
+//    @Column(name = "appointmentId")
+//    private int appointmentId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "aptitudeId")
@@ -49,6 +56,19 @@ public class Review {
     }
 
     public Review(int quality, int cleanness, int price, int punctuality, int treatment, String comment, Date date, User user, Aptitude aptitude) {
+        this.quality = quality;
+        this.cleanness = cleanness;
+        this.price = price;
+        this.punctuality = punctuality;
+        this.treatment = treatment;
+        this.comment = comment;
+        this.date = date;
+        this.user = user;
+        this.aptitude = aptitude;
+    }
+
+    public Review(int id,int quality, int cleanness, int price, int punctuality, int treatment, String comment, Date date, User user, Aptitude aptitude) {
+        this.id= id;
         this.quality = quality;
         this.cleanness = cleanness;
         this.price = price;

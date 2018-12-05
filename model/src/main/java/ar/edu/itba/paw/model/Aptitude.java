@@ -50,6 +50,13 @@ public class Aptitude {
         this.service = service;
         this.description = description;
     }
+    public Aptitude(int id ,ServiceType service, String description, Set<Review> reviews){
+        this.id =id;
+        this.service = service;
+        this.description = description;
+        this.reviews = reviews;
+
+    }
 
     public ServiceType getService() {
         return service;
