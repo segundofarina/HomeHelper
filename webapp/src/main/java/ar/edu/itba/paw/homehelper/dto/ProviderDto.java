@@ -8,6 +8,7 @@ import org.springframework.context.MessageSource;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class ProviderDto {
     private int id;
@@ -17,6 +18,7 @@ public class ProviderDto {
     private double generalCalification;
     private String pictureUrl;
     private List<AptitudeDto> aptitudes;
+    private List<CoordenateDto> coordenates;
 
     public ProviderDto() {
     }
@@ -35,6 +37,9 @@ public class ProviderDto {
         for(Aptitude aptitude : provider.getAptitudes()) {
             this.aptitudes.add(new AptitudeDto(aptitude,locale,messageSource));
         }
+
+        this.coordenates = provider.getCoordenates().stream().map(cor -> new CoordenateDto(cor.getLat(), cor.getLng())).collect(Collectors.toList());
+
     }
 
     public int getId() {
@@ -93,4 +98,11 @@ public class ProviderDto {
         this.aptitudes = aptitudes;
     }
 
+    public List<CoordenateDto> getCoordenates() {
+        return coordenates;
+    }
+
+    public void setCoordenates(List<CoordenateDto> coordenates) {
+        this.coordenates = coordenates;
+    }
 }
