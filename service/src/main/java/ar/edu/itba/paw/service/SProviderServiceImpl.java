@@ -5,6 +5,7 @@ import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.service.polygonUtils.Point;
 import ar.edu.itba.paw.service.polygonUtils.Polygon;
+import ar.edu.itba.paw.model.utils.SizeListTuple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -319,19 +320,21 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Transactional
     @Override
-    public List<Review> getReviewsOfServiceProvider(int userId, Integer serviceTypeId, int page, int pageSize) {
+    public SizeListTuple<Review> getReviewsOfServiceProvider(int userId, Integer serviceTypeId, int page, int pageSize) {
+
         List<Review> reviews = getReviewsOfServiceProvider(userId,serviceTypeId);
 
-        int start = page * pageSize;
+        int start = (page-1) * pageSize;
         int end = start + pageSize;
 
-        if(end > reviews.size()){
-            return reviews.subList(start,reviews.size());
-        }else if(start > reviews.size()){
-            return reviews;
+
+        if(start > reviews.size()){
+            return new SizeListTuple<>(0,null);
+        }else if(end > reviews.size()){
+            return new SizeListTuple<>(reviews.size(),reviews.subList(start,reviews.size()));
         }
 
-        return reviews.subList(start,end);
+        return new SizeListTuple<>(reviews.size(),reviews.subList(start,end));
     }
     private List<Review> getReviewsOfServiceProvider(int userId, Integer serviceTypeId) {
         List<Review> reviews = new ArrayList<>(getReviewsOfServiceProvider(userId));

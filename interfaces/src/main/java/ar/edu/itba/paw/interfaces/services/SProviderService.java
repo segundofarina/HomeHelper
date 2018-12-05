@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.services;
 
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.utils.SizeListTuple;
 
 import java.util.List;
 import java.util.Map;
@@ -54,7 +55,7 @@ public interface SProviderService {
 
     List<SProvider> getServiceProviders(int id, int page, int pageSize);
 
-    List<Review> getReviewsOfServiceProvider(int id, Integer serviceTypeId, int page, int pageSize);
+    SizeListTuple<Review> getReviewsOfServiceProvider(int id, Integer serviceTypeId, int page, int pageSize);
 
     List<Review> getReviewsOfServiceProvider(int id, int page, int pageSize);
 }

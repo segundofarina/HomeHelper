@@ -6,6 +6,8 @@ import ar.edu.itba.paw.homehelper.dto.AppointmentProviderListDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -34,6 +36,8 @@ public class AppointmentsProviderController {
     @Autowired
     private MessageSource messageSource;
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(AppointmentsProviderController.class);
+
     @GET
     @Path("/")
     @Produces(value = MediaType.APPLICATION_JSON)
@@ -43,6 +47,10 @@ public class AppointmentsProviderController {
 
         List<Appointment> list = appointmentService.getAppointmentsByProviderId(loggedUser.id());
 
+        if(list == null){
+            Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+        }
+
         return Response.ok(new AppointmentProviderListDto(list,locale,messageSource)).build();
 
     }
@@ -51,10 +59,6 @@ public class AppointmentsProviderController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProviderAppointment(@PathParam("id") final Integer id){
-
-        if(id == null){
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
 
         Locale locale = request.getLocale();
 
@@ -69,9 +73,13 @@ public class AppointmentsProviderController {
     @PUT
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateAppointment(@PathParam("id") final Integer id, final String action) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateAppointment(@PathParam("id") final Integer id, final ActionDto update) {
+
+        LOGGER.info("NO LLEGA");
 
         if(id == null){
+            LOGGER.info("id == null");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         final Appointment appointment = appointmentService.getAppointment(id);
@@ -79,22 +87,24 @@ public class AppointmentsProviderController {
         if(appointment == null ){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        if(appointment.getProvider().getId() != loggedUser.id()){
+        if(appointment.getClient().getId() != loggedUser.id()){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
         final boolean updateAppointment;
 
-        ActionDto update = ActionDto.parse(action);
-
         if(update == null) {
+            LOGGER.info("update == null");
             return Response.status(Response.Status.BAD_REQUEST).build();
-        }else if(update.equals(ActionDto.CONFIRM)){
+        }else if(update.getAction().equals("confirm")){
             updateAppointment = appointmentService.confirmAppointment(appointment.getAppointmentId());
-        }else if(update.equals(ActionDto.COMPLETE)){
+        }else if(update.getAction().equals("complete")){
             updateAppointment = appointmentService.completedAppointment(appointment.getAppointmentId());
-        }else{
+        }else if(update.getAction().equals("reject")){
             updateAppointment = appointmentService.rejectAppointment(appointment.getAppointmentId());
+        }else{
+            LOGGER.info("update == "+update.getAction());
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         if(!updateAppointment) {

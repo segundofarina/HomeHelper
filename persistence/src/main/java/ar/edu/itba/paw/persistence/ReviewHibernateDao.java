@@ -24,4 +24,9 @@ public class ReviewHibernateDao implements ReviewDao {
         return query.getResultList();
     }
 
+    @Override
+    public Review getReview(int reviewId) {
+        return em.find(Review.class,reviewId);
+    }
+
 }
