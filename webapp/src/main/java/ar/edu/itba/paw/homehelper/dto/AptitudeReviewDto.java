@@ -5,24 +5,24 @@ import ar.edu.itba.paw.model.Review;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AppointmentReviewDto {
-    private int appointmentId;
+public class AptitudeReviewDto {
+    private int aptitudeId;
     private List<ReviewDto> reviews;
 
-    public AppointmentReviewDto() {
+    public AptitudeReviewDto() {
     }
 
-    public AppointmentReviewDto(int id, List<Review> reviews) {
-        this.appointmentId = id;
+    public AptitudeReviewDto(int id, List<Review> reviews) {
+        this.aptitudeId = id;
         this.reviews = reviews.stream().map(review -> new ReviewDto(review)).collect(Collectors.toList());
     }
 
-    public int getId() {
-        return appointmentId;
+    public int getAptitudeId() {
+        return aptitudeId;
     }
 
-    public void setId(int id) {
-        this.appointmentId = id;
+    public void setAptitudeId(int aptitudeId) {
+        this.aptitudeId = aptitudeId;
     }
 
     public List<ReviewDto> getReviews() {

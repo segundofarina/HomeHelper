@@ -6,7 +6,7 @@ import org.springframework.context.MessageSource;
 import java.util.*;
 
 public class ReviewsListDto {
-    private List<AppointmentReviewDto> reviews;
+    private List<AptitudeReviewDto> reviews;
 
     public ReviewsListDto() {
     }
@@ -14,32 +14,32 @@ public class ReviewsListDto {
     public ReviewsListDto(List<Review> reviews, Locale locale, MessageSource messageSource) {
         this.reviews = new LinkedList<>();
 
-        Map<Integer, List<Review>> appointmentReviewMap = new HashMap<>();
+        Map<Integer, List<Review>> aptitudeReviewMap = new HashMap<>();
 
         for(Review review : reviews) {
-            List<Review> reviewList = null;
+            List<Review> reviewList;
             int aptitudeId = review.getAptitude().getId();
 
-            if(!appointmentReviewMap.containsKey(aptitudeId)) {
+            if(!aptitudeReviewMap.containsKey(aptitudeId)) {
                 reviewList = new ArrayList<>();
             } else {
-                reviewList = appointmentReviewMap.get(aptitudeId);
+                reviewList = aptitudeReviewMap.get(aptitudeId);
             }
 
             reviewList.add(review);
-            appointmentReviewMap.put(aptitudeId, reviewList);
+            aptitudeReviewMap.put(aptitudeId, reviewList);
+        }
 
-            for(Integer appointmentId : appointmentReviewMap.keySet()) {
-                this.reviews.add(new AppointmentReviewDto(appointmentId, appointmentReviewMap.get(appointmentId)));
-            }
+        for(Integer appointmentId : aptitudeReviewMap.keySet()) {
+            this.reviews.add(new AptitudeReviewDto(appointmentId, aptitudeReviewMap.get(appointmentId)));
         }
     }
 
-    public List<AppointmentReviewDto> getReviews() {
+    public List<AptitudeReviewDto> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<AppointmentReviewDto> reviews) {
+    public void setReviews(List<AptitudeReviewDto> reviews) {
         this.reviews = reviews;
     }
 }
