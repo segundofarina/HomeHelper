@@ -2,19 +2,14 @@ package ar.edu.itba.paw.homehelper.dto;
 
 import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.Review;
-import org.springframework.context.MessageSource;
-
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class CalificationDto {
-    private Double quality;
-    private Double cleanness;
-    private Double price;
-    private Double punctuality;
-    private Double treatment;
-    private Double general;
+    private double quality;
+    private double cleanness;
+    private double price;
+    private double punctuality;
+    private double treatment;
+    private double general;
 
     public CalificationDto() {
     }
@@ -29,14 +24,14 @@ public class CalificationDto {
     }
 
     public CalificationDto(Review review) {
-        this.quality =  (double) review.getQualityCalification();
-        this.cleanness = (double) review.getCleannessCalification();
-        this.price = (double) review.getPriceCalification();
-        this.punctuality =(double) review.getPunctualityCalification();
-        this.treatment = (double)review.getTreatmentCalification();
-        this.general =(double) review.getGeneralCalification();
+        this.quality = review.getQualityCalification();
+        this.cleanness = review.getCleannessCalification();
+        this.price = review.getPriceCalification();
+        this.punctuality = review.getPunctualityCalification();
+        this.treatment = review.getTreatmentCalification();
+        this.general = review.getGeneralCalification();
     }
-    public Double getQuality() {
+    public double getQuality() {
         return quality;
     }
 
@@ -44,7 +39,7 @@ public class CalificationDto {
         this.quality = quality;
     }
 
-    public Double getCleanness() {
+    public double getCleanness() {
         return cleanness;
     }
 
@@ -52,7 +47,7 @@ public class CalificationDto {
         this.cleanness = cleanness;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -60,7 +55,7 @@ public class CalificationDto {
         this.price = price;
     }
 
-    public Double getPunctuality() {
+    public double getPunctuality() {
         return punctuality;
     }
 
@@ -68,7 +63,7 @@ public class CalificationDto {
         this.punctuality = punctuality;
     }
 
-    public Double getTreatment() {
+    public double getTreatment() {
         return treatment;
     }
 
@@ -76,7 +71,7 @@ public class CalificationDto {
         this.treatment = treatment;
     }
 
-    public Double getGeneral() {
+    public double getGeneral() {
         return general;
     }
 
