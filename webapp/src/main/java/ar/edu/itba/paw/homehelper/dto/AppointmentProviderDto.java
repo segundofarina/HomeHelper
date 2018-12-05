@@ -23,7 +23,7 @@ public class AppointmentProviderDto {
         this.id = appointment.getAppointmentId();
         this.serviceType = new ServiceTypeDto(appointment.getServiceType(),locale,messageSource);
         this.address = appointment.getAddress();
-        this.date = appointment.getDateDMY(); // TODO: Date should be formated according to given locale
+        this.date = appointment.getDateDMY(locale);
         this.description = appointment.getJobDescripcion();
         this.client = new BasicUserDto(appointment.getClient());
         this.hasReview = appointment.hasClientReview();

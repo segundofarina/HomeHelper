@@ -43,15 +43,15 @@ public class AppointmentHibernateDao implements AppointmentDao {
     public Optional<Appointment> addAppointment(int clientId, int providerId, int serviceTypeId, Date date, String address, String jobDescripcion) {
         Optional<User> user = Optional.ofNullable(em.find(User.class, clientId));
         if (!user.isPresent()) {
-            Optional.empty();
+            return Optional.empty();
         }
         Optional<SProvider> provider = Optional.ofNullable(em.find(SProvider.class, providerId));
         if (!provider.isPresent()) {
-            Optional.empty();
+            return Optional.empty();
         }
         Optional<ServiceType> serviceType = Optional.ofNullable(em.find(ServiceType.class, serviceTypeId));
         if (!serviceType.isPresent()) {
-            Optional.empty();
+            return Optional.empty();
         }
         Appointment appointment = new Appointment(user.get(), provider.get(), serviceType.get(), date, address, Status.Pending, jobDescripcion, false);
         em.persist(appointment);

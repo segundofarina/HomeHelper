@@ -1,7 +1,7 @@
 package ar.edu.itba.paw.persistence;
 
-import ar.edu.itba.paw.interfaces.daos.NeighborhoodDao;
-import ar.edu.itba.paw.model.Neighborhood;
+import ar.edu.itba.paw.interfaces.daos.CoordenatesDao;
+import ar.edu.itba.paw.model.CoordenatesPoint;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,22 +17,21 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import static junit.framework.TestCase.assertEquals;
 
 @Sql("classpath:schema.sql")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
-@Rollback
 @Transactional
-
-public class NeighborhoodHibernateDaoTest {
-
+public class CoordenatesHibenateDaoTest {
     @PersistenceContext
     private EntityManager em;
 
     @Autowired
-    NeighborhoodDao neighborhoodDao;
+    CoordenatesDao coordenatesDao;
 
     @Autowired
     private DataSource ds;
@@ -44,31 +43,24 @@ public class NeighborhoodHibernateDaoTest {
         jdbcTemplate = new JdbcTemplate(ds);
     }
 
+
     @Test
-    public void insertNeighborhoodTest() {
+    public void insertCoordenatesOfProviderTest(){
+        SortedSet<CoordenatesPoint> coordenatesSet = new TreeSet<>();
+        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "coordenates");
 
-        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "neighborhoods");
-//        for(Neighborhood n : neighborhoodDao.getAllNeighborhoods()){
-//            System.out.println(n.getNgId());
-//        }
+        coordenatesSet.add(new CoordenatesPoint(Const.SPROVIDER_ID,1,4,8));
+        coordenatesSet.add(new CoordenatesPoint(Const.SPROVIDER_ID,2,5,9));
+        coordenatesSet.add(new CoordenatesPoint(Const.SPROVIDER_ID,3,6,10));
+        coordenatesSet.add(new CoordenatesPoint(Const.SPROVIDER_ID,4,7,11));
+        coordenatesSet.add(new CoordenatesPoint(Const.SPROVIDER_ID,5,8,12));
 
-        neighborhoodDao.insertNeighborhood("Almagro");
+
+
+        coordenatesDao.insertCoordenatesOfProvider(Const.SPROVIDER_ID,coordenatesSet);
         em.flush();
-
-//        for(Neighborhood n : neighborhoodDao.getAllNeighborhoods()){
-//            System.out.println(n.getNgId());
-//        }
-        //assertEquals("",++count,neighborhoodDao.insertNeighborhood("Almagro"));
-
-        assertEquals(count + 1, JdbcTestUtils.countRowsInTable(jdbcTemplate, "neighborhoods"));
+        assertEquals(count + 2, JdbcTestUtils.countRowsInTable(jdbcTemplate, "coordenates"));
     }
 
-    @Test
-    public void getAllNeighborhoodsTest() {
 
-        assertEquals(JdbcTestUtils.countRowsInTable(jdbcTemplate, "neighborhoods"), neighborhoodDao.getAllNeighborhoods().size());
-        for (Neighborhood n : neighborhoodDao.getAllNeighborhoods()) {
-            System.out.println(n.getNgId());
-        }
-    }
 }

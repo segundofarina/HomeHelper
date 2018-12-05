@@ -1,5 +1,4 @@
 package ar.edu.itba.paw.homehelper.api.providers;
-
 import ar.edu.itba.paw.homehelper.dto.*;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
@@ -8,17 +7,11 @@ import ar.edu.itba.paw.model.SProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.*;
 
 @Path("providers")
 @Controller
@@ -56,22 +49,20 @@ public class ProvidersController {
         if(page < 1 || pageSize < 1) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        Set<SProvider> providers;
 
-        if(latitude == null && longitude == null && serviceTypeId!= null) { // search only by service type
-            providers = sProviderService.getServiceProviders(); // TODO: service to get providers by serviceType
-        } else if(latitude != null && longitude != null && serviceTypeId == null) {  // search only by lat lng
-            providers = sProviderService.getServiceProviders(); // TODO: service to get providers by workingZone
-        } else if(latitude !=null && longitude != null && serviceTypeId != null) { // search by service type and lat lng
-            providers = sProviderService.getServiceProviders(); // TODO: service to get providers by serviceType and workinZone
-        } else if (latitude == null && longitude == null && serviceTypeId == null) { // search all
-            providers = sProviderService.getServiceProviders();
-        }else{ // handle all other cases
-            return Response.status(Response.Status.BAD_REQUEST).build();
+        List<SProvider> providers;
+
+        if(latitude == null && longitude == null && serviceTypeId!= null){
+            providers = sProviderService.getServiceProvidersByServiceType(serviceTypeId,loggedUser.id(),page,pageSize);
+        } else if(latitude != null && longitude != null && serviceTypeId == null){
+            providers = sProviderService.getServiceProvidersByNeighborhood(latitude,longitude,loggedUser.id(),page,pageSize);
+        } else if(latitude !=null && longitude != null && serviceTypeId != null){
+            providers = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(latitude,longitude,serviceTypeId,loggedUser.id(),page,pageSize);
+        }else if(latitude == null && longitude == null && serviceTypeId == null) {
+            providers = sProviderService.getServiceProviders(loggedUser.id(),page,pageSize);
+        }else{
+                return Response.status(Response.Status.BAD_REQUEST).build();
         }
-
-
-
 
          // TODO: get sorted and paginated providers, procesing all params (st, lat, lng, page, pageSize)
 
@@ -99,19 +90,31 @@ public class ProvidersController {
         if(loggedUser.isProvider()){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        //TODO make only one transactional service
-        SProvider provider = sProviderService.create(loggedUser.id(),providerDto.getDescription());
 
-        providerDto.getAptitudes().stream().forEach( apt -> sProviderService.addAptitude(provider.getId(),apt.getServiceTypeId(), apt.getDescription()));
+        if(providerDto == null || providerDto.getWorkingZone()== null || providerDto.getAptitudes() == null || providerDto.getDescription() == null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
 
-        List<CoordenateDto> workingZone = providerDto.getWorkingZone();
+        Map<Integer,String> aptitudes = new HashMap<>();
 
-        sProviderService.addCoordenates(loggedUser.id(),
-                IntStream.range(0,workingZone.size())
-                        .mapToObj(i -> new CoordenatesPoint(i,workingZone.get(i).getLat(),workingZone.get(i).getLat())).collect(Collectors.toSet())
-        );
+        for(BasicAptitudeDto aptitudeDto: providerDto.getAptitudes()){
+            aptitudes.put(aptitudeDto.getServiceTypeId(),aptitudeDto.getDescription());
+        }
 
-        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(provider.getId())).build();
+        Set<CoordenatesPoint> coordenates = new HashSet<>();
+
+        int i = 0;
+
+        for(CoordenateDto coordenateDto: providerDto.getWorkingZone()){
+            coordenates.add(new CoordenatesPoint(loggedUser.id(),i++,coordenateDto.getLat(),coordenateDto.getLng()));
+        }
+
+        Optional<SProvider> provider = sProviderService.create(loggedUser.id(),providerDto.getDescription(),aptitudes,coordenates);
+
+        if(!provider.isPresent()){ return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); }
+
+        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(provider.get().getId())).build();
+
         return Response.created(uri).build();
 
     }

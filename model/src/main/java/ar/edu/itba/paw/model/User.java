@@ -32,8 +32,8 @@ public class User {
     @Column(name = "phone", length = 100, nullable = false)
     private String phone;
 
-    @Column(name = "image")
-    private byte[] image;
+//    @Column(name = "image")
+//    private byte[] image;
 
     @Column(name = "address", length = 100, nullable = false)
     private String address;
@@ -46,14 +46,14 @@ public class User {
 // Just for Hibernate, we love you!
     }
 
-    public User(String username, String password, String firstname, String lastname, String email, String phone, String address, byte[] image, boolean verified) {
+    public User(String username, String password, String firstname, String lastname, String email, String phone, String address /*, byte[] image */, boolean verified) {
         this.username = username;
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.phone = phone;
-        this.image = image;
+//        this.image = image;
         this.address = address;
         this.verified = verified;
     }
@@ -94,9 +94,9 @@ public class User {
         this.email = email;
     }
 
-    public byte[] getImage() {
-        return this.image;
-    }
+//    public byte[] getImage() {
+//        return this.image;
+//    }
 
     public String getAddress() {
         return address;
@@ -110,9 +110,9 @@ public class User {
         this.username = username;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
+//    public void setImage(byte[] image) {
+//        this.image = image;
+//    }
 
     public void setAddress(String address) {
         this.address = address;

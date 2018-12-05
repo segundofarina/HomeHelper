@@ -207,7 +207,7 @@ public class ClientController {
             double lat = Double.parseDouble(coord[0]);
             double lng = Double.parseDouble(coord[1]);
             //add working zone
-            coordenatesSet.add(new CoordenatesPoint(i, lat, lng));
+            coordenatesSet.add(new CoordenatesPoint(loggedInUser.getId(),i, lat, lng));
         }
         coordenatesService.insertCoordenatesOfProvider(loggedInUser.getId(), coordenatesSet);
 

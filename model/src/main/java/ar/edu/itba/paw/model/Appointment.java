@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 @Entity
 @Table(name = "appointments")
@@ -76,8 +77,13 @@ public class Appointment {
         return date;
     }
 
-    public String getDateDMY() {
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+    public String getDateDMY(Locale locale) {
+        DateFormat df;
+        if(locale.getLanguage().equals("en")) {
+            df = new SimpleDateFormat("MM/dd/yyyy");
+        }else {
+            df = new SimpleDateFormat("dd/MM/yyyy");
+        }
         return df.format(getDate());
     }
 

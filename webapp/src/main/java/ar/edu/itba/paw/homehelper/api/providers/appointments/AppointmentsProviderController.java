@@ -40,6 +40,7 @@ public class AppointmentsProviderController {
     public Response getProviderAppointments(){
 
         Locale locale = request.getLocale();
+
         List<Appointment> list = appointmentService.getAppointmentsByProviderId(loggedUser.id());
 
         return Response.ok(new AppointmentProviderListDto(list,locale,messageSource)).build();
@@ -97,7 +98,7 @@ public class AppointmentsProviderController {
         }
 
         if(!updateAppointment) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); //TODO check if it should return internal server error
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         return Response.ok().build();

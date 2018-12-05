@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -62,7 +64,7 @@ public class SProviderHibernateDaoTest extends AbstractTransactionalJUnit4Spring
     @Test
     public void getServiceProvidersTest() {
 
-        final Set<SProvider> sProviders = sProviderDao.getServiceProviders();
+        final List<SProvider> sProviders = sProviderDao.getServiceProviders();
         assertNotNull(sProviders);
         assertTrue(containsSpId(sProviders, SPROVIDER_ID));
         assertTrue(containsSpId(sProviders, SPROVIDER_ID));
@@ -106,7 +108,7 @@ public class SProviderHibernateDaoTest extends AbstractTransactionalJUnit4Spring
 
     }
 
-    public boolean containsSpId(Set<SProvider> list, int id) {
+    public boolean containsSpId(Collection<SProvider> list, int id) {
         for (SProvider s : list) {
             if (s.getUser().getId() == id) {
                 return true;

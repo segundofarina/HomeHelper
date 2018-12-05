@@ -84,14 +84,15 @@
                         <div class="pull-right close"><i class="fa fa-times"></i></div>
                         <div class="row">
                             <div class="col-xs-4 img-container">
-                                <c:choose>
-                                    <c:when test="${lastPostProvider.client.image == null}">
-                                        <img src="<c:url value="/resources/img/defaultProfile.png" />" alt="profile picture"/>
-                                    </c:when>
-                                    <c:otherwise>
+
+                                <%--<c:choose>--%>
+                                    <%--<c:when test="${lastPostProvider.user.image == null}">--%>
+                                        <%--<img src="<c:url value="/resources/img/defaultProfile.png" />" alt="profile picture"/>--%>
+                                    <%--</c:when>--%>
+                                    <%--<c:otherwise>--%>
                                         <img src="<c:url value="/profile/${lastPostProvider.id}/profileimage" />" alt="profile picture"/>
-                                    </c:otherwise>
-                                </c:choose>
+                                    <%--</c:otherwise>--%>
+                                <%--</c:choose>--%>
                             </div>
                             <div class="col-xs-8">
                                 <p><c:out value="${lastPostProvider.client.firstname}" /></p>
