@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper.api.providers.id.reviews;
 
 
+import ar.edu.itba.paw.homehelper.api.PaginationController;
 import ar.edu.itba.paw.homehelper.dto.CalificationDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewsListDto;
@@ -73,7 +74,7 @@ public class ReviewsIdProviderController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        final Link[] links = getPaginationLinks(page, maxPage);
+        final Link[] links = PaginationController.getPaginationLinks(uriInfo,page, maxPage);
 
         return Response.ok(new ReviewsListDto(reviews, page, pageSize, maxPage,locale,messageSource)).links(links).build(); /* TODO: this should be paginated */
     }
@@ -82,7 +83,6 @@ public class ReviewsIdProviderController {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response addReview(@QueryParam("appId") final Integer appointmentId,final ReviewDto review) {
-        /* TODO check if user is allowed to make the review" */
 
         if(appointmentId == null || review == null || review.getComment() == null || review.getScores() ==null){
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -122,26 +122,4 @@ public class ReviewsIdProviderController {
         return Response.ok(new ReviewDto()).build();
     }
 
-    private Link[] getPaginationLinks(final int page, final int maxPage) {
-        List<Link> links = new ArrayList<>();
-
-        if(page > 1) {
-            links.add(getLink("prev", page - 1));
-        }
-
-        if(page < maxPage) {
-            links.add(getLink("next", page + 1));
-        }
-
-        links.add(getLink("first", 1));
-        links.add(getLink("last", maxPage));
-
-        return links.toArray(new Link[0]);
-    }
-
-    private Link getLink(final String rel, final int idx) {
-        UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
-        uriBuilder.replaceQueryParam("page", idx);
-        return Link.fromUriBuilder(uriBuilder).rel(rel).build();
-    }
 }

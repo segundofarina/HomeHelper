@@ -1,4 +1,5 @@
 package ar.edu.itba.paw.homehelper.api.providers;
+import ar.edu.itba.paw.homehelper.api.PaginationController;
 import ar.edu.itba.paw.homehelper.dto.*;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
@@ -76,7 +77,7 @@ public class ProvidersController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        final Link[] links = getPaginationLinks(page, maxPage);
+        final Link[] links = PaginationController.getPaginationLinks(uriInfo,page, maxPage);
 
         return Response.ok(new ProvidersListDto(new ArrayList<>(providers), page, pageSize, maxPage,locale,messageSource)).links(links).build();
     }
@@ -121,26 +122,5 @@ public class ProvidersController {
 
 
 
-    private Link[] getPaginationLinks(final int page, final int maxPage) {
-        List<Link> links = new ArrayList<>();
 
-        if(page > 1) {
-            links.add(getLink("prev", page - 1));
-        }
-
-        if(page < maxPage) {
-            links.add(getLink("next", page + 1));
-        }
-
-        links.add(getLink("first", 1));
-        links.add(getLink("last", maxPage));
-
-        return links.toArray(new Link[0]);
-    }
-
-    private Link getLink(final String rel, final int idx) {
-        UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
-        uriBuilder.replaceQueryParam("page", idx);
-        return Link.fromUriBuilder(uriBuilder).rel(rel).build();
-    }
 }

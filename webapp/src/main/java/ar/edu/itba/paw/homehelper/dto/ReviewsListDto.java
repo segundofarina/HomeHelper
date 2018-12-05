@@ -40,6 +40,7 @@ public class ReviewsListDto {
         });
     }
 
+
     public List<ReviewDto> getReviews() {
         return reviews;
     }

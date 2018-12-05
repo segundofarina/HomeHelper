@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.homehelper.api.providers.reviews;
 
+import ar.edu.itba.paw.homehelper.api.PaginationController;
 import ar.edu.itba.paw.homehelper.dto.ReviewDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewsListDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
@@ -11,10 +12,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,7 +52,16 @@ public class ReviewsProvidersController {
 
         List<Review> reviews = sProviderService.getReviewsOfServiceProvider(loggedUser.id(),page,pageSize);
 
-        return Response.ok(new ReviewsListDto(reviews,locale,messageSource)).build(); /* TODO: this should be paginated */
+        final int maxPage = (int) Math.ceil((double) reviews.size() / pageSize); // TODO: get max page from sProviderService
+
+        if(page > maxPage && maxPage != 0) { // TODO: this should be before searching for providers
+
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        final Link[] links = PaginationController.getPaginationLinks(uriInfo,page, maxPage);
+
+        return Response.ok(new ReviewsListDto(reviews,page,pageSize,maxPage,locale,messageSource)).links(links).build(); /* TODO: this should be paginated */
     }
 
 //    @GET
@@ -64,5 +71,6 @@ public class ReviewsProvidersController {
 //        Review review = dummyReview();
 //        return Response.ok(new ReviewDto(review)).build();
 //    }
+
 
 }
