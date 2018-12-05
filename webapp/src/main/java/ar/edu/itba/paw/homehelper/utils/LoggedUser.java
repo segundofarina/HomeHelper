@@ -18,15 +18,24 @@ public class LoggedUser {
         return getUserDetails().getUsername();
     }
 
-    public int id() {
+    public Integer id() {
+        if(getUserDetails() == null) {
+            return null;
+        }
         return getUserDetails().getId();
     }
 
-    public boolean isVerified() {
+    public Boolean isVerified() {
+        if(getUserDetails() == null) {
+            return null;
+        }
         return getUserDetails().isVerified();
     }
 
-    public boolean isProvider() {
+    public Boolean isProvider() {
+        if(getUserDetails() == null) {
+            return null;
+        }
         return getUserDetails().isProvider();
     }
 }
