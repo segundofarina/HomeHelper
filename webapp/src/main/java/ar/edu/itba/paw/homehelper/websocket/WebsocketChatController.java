@@ -2,6 +2,7 @@ package ar.edu.itba.paw.homehelper.websocket;
 
 import ar.edu.itba.paw.homehelper.auth.HHUserDetails;
 import ar.edu.itba.paw.homehelper.auth.JwtAuthentication;
+import ar.edu.itba.paw.interfaces.services.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -13,6 +14,9 @@ import java.security.Principal;
 public class WebsocketChatController {
 
     @Autowired
+    private ChatService chatService;
+
+    @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/messages")
@@ -22,17 +26,18 @@ public class WebsocketChatController {
             throw new IllegalArgumentException();
         }
 
-        /* Current user sendig the message */
+        /* Current user sending the message */
         HHUserDetails user = (HHUserDetails) ((JwtAuthentication) principal).getPrincipal();
-        System.out.println(user.getId());
-        System.out.println(user.getUsername());
         //System.out.println(principal.getName());
+
+        String toUsername = msg.getUsername();
 
         /* TODO: VALIDATE USERNAME */
 
         MsgEntity outputMsg = msg;
         outputMsg.setUsingAsClient(!msg.isUsingAsClient());
+        outputMsg.setUsername(user.getUsername());
 
-        messagingTemplate.convertAndSendToUser(msg.getUsername(), "/queue/messages", outputMsg);
+        messagingTemplate.convertAndSendToUser(toUsername, "/queue/messages", outputMsg);
     }
 }
