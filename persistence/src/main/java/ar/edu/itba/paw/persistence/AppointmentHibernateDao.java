@@ -3,11 +3,9 @@ package ar.edu.itba.paw.persistence;
 import ar.edu.itba.paw.interfaces.daos.AppointmentDao;
 import ar.edu.itba.paw.model.*;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -85,22 +83,22 @@ public class AppointmentHibernateDao implements AppointmentDao {
     }
 
     @Override
-    public boolean reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+    public Review reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
         Optional<Appointment> appointment = Optional.ofNullable(em.find(Appointment.class, appointmentId));
         if (!appointment.isPresent()) {
-            return false;
+            return null;
         }
         Optional<User> user = Optional.ofNullable(em.find(User.class, userId));
         if (!user.isPresent()) {
-            return false;
+            return null;
         }
         Optional<Aptitude> aptitude = Optional.ofNullable(em.find(Aptitude.class, aptitudeId));
         if (!aptitude.isPresent()) {
-            return false;
+            return null;
         }
         Review review = new Review(quality, cleanness, price, punctuality, treatment, comment, Date.from(Instant.now()), user.get(), aptitude.get());
         em.persist(review);
         appointment.get().setClientReview(true);
-        return true;
+        return review;
     }
 }

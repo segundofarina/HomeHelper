@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.interfaces.daos;
 
 import ar.edu.itba.paw.model.Appointment;
+import ar.edu.itba.paw.model.Review;
 import ar.edu.itba.paw.model.Status;
 
 import java.util.Date;
@@ -23,6 +24,6 @@ public interface AppointmentDao {
 
     boolean removeAppointment(int appointmentId);
 
-    boolean reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
+    Review reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
 }
 

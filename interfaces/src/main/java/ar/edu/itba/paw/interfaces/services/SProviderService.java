@@ -53,4 +53,8 @@ public interface SProviderService {
     Optional<SProvider> create(int id, String description, Map<Integer, String> aptitudes, Set<CoordenatesPoint> coordenates);
 
     List<SProvider> getServiceProviders(int id, int page, int pageSize);
+
+    List<Review> getReviewsOfServiceProvider(int id, Integer serviceTypeId, int page, int pageSize);
+
+    List<Review> getReviewsOfServiceProvider(int id, int page, int pageSize);
 }

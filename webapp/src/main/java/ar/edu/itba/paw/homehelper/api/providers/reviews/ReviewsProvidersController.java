@@ -41,32 +41,21 @@ public class ReviewsProvidersController {
     @Autowired
     private SProviderService sProviderService;
 
+    private final static String CURRENT_PAGE = "1";
+    private final static String PAGE_SIZE = "100";
+
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getReviews() {
+    public Response getReviews(@QueryParam("page") @DefaultValue(CURRENT_PAGE) final int page,
+                               @QueryParam("pageSize") @DefaultValue(PAGE_SIZE) final int pageSize) {
 
         Locale locale = request.getLocale();
 
-        List<Review> reviews = new ArrayList<>(sProviderService.getReviewsOfServiceProvider(loggedUser.id()));
+        List<Review> reviews = sProviderService.getReviewsOfServiceProvider(loggedUser.id(),page,pageSize);
 
         return Response.ok(new ReviewsListDto(reviews,locale,messageSource)).build(); /* TODO: this should be paginated */
     }
-
-    private List<Review> dummyReviews () {
-        List<Review> reviews = new ArrayList<>();
-        reviews.add(dummyReview());
-        reviews.add(dummyReview());
-        reviews.add(dummyReview());
-        reviews.add(dummyReview());
-        reviews.add(dummyReview());
-        return reviews;
-    }
-
-    private Review dummyReview() {
-        return new Review(1,2,3,4,5,"Comment", new Date(), null, null);
-    }
-
 
 //    @GET
 //    @Path("/{id}")

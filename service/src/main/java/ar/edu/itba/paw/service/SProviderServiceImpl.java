@@ -12,9 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @Service
 public class SProviderServiceImpl implements SProviderService {
@@ -165,7 +162,6 @@ public class SProviderServiceImpl implements SProviderService {
     private List<SProvider> getServiceProviders() {
         return sProviderDao.getServiceProviders();
     }
-
     private List<SProvider> getServiceProvidersWithServiceType(int serviceType) {
         List<SProvider> filteredSp = new ArrayList<SProvider>();
 
@@ -195,8 +191,6 @@ public class SProviderServiceImpl implements SProviderService {
 
         return provider.subList(start,end);
     }
-
-
     private List<SProvider> getServiceProvidersByNeighborhood(double clientLocationLat, double clientLocationLng, int userId) {
 
         List<SProvider> allServiceProviders = getServiceProviders();
@@ -240,8 +234,6 @@ public class SProviderServiceImpl implements SProviderService {
 
         return provider.subList(start,end);
     }
-
-
     private List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId) {
         List<SProvider> allServiceProviders = getServiceProvidersWithServiceType(stId);
 
@@ -264,7 +256,6 @@ public class SProviderServiceImpl implements SProviderService {
         return res;
     }
 
-
     @Transactional
     @Override
     public List<SProvider> getServiceProvidersByServiceType(int stId, int userId, int page, int pageSize) {
@@ -282,7 +273,6 @@ public class SProviderServiceImpl implements SProviderService {
 
         return provider.subList(start,end);
     }
-
     private List<SProvider> getServiceProvidersByServiceType(int stId, int userId) {
         List<SProvider> allServiceProviders = getServiceProvidersWithServiceType(stId);
 
@@ -313,7 +303,6 @@ public class SProviderServiceImpl implements SProviderService {
 
         return provider.subList(start,end);
     }
-
     private List<SProvider> getServiceProviders(int userId) {
         List<SProvider> allServiceProviders = getServiceProviders();
 
@@ -326,6 +315,53 @@ public class SProviderServiceImpl implements SProviderService {
         }
 
         return res;
+    }
+
+    @Transactional
+    @Override
+    public List<Review> getReviewsOfServiceProvider(int userId, Integer serviceTypeId, int page, int pageSize) {
+        List<Review> reviews = getReviewsOfServiceProvider(userId,serviceTypeId);
+
+        int start = page * pageSize;
+        int end = start + pageSize;
+
+        if(end > reviews.size()){
+            return reviews.subList(start,reviews.size());
+        }else if(start > reviews.size()){
+            return reviews;
+        }
+
+        return reviews.subList(start,end);
+    }
+    private List<Review> getReviewsOfServiceProvider(int userId, Integer serviceTypeId) {
+        List<Review> reviews = new ArrayList<>(getReviewsOfServiceProvider(userId));
+
+        List<Review> res = new ArrayList<>();
+
+        for (Review review : reviews) {
+            if(review.getAptitude().getService().getId() == serviceTypeId){
+                res.add(review);
+            }
+        }
+
+        return res;
+    }
+
+    @Transactional
+    @Override
+    public List<Review> getReviewsOfServiceProvider(int id, int page, int pageSize) {
+        List<Review> reviews = new ArrayList<>(getReviewsOfServiceProvider(id));
+
+        int start = page * pageSize;
+        int end = start + pageSize;
+
+        if(end > reviews.size()){
+            return reviews.subList(start,reviews.size());
+        }else if(start > reviews.size()){
+            return reviews;
+        }
+
+        return reviews.subList(start,end);
     }
 
     private boolean hasAptitude(SProvider sp, int stId) {
@@ -358,8 +394,6 @@ public class SProviderServiceImpl implements SProviderService {
     public Set<Aptitude> getAptitudesOfUser(int id) {
         return aptitudeDao.getAptitudesOfUser(id);
     }
-
-
 
     public boolean isLatLngInPolygon(double lat, double lng, List<CoordenatesPoint> polygon){
         Collections.sort(polygon,Comparator.comparingInt(CoordenatesPoint::getPosition));
