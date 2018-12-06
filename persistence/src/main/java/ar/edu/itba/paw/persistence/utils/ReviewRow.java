@@ -12,6 +12,8 @@ public class ReviewRow{
 
     private int aptitudeId;
 
+    private int appointmentId;
+
     private String comment;
 
     private int quality;
@@ -29,11 +31,14 @@ public class ReviewRow{
     private User user;
 
 
-    public ReviewRow(int id, int userId, int aptitudeId, String comment, int quality, int cleanness, int price, int punctuality, int treatment,
+
+
+    public ReviewRow(int id, int userId, int aptitudeId,int appointmentId, String comment, int quality, int cleanness, int price, int punctuality, int treatment,
                      Date date, String username, String password, String firstname, String lastname, String email, String phone, String address, boolean verified) {
         this.id = id;
         this.userId = userId;
         this.aptitudeId = aptitudeId;
+        this.appointmentId = appointmentId;
         this.comment = comment;
         this.quality = quality;
         this.cleanness = cleanness;

@@ -77,12 +77,6 @@ public class AppointmentHibernateDao implements AppointmentDao {
         return true;
     }
 
-    @Override
-    public boolean removeAppointment(int appointmentId) {
-        Optional<Appointment> appointmentOp = Optional.ofNullable(em.find(Appointment.class, appointmentId));
-        appointmentOp.ifPresent(appointment -> em.remove(appointment));
-        return appointmentOp.isPresent();
-    }
 
     @Override
     public boolean reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
@@ -98,7 +92,7 @@ public class AppointmentHibernateDao implements AppointmentDao {
         if (!aptitude.isPresent()) {
             return false;
         }
-        Review review = new Review(quality, cleanness, price, punctuality, treatment, comment, Date.from(Instant.now()), user.get(), aptitude.get());
+        Review review = new Review(quality, cleanness, price, punctuality, treatment, comment, Date.from(Instant.now()), user.get(), aptitude.get(),appointmentId);
         em.persist(review);
         appointment.get().setClientReview(true);
         return true;

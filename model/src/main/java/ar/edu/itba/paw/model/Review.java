@@ -23,11 +23,12 @@ public class Review {
     @Fetch(FetchMode.JOIN)
     private User user;
 
-//    @Column(name = "appointmentId")
-//    private int appointmentId;
+    @Column(name = "appointmentId")
+    private int appointmentId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "aptitudeId")
+    @Fetch(FetchMode.JOIN)
     private Aptitude aptitude;
 
     @Column(name = "comment", length = 10000)
@@ -55,7 +56,7 @@ public class Review {
 
     }
 
-    public Review(int quality, int cleanness, int price, int punctuality, int treatment, String comment, Date date, User user, Aptitude aptitude) {
+    public Review(int quality, int cleanness, int price, int punctuality, int treatment, String comment, Date date, User user, Aptitude aptitude, int appointmentId) {
         this.quality = quality;
         this.cleanness = cleanness;
         this.price = price;
@@ -65,9 +66,10 @@ public class Review {
         this.date = date;
         this.user = user;
         this.aptitude = aptitude;
+        this.appointmentId = appointmentId;
     }
 
-    public Review(int id,int quality, int cleanness, int price, int punctuality, int treatment, String comment, Date date, User user, Aptitude aptitude) {
+    public Review(int id,int quality, int cleanness, int price, int punctuality, int treatment, String comment, Date date, User user, Aptitude aptitude, int appointmentId) {
         this.id= id;
         this.quality = quality;
         this.cleanness = cleanness;
@@ -78,6 +80,7 @@ public class Review {
         this.date = date;
         this.user = user;
         this.aptitude = aptitude;
+        this.appointmentId = appointmentId;
     }
 
     public int getQualityCalification() {
@@ -122,6 +125,11 @@ public class Review {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         return df.format(getDate());
     }
+
+    public int getAppointmentId() {
+        return appointmentId;
+    }
+
 
     public User getUser() {
         return user;

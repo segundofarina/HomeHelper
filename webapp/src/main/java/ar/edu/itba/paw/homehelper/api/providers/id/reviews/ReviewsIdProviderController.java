@@ -1,7 +1,6 @@
 package ar.edu.itba.paw.homehelper.api.providers.id.reviews;
 
 
-import ar.edu.itba.paw.homehelper.dto.CalificationDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewsListDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;

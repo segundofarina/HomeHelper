@@ -41,7 +41,7 @@ public class SProviderHibernateDao implements SProviderDao {
                 .stream().collect(Collectors.groupingBy(CoordenatesPoint::getUserId));
 
         Map<Integer,List<ReviewRow>>reviewsRowMap = em.createQuery(
-                "select new ar.edu.itba.paw.persistence.utils.ReviewRow(r.id,r.user.id,r.aptitude.id,r.comment,r.quality, r.cleanness,r.price,r.punctuality,r.treatment,r.date," +
+                "select new ar.edu.itba.paw.persistence.utils.ReviewRow(r.id,r.user.id,r.aptitude.id,r.appointmentId,r.comment,r.quality, r.cleanness,r.price,r.punctuality,r.treatment,r.date," +
                         "u.username,u.password,u.firstname,u.lastname,u.email,u.phone,u.address,u.verified)" +
                         " FROM Review as r INNER JOIN FETCH User as u on r.user.id=u.id",ReviewRow.class)
                 .getResultList()
@@ -63,7 +63,7 @@ public class SProviderHibernateDao implements SProviderDao {
                         Set<Review> reviews = reviewsRowMap
                                 .getOrDefault(ap.getId(), new ArrayList<>())
                                 .stream()
-                                .map(row -> new Review(row.getId(), row.getQuality(), row.getCleanness(), row.getPrice(), row.getPunctuality(), row.getTreatment(), row.getComment(), row.getDate(), row.getUser(), null))
+                                .map(row -> new Review(row.getId(), row.getQuality(), row.getCleanness(), row.getPrice(), row.getPunctuality(), row.getTreatment(), row.getComment(), row.getDate(), row.getUser(), null,row.getAptitudeId()))
                                 .collect(Collectors.toSet());
                         ap.setReviews(reviews);
                     })
@@ -72,7 +72,8 @@ public class SProviderHibernateDao implements SProviderDao {
 
 
         Map<Integer,Set<Aptitude>> aptitudes = new HashMap<>();
-        /*Filleing apitutdes map*/
+
+        /*Filling apitutdes map*/
         aptitudesRowMap.forEach((provId, list)->
                 aptitudes.put(provId, list.stream()
                            .map(apRow -> new Aptitude(

@@ -50,9 +50,9 @@ public class AppointmentHibernateDaoTest {
     @Test
     public void getAppointmentsByProviderIdTest() {
 
-        assertEquals(1, appointmentDao.getAppointmentsByProviderId(SERVICETYPE3_ID).size());
+        assertEquals(2, appointmentDao.getAppointmentsByProviderId(SERVICETYPE3_ID).size());
 
-        assertEquals(0, appointmentDao.getAppointmentsByProviderId(SPROVIDER_ID).size());
+        assertEquals(2, appointmentDao.getAppointmentsByProviderId(SPROVIDER_ID).size());
 
         assertEquals(0, appointmentDao.getAppointmentsByProviderId(INVALID_SERVICE_ID).size());
 
@@ -63,7 +63,7 @@ public class AppointmentHibernateDaoTest {
 
         assertEquals(0, appointmentDao.getAppointmentsByUserId(INVALIDAD_USER_ID).size());
 
-        assertEquals(0, appointmentDao.getAppointmentsByUserId(USER2_ID).size());
+        assertEquals(2, appointmentDao.getAppointmentsByUserId(USER2_ID).size());
     }
 
     @Test
@@ -140,24 +140,9 @@ public class AppointmentHibernateDaoTest {
         assertFalse(appointmentDao.updateDateOfAppointment(INVALID_APPOINTMENT_ID, date));
     }
 
+
     @Test
-    public void removeAppointmentTest() {
-
-        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments");
-
-        boolean ans = appointmentDao.removeAppointment(VALID_APPOINTMENT_ID1);
-
-        em.flush();
-
-        assertTrue(ans);
-
-        ans = appointmentDao.removeAppointment(INVALID_APPOINTMENT_ID);
-
-        em.flush();
-
-        assertFalse(ans);
-
-        assertEquals(--count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
-
+    public void rewviewAppointmentTest(){
+        appointmentDao.reviewAppointment(VALID_APPOINTMENT_ID1,USER2_ID,SPROVIDER_ID,4,4,4,4,4,"Muy bueno");
     }
 }

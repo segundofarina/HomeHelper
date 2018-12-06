@@ -64,7 +64,7 @@ public class ReviewsProvidersController {
     }
 
     private Review dummyReview() {
-        return new Review(1,2,3,4,5,"Comment", new Date(), null, null);
+        return new Review(1,2,3,4,5,"Comment", new Date(), null, null,1);
     }
 
 
