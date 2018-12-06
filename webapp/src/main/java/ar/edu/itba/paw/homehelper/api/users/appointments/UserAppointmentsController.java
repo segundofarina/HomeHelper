@@ -4,6 +4,7 @@ import ar.edu.itba.paw.homehelper.dto.AppointmentClientDto;
 import ar.edu.itba.paw.homehelper.dto.AppointmentClientListDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
+import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.model.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -39,6 +40,9 @@ public class UserAppointmentsController {
     @Autowired
     private LoggedUser loggedUser;
 
+    @Autowired
+    private ChatService chatService;
+
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
@@ -72,6 +76,8 @@ public class UserAppointmentsController {
 
         final Appointment newAppointment = appointmentService.addAppointment(loggedUser.id().get(),appointmentDTO.getProvider().getId(),
                 appointmentDTO.getServiceType().getId(),appointmentDTO.getDate(),appointmentDTO.getAddress(),appointmentDTO.getDescription());
+
+        chatService.sendAppointmentMsg(loggedUser.id().orElseThrow(IllegalArgumentException::new) , appointmentDTO.getProvider().getId(), appointmentDTO.getDate(), appointmentDTO.getDescription());
 
         if(newAppointment == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
