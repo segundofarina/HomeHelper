@@ -80,17 +80,21 @@ public class AppointmentHibernateDao implements AppointmentDao {
     public Optional<Review> reviewAppointment(int appointmentId, int userId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
         Optional<Appointment> appointment = Optional.ofNullable(em.find(Appointment.class, appointmentId));
         if (!appointment.isPresent()) {
-            return null;
+            return Optional.empty();
         }
         Optional<User> user = Optional.ofNullable(em.find(User.class, userId));
         if (!user.isPresent()) {
-            return null;
+            return Optional.empty();
         }
+
 //        Optional<Aptitude> aptitude = Optional.ofNullable(em.find(Aptitude.class, aptitudeId));
 //        if (!aptitude.isPresent()) {
 //            return null;
 //        }
         Appointment appoint = appointment.get();
+        if(appoint.getClient().getId()!=userId){
+            return Optional.empty();
+        }
         Aptitude aptitude = appoint.getProvider().getAptitudes()
                 .stream()
                 .filter(apt -> apt.getService().getId() == appoint.getServiceType().getId())
