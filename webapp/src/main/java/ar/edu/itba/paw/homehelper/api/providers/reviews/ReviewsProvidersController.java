@@ -6,6 +6,7 @@ import ar.edu.itba.paw.homehelper.dto.ReviewsListDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.Review;
+import ar.edu.itba.paw.model.utils.SizeListTuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -39,38 +40,38 @@ public class ReviewsProvidersController {
     @Autowired
     private SProviderService sProviderService;
 
-    private final static String CURRENT_PAGE = "1";
-    private final static String PAGE_SIZE = "100";
-
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getReviews(@QueryParam("page") @DefaultValue(CURRENT_PAGE) final int page,
-                               @QueryParam("pageSize") @DefaultValue(PAGE_SIZE) final int pageSize) {
+    public Response getReviews(@QueryParam("st") final Integer serviceTypeId,
+                               @QueryParam("page") @DefaultValue(PaginationController.CURRENT_PAGE) final int page,
+                               @QueryParam("pageSize") @DefaultValue(PaginationController.PAGE_SIZE) final int pageSize) {
+
+        if(page < 1 || pageSize < 1) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
 
         Locale locale = request.getLocale();
 
-        List<Review> reviews = sProviderService.getReviewsOfServiceProvider(loggedUser.id(),page,pageSize);
+        SizeListTuple<Review> reviews;
 
-        final int maxPage = (int) Math.ceil((double) reviews.size() / pageSize); // TODO: get max page from sProviderService
+        if(serviceTypeId == null){
+            reviews = sProviderService.getReviewsOfServiceProvider(loggedUser.id(),-1,page,pageSize);
+        }else {
+            reviews = sProviderService.getReviewsOfServiceProvider(loggedUser.id(), serviceTypeId, page, pageSize);
+        }
 
-        if(page > maxPage && maxPage != 0) { // TODO: this should be before searching for providers
+        final int maxPage = (int) Math.ceil((double) reviews.getSize() / pageSize);
 
+        if(page > maxPage && maxPage != 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         final Link[] links = PaginationController.getPaginationLinks(uriInfo,page, maxPage);
 
-        return Response.ok(new ReviewsListDto(reviews,page,pageSize,maxPage,locale,messageSource)).links(links).build(); /* TODO: this should be paginated */
+        return Response.ok(new ReviewsListDto(reviews.getList(), page, pageSize, maxPage,locale,messageSource)).links(links).build();
     }
 
-//    @GET
-//    @Path("/{id}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getReview(@PathParam("id") final int id) {
-//        Review review = dummyReview();
-//        return Response.ok(new ReviewDto(review)).build();
-//    }
 
 
 }

@@ -6,8 +6,6 @@ import ar.edu.itba.paw.homehelper.dto.AppointmentProviderListDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -35,8 +33,6 @@ public class AppointmentsProviderController {
 
     @Autowired
     private MessageSource messageSource;
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(AppointmentsProviderController.class);
 
     @GET
     @Path("/")
@@ -76,10 +72,8 @@ public class AppointmentsProviderController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAppointment(@PathParam("id") final Integer id, final ActionDto update) {
 
-        LOGGER.info("NO LLEGA");
-
         if(id == null){
-            LOGGER.info("id == null");
+
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         final Appointment appointment = appointmentService.getAppointment(id);
@@ -94,7 +88,6 @@ public class AppointmentsProviderController {
         final boolean updateAppointment;
 
         if(update == null) {
-            LOGGER.info("update == null");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }else if(update.getAction().equals("confirm")){
             updateAppointment = appointmentService.confirmAppointment(appointment.getAppointmentId());
@@ -103,7 +96,6 @@ public class AppointmentsProviderController {
         }else if(update.getAction().equals("reject")){
             updateAppointment = appointmentService.rejectAppointment(appointment.getAppointmentId());
         }else{
-            LOGGER.info("update == "+update.getAction());
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 

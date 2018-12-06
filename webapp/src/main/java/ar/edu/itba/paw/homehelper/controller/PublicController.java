@@ -145,7 +145,7 @@ public class PublicController {
         }
 
 
-        final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(lat, lng, serviceTypeId, getUserId(loggedInUser),0,1);
+        final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(lat, lng, serviceTypeId, getUserId(loggedInUser),0,1).getList();
 
 
         mav.addObject("user", loggedInUser);

@@ -43,11 +43,5 @@ public class IdProvidersController {
         return Response.ok(new ProviderDto(provider,locale,messageSource)).build();
     }
 
-//    @PUT
-//    @Path("/")
-//    @Produces(value = MediaType.APPLICATION_JSON)
-//    public Response updateProvider(@PathParam("id") final int id){
-//        final SProvider provider = sProviderService.up
-//    }
 
 }

@@ -1,35 +1,24 @@
 package ar.edu.itba.paw.homehelper.api.providers.id.reviews;
-
-
 import ar.edu.itba.paw.homehelper.api.PaginationController;
-import ar.edu.itba.paw.homehelper.api.providers.appointments.AppointmentsProviderController;
-import ar.edu.itba.paw.homehelper.dto.CalificationDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewsListDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
-import ar.edu.itba.paw.interfaces.daos.ReviewDao;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.interfaces.services.ReviewService;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.Review;
 import ar.edu.itba.paw.model.utils.SizeListTuple;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 @Path("/providers/{id}/reviews")
 public class ReviewsIdProviderController {
-
 
     @Autowired
     LoggedUser loggedUser;
@@ -43,7 +32,6 @@ public class ReviewsIdProviderController {
     @Autowired
     ReviewService reviewService;
 
-
     @Context
     private UriInfo uriInfo;
 
@@ -53,36 +41,37 @@ public class ReviewsIdProviderController {
     @Autowired
     private MessageSource messageSource;
 
-    private final static String CURRENT_PAGE = "1";
-    private final static String PAGE_SIZE = "100";
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(ReviewsIdProviderController.class);
-
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getReviews(@QueryParam("st") final Integer serviceTypeId,
-                               @QueryParam("page") @DefaultValue(CURRENT_PAGE) final int page,
-                               @QueryParam("pageSize") @DefaultValue(PAGE_SIZE) final int pageSize) {
+    public Response getReviews(@PathParam("id") final Integer id,
+                               @QueryParam("st") final Integer serviceTypeId,
+                               @QueryParam("page") @DefaultValue(PaginationController.CURRENT_PAGE) final int page,
+                               @QueryParam("pageSize") @DefaultValue(PaginationController.PAGE_SIZE) final int pageSize) {
 
-        if(page < 1 || pageSize < 1) {
-            LOGGER.info("page < 1 || pageSize < 1");
+        if(id != loggedUser.id()){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        if(id == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-
-        if(serviceTypeId == null){
-            LOGGER.info("serviceTypeId == null");
+        if(page < 1 || pageSize < 1) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         Locale locale = request.getLocale();
 
-        SizeListTuple<Review> reviews = sProviderService.getReviewsOfServiceProvider(loggedUser.id(),serviceTypeId,page,pageSize);
+        SizeListTuple<Review> reviews;
+
+        if(serviceTypeId == null){
+            reviews = sProviderService.getReviewsOfServiceProvider(loggedUser.id(),-1,page,pageSize);
+        }else {
+            reviews = sProviderService.getReviewsOfServiceProvider(loggedUser.id(), serviceTypeId, page, pageSize);
+        }
 
         final int maxPage = (int) Math.ceil((double) reviews.getSize() / pageSize);
 
         if(page > maxPage && maxPage != 0) {
-            LOGGER.info("page = "+page+" > maxPage = "+maxPage+" && maxPage != 0");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 

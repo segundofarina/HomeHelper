@@ -20,11 +20,11 @@ public interface SProviderService {
 
     boolean isServiceProvider(int userId);
 
-    List<SProvider> getServiceProvidersByNeighborhood(double clientLocationLat, double clientLocationLng, int userId,int page, int pageSize);
+    SizeListTuple<SProvider> getServiceProvidersByNeighborhood(double clientLocationLat, double clientLocationLng, int userId, int page, int pageSize);
 
-    List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId, int page, int pageSize);
+    SizeListTuple<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId, int page, int pageSize);
 
-    List<SProvider> getServiceProvidersByServiceType(int stId, int userId, int page, int pageSize);
+    SizeListTuple<SProvider> getServiceProvidersByServiceType(int stId, int userId, int page, int pageSize);
 
 
     Set<Review> getReviewsOfServiceProvider(int sproviderId);
@@ -53,7 +53,7 @@ public interface SProviderService {
 
     Optional<SProvider> create(int id, String description, Map<Integer, String> aptitudes, Set<CoordenatesPoint> coordenates);
 
-    List<SProvider> getServiceProviders(int id, int page, int pageSize);
+    SizeListTuple<SProvider> getServiceProviders(int id, int page, int pageSize);
 
     SizeListTuple<Review> getReviewsOfServiceProvider(int id, Integer serviceTypeId, int page, int pageSize);
 

@@ -8,6 +8,9 @@ import java.util.List;
 
 public class PaginationController {
 
+    public final static String CURRENT_PAGE = "1";
+    public final static String PAGE_SIZE = "100";
+
     public static Link[] getPaginationLinks(UriInfo uriInfo,final int page, final int maxPage) {
         List<Link> links = new ArrayList<>();
 

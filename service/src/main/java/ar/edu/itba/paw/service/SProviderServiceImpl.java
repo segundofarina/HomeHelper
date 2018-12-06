@@ -177,20 +177,20 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Transactional
     @Override
-    public List<SProvider> getServiceProvidersByNeighborhood(double clientLocationLat, double clientLocationLng, int userId, int page, int pageSize) {
+    public SizeListTuple<SProvider> getServiceProvidersByNeighborhood(double clientLocationLat, double clientLocationLng, int userId, int page, int pageSize) {
         List<SProvider> provider = getServiceProvidersByNeighborhood(clientLocationLat,clientLocationLng,userId);
 
         int start = (page-1) * pageSize;
         int end = start + pageSize;
 
+
         if(start > provider.size()){
-            return Collections.emptyList();
-        }
-        else if(end > provider.size()){
-            return provider.subList(start,provider.size());
+            return new SizeListTuple<>(0,Collections.emptyList());
+        }else if(end > provider.size()){
+            return new SizeListTuple<>(provider.size(),provider.subList(start,provider.size()));
         }
 
-        return provider.subList(start,end);
+        return new SizeListTuple<>(provider.size(),provider.subList(start,end));
     }
     private List<SProvider> getServiceProvidersByNeighborhood(double clientLocationLat, double clientLocationLng, int userId) {
 
@@ -219,7 +219,7 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Transactional
     @Override
-    public List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId, int page, int pageSize) {
+    public SizeListTuple<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId, int page, int pageSize) {
         List<SProvider> provider = getServiceProvidersByNeighborhoodAndServiceType(clientLocationLat,clientLocationLng,stId,userId);
 
         int start = (page-1) * pageSize;
@@ -227,13 +227,12 @@ public class SProviderServiceImpl implements SProviderService {
 
 
         if(start > provider.size()){
-            return Collections.emptyList();
-        }
-        else if(end > provider.size()){
-            return provider.subList(start,provider.size());
+            return new SizeListTuple<>(0,Collections.emptyList());
+        }else if(end > provider.size()){
+            return new SizeListTuple<>(provider.size(),provider.subList(start,provider.size()));
         }
 
-        return provider.subList(start,end);
+        return new SizeListTuple<>(provider.size(),provider.subList(start,end));
     }
     private List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId) {
         List<SProvider> allServiceProviders = getServiceProvidersWithServiceType(stId);
@@ -259,20 +258,20 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Transactional
     @Override
-    public List<SProvider> getServiceProvidersByServiceType(int stId, int userId, int page, int pageSize) {
+    public SizeListTuple<SProvider> getServiceProvidersByServiceType(int stId, int userId, int page, int pageSize) {
         List<SProvider> provider = getServiceProvidersByServiceType(stId,userId);
 
         int start = (page-1) * pageSize;
         int end = start + pageSize;
 
+
         if(start > provider.size()){
-            return Collections.emptyList();
-        }
-        else if(end > provider.size()){
-            return provider.subList(start,provider.size());
+            return new SizeListTuple<>(0,Collections.emptyList());
+        }else if(end > provider.size()){
+            return new SizeListTuple<>(provider.size(),provider.subList(start,provider.size()));
         }
 
-        return provider.subList(start,end);
+        return new SizeListTuple<>(provider.size(),provider.subList(start,end));
     }
     private List<SProvider> getServiceProvidersByServiceType(int stId, int userId) {
         List<SProvider> allServiceProviders = getServiceProvidersWithServiceType(stId);
@@ -290,19 +289,20 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Transactional
     @Override
-    public List<SProvider> getServiceProviders(int userId, int page, int pageSize) {
+    public SizeListTuple<SProvider> getServiceProviders(int userId, int page, int pageSize) {
         List<SProvider> provider = getServiceProviders(userId);
 
-        int start = page * pageSize;
+        int start = (page-1) * pageSize;
         int end = start + pageSize;
 
-        if(end > provider.size()){
-            return provider.subList(start,provider.size());
-        }else if(start > provider.size()){
-            return provider;
+
+        if(start > provider.size()){
+            return new SizeListTuple<>(0,Collections.emptyList());
+        }else if(end > provider.size()){
+            return new SizeListTuple<>(provider.size(),provider.subList(start,provider.size()));
         }
 
-        return provider.subList(start,end);
+        return new SizeListTuple<>(provider.size(),provider.subList(start,end));
     }
     private List<SProvider> getServiceProviders(int userId) {
         List<SProvider> allServiceProviders = getServiceProviders();
@@ -329,7 +329,7 @@ public class SProviderServiceImpl implements SProviderService {
 
 
         if(start > reviews.size()){
-            return new SizeListTuple<>(0,null);
+            return new SizeListTuple<>(0,Collections.emptyList());
         }else if(end > reviews.size()){
             return new SizeListTuple<>(reviews.size(),reviews.subList(start,reviews.size()));
         }
@@ -341,8 +341,9 @@ public class SProviderServiceImpl implements SProviderService {
 
         List<Review> res = new ArrayList<>();
 
+
         for (Review review : reviews) {
-            if(review.getAptitude().getService().getId() == serviceTypeId){
+            if(review.getAptitude().getService().getId() == serviceTypeId || serviceTypeId == -1){
                 res.add(review);
             }
         }

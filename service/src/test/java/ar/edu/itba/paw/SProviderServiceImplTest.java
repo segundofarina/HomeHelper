@@ -59,9 +59,9 @@ public class SProviderServiceImplTest {
         when(sProviderDaoMock.getServiceProviders())
                 .thenReturn(dummySProviders(5))
                 .thenReturn(dummySProviders(5));
-        assertEquals(5, sProviderService.getServiceProvidersByNeighborhood(-34.577873 , -58.421153,100,1,10).size());
+        assertEquals(5, sProviderService.getServiceProvidersByNeighborhood(-34.577873 , -58.421153,100,1,10).getList().size());
 
-        assertEquals(0, sProviderService.getServiceProvidersByNeighborhood(-34.524597 , -58.502428,100,1,10).size());
+        assertEquals(0, sProviderService.getServiceProvidersByNeighborhood(-34.524597 , -58.502428,100,1,10).getList().size());
     }
 
 //    @Test
