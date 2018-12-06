@@ -95,8 +95,8 @@ public class ReviewsIdProviderController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        if(review.getScores().getQuality() == 0 || review.getScores().getCleanness()== 0 ||
-                review.getScores().getPrice()== 0 || review.getScores().getPunctuality()== 0 || review.getScores().getTreatment() == 0 ){
+        if(review.getScores().getQuality() == 0 || review.getScores().getCleanness() == 0 ||
+                review.getScores().getPrice() == 0 || review.getScores().getPunctuality() == 0 || review.getScores().getTreatment() == 0 ){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
