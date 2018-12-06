@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
-import java.util.Locale;
 
 @Path("/providers/{id}/reviews")
 public class ReviewsIdProviderController {
@@ -50,9 +49,6 @@ public class ReviewsIdProviderController {
                                @QueryParam("page") @DefaultValue(PaginationController.CURRENT_PAGE) final int page,
                                @QueryParam("pageSize") @DefaultValue(PaginationController.PAGE_SIZE) final int pageSize) {
 
-        if(id != loggedUser.id()){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         if(id == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -62,15 +58,15 @@ public class ReviewsIdProviderController {
 
 
 
-        SizeListTuple<Review> reviews;
+        SizeListTuple<Review> reviewsTuple;
 
         if(serviceTypeId == null){
-            reviews = sProviderService.getReviewsOfServiceProvider(loggedUser.id(),-1,page,pageSize);
+            reviewsTuple = sProviderService.getReviewsOfServiceProvider(id,-1,page,pageSize);
         }else {
-            reviews = sProviderService.getReviewsOfServiceProvider(loggedUser.id(), serviceTypeId, page, pageSize);
+            reviewsTuple = sProviderService.getReviewsOfServiceProvider(id, serviceTypeId, page, pageSize);
         }
 
-        final int maxPage = (int) Math.ceil((double) reviews.getSize() / pageSize);
+        final int maxPage = (int) Math.ceil((double) reviewsTuple.getSize() / pageSize);
 
         if(page > maxPage && maxPage != 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -78,7 +74,7 @@ public class ReviewsIdProviderController {
 
         final Link[] links = PaginationController.getPaginationLinks(uriInfo,page, maxPage);
 
-        return Response.ok(new ReviewsListDto(reviews.getList(), page, pageSize, maxPage)).links(links).build();
+        return Response.ok(new ReviewsListDto(reviewsTuple.getList(), page, pageSize, maxPage)).links(links).build();
     }
 
     @POST
@@ -87,23 +83,23 @@ public class ReviewsIdProviderController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addReview(@QueryParam("appId") final Integer appointmentId,final ReviewDto review) {
 
-        if(appointmentId == null || review == null || review.getComment() == null || review.getScores() ==null){
+        if(appointmentId == null || review == null || review.getComment() == null || review.getScores() ==null || !loggedUser.id().isPresent()){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         if(review.getScores().getQuality() == 0 || review.getScores().getCleanness()== 0 ||
                 review.getScores().getPrice()== 0 || review.getScores().getPunctuality()== 0 || review.getScores().getTreatment() == 0 ){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-
+        int loggedUserId = loggedUser.id().get();
         Appointment appointment = appointmentService.getAppointment(appointmentId);
 
-        if(appointment.getClient().getId() != loggedUser.id()){
+        if(appointment.getClient().getId() != loggedUserId){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
         final Review newReview =  appointmentService.reviewAppointment(
                 appointmentId,
-                loggedUser.id(),
+                loggedUserId,
                 -1,//TODO review only by appointment id
                     (int) review.getScores().getQuality(),
                     (int) review.getScores().getCleanness(),
@@ -122,12 +118,11 @@ public class ReviewsIdProviderController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getReview(@PathParam("reviewId") final Integer reviewId){
 
-        Locale locale = request.getLocale();
 
         Review review = reviewService.getReview(reviewId);
 
         if(review == null){
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
 
         return Response.ok(new ReviewDto(review)).build();

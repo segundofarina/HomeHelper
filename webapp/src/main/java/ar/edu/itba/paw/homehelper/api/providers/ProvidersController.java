@@ -54,14 +54,16 @@ public class ProvidersController {
 
         SizeListTuple<SProvider> providers;
 
+        int loggedUserId = loggedUser.id().orElse(-1);
+
         if(latitude == null && longitude == null && serviceTypeId!= null){
-            providers = sProviderService.getServiceProvidersByServiceType(serviceTypeId,loggedUser.id(),page,pageSize);
+            providers = sProviderService.getServiceProvidersByServiceType(serviceTypeId,loggedUserId,page,pageSize);
         } else if(latitude != null && longitude != null && serviceTypeId == null){
-            providers = sProviderService.getServiceProvidersByNeighborhood(latitude,longitude,loggedUser.id(),page,pageSize);
+            providers = sProviderService.getServiceProvidersByNeighborhood(latitude,longitude,loggedUserId,page,pageSize);
         } else if(latitude !=null && longitude != null && serviceTypeId != null){
-            providers = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(latitude,longitude,serviceTypeId,loggedUser.id(),page,pageSize);
+            providers = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(latitude,longitude,serviceTypeId,loggedUserId,page,pageSize);
         }else if(latitude == null && longitude == null && serviceTypeId == null) {
-            providers = sProviderService.getServiceProviders(loggedUser.id(),page,pageSize);
+            providers = sProviderService.getServiceProviders(loggedUserId,page,pageSize);
         }else{
                 return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -83,7 +85,7 @@ public class ProvidersController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createProvider(CreateProviderDto providerDto){
 
-        if(loggedUser.isProvider()){
+        if(loggedUser.isProvider().orElse(true) || !loggedUser.id().isPresent() ){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
@@ -97,15 +99,17 @@ public class ProvidersController {
             aptitudes.put(aptitudeDto.getServiceTypeId(),aptitudeDto.getDescription());
         }
 
+        final int loggedUserId = loggedUser.id().get();
+
         Set<CoordenatesPoint> coordenates = new HashSet<>();
 
         int i = 0;
 
         for(CoordenateDto coordenateDto: providerDto.getWorkingZone()){
-            coordenates.add(new CoordenatesPoint(loggedUser.id(),i++,coordenateDto.getLat(),coordenateDto.getLng()));
+            coordenates.add(new CoordenatesPoint(loggedUserId,i++,coordenateDto.getLat(),coordenateDto.getLng()));
         }
 
-        Optional<SProvider> provider = sProviderService.create(loggedUser.id(),providerDto.getDescription(),aptitudes,coordenates);
+        Optional<SProvider> provider = sProviderService.create(loggedUserId,providerDto.getDescription(),aptitudes,coordenates);
 
         if(!provider.isPresent()){ return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); }
 

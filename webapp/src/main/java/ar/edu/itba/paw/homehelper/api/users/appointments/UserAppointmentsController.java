@@ -45,8 +45,11 @@ public class UserAppointmentsController {
     public Response getAppointments() {
 
         Locale locale = request.getLocale();
+        if(!loggedUser.id().isPresent()){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
-        List<Appointment> appointments = appointmentService.getAppointmentsByUserId(loggedUser.id());
+        List<Appointment> appointments = appointmentService.getAppointmentsByUserId(loggedUser.id().get());
 
         if(appointments == null){
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -63,8 +66,11 @@ public class UserAppointmentsController {
         if(appointmentDTO == null || appointmentDTO.getProvider() == null || appointmentDTO.getServiceType() == null || appointmentDTO.getDate() == null || appointmentDTO.getDescription() == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+        if(!loggedUser.id().isPresent()){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
-        final Appointment newAppointment = appointmentService.addAppointment(loggedUser.id(),appointmentDTO.getProvider().getId(),
+        final Appointment newAppointment = appointmentService.addAppointment(loggedUser.id().get(),appointmentDTO.getProvider().getId(),
                 appointmentDTO.getServiceType().getId(),appointmentDTO.getDate(),appointmentDTO.getAddress(),appointmentDTO.getDescription());
 
         if(newAppointment == null) {
@@ -89,7 +95,7 @@ public class UserAppointmentsController {
         if(appointment == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        if(appointment.getClient().getId() != loggedUser.id()){
+        if(!loggedUser.id().isPresent() || appointment.getClient().getId() != loggedUser.id().get()){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
