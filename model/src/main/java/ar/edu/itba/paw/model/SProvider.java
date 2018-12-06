@@ -1,5 +1,8 @@
 package ar.edu.itba.paw.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +21,9 @@ public class SProvider {
     @Column(name = "userid")
     private int id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "userid")
+    @Fetch(FetchMode.JOIN)
     private User user;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -190,5 +194,16 @@ public class SProvider {
         int result = getDescription() != null ? getDescription().hashCode() : 0;
         result = 31 * result + getId();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "SProvider{" +
+                "description='" + description + '\'' +
+                ", id=" + id +
+                ", user=" + user +
+                ", aptitudes=" + aptitudes +
+                ", coordenates=" + coordenates +
+                '}';
     }
 }

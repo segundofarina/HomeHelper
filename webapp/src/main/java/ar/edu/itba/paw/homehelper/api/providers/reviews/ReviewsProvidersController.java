@@ -51,14 +51,17 @@ public class ReviewsProvidersController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        Locale locale = request.getLocale();
+        if(!loggedUser.id().isPresent()){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        int loggedUserId = loggedUser.id().get();
 
         SizeListTuple<Review> reviews;
 
         if(serviceTypeId == null){
-            reviews = sProviderService.getReviewsOfServiceProvider(loggedUser.id(),-1,page,pageSize);
+            reviews = sProviderService.getReviewsOfServiceProvider(loggedUserId,-1,page,pageSize);
         }else {
-            reviews = sProviderService.getReviewsOfServiceProvider(loggedUser.id(), serviceTypeId, page, pageSize);
+            reviews = sProviderService.getReviewsOfServiceProvider(loggedUserId, serviceTypeId, page, pageSize);
         }
 
         final int maxPage = (int) Math.ceil((double) reviews.getSize() / pageSize);
@@ -69,7 +72,9 @@ public class ReviewsProvidersController {
 
         final Link[] links = PaginationController.getPaginationLinks(uriInfo,page, maxPage);
 
-        return Response.ok(new ReviewsListDto(reviews.getList(), page, pageSize, maxPage,locale,messageSource)).links(links).build();
+
+        return Response.ok(new ReviewsListDto(reviews.getList(), page, pageSize, maxPage)).links(links).build();
+
     }
 
 

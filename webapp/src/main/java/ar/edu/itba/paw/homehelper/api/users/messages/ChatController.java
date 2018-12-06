@@ -29,8 +29,10 @@ public class ChatController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMessages() {
 
-        List<Chat> chatList = chatService.getChatsOfUser(loggedUser.id());
-
+        if(!loggedUser.id().isPresent()){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        List<Chat> chatList = chatService.getChatsOfUser(loggedUser.id().get());
         return Response.ok(new ChatListDTO(chatList)).build();
     }
 }

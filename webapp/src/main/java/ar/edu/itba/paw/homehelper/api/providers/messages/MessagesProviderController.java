@@ -29,7 +29,10 @@ public class MessagesProviderController {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMessages() {
-        List<Chat> chatList = chatService.getChatsOfProvider(loggedUser.id());
+        if(!loggedUser.isProvider().orElse(false) || !loggedUser.id().isPresent()){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        List<Chat> chatList = chatService.getChatsOfProvider(loggedUser.id().get());
         return Response.ok(new ChatListDTO(chatList)).build();
     }
 }

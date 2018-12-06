@@ -172,8 +172,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Transactional
     @Override
-    public Review reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
-        return appointmentDao.reviewAppointment(appointmentId, userId, aptitudeId, quality, cleanness, price, punctuality, treatment, comment);
+    public Optional<Review> reviewAppointment(int appointmentId, int userId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+        return appointmentDao.reviewAppointment(appointmentId, userId, quality, cleanness, price, punctuality, treatment, comment);
     }
 
     @Override

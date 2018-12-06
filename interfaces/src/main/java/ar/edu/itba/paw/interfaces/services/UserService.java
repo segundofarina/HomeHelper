@@ -1,6 +1,9 @@
 package ar.edu.itba.paw.interfaces.services;
 
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.UserImage;
+
+import java.util.Optional;
 
 public interface UserService {
 
@@ -13,7 +16,7 @@ public interface UserService {
 
     boolean login(String username, String password);
 
-    byte[] getProfileImage(int id);
+    Optional<UserImage> getProfileImage(int id);
 
     boolean updatePasswordOfUser(int userId, String password);
 

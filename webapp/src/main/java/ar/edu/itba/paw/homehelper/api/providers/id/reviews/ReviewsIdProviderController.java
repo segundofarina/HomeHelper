@@ -1,4 +1,5 @@
 package ar.edu.itba.paw.homehelper.api.providers.id.reviews;
+
 import ar.edu.itba.paw.homehelper.api.PaginationController;
 import ar.edu.itba.paw.homehelper.dto.CreateReviewDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewDto;
@@ -11,12 +12,11 @@ import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.Review;
 import ar.edu.itba.paw.model.utils.SizeListTuple;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
-import java.util.Locale;
+import java.util.Optional;
 
 @Path("/providers/{id}/reviews")
 public class ReviewsIdProviderController {
@@ -39,9 +39,6 @@ public class ReviewsIdProviderController {
     @Context
     HttpServletRequest request;
 
-    @Autowired
-    private MessageSource messageSource;
-
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
@@ -50,7 +47,6 @@ public class ReviewsIdProviderController {
                                @QueryParam("page") @DefaultValue(PaginationController.CURRENT_PAGE) final int page,
                                @QueryParam("pageSize") @DefaultValue(PaginationController.PAGE_SIZE) final int pageSize) {
 
-
         if(id == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -58,17 +54,17 @@ public class ReviewsIdProviderController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        Locale locale = request.getLocale();
 
-        SizeListTuple<Review> reviews;
+
+        SizeListTuple<Review> reviewsTuple;
 
         if(serviceTypeId == null){
-            reviews = sProviderService.getReviewsOfServiceProvider(loggedUser.id(),-1,page,pageSize);
+            reviewsTuple = sProviderService.getReviewsOfServiceProvider(id,-1,page,pageSize);
         }else {
-            reviews = sProviderService.getReviewsOfServiceProvider(loggedUser.id(), serviceTypeId, page, pageSize);
+            reviewsTuple = sProviderService.getReviewsOfServiceProvider(id, serviceTypeId, page, pageSize);
         }
 
-        final int maxPage = (int) Math.ceil((double) reviews.getSize() / pageSize);
+        final int maxPage = (int) Math.ceil((double) reviewsTuple.getSize() / pageSize);
 
         if(page > maxPage && maxPage != 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -76,7 +72,7 @@ public class ReviewsIdProviderController {
 
         final Link[] links = PaginationController.getPaginationLinks(uriInfo,page, maxPage);
 
-        return Response.ok(new ReviewsListDto(reviews.getList(), page, pageSize, maxPage,locale,messageSource)).links(links).build();
+        return Response.ok(new ReviewsListDto(reviewsTuple.getList(), page, pageSize, maxPage)).links(links).build();
     }
 
     @POST
@@ -91,7 +87,7 @@ public class ReviewsIdProviderController {
         int appointmentId = reviewContainer.getAppointmentId();
         ReviewDto review = reviewContainer.getReview();
 
-        if(review == null || review.getComment() == null || review.getScores() == null){
+        if(review == null || review.getComment() == null || review.getScores() == null || !loggedUser.id().isPresent()){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -99,17 +95,16 @@ public class ReviewsIdProviderController {
                 review.getScores().getPrice() == 0 || review.getScores().getPunctuality() == 0 || review.getScores().getTreatment() == 0 ){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-
+        int loggedUserId = loggedUser.id().get();
         Appointment appointment = appointmentService.getAppointment(appointmentId);
 
-        if(appointment.getClient().getId() != loggedUser.id()){
+        if(appointment.getClient().getId() != loggedUserId){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        final Review newReview =  appointmentService.reviewAppointment(
+        final Optional<Review> newReview =  appointmentService.reviewAppointment(
                 appointmentId,
-                loggedUser.id(),
-                -1,//TODO review only by appointment id
+                loggedUserId,
                     (int) review.getScores().getQuality(),
                     (int) review.getScores().getCleanness(),
                     (int) review.getScores().getPrice(),
@@ -117,7 +112,11 @@ public class ReviewsIdProviderController {
                     (int) review.getScores().getTreatment(),
                     review.getComment()
                 );
-        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newReview.getId())).build();
+        if(!newReview.isPresent()){
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+
+        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newReview.get().getId())).build();
 
         return Response.created(uri).build();
     }
@@ -127,12 +126,11 @@ public class ReviewsIdProviderController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getReview(@PathParam("reviewId") final Integer reviewId){
 
-        Locale locale = request.getLocale();
 
         Review review = reviewService.getReview(reviewId);
 
         if(review == null){
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
 
         return Response.ok(new ReviewDto(review)).build();

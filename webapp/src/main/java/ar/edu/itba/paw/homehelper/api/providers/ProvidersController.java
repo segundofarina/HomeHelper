@@ -6,6 +6,8 @@ import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.CoordenatesPoint;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.utils.SizeListTuple;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -15,7 +17,7 @@ import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.*;
 
-@Path("providers")
+@Path("/providers")
 @Controller
 public class ProvidersController {
 
@@ -35,6 +37,8 @@ public class ProvidersController {
     @Autowired
     private MessageSource messageSource;
 
+    private final Logger LOGGER = LoggerFactory.getLogger(ProvidersController.class);
+
     @GET
     @Path("/")
     @Produces(value = MediaType.APPLICATION_JSON)
@@ -45,7 +49,7 @@ public class ProvidersController {
             @QueryParam("page") @DefaultValue(PaginationController.CURRENT_PAGE) final int page,
             @QueryParam("pageSize") @DefaultValue(PaginationController.PAGE_SIZE) final int pageSize) {
 
-
+        LOGGER.info("in /providers");
         if(page < 1 || pageSize < 1) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -54,14 +58,16 @@ public class ProvidersController {
 
         SizeListTuple<SProvider> providers;
 
+        int loggedUserId = loggedUser.id().orElse(-1);
+
         if(latitude == null && longitude == null && serviceTypeId!= null){
-            providers = sProviderService.getServiceProvidersByServiceType(serviceTypeId,loggedUser.id(),page,pageSize);
+            providers = sProviderService.getServiceProvidersByServiceType(serviceTypeId,loggedUserId,page,pageSize);
         } else if(latitude != null && longitude != null && serviceTypeId == null){
-            providers = sProviderService.getServiceProvidersByNeighborhood(latitude,longitude,loggedUser.id(),page,pageSize);
+            providers = sProviderService.getServiceProvidersByNeighborhood(latitude,longitude,loggedUserId,page,pageSize);
         } else if(latitude !=null && longitude != null && serviceTypeId != null){
-            providers = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(latitude,longitude,serviceTypeId,loggedUser.id(),page,pageSize);
+            providers = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(latitude,longitude,serviceTypeId,loggedUserId,page,pageSize);
         }else if(latitude == null && longitude == null && serviceTypeId == null) {
-            providers = sProviderService.getServiceProviders(loggedUser.id(),page,pageSize);
+            providers = sProviderService.getServiceProviders(loggedUserId,page,pageSize);
         }else{
                 return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -83,7 +89,7 @@ public class ProvidersController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createProvider(CreateProviderDto providerDto){
 
-        if(loggedUser.isProvider()){
+        if(loggedUser.isProvider().orElse(true) || !loggedUser.id().isPresent() ){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
@@ -97,15 +103,17 @@ public class ProvidersController {
             aptitudes.put(aptitudeDto.getServiceTypeId(),aptitudeDto.getDescription());
         }
 
+        final int loggedUserId = loggedUser.id().get();
+
         Set<CoordenatesPoint> coordenates = new HashSet<>();
 
         int i = 0;
 
         for(CoordenateDto coordenateDto: providerDto.getWorkingZone()){
-            coordenates.add(new CoordenatesPoint(loggedUser.id(),i++,coordenateDto.getLat(),coordenateDto.getLng()));
+            coordenates.add(new CoordenatesPoint(loggedUserId,i++,coordenateDto.getLat(),coordenateDto.getLng()));
         }
 
-        Optional<SProvider> provider = sProviderService.create(loggedUser.id(),providerDto.getDescription(),aptitudes,coordenates);
+        Optional<SProvider> provider = sProviderService.create(loggedUserId,providerDto.getDescription(),aptitudes,coordenates);
 
         if(!provider.isPresent()){ return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); }
 

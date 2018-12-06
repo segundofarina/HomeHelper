@@ -46,7 +46,7 @@ public class ReviewHibernateDaoTest extends AbstractTransactionalJUnit4SpringCon
 
         assertEquals(2, reviewDao.getReviewsOfAptitude(VALID_APTITUDE_ID).size());
 
-        assertEquals(1, reviewDao.getReviewsOfAptitude(VALID_APTITUDE2_ID).size());
+        assertEquals(1, reviewDao.getReviewsOfAptitude(VALID_APTITUDE4_ID).size());
 
         assertEquals(0, reviewDao.getReviewsOfAptitude(INVALID_APTITUDE_ID).size());
     }

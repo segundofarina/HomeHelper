@@ -5,6 +5,8 @@ import ar.edu.itba.paw.homehelper.auth.JwtAuthentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class LoggedUser {
     public HHUserDetails getUserDetails() {
@@ -18,24 +20,17 @@ public class LoggedUser {
         return getUserDetails().getUsername();
     }
 
-    public Integer id() {
-        if(getUserDetails() == null) {
-            return null;
-        }
-        return getUserDetails().getId();
+    public Optional<Integer> id() {
+        return Optional.ofNullable(getUserDetails()).map(HHUserDetails::getId);
     }
 
-    public Boolean isVerified() {
-        if(getUserDetails() == null) {
-            return null;
-        }
-        return getUserDetails().isVerified();
+    public Optional<Boolean> isVerified() {
+
+        return Optional.ofNullable(getUserDetails()).map(HHUserDetails::isVerified);
     }
 
-    public Boolean isProvider() {
-        if(getUserDetails() == null) {
-            return null;
-        }
-        return getUserDetails().isProvider();
+    public Optional<Boolean> isProvider() {
+
+        return Optional.ofNullable(getUserDetails()).map(HHUserDetails::isProvider);
     }
 }

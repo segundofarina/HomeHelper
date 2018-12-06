@@ -48,7 +48,7 @@ public class AppointmentsProviderController {
 
         Locale locale = request.getLocale();
 
-        List<Appointment> list = appointmentService.getAppointmentsByProviderId(loggedUser.id());
+        List<Appointment> list = appointmentService.getAppointmentsByProviderId(loggedUser.id().orElseThrow(IllegalArgumentException::new));
 
         if(list == null){
             Response.status(Response.Status.INTERNAL_SERVER_ERROR);
@@ -66,7 +66,7 @@ public class AppointmentsProviderController {
         Locale locale = request.getLocale();
 
         Appointment ap = appointmentService.getAppointment(id);
-        if(ap == null || ap.getProvider().getId() != loggedUser.id()){
+        if(ap == null || ap.getProvider().getId() != loggedUser.id().orElseThrow(IllegalArgumentException::new)){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
@@ -88,7 +88,8 @@ public class AppointmentsProviderController {
         if(appointment == null ){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        if(appointment.getProvider().getId() != loggedUser.id()){
+
+        if( loggedUser.id().map(lid -> lid.equals(appointment.getClient().getId())).orElse(true)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
@@ -124,7 +125,7 @@ public class AppointmentsProviderController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        Appointment newAppointment = appointmentService.addAppointment(loggedUser.id(),appointmentDto.getProvider().getId(),appointmentDto.getServiceType().getId(),appointmentDto.getDate(),
+        Appointment newAppointment = appointmentService.addAppointment(loggedUser.id().orElseThrow(IllegalArgumentException::new),appointmentDto.getProvider().getId(),appointmentDto.getServiceType().getId(),appointmentDto.getDate(),
                 appointmentDto.getAddress(),appointmentDto.getDescription());
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newAppointment.getAppointmentId())).build();
