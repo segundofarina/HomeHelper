@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper.api.providers.appointments;
 
 import ar.edu.itba.paw.homehelper.dto.ActionDto;
+import ar.edu.itba.paw.homehelper.dto.AppointmentClientDto;
 import ar.edu.itba.paw.homehelper.dto.AppointmentProviderDto;
 import ar.edu.itba.paw.homehelper.dto.AppointmentProviderListDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
@@ -10,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,6 +34,9 @@ public class AppointmentsProviderController {
 
     @Context
     HttpServletRequest request;
+
+    @Context
+    private UriInfo uriInfo;
 
     @Autowired
     private MessageSource messageSource;
@@ -105,6 +112,24 @@ public class AppointmentsProviderController {
 
         return Response.ok().build();
     }
+
+    @POST
+    @Path("/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createAppointment(final AppointmentClientDto appointmentDto) {
+
+        if(appointmentDto.getServiceType() == null || appointmentDto.getDescription() == null || appointmentDto.getDate() == null || appointmentDto.getProvider() == null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        Appointment newAppointment = appointmentService.addAppointment(loggedUser.id(),appointmentDto.getProvider().getId(),appointmentDto.getServiceType().getId(),appointmentDto.getDate(),
+                appointmentDto.getAddress(),appointmentDto.getDescription());
+
+        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newAppointment.getAppointmentId())).build();
+
+        return Response.created(uri).build();
+    }
+
 }
 
 
