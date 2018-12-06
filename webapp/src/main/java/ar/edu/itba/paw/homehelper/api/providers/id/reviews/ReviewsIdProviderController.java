@@ -11,7 +11,6 @@ import ar.edu.itba.paw.model.Appointment;
 import ar.edu.itba.paw.model.Review;
 import ar.edu.itba.paw.model.utils.SizeListTuple;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -37,9 +36,6 @@ public class ReviewsIdProviderController {
 
     @Context
     HttpServletRequest request;
-
-    @Autowired
-    private MessageSource messageSource;
 
     @GET
     @Path("/")
