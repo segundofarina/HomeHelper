@@ -124,8 +124,15 @@ public class AppointmentsProviderController {
         if(appointmentDto.getServiceType() == null || appointmentDto.getDescription() == null || appointmentDto.getDate() == null || appointmentDto.getProvider() == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+        if(!loggedUser.id().isPresent()){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        
+        if(loggedUser.id().get() == appointmentDto.getProvider().getId()){
+            return Response.status(Response.Status.CONFLICT).build();
+        }
 
-        Appointment newAppointment = appointmentService.addAppointment(loggedUser.id().orElseThrow(IllegalArgumentException::new),appointmentDto.getProvider().getId(),appointmentDto.getServiceType().getId(),appointmentDto.getDate(),
+        Appointment newAppointment = appointmentService.addAppointment(loggedUser.id().get(),appointmentDto.getProvider().getId(),appointmentDto.getServiceType().getId(),appointmentDto.getDate(),
                 appointmentDto.getAddress(),appointmentDto.getDescription());
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newAppointment.getAppointmentId())).build();
