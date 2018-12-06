@@ -143,6 +143,6 @@ public class AppointmentHibernateDaoTest {
 
     @Test
     public void rewviewAppointmentTest(){
-        appointmentDao.reviewAppointment(VALID_APPOINTMENT_ID1,USER2_ID,SPROVIDER_ID,4,4,4,4,4,"Muy bueno");
+        appointmentDao.reviewAppointment(VALID_APPOINTMENT_ID1,USER2_ID,4,4,4,4,4,"Muy bueno");
     }
 }

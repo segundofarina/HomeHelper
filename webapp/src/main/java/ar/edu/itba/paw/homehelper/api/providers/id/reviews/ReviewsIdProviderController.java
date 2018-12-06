@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
+import java.util.Optional;
 
 @Path("/providers/{id}/reviews")
 public class ReviewsIdProviderController {
@@ -93,10 +94,9 @@ public class ReviewsIdProviderController {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        final Review newReview =  appointmentService.reviewAppointment(
+        final Optional<Review> newReview =  appointmentService.reviewAppointment(
                 appointmentId,
                 loggedUserId,
-                -1,//TODO review only by appointment id
                     (int) review.getScores().getQuality(),
                     (int) review.getScores().getCleanness(),
                     (int) review.getScores().getPrice(),
@@ -104,7 +104,11 @@ public class ReviewsIdProviderController {
                     (int) review.getScores().getTreatment(),
                 review.getComment()
                 );
-        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newReview.getId())).build();
+        if(!newReview.isPresent()){
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+
+        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newReview.get().getId())).build();
 
         return Response.created(uri).build();
     }

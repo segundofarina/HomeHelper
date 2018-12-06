@@ -22,6 +22,6 @@ public interface AppointmentDao {
 
     boolean updateDateOfAppointment(int appointmentId, Date date);
 
-    Review reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
+    Optional<Review> reviewAppointment(int appointmentId, int userId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
 }
 
