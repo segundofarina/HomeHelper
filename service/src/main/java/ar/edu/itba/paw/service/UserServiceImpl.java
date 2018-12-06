@@ -58,8 +58,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public byte[] getProfileImage(int userId) {
-        return userDao.getImage(userId).map(UserImage::getImage).orElse(null);
+    public Optional<UserImage> getProfileImage(int userId) {
+        return userDao.getImage(userId);
 
     }
 

@@ -1,41 +1,39 @@
 package ar.edu.itba.paw.homehelper.dto;
 
 import ar.edu.itba.paw.model.Review;
+import ar.edu.itba.paw.model.SProvider;
 import org.springframework.context.MessageSource;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ReviewsListDto {
     private List<AptitudeReviewDto> reviews;
+    private int page;
+    private int pageSize;
+    private int maxPage;
 
     public ReviewsListDto() {
     }
 
-    public ReviewsListDto(List<Review> reviews, Locale locale, MessageSource messageSource) {
+    public ReviewsListDto(List<Review> reviews,int page, int pageSize, int maxPage) {
         this.reviews = new LinkedList<>();
+        reviews.stream()
+                .collect(Collectors.groupingBy(r -> r.getAptitude().getId()))
+                .forEach((id,list)->
+                        this.reviews.add(new AptitudeReviewDto(id,list))
+                );
+        this.page = page;
+        this.pageSize = pageSize;
+        this.maxPage= maxPage;
 
-        Map<Integer, List<Review>> aptitudeReviewMap = new HashMap<>();
 
-        for(Review review : reviews) {
-            List<Review> reviewList;
-            int aptitudeId = review.getAptitude().getId();
-
-            if(!aptitudeReviewMap.containsKey(aptitudeId)) {
-                reviewList = new ArrayList<>();
-            } else {
-                reviewList = aptitudeReviewMap.get(aptitudeId);
-            }
-
-            reviewList.add(review);
-            aptitudeReviewMap.put(aptitudeId, reviewList);
-        }
-
-        for(Integer appointmentId : aptitudeReviewMap.keySet()) {
-            this.reviews.add(new AptitudeReviewDto(appointmentId, aptitudeReviewMap.get(appointmentId)));
-        }
     }
 
-    public List<AptitudeReviewDto> getReviews() {
+
+
+
+    public List<AptitudeReviewDto> getReviews(){
         return reviews;
     }
 

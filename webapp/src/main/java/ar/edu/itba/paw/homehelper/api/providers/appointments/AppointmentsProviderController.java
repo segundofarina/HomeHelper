@@ -1,6 +1,7 @@
 package ar.edu.itba.paw.homehelper.api.providers.appointments;
 
 import ar.edu.itba.paw.homehelper.dto.ActionDto;
+import ar.edu.itba.paw.homehelper.dto.AppointmentClientDto;
 import ar.edu.itba.paw.homehelper.dto.AppointmentProviderDto;
 import ar.edu.itba.paw.homehelper.dto.AppointmentProviderListDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
@@ -10,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,6 +35,9 @@ public class AppointmentsProviderController {
     @Context
     HttpServletRequest request;
 
+    @Context
+    private UriInfo uriInfo;
+
     @Autowired
     private MessageSource messageSource;
 
@@ -43,6 +50,10 @@ public class AppointmentsProviderController {
 
         List<Appointment> list = appointmentService.getAppointmentsByProviderId(loggedUser.id());
 
+        if(list == null){
+            Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+        }
+
         return Response.ok(new AppointmentProviderListDto(list,locale,messageSource)).build();
 
     }
@@ -51,10 +62,6 @@ public class AppointmentsProviderController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProviderAppointment(@PathParam("id") final Integer id){
-
-        if(id == null){
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
 
         Locale locale = request.getLocale();
 
@@ -69,9 +76,11 @@ public class AppointmentsProviderController {
     @PUT
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateAppointment(@PathParam("id") final Integer id, final String action) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateAppointment(@PathParam("id") final Integer id, final ActionDto update) {
 
         if(id == null){
+
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         final Appointment appointment = appointmentService.getAppointment(id);
@@ -79,22 +88,22 @@ public class AppointmentsProviderController {
         if(appointment == null ){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        if(appointment.getProvider().getId() != loggedUser.id()){
+        if(appointment.getClient().getId() != loggedUser.id()){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
         final boolean updateAppointment;
 
-        ActionDto update = ActionDto.parse(action);
-
         if(update == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
-        }else if(update.equals(ActionDto.CONFIRM)){
+        }else if(update.getAction().equals("confirm")){
             updateAppointment = appointmentService.confirmAppointment(appointment.getAppointmentId());
-        }else if(update.equals(ActionDto.COMPLETE)){
+        }else if(update.getAction().equals("complete")){
             updateAppointment = appointmentService.completedAppointment(appointment.getAppointmentId());
-        }else{
+        }else if(update.getAction().equals("reject")){
             updateAppointment = appointmentService.rejectAppointment(appointment.getAppointmentId());
+        }else{
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         if(!updateAppointment) {
@@ -103,6 +112,24 @@ public class AppointmentsProviderController {
 
         return Response.ok().build();
     }
+
+    @POST
+    @Path("/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createAppointment(final AppointmentClientDto appointmentDto) {
+
+        if(appointmentDto.getServiceType() == null || appointmentDto.getDescription() == null || appointmentDto.getDate() == null || appointmentDto.getProvider() == null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        Appointment newAppointment = appointmentService.addAppointment(loggedUser.id(),appointmentDto.getProvider().getId(),appointmentDto.getServiceType().getId(),appointmentDto.getDate(),
+                appointmentDto.getAddress(),appointmentDto.getDescription());
+
+        final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newAppointment.getAppointmentId())).build();
+
+        return Response.created(uri).build();
+    }
+
 }
 
 

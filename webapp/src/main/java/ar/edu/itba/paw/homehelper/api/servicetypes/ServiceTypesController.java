@@ -44,6 +44,10 @@ public class ServiceTypesController {
 
         List<ServiceType> serviceTypes = sTypeService.getServiceTypes();
 
+        if(serviceTypes == null){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
         return Response.ok(new ServiceTypesListDto(serviceTypes,locale,messageSource)).build();
 }
 

@@ -9,11 +9,7 @@ import ar.edu.itba.paw.homehelper.form.SearchForm;
 import ar.edu.itba.paw.homehelper.form.SignUpForm;
 import ar.edu.itba.paw.homehelper.validators.EqualsUsernameValidator;
 import ar.edu.itba.paw.interfaces.services.*;
-import ar.edu.itba.paw.model.CoordenatesPoint;
-import ar.edu.itba.paw.model.Aptitude;
-import ar.edu.itba.paw.model.SProvider;
-import ar.edu.itba.paw.model.TemporaryImage;
-import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,7 +141,7 @@ public class PublicController {
         }
 
 
-        final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(lat, lng, serviceTypeId, getUserId(loggedInUser),0,1);
+        final List<SProvider> list = sProviderService.getServiceProvidersByNeighborhoodAndServiceType(lat, lng, serviceTypeId, getUserId(loggedInUser),0,1).getList();
 
 
         mav.addObject("user", loggedInUser);
@@ -218,7 +214,8 @@ public class PublicController {
     public @ResponseBody
     byte[] providerProfileImage(@PathVariable("userId") int userId) {
         byte[] img = null;
-        img = userService.getProfileImage(userId);
+        img = userService.getProfileImage(userId)
+        .map(UserImage::getImage).orElse(null);
 
         return img;
     }

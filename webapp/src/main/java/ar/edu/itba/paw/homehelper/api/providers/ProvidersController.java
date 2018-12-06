@@ -1,9 +1,11 @@
 package ar.edu.itba.paw.homehelper.api.providers;
+import ar.edu.itba.paw.homehelper.api.PaginationController;
 import ar.edu.itba.paw.homehelper.dto.*;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.CoordenatesPoint;
 import ar.edu.itba.paw.model.SProvider;
+import ar.edu.itba.paw.model.utils.SizeListTuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ public class ProvidersController {
 
     @Autowired
     LoggedUser loggedUser;
+
     @Autowired
     SProviderService sProviderService;
 
@@ -32,9 +35,6 @@ public class ProvidersController {
     @Autowired
     private MessageSource messageSource;
 
-    private final static String CURRENT_PAGE = "1";
-    private final static String PAGE_SIZE = "100";
-
     @GET
     @Path("/")
     @Produces(value = MediaType.APPLICATION_JSON)
@@ -42,15 +42,17 @@ public class ProvidersController {
             @QueryParam("st") final Integer serviceTypeId,
             @QueryParam("lat") final Double latitude,
             @QueryParam("lng") final Double longitude,
-            @QueryParam("page") @DefaultValue(CURRENT_PAGE) final int page,
-            @QueryParam("pageSize") @DefaultValue(PAGE_SIZE) final int pageSize) {
+            @QueryParam("page") @DefaultValue(PaginationController.CURRENT_PAGE) final int page,
+            @QueryParam("pageSize") @DefaultValue(PaginationController.PAGE_SIZE) final int pageSize) {
 
 
         if(page < 1 || pageSize < 1) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        List<SProvider> providers;
+        Locale locale = request.getLocale();
+
+        SizeListTuple<SProvider> providers;
 
         if(latitude == null && longitude == null && serviceTypeId!= null){
             providers = sProviderService.getServiceProvidersByServiceType(serviceTypeId,loggedUser.id(),page,pageSize);
@@ -64,21 +66,15 @@ public class ProvidersController {
                 return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-         // TODO: get sorted and paginated providers, procesing all params (st, lat, lng, page, pageSize)
+        final int maxPage = (int) Math.ceil((double) providers.getSize() / pageSize);
 
-        Locale locale = request.getLocale();
-
-
-        final int maxPage = (int) Math.ceil((double) providers.size() / pageSize); // TODO: get max page from sProviderService
-
-        if(page > maxPage && maxPage != 0) { // TODO: this should be before searching for providers
-
+        if(page > maxPage && maxPage != 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        final Link[] links = getPaginationLinks(page, maxPage);
+        final Link[] links = PaginationController.getPaginationLinks(uriInfo,page, maxPage);
 
-        return Response.ok(new ProvidersListDto(new ArrayList<>(providers), page, pageSize, maxPage,locale,messageSource)).links(links).build();
+        return Response.ok(new ProvidersListDto(new ArrayList<>(providers.getList()), page, pageSize, maxPage,locale,messageSource)).links(links).build();
     }
 
     @POST
@@ -121,26 +117,5 @@ public class ProvidersController {
 
 
 
-    private Link[] getPaginationLinks(final int page, final int maxPage) {
-        List<Link> links = new ArrayList<>();
 
-        if(page > 1) {
-            links.add(getLink("prev", page - 1));
-        }
-
-        if(page < maxPage) {
-            links.add(getLink("next", page + 1));
-        }
-
-        links.add(getLink("first", 1));
-        links.add(getLink("last", maxPage));
-
-        return links.toArray(new Link[0]);
-    }
-
-    private Link getLink(final String rel, final int idx) {
-        UriBuilder uriBuilder = uriInfo.getRequestUriBuilder();
-        uriBuilder.replaceQueryParam("page", idx);
-        return Link.fromUriBuilder(uriBuilder).rel(rel).build();
-    }
 }

@@ -4,7 +4,6 @@ import ar.edu.itba.paw.model.Review;
 import ar.edu.itba.paw.model.User;
 import org.springframework.context.MessageSource;
 
-import java.util.Date;
 import java.util.Locale;
 
 public class ReviewDto {

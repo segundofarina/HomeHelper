@@ -5,6 +5,7 @@ import ar.edu.itba.paw.model.*;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.service.polygonUtils.Point;
 import ar.edu.itba.paw.service.polygonUtils.Polygon;
+import ar.edu.itba.paw.model.utils.SizeListTuple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @Service
 public class SProviderServiceImpl implements SProviderService {
@@ -165,7 +163,6 @@ public class SProviderServiceImpl implements SProviderService {
     private List<SProvider> getServiceProviders() {
         return sProviderDao.getServiceProviders();
     }
-
     private List<SProvider> getServiceProvidersWithServiceType(int serviceType) {
         List<SProvider> filteredSp = new ArrayList<SProvider>();
 
@@ -180,23 +177,21 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Transactional
     @Override
-    public List<SProvider> getServiceProvidersByNeighborhood(double clientLocationLat, double clientLocationLng, int userId, int page, int pageSize) {
+    public SizeListTuple<SProvider> getServiceProvidersByNeighborhood(double clientLocationLat, double clientLocationLng, int userId, int page, int pageSize) {
         List<SProvider> provider = getServiceProvidersByNeighborhood(clientLocationLat,clientLocationLng,userId);
 
         int start = (page-1) * pageSize;
         int end = start + pageSize;
 
+
         if(start > provider.size()){
-            return Collections.emptyList();
-        }
-        else if(end > provider.size()){
-            return provider.subList(start,provider.size());
+            return new SizeListTuple<>(0,Collections.emptyList());
+        }else if(end > provider.size()){
+            return new SizeListTuple<>(provider.size(),provider.subList(start,provider.size()));
         }
 
-        return provider.subList(start,end);
+        return new SizeListTuple<>(provider.size(),provider.subList(start,end));
     }
-
-
     private List<SProvider> getServiceProvidersByNeighborhood(double clientLocationLat, double clientLocationLng, int userId) {
 
         List<SProvider> allServiceProviders = getServiceProviders();
@@ -224,7 +219,7 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Transactional
     @Override
-    public List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId, int page, int pageSize) {
+    public SizeListTuple<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId, int page, int pageSize) {
         List<SProvider> provider = getServiceProvidersByNeighborhoodAndServiceType(clientLocationLat,clientLocationLng,stId,userId);
 
         int start = (page-1) * pageSize;
@@ -232,16 +227,13 @@ public class SProviderServiceImpl implements SProviderService {
 
 
         if(start > provider.size()){
-            return Collections.emptyList();
-        }
-        else if(end > provider.size()){
-            return provider.subList(start,provider.size());
+            return new SizeListTuple<>(0,Collections.emptyList());
+        }else if(end > provider.size()){
+            return new SizeListTuple<>(provider.size(),provider.subList(start,provider.size()));
         }
 
-        return provider.subList(start,end);
+        return new SizeListTuple<>(provider.size(),provider.subList(start,end));
     }
-
-
     private List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId) {
         List<SProvider> allServiceProviders = getServiceProvidersWithServiceType(stId);
 
@@ -264,25 +256,23 @@ public class SProviderServiceImpl implements SProviderService {
         return res;
     }
 
-
     @Transactional
     @Override
-    public List<SProvider> getServiceProvidersByServiceType(int stId, int userId, int page, int pageSize) {
+    public SizeListTuple<SProvider> getServiceProvidersByServiceType(int stId, int userId, int page, int pageSize) {
         List<SProvider> provider = getServiceProvidersByServiceType(stId,userId);
 
         int start = (page-1) * pageSize;
         int end = start + pageSize;
 
+
         if(start > provider.size()){
-            return Collections.emptyList();
-        }
-        else if(end > provider.size()){
-            return provider.subList(start,provider.size());
+            return new SizeListTuple<>(0,Collections.emptyList());
+        }else if(end > provider.size()){
+            return new SizeListTuple<>(provider.size(),provider.subList(start,provider.size()));
         }
 
-        return provider.subList(start,end);
+        return new SizeListTuple<>(provider.size(),provider.subList(start,end));
     }
-
     private List<SProvider> getServiceProvidersByServiceType(int stId, int userId) {
         List<SProvider> allServiceProviders = getServiceProvidersWithServiceType(stId);
 
@@ -299,21 +289,21 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Transactional
     @Override
-    public List<SProvider> getServiceProviders(int userId, int page, int pageSize) {
+    public SizeListTuple<SProvider> getServiceProviders(int userId, int page, int pageSize) {
         List<SProvider> provider = getServiceProviders(userId);
 
-        int start = page * pageSize;
+        int start = (page-1) * pageSize;
         int end = start + pageSize;
 
-        if(end > provider.size()){
-            return provider.subList(start,provider.size());
-        }else if(start > provider.size()){
-            return provider;
+
+        if(start > provider.size()){
+            return new SizeListTuple<>(0,Collections.emptyList());
+        }else if(end > provider.size()){
+            return new SizeListTuple<>(provider.size(),provider.subList(start,provider.size()));
         }
 
-        return provider.subList(start,end);
+        return new SizeListTuple<>(provider.size(),provider.subList(start,end));
     }
-
     private List<SProvider> getServiceProviders(int userId) {
         List<SProvider> allServiceProviders = getServiceProviders();
 
@@ -326,6 +316,56 @@ public class SProviderServiceImpl implements SProviderService {
         }
 
         return res;
+    }
+
+    @Transactional
+    @Override
+    public SizeListTuple<Review> getReviewsOfServiceProvider(int userId, Integer serviceTypeId, int page, int pageSize) {
+
+        List<Review> reviews = getReviewsOfServiceProvider(userId,serviceTypeId);
+
+        int start = (page-1) * pageSize;
+        int end = start + pageSize;
+
+
+        if(start > reviews.size()){
+            return new SizeListTuple<>(0,Collections.emptyList());
+        }else if(end > reviews.size()){
+            return new SizeListTuple<>(reviews.size(),reviews.subList(start,reviews.size()));
+        }
+
+        return new SizeListTuple<>(reviews.size(),reviews.subList(start,end));
+    }
+    private List<Review> getReviewsOfServiceProvider(int userId, Integer serviceTypeId) {
+        List<Review> reviews = new ArrayList<>(getReviewsOfServiceProvider(userId));
+
+        List<Review> res = new ArrayList<>();
+
+
+        for (Review review : reviews) {
+            if(review.getAptitude().getService().getId() == serviceTypeId || serviceTypeId == -1){
+                res.add(review);
+            }
+        }
+
+        return res;
+    }
+
+    @Transactional
+    @Override
+    public List<Review> getReviewsOfServiceProvider(int id, int page, int pageSize) {
+        List<Review> reviews = new ArrayList<>(getReviewsOfServiceProvider(id));
+
+        int start = page * pageSize;
+        int end = start + pageSize;
+
+        if(end > reviews.size()){
+            return reviews.subList(start,reviews.size());
+        }else if(start > reviews.size()){
+            return reviews;
+        }
+
+        return reviews.subList(start,end);
     }
 
     private boolean hasAptitude(SProvider sp, int stId) {
@@ -358,8 +398,6 @@ public class SProviderServiceImpl implements SProviderService {
     public Set<Aptitude> getAptitudesOfUser(int id) {
         return aptitudeDao.getAptitudesOfUser(id);
     }
-
-
 
     public boolean isLatLngInPolygon(double lat, double lng, List<CoordenatesPoint> polygon){
         Collections.sort(polygon,Comparator.comparingInt(CoordenatesPoint::getPosition));
