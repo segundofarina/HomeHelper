@@ -1,5 +1,6 @@
 package ar.edu.itba.paw.homehelper.api.providers.id.reviews;
 import ar.edu.itba.paw.homehelper.api.PaginationController;
+import ar.edu.itba.paw.homehelper.dto.CreateReviewDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewDto;
 import ar.edu.itba.paw.homehelper.dto.ReviewsListDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
@@ -49,9 +50,7 @@ public class ReviewsIdProviderController {
                                @QueryParam("page") @DefaultValue(PaginationController.CURRENT_PAGE) final int page,
                                @QueryParam("pageSize") @DefaultValue(PaginationController.PAGE_SIZE) final int pageSize) {
 
-        if(id != loggedUser.id()){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
+
         if(id == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -84,11 +83,18 @@ public class ReviewsIdProviderController {
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addReview(@QueryParam("appId") final Integer appointmentId,final ReviewDto review) {
-
-        if(appointmentId == null || review == null || review.getComment() == null || review.getScores() ==null){
+    public Response addReview(final CreateReviewDto reviewContainer) {
+        if(reviewContainer == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+
+        int appointmentId = reviewContainer.getAppointmentId();
+        ReviewDto review = reviewContainer.getReview();
+
+        if(review == null || review.getComment() == null || review.getScores() == null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
         if(review.getScores().getQuality() == 0 || review.getScores().getCleanness()== 0 ||
                 review.getScores().getPrice()== 0 || review.getScores().getPunctuality()== 0 || review.getScores().getTreatment() == 0 ){
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -109,7 +115,7 @@ public class ReviewsIdProviderController {
                     (int) review.getScores().getPrice(),
                     (int) review.getScores().getPunctuality(),
                     (int) review.getScores().getTreatment(),
-                review.getComment()
+                    review.getComment()
                 );
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newReview.getId())).build();
 
@@ -129,7 +135,7 @@ public class ReviewsIdProviderController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        return Response.ok(new ReviewDto(review,locale,messageSource)).build();
+        return Response.ok(new ReviewDto(review)).build();
     }
 
 }
