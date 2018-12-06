@@ -78,6 +78,7 @@ public class AppointmentsProviderController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAppointment(@PathParam("id") final Integer id, final ActionDto update) {
+        Locale locale = request.getLocale();
 
         if(id == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -87,6 +88,7 @@ public class AppointmentsProviderController {
         if(appointment == null ){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+
         if( loggedUser.id().map(lid -> lid.equals(appointment.getClient().getId())).orElse(true)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
@@ -109,7 +111,9 @@ public class AppointmentsProviderController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
-        return Response.ok().build();
+        Appointment updatedAppointment = appointmentService.getAppointment(id);
+
+        return Response.ok(new AppointmentProviderDto(updatedAppointment, locale, messageSource)).build();
     }
 
     @POST
