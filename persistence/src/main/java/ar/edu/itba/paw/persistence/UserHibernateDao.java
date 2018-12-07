@@ -18,12 +18,9 @@ public class UserHibernateDao implements UserDao {
     private EntityManager em;
 
     @Override
-    public User create(String username, String password, String firstname, String lastname, String email, String phone, String address, byte[] image) {
+    public User create(String username, String password, String firstname, String lastname, String email, String phone, String address) {
         final User user = new User(username, password, firstname, lastname, email, phone, address, /*image,*/ false);
         em.persist(user);
-        final UserImage userImage= new UserImage(user.getId(),image);
-        em.persist(userImage);
-
         return user;
     }
 

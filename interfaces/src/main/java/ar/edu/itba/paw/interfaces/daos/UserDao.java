@@ -16,7 +16,7 @@ public interface UserDao {
      * @param phone
      * @return Created User or null if it's a duplicate
      */
-    User create(String username, String password, String firstName, String lastName, String email, String phone, String address, byte[] image);
+    User create(String username, String password, String firstName, String lastName, String email, String phone, String address);
 
 
     Optional<User> verifyUser(int userId);
