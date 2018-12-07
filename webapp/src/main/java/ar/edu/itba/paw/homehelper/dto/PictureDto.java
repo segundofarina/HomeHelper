@@ -1,9 +1,11 @@
 package ar.edu.itba.paw.homehelper.dto;
 
-public class PictureDto {
-    private byte[] image;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
-    public PictureDto(byte[] image) {
+public class PictureDto {
+    private FormDataBodyPart image;
+
+    public PictureDto(FormDataBodyPart image) {
         this.image = image;
     }
 
@@ -11,6 +13,6 @@ public class PictureDto {
     }
 
     public byte[] getImage() {
-        return image;
+        return image.getValueAs(byte[].class);
     }
 }
