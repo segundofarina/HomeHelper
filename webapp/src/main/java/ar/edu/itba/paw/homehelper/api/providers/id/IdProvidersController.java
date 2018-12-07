@@ -89,9 +89,9 @@ public class IdProvidersController {
     }
 
     @DELETE
-    @Path("/aptitudes/{serviceTypeId}")
+    @Path("/aptitudes/{stId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteAptitude(@PathParam("id") final Integer id, @PathParam("serviceTypeId") final Integer serviceTypeId){
+    public Response deleteAptitude(@PathParam("id") final Integer id, @PathParam("stId") final Integer serviceTypeId){
 
         if(!loggedUser.id().isPresent() || loggedUser.id().get() != id || !loggedUser.isProvider().isPresent() || !loggedUser.isProvider().get()){
             return Response.status(Response.Status.FORBIDDEN).build();
