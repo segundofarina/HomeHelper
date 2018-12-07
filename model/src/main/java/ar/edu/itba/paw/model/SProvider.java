@@ -68,10 +68,15 @@ public class SProvider {
 
         double quality = 0;
 
+        int i = 0;
+
         for (Aptitude aptitude : aptitudes) {
-            quality += aptitude.getQualityCalification();
+            if(aptitude.getQualityCalification() != 0) {
+                quality += aptitude.getQualityCalification();
+                i++;
+            }
         }
-        return Math.floor((quality / aptitudes.size()) * 100) / 100;
+        return Math.floor((quality / i) * 100) / 100;
     }
 
     public double getCleannessCalification() {
@@ -82,11 +87,16 @@ public class SProvider {
 
         double cleanness = 0;
 
+        int i = 0;
+
         for (Aptitude aptitude : aptitudes) {
-            cleanness += aptitude.getCleannessCalification();
+            if(aptitude.getCleannessCalification() != 0) {
+                cleanness += aptitude.getCleannessCalification();
+                i++;
+            }
         }
 
-        return Math.floor((cleanness / aptitudes.size()) * 100) / 100;
+        return Math.floor((cleanness / i) * 100) / 100;
     }
 
     public double getPriceCalification() {
@@ -97,11 +107,16 @@ public class SProvider {
 
         double price = 0;
 
+        int i = 0;
+
         for (Aptitude aptitude : aptitudes) {
-            price += aptitude.getPriceCalification();
+            if(aptitude.getPriceCalification() != 0) {
+                price += aptitude.getPriceCalification();
+                i++;
+            }
         }
 
-        return Math.floor((price / aptitudes.size()) * 100) / 100;
+        return Math.floor((price / i) * 100) / 100;
     }
 
     public double getPunctualityCalification() {
@@ -112,10 +127,15 @@ public class SProvider {
 
         double punctuality = 0;
 
+        int i = 0;
+
         for (Aptitude aptitude : aptitudes) {
-            punctuality += aptitude.getPunctualityCalification();
+            if(aptitude.getPunctualityCalification() != 0) {
+                punctuality += aptitude.getPunctualityCalification();
+                i++;
+            }
         }
-        return Math.floor((punctuality / aptitudes.size()) * 100) / 100;
+        return Math.floor((punctuality / i) * 100) / 100;
     }
 
     public double getTreatmentCalification() {
@@ -126,10 +146,15 @@ public class SProvider {
 
         double treatment = 0;
 
+        int i = 0;
+
         for (Aptitude aptitude : aptitudes) {
-            treatment += aptitude.getTreatmentCalification();
+            if(aptitude.getTreatmentCalification() != 0) {
+                treatment += aptitude.getTreatmentCalification();
+                i++;
+            }
         }
-        return Math.floor((treatment / aptitudes.size()) * 100) / 100;
+        return Math.floor((treatment / i) * 100) / 100;
     }
 
     public double getGeneralCalification() {
@@ -140,10 +165,15 @@ public class SProvider {
 
         double general = 0;
 
+        int i = 0;
+
         for (Aptitude aptitude : aptitudes) {
-            general += aptitude.getGeneralCalification();
+            if(aptitude.getGeneralCalification() != 0) {
+                general += aptitude.getGeneralCalification();
+                i++;
+            }
         }
-        return Math.floor((general / aptitudes.size()) * 100) / 100;
+        return Math.floor((general / i) * 100) / 100;
     }
 
     public boolean hasReviews() {
