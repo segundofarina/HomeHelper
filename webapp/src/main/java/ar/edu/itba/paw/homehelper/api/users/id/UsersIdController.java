@@ -57,7 +57,9 @@ public class UsersIdController {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        userService.updateImageOfUser(id,pictureDto.getImageAsByte());
+        if(pictureDto.getImage() != null) {
+            userService.updateImageOfUser(id,pictureDto.getImageAsByte());
+        }
 
         return Response.ok().build();
 
