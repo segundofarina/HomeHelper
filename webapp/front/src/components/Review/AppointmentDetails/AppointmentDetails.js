@@ -5,8 +5,13 @@ import defaultImg from '../../../assets/img/defaultProfile.png'
 import Rating from '../../UI/rating/Rating'
 
 const appointmentDetails = (props) => {
+    const panelStyles = [styles.Panel]
+    if(props.panelStyles) {
+        panelStyles.push(props.panelStyles)
+    }
+
     return (
-        <Panel className={styles.Panel}>
+        <Panel className={panelStyles.join(' ')}>
             <div className={styles.Container} >
                 <img className={styles.ProfilePicture} src={defaultImg} alt="" />
                 <h3 className={styles.ProviderName}>{props.name}</h3>

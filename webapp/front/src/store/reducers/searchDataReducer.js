@@ -3,6 +3,10 @@ import * as actionTypes from './../actions/actionTypes'
 const initialState = {
     location: '',
     serviceType: '',
+    coords: {
+        lat: '',
+        lng: '',
+    }
 }
 
 const reducer = (state = initialState, action) => {
@@ -11,7 +15,8 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 location: action.payload.location,
-                serviceType: action.payload.serviceType
+                serviceType: action.payload.serviceType,
+                coords: action.payload.coords,
             }
         default:
             return state

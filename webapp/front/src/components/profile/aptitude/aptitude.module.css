@@ -111,3 +111,32 @@ hr:last-of-type{
 .ReactModal__Body--open {
     overflow-y: hidden;
 }
+
+.StatusPanel {
+    width: 100%!important;
+}
+
+.StatusPanel img {
+    height: 10em;
+}
+
+.NoReviewsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.NoReviewsImg {
+    height: 150px;
+    width: 150px;
+    object-fit: contain;
+}
+
+.NoReviewsDescription {
+    margin-bottom: 0;
+    margin-top: 20px;
+    font-style: italic;
+    color: #6f7a85;
+}

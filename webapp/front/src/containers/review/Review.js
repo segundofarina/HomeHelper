@@ -39,7 +39,7 @@ class Review extends Component {
     loadAppointmentFromApi = async () => {
         this.setState({status: apiStatus.API_STATUS_LOADING})
         try {
-            const response = await axios.get('/appointments/'+this.state.id)
+            const response = await axios.get('/users/appointments/'+this.state.id)
             this.setState({
                 status: apiStatus.API_STATUS_DONE,
                 appointment: response.data,
@@ -90,7 +90,8 @@ class Review extends Component {
                                         date={appointment.date}
                                         description={appointment.description}
                                         calification={appointment.provider.generalCalification} />
-                    <WriteReview id={appointment.id} />
+                    <WriteReview appointmentId={appointment.id}
+                                providerId={appointment.provider.id} />
                 </div>
             </div>
         )   

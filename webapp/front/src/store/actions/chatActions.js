@@ -90,3 +90,9 @@ export const chatUpdateUsingAsClient = (useAsClient) => {
         }
     }
 }
+
+export const chatClearState = () => {
+    return {
+        type: actionTypes.CHAT_CLEAR_STATE,
+    }
+}

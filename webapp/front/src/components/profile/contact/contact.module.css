@@ -44,7 +44,7 @@
     border-radius: 4px;
 }
 .InputText{
-    resize: vertical;
+    resize: none;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;
     line-height: 1.42857143;
@@ -57,6 +57,7 @@
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;
+    outline: none;
 }
 
 .Panel{
@@ -101,4 +102,30 @@
 }
 .Calendar input{
     border: none;
+}
+
+
+
+.ValidationError input, .ValidationError select, .ValidationError textarea {
+    border: 1px solid #e21313!important;
+}
+
+.ValidationMsg {
+    color: #e21313;
+    font-size: 13px;
+    text-align: center;
+    font-style: italic;
+}
+
+.FormGroup {
+    margin-bottom: 15px;
+}
+
+
+.ValidationError .Calendar {
+    border: 1px solid #e21313!important;
+}
+
+.ValidationError .Calendar input {
+    border: none!important;
 }

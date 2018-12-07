@@ -10,6 +10,10 @@ import * as chatActions from '../../store/actions/chatActions'
 import * as apiStatus from '../../store/apiStatus'
 
 class Messages extends Component {
+
+    url = "http://pawserver.it.itba.edu.ar/paw-2018a-4/ws/websocket"
+    //url = "http://localhost:8080/ws/websocket"
+    /*TODO profiles */
     state = {
         socketConnected: true,
     }
@@ -28,8 +32,6 @@ class Messages extends Component {
     }
 
     handleRecvMsg = (msg) => {
-        console.log('recv: ')
-        console.log(msg)
         if(msg.usingAsClient) {
             this.props.chatRecvMsg(msg.username, msg.text) 
         }
@@ -45,13 +47,13 @@ class Messages extends Component {
 
     handleSocketConnect = () => {
         if(!this.state.socketConnected) {
-            //this.setState({socketConnected: true})
+            this.setState({socketConnected: true})
         }
     }
 
     handleSocketDisconnect = () => {
         if(this.state.socketConnected) {
-            //this.setState({socketConnected: false})
+            this.setState({socketConnected: false})
             this.props.chatUpdateIsNewMsg()
         }
     }
@@ -104,7 +106,7 @@ class Messages extends Component {
             } else {
                 element = (
                     <Fragment>
-                        <SockJsClient url="http://pawserver.it.itba.edu.ar/paw-2018a-4/ws/websocket"
+                        <SockJsClient url={this.url}
                                     ref={this.websocketRef} 
                                     topics={["/user/queue/messages"]} 
                                     onMessage={this.handleRecvMsg} 

@@ -70,6 +70,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 usingAsClient: action.payload.usingAsClient
             }
+        case actionTypes.CHAT_CLEAR_STATE:
+            return initialState
         default:
             return state
     }

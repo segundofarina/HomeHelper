@@ -21,10 +21,10 @@
     font-size: 15px;
     margin-top: 2em;
     font-weight: 600;
+    margin-bottom: 2em;
 }
 
 .StarsContainer {
-    margin-top: 2em;
     margin-bottom: 3em;
     display: flex;
     flex-wrap: wrap;
@@ -57,6 +57,7 @@
     min-height: 9em;
     height: 100%;
     resize: none;
+    outline: none;
 }
 
 .SendBtn {
@@ -69,4 +70,17 @@
     margin-top: 2em;
     font-style: italic;
     font-size: 12px;
+}
+
+
+
+.ValidationError input, .ValidationError select, .ValidationError textarea {
+    border: 1px solid #e21313!important;
+}
+
+.ValidationMsg {
+    color: #e21313;
+    font-size: 13px;
+    text-align: center;
+    font-style: italic;
 }

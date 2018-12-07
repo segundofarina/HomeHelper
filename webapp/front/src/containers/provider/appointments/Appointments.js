@@ -12,11 +12,13 @@ import Button from '../../../components/UI/Button/Button'
 import EmptyTable from '../../../components/Provider/Appointments/EmptyTable/EmptyTable'
 import MultiButton from '../../../components/UI/MultiButton/MultiButton'
 import * as userDataActions from '../../../store/actions/userDataActions'
+import axios from 'axios'
 
 class Appointments extends Component {
     state = {
         showingSection: 1,
-        headers: [null, 'Name', 'Date', 'Address', 'Service Type', 'Status', null]
+        headers: [null, 'Name', 'Date', 'Address', 'Service Type', 'Status', null],
+        loadingRowsActions: [],
     }
 
     mapStatusToType = {
@@ -53,16 +55,39 @@ class Appointments extends Component {
         })
     }
 
-    handleAcceptAppointment = () => {
-
+    sendAppointmentAction = async (id, action) => {
+        this.setState(prevState => {
+            return {
+                loadingRowsActions: [...prevState.loadingRowsActions, id]
+            }
+        })
+        try {
+            const response = await axios.put(`/providers/appointments/${id}`,{
+                action: action,
+            })
+            if(response.status === 200) {
+                this.props.appointmentUpdate(response.data)
+            }
+        } catch(error) {
+            console.log(error)
+        }
+        this.setState(prevState => {
+            return {
+                loadingRowsActions: prevState.loadingRowsActions.filter(loadingId => loadingId !== id)
+            }
+        })
     }
 
-    handleRejectAppointment = () => {
-
+    handleAcceptAppointment = (id) => {
+        this.sendAppointmentAction(id, 'confirm')
     }
 
-    handelCompletedAppointment = () => {
+    handleRejectAppointment = (id) => {
+        this.sendAppointmentAction(id, 'reject')
+    }
 
+    handelCompletedAppointment = (id) => {
+        this.sendAppointmentAction(id, 'complete')
     }
 
     render() {
@@ -94,19 +119,27 @@ class Appointments extends Component {
             rows = this.props.appointments.filter(appointment => {
                 return appointment.status.id === 1 ||  appointment.status.id === 2
             }).map(appointment => {
-                
                 let actionsBtns = null
                 if(appointment.status.id === 1) {
                     actionsBtns = (
                         <Fragment>
-                            <Button btnType='Small' btnColor='Danger' onClick={this.handleRejectAppointment} className={styles.ActionBtns}>Reject</Button>
-                            <Button btnType='Small' btnColor='Success' onClick={this.handleAcceptAppointment} className={styles.AcceptBtn}>Accept</Button>
+                            <Button btnType='Small' btnColor='Danger' onClick={() => this.handleRejectAppointment(appointment.id)} className={styles.ActionBtns}>Reject</Button>
+                            <Button btnType='Small' btnColor='Success' onClick={() => this.handleAcceptAppointment(appointment.id)} className={styles.AcceptBtn}>Accept</Button>
                         </Fragment>
                     )
                 } else {
                     actionsBtns = (
-                        <Button btnType='Small' btnColor='Warning' onClick={this.handelCompletedAppointment} className={styles.ActionBtns}>Completed</Button>
+                        <Button btnType='Small' btnColor='Warning' onClick={() => this.handelCompletedAppointment(appointment.id)} className={styles.ActionBtns}>Completed</Button>
                     )
+                }
+
+                if(this.state.loadingRowsActions.includes(appointment.id)) {
+                    actionsBtns = (
+                    <div className={styles.ActionsLoading}>
+                        <div className={styles.Bounce1}></div>
+                        <div className={styles.Bounce2}></div>
+                        <div className={styles.Bounce3}></div>
+                    </div>)
                 }
 
                 return {
@@ -193,6 +226,7 @@ const mapDispatchToProps = dispatch => {
     return {
         appointmentsInit: () => dispatch(providerAppointmentsActions.providerAppointmentsInit()),
         setUsingProvider: () => dispatch(userDataActions.updateUsingProvider(true)),
+        appointmentUpdate: (appointment) => dispatch(providerAppointmentsActions.providerAppointmentsUpdate(appointment)),
     }
 }
 

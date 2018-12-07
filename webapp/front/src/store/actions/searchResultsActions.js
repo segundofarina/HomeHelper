@@ -13,7 +13,7 @@ export const searchResultsUpdateError = () => {
     }
 }
 
-export const searchResultsUpdateDone = (providers, currentPage) => {
+export const searchResultsUpdateDone = (providers = [], currentPage) => {
     return {
         type: actionTypes.SEARCH_RESULTS_UPDATE_DONE,
         payload: {
@@ -23,18 +23,16 @@ export const searchResultsUpdateDone = (providers, currentPage) => {
     }
 }
 
-export const searchResultsUpdate = (location, serviceType) => {
+export const searchResultsUpdate = (serviceType, coords) => {
     return async dispatch => {
         dispatch(searchResultsUpdateLoading())
 
-        let url = `/providers?st=${serviceType}`
-        if(location) {
-            url += `&location=${location}`
-        }
+        let url = `/providers?st=${serviceType}&lat=${coords.lat}&lng=${coords.lng}`
  
         /* Async code to fetch new results */
         try {
             const ans = await axios.get(url)
+            console.log(ans.data)
             dispatch(searchResultsUpdateDone(ans.data.providers, ans.data.page))
         } catch(error) {
             dispatch(searchResultsUpdateError())

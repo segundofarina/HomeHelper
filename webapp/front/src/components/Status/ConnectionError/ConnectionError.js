@@ -11,9 +11,14 @@ const connectionError = (props) => {
         reconnectBtn = (<Button onClick={props.reconnectHandler} btnType="Small" >Try Again</Button>)
     }
 
+    const panelStyles = [styles.Panel]
+    if(props.panelStyles) {
+        panelStyles.push(props.panelStyles)
+    }
+
     return (
         <div className={styles.StatusContainer}>
-            <Panel className={styles.Panel}>
+            <Panel className={panelStyles.join(' ')}>
                 <img className={styles.Img} alt="" src={errorImg} />
                 <p className={styles.Description}>Error while connecting to the server</p>
                 {reconnectBtn}

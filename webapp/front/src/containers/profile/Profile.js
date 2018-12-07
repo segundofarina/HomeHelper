@@ -15,6 +15,8 @@ import {withRouter} from 'react-router-dom'
 import queryString from 'query-string'
 import Loading from '../../components/Status/Loading/Loading'
 import ConnectionError from '../../components/Status/ConnectionError/ConnectionError'
+import axios from 'axios'
+import BadRequest from '../../components/Errors/BadRequest/BadRequest'
 
 class Profile extends Component {
     state = {
@@ -23,27 +25,38 @@ class Profile extends Component {
         idShowing: null,
         loading: true, 
         error: false,
+        reviews: [],
+        reviewsApiStatus: apiStatus.API_STATUS_NONE,
+        providerId: '',
+        searchedAddress: '',
     }
-    showReviewsHandler = (id)=>{
+
+    showReviewsHandler = (id) => {
         this.setState({
             showReviews : true,
             idShowing: id,
         })
-
     }
 
-    closeReviewsHandler = ()=>{
+    closeReviewsHandler = () => {
         this.setState({showReviews : false})
     }
 
-    toggleClick = ()=>{
+    toggleClick = () => {
         this.setState({showingOtherApitutdes: !this.state.showingOtherApitutdes})
     }
 
-    showMoreAptitudes = (aptitudes)=>{
+    showMoreAptitudes = (aptitudes) => {
         const show = "Mostrar otras aptitudes"
         const hide = "Ocultar otras aptitudes"
         let results = aptitudes.map(aptitude => {
+            let reviews = this.state.reviews.filter(aptitudeReviews => {
+                return aptitudeReviews.aptitudeId === aptitude.id
+            })
+            if(reviews.length > 0) {
+                reviews = reviews[0].reviews
+            }
+
             return(<Aptitude
                 {...aptitude}
                 showReviesId= {this.state.idShowing}
@@ -51,56 +64,74 @@ class Profile extends Component {
                 showMoreReviewsClick = {this.showReviewsHandler.bind(this,aptitude.id)}
                 closeReviewsClick = {this.closeReviewsHandler}
                 key = {aptitude.id}
+                reviews={reviews}
+                reviewsApiStatus={this.state.reviewsApiStatus}
+                reviewsReconnect={() => this.fetchReviews(this.state.providerId)}
                 />)
         })
         
         return(
-        <div>
-            <div onClick={this.toggleClick} className={styles.ShowMore}>
-                <h4>{this.state.showingOtherApitutdes ? hide : show}</h4>
-                <FontAwesomeIcon icon={faAngleDown}/>
+            <div>
+                <div onClick={this.toggleClick} className={styles.ShowMore}>
+                    <h4>{this.state.showingOtherApitutdes ? hide : show}</h4>
+                    <FontAwesomeIcon icon={faAngleDown}/>
+                </div>
+                {this.state.showingOtherApitutdes? results:null}
             </div>
-            {this.state.showingOtherApitutdes? results:null}
-        </div>
+        )
+    }
 
-        )}
+    fetchReviews = async (providerId) => {
+        this.setState({reviewsApiStatus: apiStatus.API_STATUS_LOADING})
+        try {
+            const response = await axios.get(`/providers/${providerId}/reviews`)
+            this.setState({
+                reviewsApiStatus: apiStatus.API_STATUS_DONE,
+                reviews: response.data.reviews,
+            })
+        } catch (error) {
+            console.log(error)
+            this.setState({reviewsApiStatus: apiStatus.API_STATUS_ERROR})
+        }
+    }
 
     componentDidMount (){
         const queries = queryString.parse(this.props.location.search)
-        if(!queries.id){
+        let validAddr = true
+        try {
+            atob(queries.addr)
+        } catch(error) {
+            validAddr = false
+        }
+        if(!queries.id || !queries.addr || !validAddr){
             this.setState({
                 error:true,
-                loading:false
+                loading:false,
             })
             return
         }
         const provider = this.props.providers.filter(provider => provider.id === parseInt(queries.id))
         if(provider[0]){
             this.props.updateProfile(provider[0])
-            
         }else{
             this.props.profileInit(queries.id)
         }
 
-        this.setState({loading:false})
+        this.setState({loading:false, providerId: parseInt(queries.id), searchedAddress: atob(queries.addr)})
+
+        this.fetchReviews(parseInt(queries.id));
     }
-
-
 
     render(){
         if(this.state.loading || this.props.apiStatus === apiStatus.API_STATUS_LOADING){
             return (<Loading/>)
         }
-        if(this.state.error ){
-            return(<div>BAD REQUEST</div>)
+        if(this.state.error) {
+            return(<BadRequest />)
         }
         if(this.props.apiStatus === apiStatus.API_STATUS_ERROR){
             return (<ConnectionError/>)
         }
-        const coordenates = [{lat: -34.557176, lng: -58.430436},
-            {lat: -34.575376, lng: -58.403839},
-            {lat: -34.588696, lng: -58.431428}];
-
 
         const provider = this.props.provider
         const searched = provider.aptitudes.filter((aptitude) => parseInt(aptitude.serviceType.id) === parseInt(this.props.serviceTypeSelected)).find(()=>true)
@@ -115,8 +146,14 @@ class Profile extends Component {
             return {value:apt.serviceType.id , name:apt.serviceType.name}
         })
 
-
-        return (<div>
+        let firstAptitudeReviews = this.state.reviews.filter(aptitudeReviews => {
+            return aptitudeReviews.aptitudeId === firstAptitude.id
+        })
+        if(firstAptitudeReviews.length > 0) {
+            firstAptitudeReviews = firstAptitudeReviews[0].reviews
+        }
+ 
+         return (<div className={styles.Profile}>
             <Summary name={`${provider.firstName} ${provider.lastName}`} serviceTypes={serviceTypes.join(", ")} rating={provider.generalCalification} img={defaultImg}/>
             <div className={styles.MainContainer}>
                 <div className={styles.Contact}>
@@ -124,6 +161,14 @@ class Profile extends Component {
                         serviceTypesOptions={serviceTypesOptions}
                         providerName = {provider.firstName}
                         defaultServiceType = {defaultServiceType}
+                        provider={{
+                            firstName: this.props.provider.firstName,
+                            lastName: this.props.provider.lastName,
+                            imgUrl: 'toBeCompleted in Profile.js',
+                            score: this.props.provider.generalCalification,
+                            id: this.props.provider.id,
+                        }}
+                        searchedAddress={this.state.searchedAddress}
                     />
                 </div>
                 <div className={styles.Content}>
@@ -136,10 +181,13 @@ class Profile extends Component {
                         <Aptitude
                             {...firstAptitude}
                             showReviews = {this.state.showReviews}
-                            showReviesId= {this.state.idShowing}
+                            showReviewsId= {this.state.idShowing}
                             showMoreReviewsClick = {this.showReviewsHandler.bind(this,firstAptitude.id)}
                             closeReviewsClick = {this.closeReviewsHandler}
                             key = {provider.aptitudes[0].id}
+                            reviews={firstAptitudeReviews}
+                            reviewsApiStatus={this.state.reviewsApiStatus}
+                            reviewsReconnect={() => this.fetchReviews(this.state.providerId)}
                         />
                         
                         {otherAptitudes.length>0 ? this.showMoreAptitudes(otherAptitudes): null}
@@ -148,7 +196,7 @@ class Profile extends Component {
                         <h3>Area de trabajo</h3>
                         <Panel>
                             <WorkingZone
-                                coordenates={coordenates}
+                                coordenates={provider.coordenates}
                             />
                         </Panel>
                     </div>

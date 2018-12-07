@@ -20,7 +20,7 @@ const profile = (props) => {
                 <Button onClick={props.onClick} 
                     btnType='Small'
                     btnImpl='Link'
-                    to={`/profile?id=${props.id}`}>
+                    to={`/profile?id=${props.id}&addr=${props.searchedAddress}`}>
                     Ver Perfil
                 </Button>
             </div>

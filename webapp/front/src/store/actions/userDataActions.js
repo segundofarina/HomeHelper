@@ -1,6 +1,9 @@
 import * as actionTypes from './actionTypes'
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
+import * as chatActions  from './chatActions'
+import * as appointmentsActions from './appointmentsActions'
+import * as providerAppointmentsActions from './providerAppointmentsActions'
 
 export const updateUsingProvider = (showingProvider) => {
     return {
@@ -114,8 +117,17 @@ export const setToken = (token) => {
 
 export const logOut = () => {
     clearTokenFromLocalStorage()
+    clearReduxState()
     axios.defaults.headers.common['X-Authorization'] = ''
     return {
         type: actionTypes.USER_DATA_LOGOUT,
+    }
+}
+
+const clearReduxState = () => {
+    return dispatch => {
+        dispatch(chatActions.chatClearState())
+        dispatch(appointmentsActions.appointmentsClearState())
+        dispatch(providerAppointmentsActions.providersAppointmentsClearState())
     }
 }

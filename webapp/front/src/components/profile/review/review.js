@@ -1,13 +1,14 @@
 import React from 'react'
 import styles from './review.module.css'
 import Rating from '../../UI/rating/Rating'
+import defaultImg from '../../../assets/img/defaultProfile.png'
 
 const Review = (props)=>{
     return(
         <div className={styles.Container}>
             <div className={styles.ProfileInfo}>
                 <div className={styles.ProfileImg}>
-                    <img src={props.img} alt="" />
+                    <img src={defaultImg} alt="" />
                 </div>
                 <h5 className={styles.Name}>{props.name}</h5>
             </div>

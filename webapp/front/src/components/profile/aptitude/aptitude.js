@@ -3,20 +3,25 @@ import Panel from '../../UI/Panel/Panel'
 import styles from './aptitude.module.css'
 import Calification from '../calification/calification'
 import Review from '../../profile/review/review'
-import defaultImg from '../../../assets/img/defaultProfile.png'
 import Modal from 'react-modal'
+import * as apiStatus from '../../../store/apiStatus'
+import Loading from '../../Status/Loading/Loading'
+import ConnectionError from '../../Status/ConnectionError/ConnectionError'
+import emptyReviewsImg from '../../../assets/img/llaveFija.png'
 
 
-const showReviews = (reviews, isOpen,showReviewsClick,hideReviewsClick)=>{
-    let firstReviews= reviews.filter((review, index)=>{return index<3}).map(review => {
+const showReviews = (reviews, isOpen, showReviewsClick, hideReviewsClick) => {
+    let firstReviews= reviews.filter((review, index) => { 
+        return index < 3 
+    }).map(review => {
         return(
             <div key={review.id}>
                 <Review
-                    name = {review.name}
+                    name ={`${review.user.firstName} ${review.user.lastName}`}
                     date = {review.date}
-                    rating ={review.rating}
-                    description = {review.description}
-                    img = {review.img}
+                    rating ={review.scores.general}
+                    description = {review.comment}
+                    img = {review.user.imgUrl}
                 />
                 <hr/>
             </div>
@@ -26,10 +31,10 @@ const showReviews = (reviews, isOpen,showReviewsClick,hideReviewsClick)=>{
         return(
             <div key={review.id}>
                 <Review
-                    name = {review.name}
+                    name ={`${review.user.firstName} ${review.user.lastName}`}
                     date = {review.date}
-                    rating ={review.rating}
-                    description = {review.description}
+                    rating ={review.scores.general}
+                    description = {review.comment}
                     img = {review.img}
                 />
                 <hr/>
@@ -41,7 +46,7 @@ const showReviews = (reviews, isOpen,showReviewsClick,hideReviewsClick)=>{
         <div>
                 
             {firstReviews}
-            <button onClick={showReviewsClick} className={styles.ShowMoreButton}>Mostrar mas opiniones...</button>
+            {reviews.length > 2 && (<button onClick={showReviewsClick} className={styles.ShowMoreButton}>Mostrar mas opiniones...</button>)}
             <Modal
                 isOpen={isOpen}
                 ariaHideApp={false}
@@ -62,16 +67,29 @@ const showReviews = (reviews, isOpen,showReviewsClick,hideReviewsClick)=>{
 
 
 const aptitude = (props)=>{
-    const description = "Realizo la ronovacion del cableado de toda la casa, colocando el tablero nuevo con varios circuitos. Estamos muy conformes con el trabajo y con la predisposición ante todos los pedidos. Saludos y muchas gracias."
-    const reviews = [{id: 1,name: "Marcos Lopez", date:"16/05/2018", rating:4, description: description, img: defaultImg},
-                     {id: 2,name: "Juan Perez", date:"16/05/2018", rating:4, description: description, img: defaultImg},
-                     {id: 3,name: "Cachito Ruiz", date:"16/05/2018", rating:4, description: description, img: defaultImg},
-                     {id: 4,name: "Bochita Leto", date:"16/05/2018", rating:4, description: description, img: defaultImg},
-                     {id: 5,name: "Jorge Suarez", date:"16/05/2018", rating:4, description: description, img: defaultImg},
-                     {id: 6,name: "Miguel Romanerolo", date:"16/05/2018", rating:4, description: description, img: defaultImg},
-                     {id: 7,name: "Mariana Remarta", date:"16/05/2018", rating:4, description: description, img: defaultImg},
-                     {id: 8,name: "Jorgelina Juarez", date:"16/05/2018", rating:4, description: description, img: defaultImg},
-                     {id: 9,name: "Cristina Rombadina", date:"16/05/2018", rating:4, description: description, img: defaultImg}]                    
+
+    let reviewsElem = (<Loading panelStyles={styles.StatusPanel} />)
+    if(props.reviewsApiStatus === apiStatus.API_STATUS_ERROR) {
+        reviewsElem = (<ConnectionError panelStyles={styles.StatusPanel} reconnectHandler={props.reviewsReconnect} />)
+    }
+    if(props.reviewsApiStatus === apiStatus.API_STATUS_DONE) {
+        reviewsElem = (
+            <Panel>
+                {showReviews(props.reviews, props.showReviews, props.showMoreReviewsClick, props.closeReviewsClick)}
+            </Panel>
+        )
+        if(props.reviews.length === 0) {
+            reviewsElem = (
+                <Panel>
+                    <div className={styles.NoReviewsContainer}>
+                        <img src={emptyReviewsImg} alt="" className={styles.NoReviewsImg} />
+                        <p className={styles.NoReviewsDescription}>No reviews yet...</p>
+                    </div>
+                </Panel>
+            )
+        }
+    }
+
     return(
         <div>
             <div>
@@ -82,16 +100,13 @@ const aptitude = (props)=>{
                     <Panel className={styles.Description}>
                         <p>{props.description}</p>
                     </Panel>
-                    
-                        {props.calification.general>0 ? <div className={styles.Calification}><Calification {...props.calification}/></div>: null}
+                    {props.calification.general>0 ? <div className={styles.Calification}><Calification {...props.calification}/></div>: null}
                 </div>
             </div>
             <div>
                 <h4>Opiniones de clientes</h4>
-                <Panel>
-                    {showReviews(reviews,props.showReviews,props.showMoreReviewsClick,props.closeReviewsClick)}
-                </Panel>
-            </div>
+                {reviewsElem}
+           </div>
         </div>
     )}
 

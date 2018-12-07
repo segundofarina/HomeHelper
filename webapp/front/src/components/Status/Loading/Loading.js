@@ -2,10 +2,14 @@ import React from 'react'
 import styles from './Loading.module.css'
 import Panel from '../../UI/Panel/Panel'
 
-const loading = () => {
+const loading = (props) => {
+    const panelStyles = [styles.Panel]
+    if(props.panelStyles) {
+        panelStyles.push(props.panelStyles)
+    }
     return (
         <div className={styles.StatusContainer}>
-            <Panel className={styles.Panel}>
+            <Panel className={panelStyles.join(' ')}>
                 <div className={styles.Loader}></div>
                 <p className={styles.Description}>Loading...</p>
             </Panel>

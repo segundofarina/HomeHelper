@@ -34,3 +34,29 @@ export const appointmentsInit = () => {
         }
     }
 }
+
+export const fetchAppointment = (url) => {
+    return async dispatch => {
+        try {
+            const response = await axios.get(url)
+            dispatch(saveAppointment(response.data))
+        } catch(error) {
+            console.log(error)
+        }
+    }
+}
+
+const saveAppointment = (appointment) => {
+    return {
+        type: actionTypes.APPOINTMENTS_SAVE_APPOINTMENT,
+        payload: {
+            appointment: appointment,
+        }
+    }
+}
+
+export const appointmentsClearState = () => {
+    return {
+        type: actionTypes.APPOINTMENTS_CLEAR_STATE,
+    }
+}

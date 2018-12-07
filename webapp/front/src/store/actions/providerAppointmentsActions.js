@@ -34,3 +34,18 @@ export const providerAppointmentsInit = () => {
         }
     }
 }
+
+export const providerAppointmentsUpdate = (appointment) => {
+    return {
+        type: actionTypes.PROVIDER_APPOINTMENTS_UPDATE,
+        payload: {
+            appointment: appointment,
+        }
+    }
+}
+
+export const providersAppointmentsClearState = () => {
+    return {
+        type: actionTypes.PROVIDER_APPOINTMENTS_CLEAR_STATE,
+    }
+}
