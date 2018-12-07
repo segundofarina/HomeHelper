@@ -1,7 +1,9 @@
 package ar.edu.itba.paw.homehelper.api.providers.id;
 
 
+import ar.edu.itba.paw.homehelper.dto.AptitudeDto;
 import ar.edu.itba.paw.homehelper.dto.ProviderDto;
+import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
 import ar.edu.itba.paw.model.SProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class IdProvidersController {
     @Autowired
     private MessageSource messageSource;
 
+    @Autowired
+    LoggedUser loggedUser;
+
     @GET
     @Path("/")
     @Produces(value = MediaType.APPLICATION_JSON)
@@ -43,5 +48,29 @@ public class IdProvidersController {
         return Response.ok(new ProviderDto(provider,locale,messageSource)).build();
     }
 
+    @PUT
+    @Path("/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateProvider(@PathParam("id") final Integer id,  ProviderDto providerDto){
 
+        if(!loggedUser.id().isPresent() || loggedUser.id().get() != id || !loggedUser.isProvider().isPresent() || !loggedUser.isProvider().get()){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        if(providerDto.getAptitudes() != null){
+            for(AptitudeDto aptitude : providerDto.getAptitudes()) {
+                if(aptitude.getServiceType() != null){
+                    sProviderService.updateServiceTypeOfAptitude(aptitude.getId(),aptitude.getServiceType().getId());
+                }
+                if(aptitude.getDescription() != null){
+                    sProviderService.updateDescriptionOfAptitude(aptitude.getId(),aptitude.getDescription());
+                }
+            }
+        }
+        if(providerDto.getDescription() != null){
+            sProviderService.updateDescriptionOfServiceProvider(id,providerDto.getDescription());
+        }
+
+        return Response.ok().build();
+    }
 }

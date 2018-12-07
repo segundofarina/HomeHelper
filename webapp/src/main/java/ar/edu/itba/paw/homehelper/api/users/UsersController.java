@@ -28,11 +28,6 @@ public class UsersController {
     @Autowired
     UserService userService;
 
-    @Autowired
-    LoggedUser loggedUser;
-
-    final static Logger LOGGER = LoggerFactory.getLogger(UsersController.class);
-
     @POST
     @Path("/")
     @Produces(value = MediaType.APPLICATION_JSON)
@@ -57,44 +52,4 @@ public class UsersController {
         return Response.created(uri).build();
 
     }
-
-    @PUT
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateClient(@PathParam("id") final Integer id,UserDto userDto){
-
-        LOGGER.info("ENTRE");
-
-        if(!loggedUser.id().isPresent() || id != loggedUser.id().get()){
-            LOGGER.info("!loggedUser.id().isPresent() || id != loggedUser.id().get()");
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
-
-        if(userDto == null){
-            LOGGER.info("userDto == null");
-        }
-
-        if(userDto.getAddress() != null){
-            userService.updateAddressOfUser(id,userDto.getAddress());
-        }
-        if(userDto.getEmail() != null){
-            userService.updateEmailOfUser(id,userDto.getEmail());
-        }
-        if(userDto.getFirstname() != null){
-            userService.updateFirstNameOfUser(id,userDto.getFirstname());
-        }
-        if(userDto.getLastname() != null){
-            userService.updateLastNameOfUser(id,userDto.getLastname());
-        }
-        if(userDto.getPassword() != null){
-            userService.updatePasswordOfUser(id,userDto.getPassword());
-        }
-        if(userDto.getPhone() != null){
-            userService.updatePhoneOfUser(id,userDto.getPhone());
-        }
-
-        return Response.ok().build();
-    }
-
 }

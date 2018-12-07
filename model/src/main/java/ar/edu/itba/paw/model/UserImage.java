@@ -8,8 +8,8 @@ import javax.persistence.*;
 public class UserImage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userImages_imageid_seq")
-    @SequenceGenerator(sequenceName = "userImagess_imageid_seq", name = "userImages_imageid_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userImages_imageId_seq")
+    @SequenceGenerator(sequenceName = "userImages_imageId_seq", name = "userImages_imageId_seq", allocationSize = 1)
     @Column(name = "imageid")
     private int imageId;
 

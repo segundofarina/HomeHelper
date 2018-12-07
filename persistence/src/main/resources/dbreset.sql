@@ -495,3 +495,4 @@ SELECT setval('temporaryImages_imageid_seq',    (SELECT MAX(imageid)        from
 SELECT setval('reviews_reviewId_seq',           (SELECT MAX(reviewId)        from reviews));
 SELECT setval('messages_msgId_seq',             (SELECT MAX(msgId)        from messages));
 SELECT setval('coordenates_coordId_seq',             (SELECT MAX(coordId)        from coordenates));
+SELECT setval('userImages_imageId_seq',             (SELECT MAX(imageId)        from userImages));
