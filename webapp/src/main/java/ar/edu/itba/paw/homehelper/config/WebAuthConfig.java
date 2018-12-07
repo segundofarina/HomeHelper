@@ -64,7 +64,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/providers").hasRole("USER")
                 .antMatchers(HttpMethod.GET, "/api/providers").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/serviceTypes").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/users/**/image").permitAll()
+                .antMatchers( "/api/users/**/image").permitAll()
                 .antMatchers( HttpMethod.POST,"/api/users").permitAll()
                 .antMatchers( "/api/users/**").hasRole("USER")
                 .antMatchers( "/api/users").hasRole("USER")

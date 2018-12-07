@@ -36,8 +36,8 @@ public class UsersController {
 
         String username = userDto.getUsername();
 
-        if(userService.findByUsername(username) != null){
-            return Response.status(Response.Status.FORBIDDEN).build();
+        if(userService.findByUsername(username).isPresent()){
+            return Response.status(Response.Status.CONFLICT).build();
         }
 
        User user =userService.create(
