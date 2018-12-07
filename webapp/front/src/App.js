@@ -26,6 +26,7 @@ import ProviderEditProfile from './containers/provider/editProfile/EditProfile'
 import * as userDataAction from './store/actions/userDataActions'
 
 import Test from './containers/testing/testing'
+import NotFound from './components/Errors/NotFound/NotFound';
 
 
 class App extends Component {
@@ -62,17 +63,16 @@ class App extends Component {
                   <PrivateRoute path="/writeReview" exact component={Review} authenticated={this.props.isAuthenticated} />
                   <PrivateRoute path="/appointmentConfirmed" exact component={AppointmentConfirmed} authenticated={this.props.isAuthenticated} />
 
-                  <PrivateRoute path="/provider" exact component={ProviderDashboard} authenticated={this.props.isProvider} />
+                  <PrivateRoute path="/provider" exact component={ProviderProgress} authenticated={this.props.isProvider} />
                   <PrivateRoute path="/provider/messages" exact component={ProviderMessages} authenticated={this.props.isProvider} />
                   <PrivateRoute path="/provider/appointments" exact component={ProviderAppointments} authenticated={this.props.isProvider} />
-                  <PrivateRoute path="/provider/progress" exact component={ProviderProgress} authenticated={this.props.isProvider} />
                   <PrivateRoute path="/provider/editProfile" exact component={ProviderEditProfile} authenticated={this.props.isProvider} />
 
                   <PrivateRoute path="/signup" exact component={CreateUser} authenticated={!this.props.isAuthenticated} />
 
                   <Route path="/test" exact component={Test}/>
                   <Route path="/forbidden" exact component={Forbidden} />
-                  <Route render={() => (<h1>404 Not found</h1>)} />
+                  <Route component={NotFound} />
                 </Switch>
               </Layout>
             </Switch>

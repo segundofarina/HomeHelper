@@ -89,7 +89,8 @@ class Review extends Component {
                                         serviceType={appointment.serviceType.name}
                                         date={appointment.date}
                                         description={appointment.description}
-                                        calification={appointment.provider.generalCalification} />
+                                        calification={appointment.provider.generalCalification}
+                                        img={appointment.provider.pictureUrl} />
                     <WriteReview appointmentId={appointment.id}
                                 providerId={appointment.provider.id} />
                 </div>

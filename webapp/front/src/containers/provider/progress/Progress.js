@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import styles from './Progress.module.css'
-import MultiButton from '../../../components/UI/MultiButton/MultiButton'
 import Scores from '../../../components/Provider/Progress/Scores/Scores'
-import Reviews from '../../../components/Provider/Progress/Reviews/Reviews'
 import { connect } from 'react-redux'
 import * as userDataActions from '../../../store/actions/userDataActions'
+import * as providerReviews from '../../../store/actions/providerReviewsActions'
+import * as apiStatus from '../../../store/apiStatus'
+import Loading from '../../../components/Status/Loading/Loading'
+import ConnectionError from '../../../components/Status/ConnectionError/ConnectionError'
 
 class Progress extends Component {
     state = {
-        showingSection: 1,
     }
 
     componentWillMount() {
@@ -17,37 +18,27 @@ class Progress extends Component {
         }
     }
 
-    handleBtnChange = (id) => {
-        this.setState({showingSection: id})
+    componentDidMount() {
+        if(this.props.status === apiStatus.API_STATUS_NONE) {
+            this.props.reviewsInit()
+        }
     }
 
     render() {
-        const multibuttons = [{
-            id: 1,
-            text: 'Scores',
-            onClick: () => {this.handleBtnChange(1)},
-        }, {
-            id: 2,
-            text: 'Reviews',
-            onClick: () => {this.handleBtnChange(2)},
-        }]
+        if(this.props.status === apiStatus.API_STATUS_NONE || this.props.status === apiStatus.API_STATUS_LOADING) {
+            return (<Loading />)
+        }
 
-        let element = (
-            <Scores />
-        )
-        if(this.state.showingSection === 2) {
-            element = (
-                <Reviews />
-            )
+        if(this.props.status === apiStatus.API_STATUS_ERROR) {
+            return (<ConnectionError reconnctHandler={this.props.reviewsInit} />)
         }
 
         return (
             <div className={styles.Progress}>
                 <div>
                     <h2 className={styles.SectionTitle}>Progress</h2>
-                    <MultiButton elements={multibuttons} active={this.state.showingSection} className={styles.Multibutton} />
                     <div className={styles.Container}>
-                        {element}
+                        <Scores />
                     </div>
                </div>
            </div>
@@ -58,12 +49,15 @@ class Progress extends Component {
 const mapStateToProps = state => {
     return {
         showingProvider: state.userData.showingProvider,
+        reviews: state.providerReviews.reviews,
+        status: state.providerReviews.status,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         setUsingProvider: () => dispatch(userDataActions.updateUsingProvider(true)),
+        reviewsInit: () => dispatch(providerReviews.providerReviewsInit()),
     }
 }
 
