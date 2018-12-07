@@ -48,10 +48,6 @@ public class AppointmentsProviderController {
 
         List<Appointment> list = appointmentService.getAppointmentsByProviderId(loggedUser.id().orElseThrow(IllegalArgumentException::new));
 
-        if(list == null){
-            Response.status(Response.Status.INTERNAL_SERVER_ERROR);
-        }
-
         return Response.ok(new AppointmentProviderListDto(list,locale,messageSource)).build();
 
     }

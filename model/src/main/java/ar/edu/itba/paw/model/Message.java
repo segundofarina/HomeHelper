@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "messages")
-public class Message {
+public class Message implements Comparable<Message>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "messages_msgId_seq")
@@ -85,5 +85,10 @@ public class Message {
 
     public int getUserId() {
         return userId;
+    }
+
+    @Override
+    public int compareTo(Message o) {
+        return o.getDate().compareTo(this.getDate());
     }
 }
