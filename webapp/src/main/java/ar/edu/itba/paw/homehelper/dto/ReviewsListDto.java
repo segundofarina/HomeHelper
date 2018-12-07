@@ -17,7 +17,7 @@ public class ReviewsListDto {
     public ReviewsListDto() {
     }
 
-    public ReviewsListDto(List<Review> reviews,int page, int pageSize, int maxPage) {
+    public ReviewsListDto(List<Review> reviews,int page, int pageSize, int maxPage,String baseUri) {
         this.reviews = new LinkedList<>();
         reviews.stream()
                 .collect(Collectors.groupingBy(r -> r.getAptitude().getId()))

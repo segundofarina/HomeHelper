@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User create(String username, String password, String firstname, String lastname, String email, String phone, String address, byte[] image) {
-        return userDao.create(username, password, firstname, lastname, email, phone, address, image);
+    public User create(String username, String password, String firstname, String lastname, String email, String phone, String address) {
+        return userDao.create(username, password, firstname, lastname, email, phone, address);
 
     }
 

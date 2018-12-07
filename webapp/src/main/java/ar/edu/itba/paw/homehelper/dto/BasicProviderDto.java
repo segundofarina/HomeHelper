@@ -23,6 +23,7 @@ public class BasicProviderDto {
 
         this.firstName = user.getFirstname();
         this.lastName = user.getLastname();
+        this.pictureUrl = "http://localhost:8080/api/"+"users/"+this.id+"/image";
     }
 
     public int getId() {

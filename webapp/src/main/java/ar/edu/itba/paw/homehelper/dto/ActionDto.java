@@ -7,6 +7,10 @@ public class ActionDto {
     ActionDto() {
     }
 
+    public ActionDto(String action){
+        this.action=action;
+    }
+
     public String getAction() {
         return action;
     }

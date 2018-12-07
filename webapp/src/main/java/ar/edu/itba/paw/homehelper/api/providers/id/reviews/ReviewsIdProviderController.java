@@ -70,7 +70,7 @@ public class ReviewsIdProviderController {
 
         final Link[] links = PaginationController.getPaginationLinks(uriInfo,page, maxPage);
 
-        return Response.ok(new ReviewsListDto(reviewsTuple.getList(), page, pageSize, maxPage)).links(links).build();
+        return Response.ok(new ReviewsListDto(reviewsTuple.getList(), page, pageSize, maxPage,uriInfo.getBaseUri().getRawPath())).links(links).build();
     }
 
     @POST
