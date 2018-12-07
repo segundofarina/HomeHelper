@@ -3,6 +3,7 @@ import ar.edu.itba.paw.homehelper.api.PaginationController;
 import ar.edu.itba.paw.homehelper.dto.*;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
+import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.CoordenatesPoint;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.utils.SizeListTuple;
@@ -117,6 +118,34 @@ public class ProvidersController {
 
         return Response.created(uri).build();
 
+    }
+
+    @PUT
+    @Path("/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateProvider(ProviderDto providerDto){
+
+        if(!loggedUser.id().isPresent() || !loggedUser.isProvider().isPresent() || !loggedUser.isProvider().get()){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        int id = loggedUser.id().get();
+
+        if(providerDto.getAptitudes() != null){
+            for(AptitudeDto aptitude : providerDto.getAptitudes()) {
+                if(aptitude.getServiceType() != null){
+                    sProviderService.updateServiceTypeOfAptitude(aptitude.getId(),aptitude.getServiceType().getId());
+                }
+                if(aptitude.getDescription() != null){
+                    sProviderService.updateDescriptionOfAptitude(aptitude.getId(),aptitude.getDescription());
+                }
+            }
+        }
+        if(providerDto.getDescription() != null){
+            sProviderService.updateDescriptionOfServiceProvider(id,providerDto.getDescription());
+        }
+
+        return Response.ok().build();
     }
 
 
