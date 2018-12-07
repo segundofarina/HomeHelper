@@ -76,6 +76,9 @@ public class SProvider {
                 i++;
             }
         }
+        if(i == 0){
+            return 0;
+        }
         return Math.floor((quality / i) * 100) / 100;
     }
 
@@ -95,7 +98,9 @@ public class SProvider {
                 i++;
             }
         }
-
+        if(i == 0){
+            return 0;
+        }
         return Math.floor((cleanness / i) * 100) / 100;
     }
 
@@ -115,7 +120,9 @@ public class SProvider {
                 i++;
             }
         }
-
+        if(i == 0){
+            return 0;
+        }
         return Math.floor((price / i) * 100) / 100;
     }
 
@@ -134,6 +141,9 @@ public class SProvider {
                 punctuality += aptitude.getPunctualityCalification();
                 i++;
             }
+        }
+        if(i == 0){
+            return 0;
         }
         return Math.floor((punctuality / i) * 100) / 100;
     }
@@ -154,6 +164,10 @@ public class SProvider {
                 i++;
             }
         }
+
+        if(i == 0){
+            return 0;
+        }
         return Math.floor((treatment / i) * 100) / 100;
     }
 
@@ -172,6 +186,10 @@ public class SProvider {
                 general += aptitude.getGeneralCalification();
                 i++;
             }
+        }
+
+        if(i == 0){
+            return 0;
         }
         return Math.floor((general / i) * 100) / 100;
     }

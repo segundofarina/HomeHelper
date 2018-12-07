@@ -32,7 +32,13 @@ public class UsersController {
     @Path("/")
     @Produces(value = MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createProvider(UserDto userDto){
+    public Response createUser(UserDto userDto){
+
+        String username = userDto.getUsername();
+
+        if(userService.findByUsername(username) != null){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
        User user =userService.create(
                userDto.getUsername(),
@@ -45,9 +51,6 @@ public class UsersController {
                null
                ); //TODO take out image of service
 
-        if(user == null){
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
         return Response.created(uri).build();
 
