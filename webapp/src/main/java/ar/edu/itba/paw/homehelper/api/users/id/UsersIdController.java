@@ -3,6 +3,7 @@ package ar.edu.itba.paw.homehelper.api.users.id;
 
 import ar.edu.itba.paw.homehelper.api.users.UsersController;
 import ar.edu.itba.paw.homehelper.dto.ActionDto;
+import ar.edu.itba.paw.homehelper.dto.PictureDto;
 import ar.edu.itba.paw.homehelper.dto.UserDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.UserService;
@@ -41,6 +42,24 @@ public class UsersIdController {
                     return Response.ok(im.getImage()).build();
                 })
                 .orElse(Response.status(Response.Status.NOT_FOUND).build());
+
+    }
+
+    @POST
+    @Path("/image")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response createImage(@PathParam("id") Integer id, @BeanParam final PictureDto pictureDto){
+        if(id == null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        if(!loggedUser.id().isPresent() || id != loggedUser.id().get()){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        userService.updateImageOfUser(id,pictureDto.getImage());
+
+        return Response.ok().build();
 
     }
 
