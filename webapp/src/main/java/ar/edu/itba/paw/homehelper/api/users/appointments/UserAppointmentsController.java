@@ -77,11 +77,13 @@ public class UserAppointmentsController {
         final Appointment newAppointment = appointmentService.addAppointment(loggedUser.id().get(),appointmentDTO.getProvider().getId(),
                 appointmentDTO.getServiceType().getId(),appointmentDTO.getDate(),appointmentDTO.getAddress(),appointmentDTO.getDescription());
 
-        chatService.sendAppointmentMsg(loggedUser.id().orElseThrow(IllegalArgumentException::new) , appointmentDTO.getProvider().getId(), appointmentDTO.getDate(), appointmentDTO.getDescription());
-
         if(newAppointment == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
+
+        chatService.sendAppointmentMsg(loggedUser.id().orElseThrow(IllegalArgumentException::new) , appointmentDTO.getProvider().getId(), appointmentDTO.getDate(), appointmentDTO.getDescription());
+
+
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newAppointment.getAppointmentId())).build();
 
