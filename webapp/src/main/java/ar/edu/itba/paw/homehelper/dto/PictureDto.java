@@ -1,8 +1,13 @@
 package ar.edu.itba.paw.homehelper.dto;
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
+import javax.validation.constraints.NotNull;
 
 public class PictureDto {
+    @NotNull
+    @FormDataParam("file")
     private FormDataBodyPart image;
 
     public PictureDto(FormDataBodyPart image) {
