@@ -29,7 +29,7 @@ public class WebsocketChatController {
     private final static Logger LOGGER = LoggerFactory.getLogger(WebsocketChatController.class);
     @MessageMapping("/messages")
     public void sendMsg(MsgEntity msg, Principal principal) {
-        
+
         if(principal == null) {
             /* TODO: throw custom exception, handle exceptions in controller */
             throw new IllegalArgumentException();

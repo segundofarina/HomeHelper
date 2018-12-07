@@ -54,8 +54,6 @@ public class ReviewsIdProviderController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-
-
         SizeListTuple<Review> reviewsTuple;
 
         if(serviceTypeId == null){

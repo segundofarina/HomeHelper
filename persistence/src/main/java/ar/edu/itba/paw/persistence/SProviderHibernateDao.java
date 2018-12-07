@@ -91,7 +91,7 @@ public class SProviderHibernateDao implements SProviderDao {
                         new User(p.getId(),p.getUsername(),p.getPassword(),p.getFirstname(),p.getLastname(),p.getEmail(),p.getPhone(),p.getAddress(),p.isVerified()),
                         p.getDescription(),
                         aptitudes.getOrDefault(p.getId(),new HashSet<>()),
-                        new TreeSet<>(coordenatesMap.get(p.getId()))
+                        new TreeSet<>(coordenatesMap.getOrDefault(p.getId(), new ArrayList<>()))
                 )).collect(Collectors.toList());
 
 
