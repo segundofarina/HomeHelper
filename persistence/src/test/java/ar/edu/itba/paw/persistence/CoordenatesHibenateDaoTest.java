@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.daos.CoordenatesDao;
 import ar.edu.itba.paw.model.CoordenatesPoint;
+import javafx.collections.transformation.SortedList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -46,7 +49,7 @@ public class CoordenatesHibenateDaoTest {
 
     @Test
     public void insertCoordenatesOfProviderTest(){
-        SortedSet<CoordenatesPoint> coordenatesSet = new TreeSet<>();
+        List<CoordenatesPoint> coordenatesSet = new ArrayList<>();
         int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "coordenates");
 
         coordenatesSet.add(new CoordenatesPoint(Const.SPROVIDER_ID,1,4,8));

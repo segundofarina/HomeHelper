@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Set;
+import java.util.List;
 
 
 @Repository
@@ -22,7 +22,7 @@ public class CoordenatesHibernateDao implements CoordenatesDao {
 
     @Transactional
     @Override
-    public boolean insertCoordenatesOfProvider(int providerId, Set<CoordenatesPoint> coordenatesPointSet) {
+    public boolean insertCoordenatesOfProvider(int providerId, List<CoordenatesPoint> coordenatesPointSet) {
 
         SProvider sProvider = em.find(SProvider.class, providerId);
         if (sProvider == null) {

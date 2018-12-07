@@ -106,7 +106,7 @@ public class ProvidersController {
 
         final int loggedUserId = loggedUser.id().get();
 
-        Set<CoordenatesPoint> coordenates = new HashSet<>();
+        List<CoordenatesPoint> coordenates = new ArrayList<>();
 
         int i = 0;
 

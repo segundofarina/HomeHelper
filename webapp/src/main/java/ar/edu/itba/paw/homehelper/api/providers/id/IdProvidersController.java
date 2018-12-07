@@ -2,9 +2,11 @@ package ar.edu.itba.paw.homehelper.api.providers.id;
 
 
 import ar.edu.itba.paw.homehelper.dto.AptitudeDto;
+import ar.edu.itba.paw.homehelper.dto.CoordenateDto;
 import ar.edu.itba.paw.homehelper.dto.ProviderDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
+import ar.edu.itba.paw.model.CoordenatesPoint;
 import ar.edu.itba.paw.model.SProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -15,6 +17,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 @Path("/providers/{id}")
@@ -57,15 +61,26 @@ public class IdProvidersController {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
+        boolean update = true;
         if(providerDto.getAptitudes() != null){
             for(AptitudeDto aptitude : providerDto.getAptitudes()) {
-                if(aptitude.getServiceType() != null){
-                    sProviderService.updateServiceTypeOfAptitude(aptitude.getId(),aptitude.getServiceType().getId());
-                }
                 if(aptitude.getDescription() != null){
                     sProviderService.updateDescriptionOfAptitude(aptitude.getId(),aptitude.getDescription());
                 }
+                if(aptitude.getServiceType() != null) {
+                    if (!sProviderService.updateServiceTypeOfAptitude(aptitude.getId(), aptitude.getServiceType().getId())) {
+                        sProviderService.addAptitude(loggedUser.id().get(), aptitude.getServiceType().getId(), aptitude.getDescription());
+                    }
+                }
             }
+        }
+        if(providerDto.getCoordenates() != null) {
+            int i = 0;
+            List<CoordenatesPoint> coordenateList = new ArrayList<>();
+            for (CoordenateDto coordenateDto : providerDto.getCoordenates()) {
+                coordenateList.add(new CoordenatesPoint(loggedUser.id().get(), i++, coordenateDto.getLat(), coordenateDto.getLng()));
+            }
+            sProviderService.addCoordenates(loggedUser.id().get(), coordenateList);
         }
         if(providerDto.getDescription() != null){
             sProviderService.updateDescriptionOfServiceProvider(id,providerDto.getDescription());

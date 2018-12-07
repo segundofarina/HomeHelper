@@ -45,11 +45,11 @@ public interface SProviderService {
 
     List<Aptitude> getAllAptitudesExcept(int serviceTypeId, SProvider provider);
 
-    boolean addCoordenates(int providerId, Set<CoordenatesPoint> coordenatesPoints);
+    boolean addCoordenates(int providerId, List<CoordenatesPoint> coordenatesPoints);
 
     boolean deleteCoordenates(int providerId);
 
-    Optional<SProvider> create(int id, String description, Map<Integer, String> aptitudes, Set<CoordenatesPoint> coordenates);
+    Optional<SProvider> create(int id, String description, Map<Integer, String> aptitudes, List<CoordenatesPoint> coordenates);
 
     SizeListTuple<SProvider> getServiceProviders(int id, int page, int pageSize);
 
