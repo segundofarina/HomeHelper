@@ -3,10 +3,7 @@ package ar.edu.itba.paw.homehelper.dto;
 import ar.edu.itba.paw.model.SProvider;
 import org.springframework.context.MessageSource;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 public class ProvidersListDto {
     private List<ProviderDto> providers;
@@ -17,15 +14,22 @@ public class ProvidersListDto {
     public ProvidersListDto() {
     }
 
-    public ProvidersListDto(List<SProvider> providers, int page, int pageSize, int maxPage, Locale locale, MessageSource messageSource) { // TODO: providers should be sorted as list
+    public ProvidersListDto(List<SProvider> providers, int page, int pageSize, int maxPage, Locale locale, MessageSource messageSource) {
         this.page = page;
         this.pageSize = pageSize;
         this.maxPage = maxPage;
 
-        this.providers = new LinkedList<>();
+        this.providers = new ArrayList<>();
         for(SProvider p : providers) {
             this.providers.add(new ProviderDto(p,locale,messageSource));
         }
+
+        providers.sort(new Comparator<SProvider>() {
+            @Override
+            public int compare(SProvider o1, SProvider o2) {
+                return (int) (o2.getGeneralCalification()-o1.getGeneralCalification());
+            }
+        });
     }
 
     public List<ProviderDto> getProviders() {

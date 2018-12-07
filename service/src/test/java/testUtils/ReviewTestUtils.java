@@ -14,7 +14,7 @@ public class ReviewTestUtils {
 
     public static Review dummyReview() {
         Random r = new Random();
-        return new Review(r.nextInt(), r.nextInt(), r.nextInt(), r.nextInt(), r.nextInt(), r.toString(), new Date(), UserTestUtils.dummyUser(), AptitudeTestUtils.dummyAptitude());
+        return new Review(r.nextInt(), r.nextInt(), r.nextInt(), r.nextInt(), r.nextInt(), r.toString(), new Date(), UserTestUtils.dummyUser(), AptitudeTestUtils.dummyAptitude(),1);
     }
 
     public static Set<Review> dummyReviews(int size) {

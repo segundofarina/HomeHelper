@@ -46,6 +46,18 @@ public class Aptitude {
         this.sProvider = sProvider;
     }
 
+    public Aptitude(ServiceType service, String description) {
+        this.service = service;
+        this.description = description;
+    }
+    public Aptitude(int id ,ServiceType service, String description, Set<Review> reviews){
+        this.id =id;
+        this.service = service;
+        this.description = description;
+        this.reviews = reviews;
+
+    }
+
     public ServiceType getService() {
         return service;
     }

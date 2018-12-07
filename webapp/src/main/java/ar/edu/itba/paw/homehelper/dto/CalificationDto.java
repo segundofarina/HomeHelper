@@ -24,7 +24,7 @@ public class CalificationDto {
     }
 
     public CalificationDto(Review review) {
-        this.quality =  review.getQualityCalification();
+        this.quality = review.getQualityCalification();
         this.cleanness = review.getCleannessCalification();
         this.price = review.getPriceCalification();
         this.punctuality = review.getPunctualityCalification();

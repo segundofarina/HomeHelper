@@ -1,30 +1,64 @@
 package ar.edu.itba.paw.homehelper.dto;
 
 import ar.edu.itba.paw.model.Review;
+import ar.edu.itba.paw.model.SProvider;
 import org.springframework.context.MessageSource;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ReviewsListDto {
-    private List<ReviewDto> reviews;
+
+    private int page;
+    private int pageSize;
+    private int maxPage;
+    private List<AptitudeReviewDto> reviews;
 
     public ReviewsListDto() {
     }
 
-    public ReviewsListDto(List<Review> reviews, Locale locale, MessageSource messageSource) {
+    public ReviewsListDto(List<Review> reviews,int page, int pageSize, int maxPage) {
         this.reviews = new LinkedList<>();
-        for(Review review : reviews) {
-            this.reviews.add(new ReviewDto(review,locale,messageSource));
-        }
+        reviews.stream()
+                .collect(Collectors.groupingBy(r -> r.getAptitude().getId()))
+                .forEach((id,list)->
+                        this.reviews.add(new AptitudeReviewDto(id,list))
+                );
+
+        this.page = page;
+        this.pageSize = pageSize;
+        this.maxPage= maxPage;
     }
 
-    public List<ReviewDto> getReviews() {
+    public List<AptitudeReviewDto> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<ReviewDto> reviews) {
+    public void setReviews(List<AptitudeReviewDto> reviews) {
         this.reviews = reviews;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getMaxPage() {
+        return maxPage;
+    }
+
+    public void setMaxPage(int maxPage) {
+        this.maxPage = maxPage;
     }
 }

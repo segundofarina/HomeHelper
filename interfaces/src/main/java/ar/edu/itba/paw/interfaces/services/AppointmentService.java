@@ -1,10 +1,12 @@
 package ar.edu.itba.paw.interfaces.services;
 
 import ar.edu.itba.paw.model.Appointment;
+import ar.edu.itba.paw.model.Review;
 import ar.edu.itba.paw.model.Status;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 public interface AppointmentService {
 
@@ -40,7 +42,7 @@ public interface AppointmentService {
 
     List<Appointment> getLatestPendingAppointmentWithProviderId(int providerId);
 
-    void reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
+    Optional<Review> reviewAppointment(int appointmentId, int userId, int quality, int cleanness, int price, int punctuality, int treatment, String comment);
 
     Appointment getLastAppointment(int userId);
 }

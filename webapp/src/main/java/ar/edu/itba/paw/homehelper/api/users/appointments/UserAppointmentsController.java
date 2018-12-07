@@ -4,6 +4,7 @@ import ar.edu.itba.paw.homehelper.dto.AppointmentClientDto;
 import ar.edu.itba.paw.homehelper.dto.AppointmentClientListDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
+import ar.edu.itba.paw.interfaces.services.ChatService;
 import ar.edu.itba.paw.model.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -39,14 +40,20 @@ public class UserAppointmentsController {
     @Autowired
     private LoggedUser loggedUser;
 
+    @Autowired
+    private ChatService chatService;
+
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAppointments() {
 
         Locale locale = request.getLocale();
+        if(!loggedUser.id().isPresent()){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
-        List<Appointment> appointments = appointmentService.getAppointmentsByUserId(loggedUser.id());
+        List<Appointment> appointments = appointmentService.getAppointmentsByUserId(loggedUser.id().get());
 
         if(appointments == null){
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -60,15 +67,20 @@ public class UserAppointmentsController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addAppointment(final AppointmentClientDto appointmentDTO) {
 
-        if(appointmentDTO == null){
+        if(appointmentDTO == null || appointmentDTO.getProvider() == null || appointmentDTO.getServiceType() == null || appointmentDTO.getDate() == null || appointmentDTO.getDescription() == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+        if(!loggedUser.id().isPresent()){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
-        final Appointment newAppointment = appointmentService.addAppointment(loggedUser.id(),appointmentDTO.getProvider().getId(),
+        final Appointment newAppointment = appointmentService.addAppointment(loggedUser.id().get(),appointmentDTO.getProvider().getId(),
                 appointmentDTO.getServiceType().getId(),appointmentDTO.getDate(),appointmentDTO.getAddress(),appointmentDTO.getDescription());
 
+        chatService.sendAppointmentMsg(loggedUser.id().orElseThrow(IllegalArgumentException::new) , appointmentDTO.getProvider().getId(), appointmentDTO.getDate(), appointmentDTO.getDescription());
+
         if(newAppointment == null) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build(); // TODO:Internal Server Error?
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newAppointment.getAppointmentId())).build();
@@ -89,7 +101,7 @@ public class UserAppointmentsController {
         if(appointment == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        if(appointment.getClient().getId() != loggedUser.id()){
+        if(!loggedUser.id().isPresent() || appointment.getClient().getId() != loggedUser.id().get()){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 

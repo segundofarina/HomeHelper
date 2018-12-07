@@ -3,6 +3,7 @@ package ar.edu.itba.paw.service;
 import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.model.User;
 import ar.edu.itba.paw.interfaces.services.UserService;
+import ar.edu.itba.paw.model.UserImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,19 +20,15 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User findById(int id) {
-        Optional<User> user = userDao.findById(id);
-        return user.isPresent() ? user.get() : null;
+    public Optional<User> findById(int id) {
+        return userDao.findById(id);
+
     }
 
     @Transactional
     @Override
-    public User findByUsername(String username) {
-        Optional<User> user = userDao.findByUsername(username);
-        if (user.isPresent()) {
-            return user.get();
-        }
-        return null;
+    public Optional<User> findByUsername(String username) {
+        return userDao.findByUsername(username);
     }
 
     @Transactional
@@ -57,13 +54,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public byte[] getProfileImage(int id) {
-
-        if (userDao.findById(id).isPresent()) {
-
-            return userDao.findById(id).get().getImage();
-        }
-        return null;
+    public Optional<UserImage> getProfileImage(int userId) {
+        return userDao.getImage(userId);
 
     }
 

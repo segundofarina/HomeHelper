@@ -54,11 +54,7 @@ public class TokenAuthenticationManager implements AuthenticationManager {
     }
 
     public String generateToken(String username) {
-        User user = userService.findByUsername(username);
-
-        if(user == null) {
-            throw new AccessDeniedException("User not found");
-        }
+        User user = userService.findByUsername(username).orElseThrow(()->  new AccessDeniedException("User not found"));
 
         return Jwts.builder()
                         .setId( String.valueOf(user.getId()) )

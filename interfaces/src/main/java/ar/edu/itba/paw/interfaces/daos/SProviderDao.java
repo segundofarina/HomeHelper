@@ -10,11 +10,9 @@ public interface SProviderDao {
 
     Optional<SProvider> create(int userId, String description);
 
-    Set<SProvider> getServiceProviders();
+    List<SProvider> getServiceProviders();
 
     Optional<SProvider> getServiceProviderWithUserId(int userId);
-
-    Set<SProvider> getServiceProvidersByNeighborhoodAndServiceType(int ngId, int stId);
 
     boolean updateDescriptionOfServiceProvider(int userId, String description);
 

@@ -19,6 +19,10 @@ public class ServiceType {
     /* package */ ServiceType() {
 
     }
+    public ServiceType(int id, String name) {
+        this.id= id;
+        this.name = name;
+    }
 
     public ServiceType(String name) {
         this.name = name;

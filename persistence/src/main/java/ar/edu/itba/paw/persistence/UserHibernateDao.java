@@ -2,6 +2,7 @@ package ar.edu.itba.paw.persistence;
 
 import ar.edu.itba.paw.interfaces.daos.UserDao;
 import ar.edu.itba.paw.model.User;
+import ar.edu.itba.paw.model.UserImage;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +19,11 @@ public class UserHibernateDao implements UserDao {
 
     @Override
     public User create(String username, String password, String firstname, String lastname, String email, String phone, String address, byte[] image) {
-        final User user = new User(username, password, firstname, lastname, email, phone, address, image, false);
+        final User user = new User(username, password, firstname, lastname, email, phone, address, /*image,*/ false);
         em.persist(user);
+        final UserImage userImage= new UserImage(user.getId(),image);
+        em.persist(userImage);
+
         return user;
     }
 
@@ -42,6 +46,15 @@ public class UserHibernateDao implements UserDao {
     @Override
     public Optional<User> findById(int id) {
         return Optional.ofNullable(em.find(User.class, id));
+    }
+
+    @Override
+    public Optional<UserImage> getImage(int userId){
+        return em.createQuery("FROM UserImage as im"/*" where im.userId = :userid"*/, UserImage.class)
+                        //.setParameter("userid", userId)
+                        .getResultList()
+                        .stream()
+                        .findFirst();
     }
 
     @Override
@@ -85,8 +98,20 @@ public class UserHibernateDao implements UserDao {
     public boolean updateImageOfUser(int userId, byte[] image) {
 
         Optional<User> userOp = Optional.ofNullable(em.find(User.class, userId));
-        userOp.ifPresent(user -> user.setImage(image));
-        return userOp.isPresent();
+        if(!userOp.isPresent()){
+            return false;
+        }
+
+        Optional<UserImage> previousImage=
+                em.createQuery("FROM UserImage as im where im.userId = :userid", UserImage.class)
+                .setParameter("userid", userId)
+                .getResultList()
+                .stream()
+                .findFirst();
+
+        previousImage.ifPresent(im -> em.remove(im));
+        em.persist(new UserImage(userId,image));
+        return true;
     }
 
     @Override
