@@ -102,7 +102,7 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Transactional
     @Override
-    public boolean addCoordenates(int providerId, Set<CoordenatesPoint> coordenatesPoints) {
+    public boolean addCoordenates(int providerId, List<CoordenatesPoint> coordenatesPoints) {
         return coordenatesDao.insertCoordenatesOfProvider(providerId, coordenatesPoints);
     }
 
@@ -114,7 +114,7 @@ public class SProviderServiceImpl implements SProviderService {
 
     @Transactional
     @Override
-    public Optional<SProvider> create(int id, String description, Map<Integer, String> aptitudes, Set<CoordenatesPoint> coordenates) {
+    public Optional<SProvider> create(int id, String description, Map<Integer, String> aptitudes, List<CoordenatesPoint> coordenates) {
         SProvider provider = create(id,description);
 
         if(provider == null){

@@ -3,7 +3,6 @@ import ar.edu.itba.paw.homehelper.api.PaginationController;
 import ar.edu.itba.paw.homehelper.dto.*;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.SProviderService;
-import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.CoordenatesPoint;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.utils.SizeListTuple;
@@ -106,7 +105,7 @@ public class ProvidersController {
 
         final int loggedUserId = loggedUser.id().get();
 
-        Set<CoordenatesPoint> coordenates = new HashSet<>();
+        List<CoordenatesPoint> coordenates = new ArrayList<>();
 
         int i = 0;
 
