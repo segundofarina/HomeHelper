@@ -8,6 +8,7 @@ import ar.edu.itba.paw.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.*;
@@ -28,6 +29,10 @@ public class UsersController {
     @Autowired
     UserService userService;
 
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @POST
     @Path("/")
     @Produces(value = MediaType.APPLICATION_JSON)
@@ -36,13 +41,13 @@ public class UsersController {
 
         String username = userDto.getUsername();
 
-        if(userService.findByUsername(username) != null){
+        if(userService.findByUsername(username).isPresent()){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
        User user =userService.create(
                userDto.getUsername(),
-               userDto.getPassword(),
+               passwordEncoder.encode(userDto.getPassword()),
                userDto.getFirstname(),
                userDto.getLastname(),
                userDto.getEmail(),
