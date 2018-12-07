@@ -7,6 +7,8 @@ import ar.edu.itba.paw.model.Aptitude;
 import ar.edu.itba.paw.model.CoordenatesPoint;
 import ar.edu.itba.paw.model.SProvider;
 import ar.edu.itba.paw.model.utils.SizeListTuple;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,7 @@ import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.*;
 
-@Path("providers")
+@Path("/providers")
 @Controller
 public class ProvidersController {
 
@@ -36,6 +38,8 @@ public class ProvidersController {
     @Autowired
     private MessageSource messageSource;
 
+    private final Logger LOGGER = LoggerFactory.getLogger(ProvidersController.class);
+
     @GET
     @Path("/")
     @Produces(value = MediaType.APPLICATION_JSON)
@@ -46,7 +50,7 @@ public class ProvidersController {
             @QueryParam("page") @DefaultValue(PaginationController.CURRENT_PAGE) final int page,
             @QueryParam("pageSize") @DefaultValue(PaginationController.PAGE_SIZE) final int pageSize) {
 
-
+        LOGGER.info("in /providers");
         if(page < 1 || pageSize < 1) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

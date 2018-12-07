@@ -8,10 +8,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ReviewsListDto {
-    private List<AptitudeReviewDto> reviews;
+
     private int page;
     private int pageSize;
     private int maxPage;
+    private List<AptitudeReviewDto> reviews;
 
     public ReviewsListDto() {
     }
@@ -23,21 +24,41 @@ public class ReviewsListDto {
                 .forEach((id,list)->
                         this.reviews.add(new AptitudeReviewDto(id,list))
                 );
+
         this.page = page;
         this.pageSize = pageSize;
         this.maxPage= maxPage;
-
-
     }
 
-
-
-
-    public List<AptitudeReviewDto> getReviews(){
+    public List<AptitudeReviewDto> getReviews() {
         return reviews;
     }
 
     public void setReviews(List<AptitudeReviewDto> reviews) {
         this.reviews = reviews;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getMaxPage() {
+        return maxPage;
+    }
+
+    public void setMaxPage(int maxPage) {
+        this.maxPage = maxPage;
     }
 }

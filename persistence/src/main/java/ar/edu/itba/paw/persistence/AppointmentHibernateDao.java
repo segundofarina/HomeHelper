@@ -77,22 +77,32 @@ public class AppointmentHibernateDao implements AppointmentDao {
 
 
     @Override
-    public Review reviewAppointment(int appointmentId, int userId, int aptitudeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+    public Optional<Review> reviewAppointment(int appointmentId, int userId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
         Optional<Appointment> appointment = Optional.ofNullable(em.find(Appointment.class, appointmentId));
         if (!appointment.isPresent()) {
-            return null;
+            return Optional.empty();
         }
         Optional<User> user = Optional.ofNullable(em.find(User.class, userId));
         if (!user.isPresent()) {
-            return null;
+            return Optional.empty();
         }
-        Optional<Aptitude> aptitude = Optional.ofNullable(em.find(Aptitude.class, aptitudeId));
-        if (!aptitude.isPresent()) {
-            return null;
+
+//        Optional<Aptitude> aptitude = Optional.ofNullable(em.find(Aptitude.class, aptitudeId));
+//        if (!aptitude.isPresent()) {
+//            return null;
+//        }
+        Appointment appoint = appointment.get();
+        if(appoint.getClient().getId()!=userId){
+            return Optional.empty();
         }
-        Review review = new Review(quality, cleanness, price, punctuality, treatment, comment, Date.from(Instant.now()), user.get(), aptitude.get(),appointmentId);
+        Aptitude aptitude = appoint.getProvider().getAptitudes()
+                .stream()
+                .filter(apt -> apt.getService().getId() == appoint.getServiceType().getId())
+                .findFirst()
+                .orElseThrow(IllegalStateException::new);
+        Review review = new Review(quality, cleanness, price, punctuality, treatment, comment, Date.from(Instant.now()), user.get(), aptitude,appointmentId);
         em.persist(review);
         appointment.get().setClientReview(true);
-        return review;
+        return Optional.of(review);
     }
 }
