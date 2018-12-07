@@ -53,11 +53,11 @@ public class UsersIdController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        if(!loggedUser.id().isPresent() || id != loggedUser.id().get()){
+        if(!loggedUser.id().isPresent() || id.intValue() != loggedUser.id().get()){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        userService.updateImageOfUser(id,pictureDto.getImage());
+        userService.updateImageOfUser(id,pictureDto.getImageAsByte());
 
         return Response.ok().build();
 

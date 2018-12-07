@@ -14,5 +14,10 @@ public class PictureDto {
 
     public FormDataBodyPart getImage() {
         return image;
+/*    public byte[] getImage() {
+        return image.getValueAs(byte[].class);*/
+    }
+    public byte[] getImageAsByte() {
+        return image.getValueAs(byte[].class);
     }
 }

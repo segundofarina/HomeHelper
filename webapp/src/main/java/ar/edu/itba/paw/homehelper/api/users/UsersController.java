@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.homehelper.api.users;
 
 
+import ar.edu.itba.paw.homehelper.auth.TokenAuthenticationManager;
+import ar.edu.itba.paw.homehelper.auth.TokenAuthenticationService;
 import ar.edu.itba.paw.homehelper.dto.UserDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.UserService;
@@ -28,6 +30,9 @@ public class UsersController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    TokenAuthenticationManager tokenAuthenticationManager;
+
     @POST
     @Path("/")
     @Produces(value = MediaType.APPLICATION_JSON)
@@ -52,7 +57,7 @@ public class UsersController {
                ); //TODO take out image of service
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
-        return Response.created(uri).build();
+        return Response.created(uri).header("X-Authorization", tokenAuthenticationManager.generateToken(username)).build();
 
     }
 }
