@@ -28,11 +28,10 @@ public class HHUserDetailsService implements UserDetailsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(HHUserDetailsService.class);
 
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        final User user = us.findByUsername(username);
+        final User user = us.findByUsername(username)
+                .orElseThrow(()->new UsernameNotFoundException("No user by the name " + username));
 
-        if (user == null) {
-            throw new UsernameNotFoundException("No user by the name " + username);
-        }
+
 
         boolean isVerified = false;
         boolean isProvider = false;

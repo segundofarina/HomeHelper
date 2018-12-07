@@ -36,10 +36,10 @@ public class UserServiceImplTest {
         Optional<User> expected = Optional.ofNullable(dummyUser());
         when(userDaoMock.findById(expected.get().getId())).thenReturn(expected).thenReturn(Optional.empty());
 
-        User actual = userService.findById(expected.get().getId());
+        User actual = userService.findById(expected.get().getId()).orElse(null);
 
         assertEqualsUsers(expected.get(), actual);
-        assertNull(userService.findById(2));
+        assertFalse(userService.findById(2).isPresent());
 
         verify(userDaoMock, times(2)).findById(anyInt());
     }
@@ -49,10 +49,10 @@ public class UserServiceImplTest {
         Optional<User> expected = Optional.ofNullable(dummyUser());
         when(userDaoMock.findByUsername(expected.get().getUsername())).thenReturn(expected).thenReturn(Optional.empty());
 
-        User actual = userService.findByUsername(expected.get().getUsername());
+        User actual = userService.findByUsername(expected.get().getUsername()).orElse(null);
 
         assertEqualsUsers(expected.get(), actual);
-        assertNull(userService.findByUsername("lala"));
+        assertFalse(userService.findByUsername("lala").isPresent());
         verify(userDaoMock, times(2)).findByUsername(anyString());
     }
 

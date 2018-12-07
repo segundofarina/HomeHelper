@@ -20,19 +20,15 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User findById(int id) {
-        Optional<User> user = userDao.findById(id);
-        return user.isPresent() ? user.get() : null;
+    public Optional<User> findById(int id) {
+        return userDao.findById(id);
+
     }
 
     @Transactional
     @Override
-    public User findByUsername(String username) {
-        Optional<User> user = userDao.findByUsername(username);
-        if (user.isPresent()) {
-            return user.get();
-        }
-        return null;
+    public Optional<User> findByUsername(String username) {
+        return userDao.findByUsername(username);
     }
 
     @Transactional

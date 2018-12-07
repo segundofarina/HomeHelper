@@ -207,9 +207,6 @@ public class SProviderServiceImpl implements SProviderService {
 
                 if (isLatLngInPolygon(clientLocationLat, clientLocationLng, polygon)) {
                     res.add(sp);
-                    System.out.println("in polygon");
-                }else{
-                    System.out.println("Not in polygon");
                 }
             }
         }
@@ -410,7 +407,14 @@ public class SProviderServiceImpl implements SProviderService {
         Collections.sort(polygon,Comparator.comparingInt(CoordenatesPoint::getPosition));
         Polygon.Builder builder = Polygon.Builder();
         polygon.forEach(cor -> builder.addVertex(new Point(cor.getLng(),cor.getLat())));
-        return builder.build().contains(new Point(lng,lat));
+        boolean ans;
+        try{
+            ans = builder.build().contains(new Point(lng,lat));
+        }catch (RuntimeException e){
+            ans = false;
+            LOGGER.info("User has less than 3 coordenates");
+        }
+        return ans;
 
     }
 
