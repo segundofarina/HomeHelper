@@ -15,7 +15,7 @@ public class BasicUserDto {
         this.id = user.getId();
         firstName = user.getFirstname();
         lastName = user.getLastname();
-        pictureUrl = "http://localhost:8080/api/"+"users/"+this.id+"/image";
+        pictureUrl = "http://pawserver.it.itba.edu.ar/paw-2018a-4/api/"+"users/"+this.id+"/image";
     }
 
     public int getId() {

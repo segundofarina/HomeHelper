@@ -14,10 +14,12 @@
     text-decoration: none;
     outline: none;
 }
+.button:hover{
+    opacity: 0.85;
+}
 
 .Primary{
     background-color: #26b99a;
-
 }
 
 .Secondary{

@@ -154,7 +154,7 @@ class Profile extends Component {
         }
  
          return (<div className={styles.Profile}>
-            <Summary name={`${provider.firstName} ${provider.lastName}`} serviceTypes={serviceTypes.join(", ")} rating={provider.generalCalification} img={defaultImg}/>
+            <Summary name={`${provider.firstName} ${provider.lastName}`} serviceTypes={serviceTypes.join(", ")} rating={provider.generalCalification} img={provider.pictureUrl}/>
             <div className={styles.MainContainer}>
                 <div className={styles.Contact}>
                     <Contact

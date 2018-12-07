@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode'
 import * as chatActions  from './chatActions'
 import * as appointmentsActions from './appointmentsActions'
 import * as providerAppointmentsActions from './providerAppointmentsActions'
+import * as providerProfileActions from './providerProfileActions'
 
 export const updateUsingProvider = (showingProvider) => {
     return {
@@ -107,6 +108,7 @@ const clearTokenFromLocalStorage = () => {
 
 export const setToken = (token) => {
     axios.defaults.headers.common['X-Authorization'] = token
+    saveTokenToLocalStorage(token)
     return {
         type: actionTypes.USER_DATA_SET_TOKEN,
         payload: {
@@ -129,5 +131,6 @@ const clearReduxState = () => {
         dispatch(chatActions.chatClearState())
         dispatch(appointmentsActions.appointmentsClearState())
         dispatch(providerAppointmentsActions.providersAppointmentsClearState())
+        dispatch(providerProfileActions.providerClearState())
     }
 }

@@ -67,12 +67,11 @@ class Search extends Component {
                 const serviceTypes = provider.aptitudes.map(apt => {
                     return apt.serviceType.name
                 })
-
                 return (<Profile className={styles.Profile}
                             name={`${provider.firstName} ${provider.lastName}`}
                             serviceTypes={serviceTypes}
                             description={provider.description}
-                            img={defaultImg}
+                            img={provider.pictureUrl}
                             calification={provider.generalCalification}
                             id={provider.id}
                             key={provider.id}

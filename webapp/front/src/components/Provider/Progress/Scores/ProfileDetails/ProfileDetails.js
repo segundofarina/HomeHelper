@@ -7,7 +7,9 @@ import Rating from '../../../../UI/rating/Rating'
 const profileDetails = (props) => {
     return (
         <Panel className={styles.ProfileDetails}>
-            <img className={styles.ProfileImage} src={defaultImage} alt="Profile" />
+            <img src={props.img} 
+                        onError={(ev)=>ev.target.src = defaultImage} 
+                        className={styles.ProfileImage}/>
             <p className={styles.Name}>{props.name}</p>
             <Rating value={props.generalCalification} />
             <p className={styles.GeneralCalification}>General Calification: <strong>{props.generalCalification}</strong></p>

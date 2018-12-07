@@ -26,3 +26,12 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     outline: none;
 }
+
+.ValidationError {
+    margin: 0;
+    text-align: center;
+    font-size: 12px;
+    margin-top: 2px;
+    font-style: italic;
+    color: #e61213;
+}

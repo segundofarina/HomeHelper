@@ -145,7 +145,9 @@ class Appointments extends Component {
                 return {
                     id: appointment.id,
                     columns: [
-                        (<img src={defaultImg} alt="" className={styles.ProfilePicture} />),
+                        (<img src={appointment.client.pictureUrl} 
+                            onError={(ev)=>ev.target.src = defaultImg} 
+                            className={styles.ProfilePicture}/>),
                         `${appointment.client.firstName}`,
                         `${appointment.date}`,
                         `${appointment.address}`,
@@ -163,7 +165,9 @@ class Appointments extends Component {
                 return {
                     id: appointment.id,
                     columns: [
-                        (<img src={defaultImg} alt="" className={styles.ProfilePicture} />),
+                        (<img src={appointment.client.pictureUrl} 
+                            onError={(ev)=>ev.target.src = defaultImg} 
+                            className={styles.ProfilePicture}/>),
                         `${appointment.client.firstName} ${appointment.client.lastName}`,
                         `${appointment.date}`,
                         `${appointment.address}`,

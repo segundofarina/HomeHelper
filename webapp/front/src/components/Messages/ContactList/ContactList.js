@@ -26,6 +26,7 @@ class ContactList extends Component {
                             onClick={() => this.props.handleContactClick(contact.id)}
                             name={contact.name}
                             previewMsg={contact.msg}
+                            img={contact.img}
                             active={this.props.activeChat === contact.id} />)
                     })}
                 </div>

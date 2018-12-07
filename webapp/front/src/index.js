@@ -16,6 +16,8 @@ import contactReducer from './store/reducers/contactReducer'
 import appointmentsReducer from './store/reducers/appointmentsReducer'
 import userDataReducer from './store/reducers/userDataReducer'
 import providerAppointmentsReducer from './store/reducers/providerAppointmentsReducer'
+import providerProfileReducer from './store/reducers/providerProfileReducer'
+import loginModalReducer from './store/reducers/loginModalReducer'
 
 //axios.defaults.baseURL = 'http://localhost:8080/api'
 //axios.defaults.baseURL = 'http://10.0.0.53:8080/api'
@@ -34,6 +36,8 @@ const rootReducer = combineReducers({
     appointments: appointmentsReducer,
     userData: userDataReducer,
     providerAppointments: providerAppointmentsReducer,
+    providerProfile: providerProfileReducer,
+    loginModal: loginModalReducer,
 })
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))

@@ -85,7 +85,9 @@ class DropdownBtn extends Component {
             <div ref={this.setWrapperRef}>
                 <div className={headerStylesArr.join(' ')}
                     onClick={this.toggleOpen}>
-                    <img src={profileImage} alt="" />
+                    <img src={this.props.img} 
+                    onError={(ev)=>ev.target.src = defaultProfileImage} 
+                    className={styles.ProfilePicture}/>
                     <span>{this.props.name}</span>
                     <FontAwesomeIcon icon={faChevronDown} className={styles.dropdownIcon} />
                 </div>

@@ -13,7 +13,9 @@ const appointmentDetails = (props) => {
     return (
         <Panel className={panelStyles.join(' ')}>
             <div className={styles.Container} >
-                <img className={styles.ProfilePicture} src={defaultImg} alt="" />
+                <img src={props.img} alt=""
+                        onError={(ev)=>ev.target.src = defaultImg} 
+                        className={styles.ProfilePicture}/>
                 <h3 className={styles.ProviderName}>{props.name}</h3>
                 <Rating value={props.calification} />
                 <div className={styles.AppSection}>

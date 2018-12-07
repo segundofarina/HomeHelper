@@ -19,7 +19,7 @@ const menuBtns = (props) => {
                 <MenuBtn to="/provider/messages" key='4' showingProvider>Mensajes</MenuBtn>
                 <MenuBtn to="/provider/appointments" key='5' showingProvider>Citas</MenuBtn>
                 <MenuBtn to="/provider/progress" key='6' showingProvider>Progreso</MenuBtn>
-                <MenuBtn to="/provider/profile" key='7' showingProvider>Perfil</MenuBtn>
+                <MenuBtn to="/provider/editProfile" key='7' showingProvider>Perfil</MenuBtn>
             </Fragment>
         )
     }
@@ -30,7 +30,7 @@ const menuBtns = (props) => {
                 {btns}
             </div>
             <DropdownBtn name={props.firstName}
-                img=""
+                img={props.img}
                 isProvider={props.isProvider}
                 showingProvider={props.showingProvider}
                 handleUseAsProvider={props.handleUseAsProvider}

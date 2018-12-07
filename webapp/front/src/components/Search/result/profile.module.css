@@ -61,6 +61,13 @@
     object-fit: cover;
 }
 
+.ProfileImg object {
+    border-radius: 100%;
+    width: 7em;
+    height: 7em;
+    object-fit: cover;
+}
+
 .Description{
     padding: 0 20px;
     font-size: 14px;

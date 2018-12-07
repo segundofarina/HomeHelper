@@ -29,10 +29,16 @@ const input = (props) => {
         labelElem = (<label>{props.label}</label>)
     }
 
+    let validationError = null
+    if(props.validationError) {
+        validationError = (<p className={styles.ValidationError}>{props.validationError}</p>)
+    }
+
     return (
-        <div className={styles.formGroup}>
+        <div className={[styles.formGroup, props.groupstyle].join(' ')}>
             {labelElem}
             {inputElem}
+            {validationError}
         </div>
     )
 }

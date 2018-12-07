@@ -21,7 +21,7 @@ const showReviews = (reviews, isOpen, showReviewsClick, hideReviewsClick) => {
                     date = {review.date}
                     rating ={review.scores.general}
                     description = {review.comment}
-                    img = {review.user.imgUrl}
+                    img = {review.user.pictureUrl}
                 />
                 <hr/>
             </div>
@@ -35,7 +35,7 @@ const showReviews = (reviews, isOpen, showReviewsClick, hideReviewsClick) => {
                     date = {review.date}
                     rating ={review.scores.general}
                     description = {review.comment}
-                    img = {review.img}
+                    img = {review.user.pictureUrl}
                 />
                 <hr/>
             </div>

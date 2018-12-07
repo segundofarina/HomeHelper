@@ -48,7 +48,9 @@ class Chat extends Component {
     render () {
         return (
             <div className={styles.Chat}>
-                <ContactProfile name={this.props.contactName} />
+                <ContactProfile 
+                name={this.props.contactName}
+                img={this.props.img} />
                 <MessagesBox messages={this.props.chatMessages} ref={this.msgBoxRef} />
                 <MsgInput msgValue={this.state.newMsg}
                     msgChangeHandler={this.msgChangeHandler}

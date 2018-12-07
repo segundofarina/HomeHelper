@@ -4,7 +4,7 @@ import defaultImg from '../../../../assets/img/defaultProfile.png'
 
 const contactProfile = (props) => (
     <div className={styles.ContactProfile}>
-        <img src={defaultImg} alt="" className={styles.ProfilePicture} />
+        <img src={props.img} onError={(ev)=>ev.target.src = defaultImg} className={styles.ProfilePicture}/>
         <p className={styles.Name}>{props.name}</p>
     </div>
 )

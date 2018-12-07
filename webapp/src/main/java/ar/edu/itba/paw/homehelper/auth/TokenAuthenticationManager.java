@@ -61,7 +61,7 @@ public class TokenAuthenticationManager implements AuthenticationManager {
                         .setSubject(username)
                         .claim("firstName", user.getFirstname())
                         .claim("lastName", user.getLastname())
-                        .claim("imgUrl", "http://localhost:8080/api/"+"users/"+user.getId()+"/image")
+                        .claim("imgUrl", "http://pawserver.it.itba.edu.ar/paw-2018a-4/api/"+"users/"+user.getId()+"/image")
                         .claim("isVerified", String.valueOf(user.isVerified()))
                         .claim("isProvider", String.valueOf(providerService.isServiceProvider(user.getId())))
                     .signWith(key)

@@ -17,7 +17,9 @@ const contactItem = (props) => {
     return (
         <div className={contactItemStyles.join(' ')} onClick={props.onClick}>
             <div className={styles.Wrap}>
-                <img src={defaultImg} alt="" className={styles.ProfilePicture} />
+            <img src={props.img} 
+            onError={(ev)=>ev.target.src = defaultImg} 
+            className={styles.ProfilePicture}/>
                 <div className={styles.ContactInfo}>
                     <p className={styles.Name}>
                         {props.name}

@@ -39,7 +39,7 @@ public class ProviderDto {
         }
 
         this.coordenates = provider.getCoordenates().stream().map(cor -> new CoordenateDto(cor.getLat(), cor.getLng())).collect(Collectors.toList());
-        this.pictureUrl = "http://localhost:8080/api/"+"users/"+this.id+"/image";
+        this.pictureUrl = "http://pawserver.it.itba.edu.ar/paw-2018a-4/api/"+"users/"+this.id+"/image";
     }
 
     public int getId() {

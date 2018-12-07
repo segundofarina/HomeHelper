@@ -28,6 +28,12 @@
     border-radius: 100%;
     object-fit: cover;
 }
+.ProfileImg object{
+    width: 84px;
+    height: 84px;
+    border-radius: 100%;
+    object-fit: cover;
+}
 
 .Data{
     display: flex;

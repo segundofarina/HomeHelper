@@ -23,7 +23,7 @@ public class ChatDTO {
         this.toName = toUser.getFirstname() + " " + toUser.getLastname();
         this.toUsername = toUser.getUsername();
         this.messages = new LinkedList<>();
-        this.toPictureUrl = "http://localhost:8080/api/"+"users/"+this.chatId+"/image";
+        this.toPictureUrl = "http://pawserver.it.itba.edu.ar/paw-2018a-4/api/"+"users/"+this.chatId+"/image";
 
         for(Message message : chat.getMessages()) {
             String from = message.getFrom() == toUser.getId() ? "yours" : "mine";

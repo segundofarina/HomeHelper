@@ -78,17 +78,19 @@ class Messages extends Component {
                 <Status text='Loading...' type='loading' />
             )
         }
-
+        
         const currentChat = this.props.chats.filter((chat) => {
             return chat.chatId === this.props.currentChat
         })
         let currentChatMessages = []
         let currentContactName = ''
         let currentToUsername = ''
+        let currentImg= ''
         if(currentChat[0]) {
             currentChatMessages = currentChat[0].messages
             currentContactName = currentChat[0].toName
             currentToUsername = currentChat[0].toUsername
+            currentImg = currentChat[0].toPictureUrl
         }
 
         const contacts = this.props.chats.map(chat => {
@@ -97,16 +99,18 @@ class Messages extends Component {
                 id: chat.chatId,
                 name: chat.toName,
                 msg: msg,
+                img: chat.toPictureUrl,
             }
         })
-
+        console.log(this.props.chats)
         let sideElem = (<SelectChatMsg />)
         if(this.props.currentChat !== null) {
             sideElem = (
                 <Chat websocketSendHandler={this.handleSendMsg}
                         chatMessages={currentChatMessages}
                         username={currentToUsername}
-                        contactName={currentContactName} />
+                        contactName={currentContactName}
+                        img={currentImg} />
             )
         }
 

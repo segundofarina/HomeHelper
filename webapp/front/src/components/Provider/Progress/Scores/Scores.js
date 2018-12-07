@@ -50,7 +50,8 @@ const scores = () => {
         <div className={styles.ScoresContainer}>
             <div className={styles.ProfileInfo}>
                 <ProfileDetails name='Martin Victory'
-                                generalCalification={generalCalification}/>
+                                generalCalification={generalCalification}
+                                img=""/>
             </div>
             <div className={styles.ScoresInfo}>
                 <ScoresDetails details={details} />

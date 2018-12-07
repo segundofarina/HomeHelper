@@ -14,7 +14,7 @@ import {connect} from 'react-redux'
 import * as ContactActions from '../../../store/actions/contactActions'
 import { withRouter } from 'react-router-dom'
 import FormValidator from '../../../FormValidator/FormValidator';
-
+import * as loginModalActions from '../../../store/actions/loginModalAction'
 
 class Contact extends Component {
     isValidDate = (date, state) => {
@@ -93,6 +93,11 @@ class Contact extends Component {
         this.setState({validation})
         this.submitted = true
         if(validation.isValid) {
+            if(!this.props.isAuthenticated) {
+                this.props.showLogin()
+                return
+            }
+
             this.props.updateContact(this.state.serviceTypeText, convertDate(this.state.date), this.state.description, {
                 firstName: this.props.provider.firstName,
                 lastName: this.props.provider.lastName,
@@ -206,14 +211,21 @@ class Contact extends Component {
         )}
 }
 
+const mapStateToProps = state => {
+    return {
+        isAuthenticated: state.userData.authenticated,
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         updateContact: (serviceType, date, description, provider) => dispatch(ContactActions.updateContact(serviceType, date, description, provider)),
         sendAppointment: (appointment) => dispatch(ContactActions.sendAppointment(appointment)),
+        showLogin: () => dispatch(loginModalActions.showLogin()),
     }
 }
 
-export default connect(null,mapDispatchToProps)(withRouter(Contact))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Contact))
 
 
 const convertDate = inputFormat => {

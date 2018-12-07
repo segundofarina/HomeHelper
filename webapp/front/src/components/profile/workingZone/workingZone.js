@@ -63,7 +63,6 @@ const WorkingZone= (props)=>{
                 fillColor="#26b99a"
                 fillOpacity={0.35}
                  />
-
             </Map>
         </div>
     )
