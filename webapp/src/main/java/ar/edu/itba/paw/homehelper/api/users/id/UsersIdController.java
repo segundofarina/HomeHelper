@@ -37,19 +37,15 @@ public class UsersIdController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         return userService.getProfileImage(id)
-                .map(im->{
-                    System.out.println("GOT IMAGEE"+im.getImageId());
-                    return Response.ok(im.getImage()).build();
-                })
+                .map(im->Response.ok(im.getImage()).build())
                 .orElse(Response.status(Response.Status.NOT_FOUND).build());
-
     }
 
     @PUT
     @Path("/image")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response updateImage(@PathParam("id") Integer id, @BeanParam final PictureDto pictureDto){
-        if(id == null){
+        if(id == null || pictureDto == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -58,7 +54,14 @@ public class UsersIdController {
         }
 
         if(pictureDto.getImage() != null) {
+
+            System.out.println("pic"+pictureDto.getImage().getName());
+
+            System.out.println("pic"+pictureDto.getImageAsByte().length);
             userService.updateImageOfUser(id,pictureDto.getImageAsByte());
+        }else{
+            System.out.println("get image is null");
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         return Response.ok().build();

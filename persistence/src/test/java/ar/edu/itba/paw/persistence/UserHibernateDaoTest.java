@@ -57,7 +57,7 @@ public class UserHibernateDaoTest {
     @Test
     public void testCreate() throws SQLException {
         int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "users");
-        final User user = userDao.create(USERNAME, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, PHONE, ADDRESS, IMAGE);
+        final User user = userDao.create(USERNAME, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, PHONE, ADDRESS);
         em.flush();
         assertNotNull(user);
         assertEquals(USERNAME, user.getUsername());
@@ -84,7 +84,7 @@ public class UserHibernateDaoTest {
 
 
     public static User insertDummyUser(UserDao userDao) throws SQLException {
-        final User user = userDao.create(USERNAME, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, PHONE, ADDRESS, IMAGE);
+        final User user = userDao.create(USERNAME, PASSWORD, FIRSTNAME, LASTNAME, EMAIL, PHONE, ADDRESS);
         return user;
     }
 

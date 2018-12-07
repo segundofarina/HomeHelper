@@ -2,13 +2,10 @@ package ar.edu.itba.paw.homehelper.api.users;
 
 
 import ar.edu.itba.paw.homehelper.auth.TokenAuthenticationManager;
-import ar.edu.itba.paw.homehelper.auth.TokenAuthenticationService;
 import ar.edu.itba.paw.homehelper.dto.UserDto;
-import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.UserService;
 import ar.edu.itba.paw.model.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
