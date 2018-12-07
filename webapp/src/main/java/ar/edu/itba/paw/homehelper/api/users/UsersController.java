@@ -10,6 +10,7 @@ import ar.edu.itba.paw.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.*;
@@ -31,7 +32,11 @@ public class UsersController {
     UserService userService;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     TokenAuthenticationManager tokenAuthenticationManager;
+
 
     @POST
     @Path("/")
@@ -47,7 +52,7 @@ public class UsersController {
 
        User user =userService.create(
                userDto.getUsername(),
-               userDto.getPassword(),
+               passwordEncoder.encode(userDto.getPassword()),
                userDto.getFirstname(),
                userDto.getLastname(),
                userDto.getEmail(),
