@@ -1,6 +1,8 @@
 package ar.edu.itba.paw.homehelper.api.users;
 
 
+import ar.edu.itba.paw.homehelper.auth.TokenAuthenticationManager;
+import ar.edu.itba.paw.homehelper.auth.TokenAuthenticationService;
 import ar.edu.itba.paw.homehelper.dto.UserDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.UserService;
@@ -29,9 +31,12 @@ public class UsersController {
     @Autowired
     UserService userService;
 
-
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    TokenAuthenticationManager tokenAuthenticationManager;
+
 
     @POST
     @Path("/")
@@ -42,7 +47,7 @@ public class UsersController {
         String username = userDto.getUsername();
 
         if(userService.findByUsername(username).isPresent()){
-            return Response.status(Response.Status.FORBIDDEN).build();
+            return Response.status(Response.Status.CONFLICT).build();
         }
 
        User user =userService.create(
@@ -57,7 +62,7 @@ public class UsersController {
                ); //TODO take out image of service
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
-        return Response.created(uri).build();
+        return Response.created(uri).header("X-Authorization", tokenAuthenticationManager.generateToken(username)).build();
 
     }
 }

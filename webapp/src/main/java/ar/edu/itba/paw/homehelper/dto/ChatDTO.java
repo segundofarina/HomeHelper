@@ -12,6 +12,7 @@ public class ChatDTO {
     private String toName;
     private String toUsername;
     private List<MessageDTO> messages;
+    private String toPictureUrl;
 
     public ChatDTO() {
     }
@@ -22,11 +23,20 @@ public class ChatDTO {
         this.toName = toUser.getFirstname() + " " + toUser.getLastname();
         this.toUsername = toUser.getUsername();
         this.messages = new LinkedList<>();
+        this.toPictureUrl = "http://localhost:8080/api/"+"users/"+this.chatId+"/image";
 
         for(Message message : chat.getMessages()) {
             String from = message.getFrom() == toUser.getId() ? "yours" : "mine";
             this.messages.add(new MessageDTO(from, message.getMessage()));
         }
+    }
+
+    public String getToPictureUrl() {
+        return toPictureUrl;
+    }
+
+    public void setToPictureUrl(String toPictureUrl) {
+        this.toPictureUrl = toPictureUrl;
     }
 
     public int getChatId() {

@@ -45,19 +45,21 @@ public class UsersIdController {
 
     }
 
-    @POST
+    @PUT
     @Path("/image")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response createImage(@PathParam("id") Integer id, @BeanParam final PictureDto pictureDto){
+    public Response updateImage(@PathParam("id") Integer id, @BeanParam final PictureDto pictureDto){
         if(id == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        if(!loggedUser.id().isPresent() || id != loggedUser.id().get()){
+        if(!loggedUser.id().isPresent() || id.intValue() != loggedUser.id().get()){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        userService.updateImageOfUser(id,pictureDto.getImage());
+        if(pictureDto.getImage() != null) {
+            userService.updateImageOfUser(id,pictureDto.getImageAsByte());
+        }
 
         return Response.ok().build();
 
