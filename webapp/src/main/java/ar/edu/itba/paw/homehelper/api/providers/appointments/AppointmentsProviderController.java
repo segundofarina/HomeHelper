@@ -127,7 +127,7 @@ public class AppointmentsProviderController {
         if(!loggedUser.id().isPresent()){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        
+
         if(loggedUser.id().get() == appointmentDto.getProvider().getId()){
             return Response.status(Response.Status.CONFLICT).build();
         }

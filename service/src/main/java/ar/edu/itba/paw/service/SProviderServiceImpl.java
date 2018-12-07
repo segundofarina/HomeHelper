@@ -207,9 +207,6 @@ public class SProviderServiceImpl implements SProviderService {
 
                 if (isLatLngInPolygon(clientLocationLat, clientLocationLng, polygon)) {
                     res.add(sp);
-                    System.out.println("in polygon");
-                }else{
-                    System.out.println("Not in polygon");
                 }
             }
         }
