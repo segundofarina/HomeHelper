@@ -15,7 +15,7 @@ public class BasicUserDto {
         this.id = user.getId();
         firstName = user.getFirstname();
         lastName = user.getLastname();
-        pictureUrl = "";
+        pictureUrl = "http://localhost:8080/api/"+"users/"+this.id+"/image";
     }
 
     public int getId() {

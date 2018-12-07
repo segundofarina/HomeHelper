@@ -50,8 +50,8 @@ public class UserHibernateDao implements UserDao {
 
     @Override
     public Optional<UserImage> getImage(int userId){
-        return em.createQuery("FROM UserImage as im"/*" where im.userId = :userid"*/, UserImage.class)
-                        //.setParameter("userid", userId)
+        return em.createQuery("FROM UserImage as im  where im.userId = :userid", UserImage.class)
+                        .setParameter("userid", userId)
                         .getResultList()
                         .stream()
                         .findFirst();

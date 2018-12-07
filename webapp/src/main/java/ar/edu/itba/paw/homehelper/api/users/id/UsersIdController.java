@@ -2,6 +2,7 @@ package ar.edu.itba.paw.homehelper.api.users.id;
 
 
 import ar.edu.itba.paw.homehelper.api.users.UsersController;
+import ar.edu.itba.paw.homehelper.dto.ActionDto;
 import ar.edu.itba.paw.homehelper.dto.UserDto;
 import ar.edu.itba.paw.homehelper.utils.LoggedUser;
 import ar.edu.itba.paw.interfaces.services.UserService;
@@ -27,20 +28,19 @@ public class UsersIdController {
 
     final static Logger LOGGER = LoggerFactory.getLogger(UsersController.class);
 
+    @GET
     @Path("/image")
-    @Produces({"image/png", "image/jpeg"})
+    @Produces({"images/jpg", "images/png", "images/gif"})
     public Response getImage(@PathParam("id") Integer id){
         if(id == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-
         return userService.getProfileImage(id)
                 .map(im->{
                     System.out.println("GOT IMAGEE"+im.getImageId());
                     return Response.ok(im.getImage()).build();
                 })
-                .orElse(Response.status(Response.Status.REQUESTED_RANGE_NOT_SATISFIABLE).build());
-
+                .orElse(Response.status(Response.Status.NOT_FOUND).build());
 
     }
 
@@ -50,9 +50,9 @@ public class UsersIdController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateClient(@PathParam("id") final Integer id, UserDto userDto){
 
-        LOGGER.info("ENTRE");
 
-        if(!loggedUser.id().isPresent() || id != loggedUser.id().get()){
+
+        if(!loggedUser.id().isPresent() || id.intValue() != loggedUser.id().get()){
             LOGGER.info("!loggedUser.id().isPresent() || id != loggedUser.id().get()");
             return Response.status(Response.Status.FORBIDDEN).build();
         }

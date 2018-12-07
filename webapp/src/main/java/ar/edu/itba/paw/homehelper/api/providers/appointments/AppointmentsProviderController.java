@@ -48,7 +48,7 @@ public class AppointmentsProviderController {
 
         List<Appointment> list = appointmentService.getAppointmentsByProviderId(loggedUser.id().orElseThrow(IllegalArgumentException::new));
 
-        return Response.ok(new AppointmentProviderListDto(list,locale,messageSource)).build();
+        return Response.ok(new AppointmentProviderListDto(list,locale,messageSource,uriInfo.getBaseUri().getRawPath())).build();
 
     }
 

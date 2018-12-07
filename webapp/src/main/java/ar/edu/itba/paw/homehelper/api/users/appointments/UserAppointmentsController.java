@@ -12,10 +12,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
@@ -74,6 +71,7 @@ public class UserAppointmentsController {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
+
         final Appointment newAppointment = appointmentService.addAppointment(loggedUser.id().get(),appointmentDTO.getProvider().getId(),
                 appointmentDTO.getServiceType().getId(),appointmentDTO.getDate(),appointmentDTO.getAddress(),appointmentDTO.getDescription());
 
@@ -86,10 +84,8 @@ public class UserAppointmentsController {
 
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newAppointment.getAppointmentId())).build();
-
         return Response.created(uri).build();
     }
-
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -111,6 +107,7 @@ public class UserAppointmentsController {
         return Response.ok(new AppointmentClientDto(appointment,locale,messageSource)).build();
 
     }
+
 
 
 }

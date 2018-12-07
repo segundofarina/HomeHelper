@@ -13,7 +13,7 @@ public class AppointmentProviderListDto {
     public AppointmentProviderListDto() {
     }
 
-    public AppointmentProviderListDto(List<Appointment> appointments, Locale locale, MessageSource messageSource) {
+    public AppointmentProviderListDto(List<Appointment> appointments, Locale locale, MessageSource messageSource,String baseUri) {
         this.appointments = new ArrayList<>();
 
         for(Appointment appointment: appointments){
