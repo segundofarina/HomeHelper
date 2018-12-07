@@ -52,9 +52,8 @@ public class UsersController {
                userDto.getLastname(),
                userDto.getEmail(),
                userDto.getPhone(),
-               userDto.getAddress(),
-               null
-               ); //TODO take out image of service
+               userDto.getAddress()
+               );
 
         final URI uri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(user.getId())).build();
         return Response.created(uri).header("X-Authorization", tokenAuthenticationManager.generateToken(username)).build();
