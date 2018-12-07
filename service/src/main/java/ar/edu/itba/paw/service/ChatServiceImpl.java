@@ -87,13 +87,17 @@ public class ChatServiceImpl implements ChatService {
     @Transactional
     @Override
     public List<Chat> getChatsOfProvider(int providerId) {
-        return messageDao.getChatsOfProvider(providerId);
+        List<Chat> chats = messageDao.getChatsOfProvider(providerId);
+        Collections.sort(chats);
+        return chats;
     }
 
     @Transactional
     @Override
     public List<Chat> getChatsOfUser(int userId) {
-        return messageDao.getChatsOfUser(userId);
+        List<Chat> chats = messageDao.getChatsOfUser(userId);
+        Collections.sort(chats);
+        return chats;
     }
 
     @Transactional
