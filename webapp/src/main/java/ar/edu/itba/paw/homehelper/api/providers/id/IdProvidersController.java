@@ -55,13 +55,12 @@ public class IdProvidersController {
     @PUT
     @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateProvider(@PathParam("id") final Integer id,  ProviderDto providerDto){
+    public Response updateProvider(@PathParam("id") final Integer id, ProviderDto providerDto){
 
         if(!loggedUser.id().isPresent() || loggedUser.id().get() != id || !loggedUser.isProvider().isPresent() || !loggedUser.isProvider().get()){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        boolean update = true;
         if(providerDto.getAptitudes() != null){
             for(AptitudeDto aptitude : providerDto.getAptitudes()) {
                 if(aptitude.getDescription() != null){
@@ -86,6 +85,23 @@ public class IdProvidersController {
             sProviderService.updateDescriptionOfServiceProvider(id,providerDto.getDescription());
         }
 
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteAptitude(@PathParam("id") final Integer id, ProviderDto providerDto){
+
+        if(!loggedUser.id().isPresent() || loggedUser.id().get() != id || !loggedUser.isProvider().isPresent() || !loggedUser.isProvider().get()){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        if(providerDto.getAptitudes() != null){
+            for(AptitudeDto aptitude : providerDto.getAptitudes()) {
+                sProviderService.removeAptitude(id,aptitude.getId());
+            }
+        }
         return Response.ok().build();
     }
 }
