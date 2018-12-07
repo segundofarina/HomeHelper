@@ -48,7 +48,7 @@ public class UsersIdController {
     @POST
     @Path("/image")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response getImage(@PathParam("id") Integer id, @BeanParam final PictureDto pictureDto){
+    public Response createImage(@PathParam("id") Integer id, @BeanParam final PictureDto pictureDto){
         if(id == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
