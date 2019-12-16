@@ -1,0 +1,80 @@
+.Appointments {
+    width: 100%;
+    flex: 1;
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.ProfilePicture {
+    height: 38px;
+    width: 38px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.ActionBtns {
+    margin: 0;
+}
+
+.AcceptBtn {
+    margin: 0;
+    margin-left: 10px;
+}
+
+.ActionBtnsContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.SectionTitle {
+    margin-top: 40px;
+    margin-bottom: 0;
+}
+
+.Multibutton {
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+
+
+
+/* Action buttons animations */
+
+.ActionsLoading > div {
+    width: 10px;
+    height: 10px;
+    background-color: #ff5594;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    margin-right: 5px;
+}
+  
+.ActionsLoading .Bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+  
+.ActionsLoading .Bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+  
+@-webkit-keyframes sk-bouncedelay {
+    0%, 80%, 100% { -webkit-transform: scale(0) }
+    40% { -webkit-transform: scale(1.0) }
+}
+  
+@keyframes sk-bouncedelay {
+    0%, 80%, 100% { 
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    } 40% { 
+      -webkit-transform: scale(1.0);
+      transform: scale(1.0);
+    }
+}

@@ -1,0 +1,27 @@
+.MsgInput {
+    display: flex;
+    width: 100%;
+}
+
+.Input {
+    padding: 11px 15px 10px;
+    height: 44px;
+    font-family: "proxima-nova", "Source Sans Pro", sans-serif;
+    border: none;
+    font-size: 0.9em;
+    color: #32465a;
+    flex: 1;
+}
+
+.Input:focus {
+    outline: none;
+}
+
+.SendBtn {
+    cursor: pointer;
+    background: #1ABB9C;
+    color: #f5f5f5;
+    padding: 0 17px;
+    display: flex;
+    align-items: center;
+}

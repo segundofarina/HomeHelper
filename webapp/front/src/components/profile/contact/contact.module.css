@@ -1,0 +1,131 @@
+.Button{
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.Date {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: 700;
+    color: #444;
+}
+
+.Input{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.InputText{
+    resize: none;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    min-height: 150px;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.Panel{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.Panel h4 {
+    text-align: center;
+}
+
+.DatePicker{
+    transform: scale(2);
+}
+
+.container{
+    font-size: 1.3rem;
+}
+
+.Calendar{
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.CalendarPicker{
+    width: 85%;
+}
+.CalendarIcon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border-radius:0 4px  4px 0;
+    border-left: 1px solid #ccc;
+}
+.Calendar input{
+    border: none;
+}
+
+
+
+.ValidationError input, .ValidationError select, .ValidationError textarea {
+    border: 1px solid #e21313!important;
+}
+
+.ValidationMsg {
+    color: #e21313;
+    font-size: 13px;
+    text-align: center;
+    font-style: italic;
+}
+
+.FormGroup {
+    margin-bottom: 15px;
+}
+
+
+.ValidationError .Calendar {
+    border: 1px solid #e21313!important;
+}
+
+.ValidationError .Calendar input {
+    border: none!important;
+}

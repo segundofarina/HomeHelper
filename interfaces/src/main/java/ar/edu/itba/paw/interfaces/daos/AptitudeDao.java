@@ -3,7 +3,6 @@ package ar.edu.itba.paw.interfaces.daos;
 import ar.edu.itba.paw.model.Aptitude;
 
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -11,7 +10,7 @@ public interface AptitudeDao {
 
     Set<Aptitude> getAptitudesOfUser(int id);
 
-    boolean insertAptitude(int sProviderId, int serviceId, String description);
+    Aptitude insertAptitude(int sProviderId, int serviceId, String description);
 
     boolean updateDescriptionOfAptitude(int aptId, String description);
 

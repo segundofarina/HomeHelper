@@ -1,8 +1,8 @@
-<web-app id="PAW" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+<web-app id="PAW" version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
-    <display-name>PAW test application</display-name>
+    <display-name>PAW application</display-name>
 
     <context-param>
         <param-name>contextClass</param-name>
@@ -14,6 +14,7 @@
         <param-value>
             ar.edu.itba.paw.homehelper.config.WebConfig ,
             ar.edu.itba.paw.homehelper.config.WebAuthConfig,
+            ar.edu.itba.paw.homehelper.config.WebSocketConfig,
         </param-value>
     </context-param>
 
@@ -25,38 +26,51 @@
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <async-supported>true</async-supported>
     </filter>
 
-    <filter-mapping>
+     <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>ERROR</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+   </filter-mapping>
+
+<!--    <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
         <servlet-name>dispatcher</servlet-name>
-    </filter-mapping>
-
+   </filter-mapping>
+-->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
 
 
+
     <servlet>
-        <servlet-name>dispatcher</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <servlet-name>jersey-servlet</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
-            <param-name>contextClass</param-name>
-            <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-value>ar.edu.itba.paw.homehelper.api</param-value>
+        </init-param>
+        <init-param>
+            <param-name>jersey.config.server.provider.classnames</param-name>
+            <param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
-        <url-pattern>/</url-pattern>
+        <servlet-name>jersey-servlet</servlet-name>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
-
 
     <filter>
         <filter-name>encoding-filter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <async-supported>true</async-supported>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
@@ -71,14 +85,35 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+
+    <!-- Adding second servlet for websocket -->
+
+     <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextClass</param-name>
+            <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+        <async-supported>true</async-supported>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/ws/*</url-pattern>
+    </servlet-mapping>
+
+
+<!--
     <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>
             <page-encoding>UTF-8</page-encoding>
         </jsp-property-group>
     </jsp-config>
-
-
+-->
+<!--
     <error-page>
         <error-code>400</error-code>
         <location>/error/400</location>
@@ -97,5 +132,5 @@
     <error-page>
         <error-code>500</error-code>
         <location>/error/500</location>
-    </error-page>
+    </error-page>-->
 </web-app>

@@ -1,28 +1,29 @@
 package ar.edu.itba.paw.homehelper.config;
 
-import ar.edu.itba.paw.homehelper.auth.HHUserDetailsService;
-import ar.edu.itba.paw.homehelper.auth.LoginSuccessHandler;
+import ar.edu.itba.paw.homehelper.auth.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
-import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebSecurity
@@ -31,56 +32,54 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private HHUserDetailsService userDetailsService;
 
+    @Autowired
+    private AuthenticationEntryPoint restAuthenticationEntryPoint;
+
+    @Autowired
+    private StatelessLoginSuccessHandler statelessLoginSuccessHandler;
+
+    @Autowired
+    private StatelessAuthenticationFilter statelessAuthenticationFilter;
+
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        File file;
-        /* Default key */
-        String key = "8EE76CDB9A8876AAE26A81FAE178FC387382830D6DD81F90C064CEDCEEAE7CDD";
-        try {
-             file = ResourceUtils.getFile("classpath:keyL.pem");
-        } catch (FileNotFoundException e) {
-            // Handle remeber me key error loading file
-            file = null;
-        }
-
-        if(file != null && file.exists()) {
-            try {
-                String content = new String(Files.readAllBytes(file.toPath()));
-                key = content;
-            } catch (IOException e) {
-                // Unable to read file
-            }
-        }
-
         http.userDetailsService(userDetailsService).sessionManagement()
-                .invalidSessionUrl("/")
+                .and()
+                .csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and().authorizeRequests()
-                    .antMatchers("/login").permitAll()
-                    .antMatchers("/signup").permitAll()
-                    .antMatchers("/sprovider/**").hasRole("PROVIDER")
-                    .antMatchers("/client/**").hasRole("USER")
-                    .antMatchers("/unverified/**").hasRole("UNVERIFIED_USER")
-                    .antMatchers("/**").permitAll()
-                .and().formLogin()
-                    .usernameParameter("username").passwordParameter("password")
-                    .successHandler(successHandler())
-                    .loginPage("/login")
-                    .failureUrl("/login?error=y")
-                .and().rememberMe()
-                    .userDetailsService(userDetailsService)
-                    .rememberMeParameter("rememberme")
-                    .key(key)
-                    .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(30))
-                .and().logout()
-                    .logoutUrl("/logout").logoutSuccessUrl("/login")
-                .and().exceptionHandling()
-                    .accessDeniedPage("/error/403")
-                .and().csrf().disable();
+                .antMatchers(HttpMethod.POST, "/api/login").anonymous()
+                .antMatchers(HttpMethod.GET, "/api/providers/{\\d+}/reviews").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/providers/{\\d+}/reviews").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/api/providers/{\\d+}/image").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/providers/{\\d+}").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/providers/{\\d+}").hasRole("PROVIDER")
+                .antMatchers(HttpMethod.PATCH, "/api/providers/{\\d+}").hasRole("PROVIDER")
+                .antMatchers("/api/providers/reviews").hasRole("PROVIDER")
+                .antMatchers("/api/providers/appointments").hasRole("PROVIDER")
+                .antMatchers("/api/providers/messages").hasRole("PROVIDER")
+                .antMatchers(HttpMethod.POST, "/api/providers").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/api/providers").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/serviceTypes").permitAll()
+                .antMatchers( "/api/users/**/image").permitAll()
+                .antMatchers( HttpMethod.POST,"/api/users").permitAll()
+                .antMatchers( "/api/users/**").hasRole("USER")
+                .antMatchers( "/api/users").hasRole("USER")
+                .antMatchers("/api/**").authenticated()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .formLogin().usernameParameter("username").passwordParameter("password").loginProcessingUrl("/api/login")
+                .successHandler(statelessLoginSuccessHandler)
+                .failureHandler(new SimpleUrlAuthenticationFailureHandler())
+                .and()
+                .addFilterBefore(statelessAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
 
     @Override
     public void configure(final WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/error/*", "/resources/**");
+        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico", "/error/*", "/resources/**", "/ws/**");
     }
 
     @Override
@@ -102,8 +101,24 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AuthenticationSuccessHandler successHandler() {
-        return new LoginSuccessHandler("/");
+    public String tokenKey() {
+         String key = "8EE76CDB9A8876AAE26A81FAE178FC387382830D6DD81F90C064CEDCEEAE7CDD";
+         File file;
+         try {
+             file = ResourceUtils.getFile("classpath:keyL.pem");
+         }catch (FileNotFoundException e) {
+             file = null;
+         }
+
+         if (file != null && file.exists()) {
+             try {
+                 key = new String(Files.readAllBytes(file.toPath()));
+             } catch (IOException e) {
+                 // Unable to read file
+             }
+         }
+
+         return key;
     }
 
 }

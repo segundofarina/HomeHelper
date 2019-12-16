@@ -10,27 +10,27 @@ import static org.junit.Assert.assertEquals;
 
 public class TemporaryImageTestUtils {
 
-    public TemporaryImageTestUtils(){
+    public TemporaryImageTestUtils() {
 
     }
 
-    public static TemporaryImage dummyTemporaryImage(){
+    public static TemporaryImage dummyTemporaryImage() {
         return new TemporaryImage(new Random().toString().getBytes());
     }
 
-    public static Set<TemporaryImage> dummyTemporaryImages(int size){
+    public static Set<TemporaryImage> dummyTemporaryImages(int size) {
         Set<TemporaryImage> temporaryImages = new HashSet<>();
 
-        for(int i = 0 ; i < size ; i ++){
+        for (int i = 0; i < size; i++) {
             temporaryImages.add(dummyTemporaryImage());
         }
 
         return temporaryImages;
     }
 
-    public static void assertEqualsTemporaryImages(TemporaryImage expected, TemporaryImage actual){
-        assertEquals(expected,actual);
-        assertEquals(expected.getImageId(),actual.getImageId());
-        assertEquals(expected.getImage(),actual.getImage());
+    public static void assertEqualsTemporaryImages(TemporaryImage expected, TemporaryImage actual) {
+        assertEquals(expected, actual);
+        assertEquals(expected.getImageId(), actual.getImageId());
+        assertEquals(expected.getImage(), actual.getImage());
     }
 }

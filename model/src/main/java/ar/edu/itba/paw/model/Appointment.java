@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 @Entity
 @Table(name = "appointments")
@@ -15,7 +16,7 @@ public class Appointment {
     private int appointmentId;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "userid",nullable = false)
+    @JoinColumn(name = "userid", nullable = false)
     private User client;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -29,22 +30,23 @@ public class Appointment {
     @Column(name = "appointmentDate")
     private Date date;
 
-    @Column(name = "address", length =  10000, nullable = false)
+    @Column(name = "address", length = 10000, nullable = false)
     private String address;
 
-    @Column(name = "status", length =  20, nullable = false)
+    @Column(name = "status", length = 20, nullable = false)
     private String status;
 
-    @Column(name = "jobDescription", length =  10000, nullable = false)
+    @Column(name = "jobDescription", length = 10000, nullable = false)
     private String jobDescripcion;
 
     @Column(name = "clientReview")
     private boolean clientReview;
 
-    /* package */ Appointment(){
+    /* package */ Appointment() {
 
     }
-    public Appointment(User client, SProvider provider, ServiceType serviceType, Date date, String address, Status estatus, String jobDescripcion,boolean clientReview) {
+
+    public Appointment(User client, SProvider provider, ServiceType serviceType, Date date, String address, Status estatus, String jobDescripcion, boolean clientReview) {
         this.client = client;
         this.provider = provider;
         this.serviceType = serviceType;
@@ -75,8 +77,13 @@ public class Appointment {
         return date;
     }
 
-    public String getDateDMY() {
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+    public String getDateDMY(Locale locale) {
+        DateFormat df;
+        if(locale.getLanguage().equals("en")) {
+            df = new SimpleDateFormat("MM/dd/yyyy");
+        }else {
+            df = new SimpleDateFormat("dd/MM/yyyy");
+        }
         return df.format(getDate());
     }
 
@@ -106,7 +113,7 @@ public class Appointment {
         this.status = status.toString();
     }
 
-    public boolean isClientReview() {
+    public boolean hasClientReview() {
         return clientReview;
     }
 

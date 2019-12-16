@@ -1,0 +1,69 @@
+.button{
+    background-color: #26b99a;
+    width: 100%;
+    margin: auto;
+    color: #FFF;
+    font-weight: bold;
+    padding: 0.8em 0;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    border: 0;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+}
+.button:hover{
+    opacity: 0.85;
+}
+
+.Primary{
+    background-color: #26b99a;
+}
+
+.Secondary{
+    background-color: #73879C;
+}
+
+.Blue {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.Dark {
+    background-color: #6c757d;
+}
+
+.Small{
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    font-weight: 400;
+    width: auto;
+    padding: 5px 10px;
+}
+
+.XSmall {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.Warning {
+    background-color: #f0ad4e;
+}
+
+.Success {
+    background-color: #5cb85c;
+}
+
+.Danger {
+    background-color: #d9534f;
+}
+
+.Info {
+    background-color: #5bc0de;
+}

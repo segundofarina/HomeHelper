@@ -1,0 +1,15 @@
+.MessagesBox {
+    flex: 1;
+    background: #e9eded;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px 60px 20px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: calc(100vh - 65px - 44px - 60px - 40px);
+}
+
+.MessagesBoxBottom {
+    align-self: flex-end;
+    content: both;
+}

@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "messages")
-public class Message {
+public class Message implements Comparable<Message>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "messages_msgId_seq")
@@ -34,20 +34,21 @@ public class Message {
     @Column(name = "messageDate")
     private Date date;
 
-    @Column(name = "message",length = 10000)
+    @Column(name = "message", length = 10000)
     private String message;
 
-    /* packakge */ Message(){
+    /* packakge */ Message() {
 
     }
+
     public Message(int from, int to, Date date, int providerId, int userId, String message) {
-        this.from       = from;
-        this.to         = to;
+        this.from = from;
+        this.to = to;
         this.providerId = providerId;
-        this.userId     = userId;
-        this.date       = date;
-        this.message    = message;
-        this.read       = false;
+        this.userId = userId;
+        this.date = date;
+        this.message = message;
+        this.read = false;
     }
 
     public boolean isRead() {
@@ -84,5 +85,10 @@ public class Message {
 
     public int getUserId() {
         return userId;
+    }
+
+    @Override
+    public int compareTo(Message o) {
+        return o.getDate().compareTo(this.getDate());
     }
 }

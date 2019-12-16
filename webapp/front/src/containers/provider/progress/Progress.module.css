@@ -1,0 +1,41 @@
+.Progress {
+    width: 100%;
+    flex: 1;
+    background: #f7f7f7;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.Container {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+@media (min-width: 768px) {
+    .Container {
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) {
+    .Container {
+        width: 970px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .Container {
+        width: 1170px;
+    }
+}
+
+.SectionTitle {
+    margin-top: 40px;
+    margin-bottom: 0;
+}
+
+.Multibutton {
+    margin-left: 20px;
+    margin-top: 20px;
+}

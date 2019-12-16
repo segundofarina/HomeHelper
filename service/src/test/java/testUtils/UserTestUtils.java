@@ -15,7 +15,7 @@ public class UserTestUtils {
 
     public static User dummyUser() {
         int id = new Random().nextInt();
-        return new User("florci"+id,"dulcedeleche"+id,"florencia","cavallin","florci"+id+"@hotmail.com","1540910035","Av Cabildo"+id,profilePictureFromEmail("florci"+id+"@hotmail.com"),true);
+        return new User("florci" + id, "dulcedeleche" + id, "florencia", "cavallin", "florci" + id + "@hotmail.com", "1540910035", "Av Cabildo" + id, /*profilePictureFromEmail("florci" + id + "@hotmail.com"),*/ true);
     }
 
     public static List<User> dummyUserList(int size) {
@@ -37,7 +37,7 @@ public class UserTestUtils {
         assertEquals(expected.getEmail(), actual.getEmail());
         assertEquals(expected.getPhone(), actual.getPhone());
         assertEquals(expected.getAddress(), actual.getAddress());
-        assertEquals(expected.getImage(), actual.getImage());
+        //assertEquals(expected.getImage(), actual.getImage());
     }
 
     public static byte[] profilePictureFromUser(User dummyUser) {

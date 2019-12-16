@@ -1,0 +1,41 @@
+.Panel {
+    display: flex;
+    flex: 1;
+    margin: 0 20px;
+}
+
+.Container {
+    margin-top: 3em;
+    padding: 0 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.ProfilePicture {
+    width: 8em;
+    height: 8em;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+.AppSection {
+    margin-bottom: 1.5em;
+    padding-bottom: 0.5em;
+    width: 100%;
+}
+
+.AppSection:not(:last-of-type) {
+    border-bottom: 1px solid #e6e9ed;
+}
+
+.AppSection h5 {
+    color: #73879C;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.AppSection p {
+    padding: 0 1em;
+}

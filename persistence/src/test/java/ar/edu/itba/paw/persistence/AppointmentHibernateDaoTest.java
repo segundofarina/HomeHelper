@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.time.Instant;
 
+import static ar.edu.itba.paw.persistence.Const.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -40,118 +41,108 @@ public class AppointmentHibernateDaoTest {
 
 
     private JdbcTemplate jdbcTemplate;
+
     @Before
     public void setUp() {
         jdbcTemplate = new JdbcTemplate(ds);
     }
+
     @Test
-    public void getAppointmentsByProviderIdTest(){
+    public void getAppointmentsByProviderIdTest() {
 
-        assertEquals(1,appointmentDao.getAppointmentsByProviderId(Const.SERVICETYPE3_ID).size());
+        assertEquals(2, appointmentDao.getAppointmentsByProviderId(SERVICETYPE3_ID).size());
 
-        assertEquals(0,appointmentDao.getAppointmentsByProviderId(Const.SPROVIDER_ID).size());
+        assertEquals(2, appointmentDao.getAppointmentsByProviderId(SPROVIDER_ID).size());
 
-        assertEquals(0,appointmentDao.getAppointmentsByProviderId(Const.INVALID_SERVICE_ID).size());
+        assertEquals(0, appointmentDao.getAppointmentsByProviderId(INVALID_SERVICE_ID).size());
 
-    }
-    @Test
-    public void getAppointmentsByUserIdTest(){
-
-        assertEquals(0,appointmentDao.getAppointmentsByUserId(Const.INVALIDAD_USER_ID).size());
-
-        assertEquals(0,appointmentDao.getAppointmentsByUserId(Const.USER2_ID).size());
     }
 
     @Test
-    public void getAppointmentTest(){
+    public void getAppointmentsByUserIdTest() {
 
-        appointmentDao.getAppointment(Const.VALID_APPOINTMENT_ID2);
+        assertEquals(0, appointmentDao.getAppointmentsByUserId(INVALIDAD_USER_ID).size());
 
-        appointmentDao.getAppointment(Const.INVALID_APPOINTMENT_ID);
+        assertEquals(2, appointmentDao.getAppointmentsByUserId(USER2_ID).size());
     }
+
     @Test
-    public void addAppointmentTest(){
+    public void getAppointmentTest() {
+
+        appointmentDao.getAppointment(VALID_APPOINTMENT_ID2);
+
+        appointmentDao.getAppointment(INVALID_APPOINTMENT_ID);
+    }
+
+    @Test
+    public void addAppointmentTest() {
 
         int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments");
 
-        appointmentDao.addAppointment(Const.USER_ID,Const.SPROVIDER3_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION);
+        appointmentDao.addAppointment(USER_ID, SPROVIDER3_ID, SERVICETYPE3_ID, Timestamp.from(Instant.now()), VALID_ADDRESS, VALID_JOBDESCRIPTION);
         em.flush();
         assertEquals(++count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
         try {
-            appointmentDao.addAppointment(Const.USER_ID, Const.INVALID_SERVICE_PROVIDER_ID, Const.SERVICETYPE3_ID, Timestamp.from(Instant.now()), Const.VALID_ADDRESS, Const.VALID_JOBDESCRIPTION);
-        }catch(Exception e){
+            appointmentDao.addAppointment(USER_ID, INVALID_SERVICE_PROVIDER_ID, SERVICETYPE3_ID, Timestamp.from(Instant.now()), VALID_ADDRESS, VALID_JOBDESCRIPTION);
+        } catch (Exception e) {
             em.flush();
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
         }
-        try{
-            appointmentDao.addAppointment(Const.INVALIDAD_USER_ID,Const.SPROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION);
-        }catch(Exception e){
+        try {
+            appointmentDao.addAppointment(INVALIDAD_USER_ID, SPROVIDER_ID, SERVICETYPE3_ID, Timestamp.from(Instant.now()), VALID_ADDRESS, VALID_JOBDESCRIPTION);
+        } catch (Exception e) {
             em.flush();
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
         }
-        try{
-            appointmentDao.addAppointment(Const.USER_ID,Const.INVALID_SERVICE_PROVIDER_ID,Const.SERVICETYPE3_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION);
-        }catch(Exception e){
+        try {
+            appointmentDao.addAppointment(USER_ID, INVALID_SERVICE_PROVIDER_ID, SERVICETYPE3_ID, Timestamp.from(Instant.now()), VALID_ADDRESS, VALID_JOBDESCRIPTION);
+        } catch (Exception e) {
             em.flush();
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
         }
-        try{
-            appointmentDao.addAppointment(Const.USER_ID,Const.SPROVIDER_ID,Const.INVALID_SERVICE_TYPE_ID,Timestamp.from(Instant.now()),Const.VALID_ADDRESS,Const.VALID_JOBDESCRIPTION);
-        }catch(Exception e){
+        try {
+            appointmentDao.addAppointment(USER_ID, SPROVIDER_ID, INVALID_SERVICE_TYPE_ID, Timestamp.from(Instant.now()), VALID_ADDRESS, VALID_JOBDESCRIPTION);
+        } catch (Exception e) {
             em.flush();
             assertEquals(count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
         }
     }
 
     @Test
-    public void updateStatusOfAppointmentTest(){
+    public void updateStatusOfAppointmentTest() {
 
-        boolean ans = appointmentDao.updateStatusOfAppointment(Const.VALID_APPOINTMENT_ID1,Status.Confirmed);
-
-        em.flush();
-
-        assertTrue(ans);
-
-        ans = appointmentDao.updateStatusOfAppointment(Const.VALID_APPOINTMENT_ID1,Status.Done);
+        boolean ans = appointmentDao.updateStatusOfAppointment(VALID_APPOINTMENT_ID1, Status.Confirmed);
 
         em.flush();
 
         assertTrue(ans);
 
-        ans = appointmentDao.updateStatusOfAppointment(Const.INVALID_APPOINTMENT_ID,Status.Confirmed);
+        ans = appointmentDao.updateStatusOfAppointment(VALID_APPOINTMENT_ID1, Status.Done);
+
+        em.flush();
+
+        assertTrue(ans);
+
+        ans = appointmentDao.updateStatusOfAppointment(INVALID_APPOINTMENT_ID, Status.Confirmed);
 
         em.flush();
 
         assertFalse(ans);
     }
+
     @Test
-    public void updateDateOfAppointmentTest(){
+    public void updateDateOfAppointmentTest() {
 
         Timestamp date = Timestamp.from(Instant.now());
 
-        assertTrue( appointmentDao.updateDateOfAppointment(Const.VALID_APPOINTMENT_ID1, date));
+        assertTrue(appointmentDao.updateDateOfAppointment(VALID_APPOINTMENT_ID1, date));
 
-        assertFalse(appointmentDao.updateDateOfAppointment(Const.INVALID_APPOINTMENT_ID,date));
+        assertFalse(appointmentDao.updateDateOfAppointment(INVALID_APPOINTMENT_ID, date));
     }
 
+
     @Test
-    public void removeAppointmentTest(){
-
-        int count = JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments");
-
-        boolean ans = appointmentDao.removeAppointment(Const.VALID_APPOINTMENT_ID1);
-
-        em.flush();
-
-        assertTrue(ans);
-
-        ans = appointmentDao.removeAppointment(Const.INVALID_APPOINTMENT_ID);
-
-        em.flush();
-
-        assertFalse(ans);
-
-        assertEquals(--count, JdbcTestUtils.countRowsInTable(jdbcTemplate, "appointments"));
-
+    public void rewviewAppointmentTest(){
+        appointmentDao.reviewAppointment(VALID_APPOINTMENT_ID1,USER2_ID,4,4,4,4,4,"Muy bueno");
     }
 }

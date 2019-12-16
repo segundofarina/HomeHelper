@@ -1,0 +1,38 @@
+.Review {
+    width: 100%;
+    flex: 1;
+    background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Container {
+    margin: 50px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (min-width: 768px) {
+    .Container {
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) {
+    .Container {
+        width: 970px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .Container {
+        width: 1170px;
+    }
+}
+
+.Panel {
+    display: flex;
+    flex: 1;
+    margin: 0 20px;
+}

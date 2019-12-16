@@ -32,11 +32,11 @@ public class TempImagesServiceImpl implements TempImagesService {
     @Transactional
     @Override
     public TemporaryImage getImage(int imageId) {
-        Optional<TemporaryImage> temp =temporaryImagesDao.getImage(imageId);
+        Optional<TemporaryImage> temp = temporaryImagesDao.getImage(imageId);
 
-        if(temp.isPresent()){
+        if (temp.isPresent()) {
             return temp.get();
-        }else {
+        } else {
             return null;
         }
     }

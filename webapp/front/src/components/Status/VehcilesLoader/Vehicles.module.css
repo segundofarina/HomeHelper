@@ -1,0 +1,36 @@
+.Loader{
+    
+    overflow:hidden;
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+  }
+  .Loader img{
+    position: absolute;
+    animation-duration: 12s;
+    animation-name: slidein;
+    animation-timing-function: linear;
+    animation-iteration-count:infinite;
+    overflow: hidden;
+    margin-left:-204px;
+  }
+
+.Topadora{
+    animation-delay: 3s;
+}
+.Tractor{
+    animation-delay: 6s;
+}
+.CamionCemento{
+    animation-delay: 9s;
+}
+@keyframes slidein {
+    from {
+      margin-left:-200px;
+    }
+  
+    to {
+      margin-left: 400%;
+    }
+  }

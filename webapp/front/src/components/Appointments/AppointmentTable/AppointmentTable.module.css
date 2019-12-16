@@ -1,0 +1,51 @@
+.AppointmentTable {
+    margin-bottom: 20px;
+}
+
+.Title {
+    border-bottom: 2px solid #E6E9ED;
+    padding: 1px 5px 6px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.Title h3 {
+    margin: 5px 0 6px;
+    font-size: 18px;
+    color: #73879C;
+    font-weight: 500;
+}
+
+.TableContainer {
+    padding: 15px;
+    width: 100%;
+}
+
+.ReviewIcon {
+    margin-right: 5px;
+    font-size: 10px;
+    vertical-align: baseline;
+}
+
+.Img {
+    width: 80%;
+    margin: auto;
+    height: 10em;
+    object-fit: contain;
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+.Description {
+    text-align: center;
+    margin-top: 2em;
+    font-style: italic;
+    color: #989595;
+    margin-bottom: 2em;
+}
+
+.Panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

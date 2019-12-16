@@ -14,28 +14,28 @@ public class User {
     @Column(name = "userid")
     private int id;
 
-    @Column(name = "username",length = 100, nullable = false, unique = true)
+    @Column(name = "username", length = 100, nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password",length = 100, nullable = false)
+    @Column(name = "password", length = 100, nullable = false)
     private String password;
 
-    @Column(name = "firstname",length = 100, nullable = false)
+    @Column(name = "firstname", length = 100, nullable = false)
     private String firstname;
 
-    @Column(name = "lastname",length = 100, nullable = false)
+    @Column(name = "lastname", length = 100, nullable = false)
     private String lastname;
 
-    @Column(name = "email",length = 100, nullable = false)
+    @Column(name = "email", length = 100, nullable = false)
     private String email;
 
-    @Column(name = "phone",length = 100, nullable = false)
+    @Column(name = "phone", length = 100, nullable = false)
     private String phone;
 
-    @Column(name = "image")
-    private byte[] image;
+//    @Column(name = "image")
+//    private byte[] image;
 
-    @Column(name = "address",length = 100, nullable = false)
+    @Column(name = "address", length = 100, nullable = false)
     private String address;
 
     @Column(name = "verified")
@@ -46,14 +46,27 @@ public class User {
 // Just for Hibernate, we love you!
     }
 
-    public User(String username, String password, String firstname, String lastname, String email, String phone, String address, byte[] image, boolean verified) {
+    public User(String username, String password, String firstname, String lastname, String email, String phone, String address /*, byte[] image */, boolean verified) {
         this.username = username;
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.phone = phone;
-        this.image = image;
+//        this.image = image;
+        this.address = address;
+        this.verified = verified;
+    }
+
+    public User(int userid,String username, String password, String firstname, String lastname, String email, String phone, String address /*, byte[] image */, boolean verified) {
+        this.id=userid;
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phone = phone;
+//        this.image = image;
         this.address = address;
         this.verified = verified;
     }
@@ -94,9 +107,9 @@ public class User {
         this.email = email;
     }
 
-    public byte[] getImage() {
-        return this.image;
-    }
+//    public byte[] getImage() {
+//        return this.image;
+//    }
 
     public String getAddress() {
         return address;
@@ -110,9 +123,9 @@ public class User {
         this.username = username;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
+//    public void setImage(byte[] image) {
+//        this.image = image;
+//    }
 
     public void setAddress(String address) {
         this.address = address;
@@ -154,5 +167,20 @@ public class User {
         int result = getId();
         result = 31 * result + (getUsername() != null ? getUsername().hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", verified=" + verified +
+                '}';
     }
 }

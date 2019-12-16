@@ -20,30 +20,30 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public Set<Aptitude> getAptitudesOfUser(int id) {
-        return new HashSet<Aptitude>( em.createQuery("from Aptitude as a left join fetch a.reviews where a.sProvider.id = :userid", Aptitude.class)
-            .setParameter("userid",id)
-            .getResultList());
+        return new HashSet<Aptitude>(em.createQuery("from Aptitude as a left join fetch a.reviews where a.sProvider.id = :userid", Aptitude.class)
+                .setParameter("userid", id)
+                .getResultList());
     }
 
     @Override
-    public boolean insertAptitude(int sProviderId, int serviceId, String description) {
-        Optional<SProvider> sp = Optional.ofNullable(em.find(SProvider.class,sProviderId));
-        if(!sp.isPresent()){
-            return false;
+    public Aptitude insertAptitude(int sProviderId, int serviceId, String description) {
+        Optional<SProvider> sp = Optional.ofNullable(em.find(SProvider.class, sProviderId));
+        if (!sp.isPresent()) {
+            return null;
         }
-        Optional<ServiceType> st = Optional.ofNullable(em.find(ServiceType.class,serviceId));
-        if(!st.isPresent()){
-            return false;
+        Optional<ServiceType> st = Optional.ofNullable(em.find(ServiceType.class, serviceId));
+        if (!st.isPresent()) {
+            return null;
         }
-        final Aptitude user = new Aptitude(sp.get(),st.get(),description,Collections.EMPTY_SET);
+        final Aptitude user = new Aptitude(sp.get(), st.get(), description, Collections.EMPTY_SET);
         em.persist(user);
-        return true;
+        return user;
     }
 
     @Override
     public boolean updateDescriptionOfAptitude(int aptId, String description) {
-        Optional<Aptitude> aptitude = Optional.ofNullable(em.find(Aptitude.class,aptId));
-        if(!aptitude.isPresent() || description==null){
+        Optional<Aptitude> aptitude = Optional.ofNullable(em.find(Aptitude.class, aptId));
+        if (!aptitude.isPresent() || description == null) {
             return false;
         }
         aptitude.get().setDescription(description);
@@ -52,12 +52,12 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public boolean updateServiceTypeOfAptitude(int aptId, int stId) {
-        Optional<Aptitude> aptitude = Optional.ofNullable(em.find(Aptitude.class,aptId));
-        if(!aptitude.isPresent()){
+        Optional<Aptitude> aptitude = Optional.ofNullable(em.find(Aptitude.class, aptId));
+        if (!aptitude.isPresent()) {
             return false;
         }
-        Optional<ServiceType> st = Optional.ofNullable(em.find(ServiceType.class,stId));
-        if(!st.isPresent()){
+        Optional<ServiceType> st = Optional.ofNullable(em.find(ServiceType.class, stId));
+        if (!st.isPresent()) {
             return false;
         }
         aptitude.get().setService(st.get());
@@ -66,10 +66,10 @@ public class AptitudeHibernateDao implements AptitudeDao {
 
     @Override
     public boolean removeAptitude(int aptId) {
-        Aptitude apt = em.find(Aptitude.class,aptId);
-        if(apt == null){
+        Aptitude apt = em.find(Aptitude.class, aptId);
+        if (apt == null) {
             return false;
-        }else{
+        } else {
             em.remove(apt);
             return true;
         }
@@ -78,28 +78,19 @@ public class AptitudeHibernateDao implements AptitudeDao {
     @Override
     public int getAptitudeId(int userId, int stId) {
         final List<Aptitude> list = em.createQuery("select a from Aptitude as a left join fetch a.reviews where a.sProvider.id = :userid and a.service.id = :stid", Aptitude.class)
-            .setParameter("userid",userId)
-            .setParameter("stid",stId)
-            .getResultList();
+                .setParameter("userid", userId)
+                .setParameter("stid", stId)
+                .getResultList();
 
-        if (list.size() != 0){
-            //System.out.println("Id is "+list.get(0).getId());
+        if (list.size() != 0) {
             return list.get(0).getId();
-        }else{
+        } else {
             return -1;
         }
     }
 
     @Override
     public Optional<Aptitude> getAptitude(int id) {
-
-//        Optional<Aptitude> ap =
-//         em.createQuery("select a from Aptitude as a join fetch a.reviews where a.id = :id", Aptitude.class)
-//                .setParameter("id",id)
-//                .getResultList()
-//                .stream()
-//                .findFirst();
-//        System.out.println("IS APTIDUE PRESENT"+ap.isPresent());
-        return Optional.ofNullable(em.find(Aptitude.class,id));
+        return Optional.ofNullable(em.find(Aptitude.class, id));
     }
 }

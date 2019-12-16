@@ -9,6 +9,15 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 
+
+# Avoid uploading node_modules
+webapp/front/node/
+webapp/front/node_modules/
+webapp/front/build/
+
+# Avoid uploading react app
+webapp/front/
+
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar
 ### Java template

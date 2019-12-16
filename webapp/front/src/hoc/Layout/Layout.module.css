@@ -1,0 +1,13 @@
+.MainContainer {
+    position: relative;
+    margin-top: 50px;
+    flex-grow: 1;
+    flex-shrink: 0;
+    display: flex;
+}
+
+@media (min-width: 768px) {
+    .MainContainer {
+        margin-top: 65px;
+    }
+}

@@ -16,8 +16,12 @@ public class ServiceType {
     @Column(name = "serviceName", length = 256)
     private String name;
 
-    /* package */ ServiceType(){
+    /* package */ ServiceType() {
 
+    }
+    public ServiceType(int id, String name) {
+        this.id= id;
+        this.name = name;
     }
 
     public ServiceType(String name) {

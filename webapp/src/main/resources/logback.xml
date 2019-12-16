@@ -19,7 +19,7 @@
             <pattern>${defaultPattern:-}</pattern>
         </encoder>
     </appender>
-    <root level="ERROR">
+    <root level="INFO">
         <appender-ref ref="root-appender"/>
     </root>
     <logger name="ar.edu.itba.paw.homehelper" level="DEBUG" additivity="false">

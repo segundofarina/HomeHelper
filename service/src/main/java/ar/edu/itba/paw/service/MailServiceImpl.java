@@ -11,7 +11,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -28,11 +27,11 @@ import freemarker.template.Configuration;
 import javax.swing.text.html.Option;
 
 @Service
-public class MailServiceImpl implements MailService{
+public class MailServiceImpl implements MailService {
 
 
-    private final String serverEmail ="Home-Helper";
-    private final String subject ="Confirm your account at HomeHelper";
+    private final String serverEmail = "Home-Helper";
+    private final String subject = "Confirm your account at HomeHelper";
 
     @Autowired
     UserDao userDao;
@@ -53,46 +52,45 @@ public class MailServiceImpl implements MailService{
     @Async
     public void sendConfirmationEmail(int userId, String key) {
         Optional<User> user = userDao.findById(userId);
-        if(!user.isPresent()){
+        if (!user.isPresent()) {
             //System.out.println("Tried to send email but user with id "+userId+"does not exist");
             return;
         }
 
-        MimeMessagePreparator preparator = getMessagePreparator(user.get(),key);
+        MimeMessagePreparator preparator = getMessagePreparator(user.get(), key);
 
         try {
             mailSender.send(preparator);
-            verifyEmailDao.insert(userId,key);
+            verifyEmailDao.insert(userId, key);
 
             //System.out.println("Message has been sent.............................");
-        }
-        catch (MailException ex) {
-           // System.err.println(ex.getMessage());
+        } catch (MailException ex) {
+            // System.err.println(ex.getMessage());
             ex.printStackTrace();
-            
+
         }
     }
 
     @Transactional
     @Override
     public User verifyUserKey(String key) {
-        Optional<Integer> id =verifyEmailDao.getUserId(key);
-        if(id.isPresent()){
+        Optional<Integer> id = verifyEmailDao.getUserId(key);
+        if (id.isPresent()) {
             verifyEmailDao.deleteEntry(key);
 
             Optional<User> user = userDao.verifyUser(id.get());
-            if(!user.isPresent()){
+            if (!user.isPresent()) {
                 return null;
             }
             user.get().setVerified(true);
             return user.get();
-        }else{
+        } else {
             return null;
         }
     }
 
 
-    private MimeMessagePreparator getMessagePreparator(final User user,final String key){
+    private MimeMessagePreparator getMessagePreparator(final User user, final String key) {
 
         MimeMessagePreparator preparator = mimeMessage -> {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -102,11 +100,10 @@ public class MailServiceImpl implements MailService{
             helper.setTo(user.getEmail());
 
 
-
             Map<String, Object> model = new HashMap<String, Object>();
             model.put("user", user);
-            model.put("verifyurl","http://pawserver.it.itba.edu.ar/paw-2018a-4/users/verify/"+key);
-            model.put("siteurl","http://pawserver.it.itba.edu.ar/paw-2018a-4/");
+            model.put("verifyurl", "http://pawserver.it.itba.edu.ar/paw-2018a-4/users/verify/" + key);
+            model.put("siteurl", "http://pawserver.it.itba.edu.ar/paw-2018a-4/");
 
             String text = geFreeMarkerTemplateContent(model);//Use Freemarker or Velocity
             //System.out.println("Template content : "+text);
@@ -122,15 +119,13 @@ public class MailServiceImpl implements MailService{
     }
 
 
-
-
-    public String geFreeMarkerTemplateContent(Map<String, Object> model){
+    public String geFreeMarkerTemplateContent(Map<String, Object> model) {
         StringBuffer content = new StringBuffer();
-        try{
+        try {
             content.append(FreeMarkerTemplateUtils.processTemplateIntoString(
-                    freemarkerConfiguration.getTemplate("confirmation.ftl"),model));
+                    freemarkerConfiguration.getTemplate("confirmation.ftl"), model));
             return content.toString();
-        }catch(Exception e){
+        } catch (Exception e) {
             //System.out.println("Exception occured while processing fmtemplate:"+e.getMessage());
         }
         return "";

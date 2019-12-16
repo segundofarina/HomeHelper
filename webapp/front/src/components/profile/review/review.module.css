@@ -1,0 +1,54 @@
+.Container{
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    /* border-bottom:1px solid #eee; */
+}
+/* .Container :last-of-type {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+} */
+.ProfileInfo{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 20%;
+    margin: 10px;
+    max-width: 100px;
+}
+
+.Name{
+
+}
+
+.ProfileImg img{
+    width: 84px;
+    height: 84px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+.ProfileImg object{
+    width: 84px;
+    height: 84px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.Data{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    padding: 0 10px 0 10px;
+    border-left: 2px solid #eee;
+    width: 80%;
+}
+
+.Header{
+    display: flex;
+    flex-direction: row;
+    margin-bottom:15px; 
+}
+.Divider{
+    margin:0 5px 0 5px;
+}

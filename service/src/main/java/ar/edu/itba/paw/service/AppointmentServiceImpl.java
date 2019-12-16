@@ -4,6 +4,7 @@ import ar.edu.itba.paw.interfaces.daos.AppointmentDao;
 import ar.edu.itba.paw.interfaces.daos.AptitudeDao;
 import ar.edu.itba.paw.interfaces.services.AppointmentService;
 import ar.edu.itba.paw.model.Appointment;
+import ar.edu.itba.paw.model.Review;
 import ar.edu.itba.paw.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,22 +43,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<Appointment> appointments = getAppointmentsByProviderId(providerId);
         List<Appointment> ans = new ArrayList<>();
 
-        for(Appointment appointment : appointments){
-            if(appointment.getStatus().equals(status)){
-                ans.add(appointment);
-            }
-        }
-
-        return ans;
-    }
-
-    @Override
-    public List<Appointment> getAppointmentsByUserId(int userId, Status status) {
-        List<Appointment> appointments = getAppointmentsByUserId(userId);
-        List<Appointment> ans = new ArrayList<>();
-
-        for(Appointment appointment : appointments){
-            if(appointment.getStatus().equals(status)){
+        for (Appointment appointment : appointments) {
+            if (appointment.getStatus().equals(status)) {
                 ans.add(appointment);
             }
         }
@@ -69,10 +56,10 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public Appointment getAppointment(int appointmentId) {
         Optional<Appointment> appointment = appointmentDao.getAppointment(appointmentId);
-       if(appointment.isPresent()){
-           return appointment.get();
-       }
-       return null;
+        if (appointment.isPresent()) {
+            return appointment.get();
+        }
+        return null;
     }
 
 
@@ -80,19 +67,19 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public Appointment addAppointment(int clientId, int providerId, int serviceTypeId, String date, String address, String jobDescripcion) {
         Optional<Appointment> appointment = appointmentDao.addAppointment(clientId, providerId, serviceTypeId, stringToTimestamp(date), address, jobDescripcion);
-        return appointment.isPresent()?appointment.get():null;
+        return appointment.isPresent() ? appointment.get() : null;
     }
 
     @Transactional
     @Override
     public boolean confirmAppointment(int appointmentId) {
-        return appointmentDao.updateStatusOfAppointment(appointmentId,Status.Confirmed);
+        return appointmentDao.updateStatusOfAppointment(appointmentId, Status.Confirmed);
     }
 
     @Transactional
     @Override
     public boolean completedAppointment(int appointmentId) {
-        return appointmentDao.updateStatusOfAppointment(appointmentId,Status.Done);
+        return appointmentDao.updateStatusOfAppointment(appointmentId, Status.Done);
     }
 
     @Override
@@ -100,13 +87,13 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<Appointment> appointments = getAppointmentsByProviderId(providerId);
         List<Appointment> ans = new ArrayList<>();
 
-        for(Appointment appointment : appointments){
-            if(appointment.getStatus().equals(Status.Pending) || appointment.getStatus().equals(Status.Confirmed)){
+        for (Appointment appointment : appointments) {
+            if (appointment.getStatus().equals(Status.Pending) || appointment.getStatus().equals(Status.Confirmed)) {
                 ans.add(appointment);
             }
         }
 
-        Collections.sort(ans,(o1, o2) -> o2.getAppointmentId()- o1.getAppointmentId());
+        Collections.sort(ans, (o1, o2) -> o2.getAppointmentId() - o1.getAppointmentId());
 
         return ans;
     }
@@ -116,13 +103,13 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<Appointment> appointments = getAppointmentsByUserId(userId);
         List<Appointment> ans = new ArrayList<>();
 
-        for(Appointment appointment : appointments) {
-            if(appointment.getStatus().equals(Status.Pending) || appointment.getStatus().equals(Status.Confirmed)){
+        for (Appointment appointment : appointments) {
+            if (appointment.getStatus().equals(Status.Pending) || appointment.getStatus().equals(Status.Confirmed)) {
                 ans.add(appointment);
             }
         }
 
-        Collections.sort(ans,(o1, o2) -> o2.getAppointmentId()- o1.getAppointmentId());
+        Collections.sort(ans, (o1, o2) -> o2.getAppointmentId() - o1.getAppointmentId());
 
         return ans;
     }
@@ -132,13 +119,13 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<Appointment> appointments = getAppointmentsByProviderId(providerId);
         List<Appointment> ans = new ArrayList<>();
 
-        for(Appointment appointment : appointments){
-            if(appointment.getStatus().equals(Status.Done) || appointment.getStatus().equals(Status.Reject)){
+        for (Appointment appointment : appointments) {
+            if (appointment.getStatus().equals(Status.Done) || appointment.getStatus().equals(Status.Reject)) {
                 ans.add(appointment);
             }
         }
 
-        Collections.sort(ans,(o1, o2) -> o2.getAppointmentId()- o1.getAppointmentId());
+        Collections.sort(ans, (o1, o2) -> o2.getAppointmentId() - o1.getAppointmentId());
 
         return ans;
     }
@@ -148,13 +135,13 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<Appointment> appointments = getAppointmentsByUserId(userId);
         List<Appointment> ans = new ArrayList<>();
 
-        for(Appointment appointment : appointments) {
-            if(appointment.getStatus().equals(Status.Done) || appointment.getStatus().equals(Status.Reject)){
+        for (Appointment appointment : appointments) {
+            if (appointment.getStatus().equals(Status.Done) || appointment.getStatus().equals(Status.Reject)) {
                 ans.add(appointment);
             }
         }
 
-        Collections.sort(ans,(o1, o2) -> o2.getAppointmentId()- o1.getAppointmentId());
+        Collections.sort(ans, (o1, o2) -> o2.getAppointmentId() - o1.getAppointmentId());
 
         return ans;
     }
@@ -163,7 +150,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public boolean updateDateOfAppointment(int appointmentId, String date) {
         Date appointmentDate = tryParse(date);
-        if(appointmentDate==null){
+        if (appointmentDate == null) {
             return false;
         }
         return appointmentDao.updateDateOfAppointment(appointmentId, (Timestamp) appointmentDate);
@@ -172,7 +159,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Transactional
     @Override
     public boolean rejectAppointment(int appointmentId) {
-        return appointmentDao.updateStatusOfAppointment(appointmentId,Status.Reject);
+        return appointmentDao.updateStatusOfAppointment(appointmentId, Status.Reject);
     }
 
     @Override
@@ -185,17 +172,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Transactional
     @Override
-    public void reviewAppointment(int appointmentId, int userId, int serviceTypeId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
-        int aptitudeId = aptitudeDao.getAptitudeId(userId, serviceTypeId);
-        appointmentDao.reviewAppointment(appointmentId,userId,aptitudeId,quality,cleanness,price,punctuality,treatment,comment);
+    public Optional<Review> reviewAppointment(int appointmentId, int userId, int quality, int cleanness, int price, int punctuality, int treatment, String comment) {
+        return appointmentDao.reviewAppointment(appointmentId, userId, quality, cleanness, price, punctuality, treatment, comment);
     }
 
     @Override
     public Appointment getLastAppointment(int userId) {
         Appointment appointment = null;
 
-        for(Appointment ap : getAppointmentsByUserId(userId)) {
-            if(appointment == null || ap.getAppointmentId() > appointment.getAppointmentId()) {
+        for (Appointment ap : getAppointmentsByUserId(userId)) {
+            if (appointment == null || ap.getAppointmentId() > appointment.getAppointmentId()) {
                 appointment = ap;
             }
         }
@@ -209,7 +195,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     private Date tryParse(String date) {
         List<String> dateFormats = Arrays.asList("dd/MM/yyyy", "dd-MM-yyyy", "dd.MM.yyyy");
-        for(String dateFormat : dateFormats) {
+        for (String dateFormat : dateFormats) {
             try {
                 return new SimpleDateFormat(dateFormat).parse(date);
             } catch (ParseException e) {

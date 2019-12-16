@@ -1,0 +1,80 @@
+.Col {
+    display: flex;
+    flex-direction: column;
+}
+.Panel{
+    display: flex;
+    padding:15px 30px;
+    width: 100%;
+    margin:10px;
+}
+
+.Title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.ProfileImg {
+    margin: 20px;
+    max-width: 7em;
+    left: 0;
+    right: 0;
+}
+
+.Button{
+    width: 50px;
+}
+
+.emptyCalification {
+    font-size: 12px;
+    font-style: italic;
+    color: #afafaf;
+}
+
+.calificationStars {
+    font-size: 12px;
+}
+
+.ProfileHeader{
+    display: flex;
+    align-items: center;
+}
+
+.ProfileHeader h3{
+    padding-right:15px;
+    margin: 0;
+    font-size: 24px;
+}
+.ProfileHeader h5{
+    padding-left:15px;
+    font-style: italic;
+    font-weight: normal;
+}
+
+.ProfileImg img {
+    border-radius: 100%;
+    width: 7em;
+    height: 7em;
+    object-fit: cover;
+}
+
+.ProfileImg object {
+    border-radius: 100%;
+    width: 7em;
+    height: 7em;
+    object-fit: cover;
+}
+
+.Description{
+    padding: 0 20px;
+    font-size: 14px;
+}
+
+.InfoContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}

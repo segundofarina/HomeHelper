@@ -40,7 +40,7 @@ import java.nio.charset.StandardCharsets;
 
 
 @EnableWebMvc
-@ComponentScan({ "ar.edu.itba.paw.homehelper", "ar.edu.itba.paw.service", "ar.edu.itba.paw.persistence"})
+@ComponentScan({"ar.edu.itba.paw.homehelper", "ar.edu.itba.paw.service", "ar.edu.itba.paw.persistence"})
 @Configuration
 @EnableAsync
 @EnableTransactionManagement
@@ -49,8 +49,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Autowired
     private Environment env;
 
-    @Value("classpath:schema.sql") private Resource schemaSql;
-    @Value("classpath:dbreset.sql") private Resource dbReset;
+    @Value("classpath:schema.sql")
+    private Resource schemaSql;
+    @Value("classpath:dbreset.sql")
+    private Resource dbReset;
 
 //    @Bean
 //    public DataSourceInitializer dataSourceInitializer(final DataSource ds) {
@@ -87,7 +89,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
 
-
     @Profile("prod")
     @Bean
     public DataSource prodDataSource() {
@@ -98,7 +99,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         ds.setPassword("zmjTo52wS");
         return ds;
     }
-
 
 
     @Override
@@ -119,9 +119,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public JavaMailSender getMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
-         final String serverEmail ="noreply.homehelper";
-         final String serverPassword ="dulcedeleche";
-         final String subject ="Confirm your account at HomeHelper";
+        final String serverEmail = "noreply.homehelper";
+        final String serverPassword = "dulcedeleche";
+        final String subject = "Confirm your account at HomeHelper";
 
         // Using gmail.
         mailSender.setHost("smtp.gmail.com");
@@ -152,17 +152,16 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(20*1024*1024) ;
+        multipartResolver.setMaxUploadSize(20 * 1024 * 1024);
         return multipartResolver;
     }
 
 
-
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(final DataSource dataSource) {
         final LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setPackagesToScan("ar.edu.itba.paw.model");
-        factoryBean.setDataSource(prodDataSource());
+        factoryBean.setDataSource(dataSource);
         final JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         factoryBean.setJpaVendorAdapter(vendorAdapter);
         final Properties properties = new Properties();

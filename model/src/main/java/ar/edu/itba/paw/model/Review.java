@@ -1,5 +1,8 @@
 package ar.edu.itba.paw.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -15,15 +18,20 @@ public class Review {
     @Column(name = "reviewId")
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "userId")
+    @Fetch(FetchMode.JOIN)
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @Column(name = "appointmentId")
+    private int appointmentId;
+
+    @ManyToOne()
     @JoinColumn(name = "aptitudeId")
+    @Fetch(FetchMode.JOIN)
     private Aptitude aptitude;
 
-    @Column(name ="comment", length = 10000)
+    @Column(name = "comment", length = 10000)
     private String comment;
 
     @Column(name = "quality")
@@ -44,11 +52,11 @@ public class Review {
     @Column(name = "reviewdate")
     private Date date;
 
-    /* package */ Review(){
+    /* package */ Review() {
 
     }
 
-    public Review(int quality, int cleanness, int price, int punctuality, int treatment, String comment, Date date, User user, Aptitude aptitude) {
+    public Review(int quality, int cleanness, int price, int punctuality, int treatment, String comment, Date date, User user, Aptitude aptitude, int appointmentId) {
         this.quality = quality;
         this.cleanness = cleanness;
         this.price = price;
@@ -58,19 +66,42 @@ public class Review {
         this.date = date;
         this.user = user;
         this.aptitude = aptitude;
+        this.appointmentId = appointmentId;
     }
 
-    public int getQualityCalification(){ return this.quality; }
-
-    public int getCleannessCalification(){ return this.cleanness; }
-
-    public int getPriceCalification(){ return this.price; }
-
-    public int getPunctualityCalification(){
-       return this.punctuality;
+    public Review(int id,int quality, int cleanness, int price, int punctuality, int treatment, String comment, Date date, User user, Aptitude aptitude, int appointmentId) {
+        this.id= id;
+        this.quality = quality;
+        this.cleanness = cleanness;
+        this.price = price;
+        this.punctuality = punctuality;
+        this.treatment = treatment;
+        this.comment = comment;
+        this.date = date;
+        this.user = user;
+        this.aptitude = aptitude;
+        this.appointmentId = appointmentId;
     }
 
-    public int getTreatmentCalification(){ return this.treatment; }
+    public int getQualityCalification() {
+        return this.quality;
+    }
+
+    public int getCleannessCalification() {
+        return this.cleanness;
+    }
+
+    public int getPriceCalification() {
+        return this.price;
+    }
+
+    public int getPunctualityCalification() {
+        return this.punctuality;
+    }
+
+    public int getTreatmentCalification() {
+        return this.treatment;
+    }
 
     public int getGeneralCalification() {
         int generalCalification = 0;
@@ -79,7 +110,7 @@ public class Review {
         generalCalification += price;
         generalCalification += punctuality;
         generalCalification += treatment;
-        return generalCalification/5;
+        return generalCalification / 5;
     }
 
     public String getComment() {
@@ -95,6 +126,11 @@ public class Review {
         return df.format(getDate());
     }
 
+    public int getAppointmentId() {
+        return appointmentId;
+    }
+
+
     public User getUser() {
         return user;
     }
@@ -102,6 +138,7 @@ public class Review {
     public Aptitude getAptitude() {
         return aptitude;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -114,6 +151,10 @@ public class Review {
 
     @Override
     public int hashCode() {
+        return id;
+    }
+
+    public int getId() {
         return id;
     }
 }

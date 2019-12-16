@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -16,7 +17,7 @@ public class CoordenatesServiceImpl implements CoordenatesService {
 
     @Transactional
     @Override
-    public boolean insertCoordenatesOfProvider(int providerId, Set<CoordenatesPoint> coordenatesPointSet) {
+    public boolean insertCoordenatesOfProvider(int providerId, List<CoordenatesPoint> coordenatesPointSet) {
         return coordenatesDao.insertCoordenatesOfProvider(providerId, coordenatesPointSet);
     }
 

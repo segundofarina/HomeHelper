@@ -1,0 +1,142 @@
+.Container{
+    display: flex;
+    align-items: flex-start;
+}
+.Description p{
+    margin: 28px 42px;
+}
+.Description {
+    margin: 20px;
+    width: 70%;
+    height: auto;
+    flex: 1;
+}
+.Calification{
+    margin: 20px;
+    width: 30%;
+}
+
+hr{
+    margin:0;
+}
+
+hr:last-of-type{
+    display: none;
+}
+
+.ShowReviewsHeader{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px 0 20px;
+}
+
+.ShowReviewsHeader button{
+    border: none;
+    background:none;
+    height: auto;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    filter: alpha(opacity=50);
+    opacity: .5;
+    outline: none;
+}
+.ShowReviewsHeader button:hover{
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    filter: alpha(opacity=1);
+    opacity: 1;
+    
+}
+
+.ShowMoreButton{
+    background: none;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+}
+
+.ShowMoreButton:hover{
+    color: #26b99a;
+}
+
+.Modal{
+    width: 75%;
+    height: 85%;
+    top:85px;
+    background-color: #fff;
+
+    animation: modalAnimation 0.5s ease-in-out;
+    position: absolute;
+    border: 1px solid rgba(0,0,0,.2); 
+    overflow-x: hidden;
+    overflow-y:auto;
+    border-radius: 4px;
+    outline: none;
+}
+
+@keyframes modalAnimation{
+    0%{
+        transform: translateY(-100vh);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}
+
+.ModalOverlay{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: rgba(255, 255, 255, 0.75);
+    display: flex;
+    justify-content: center;
+   animation: modalOverlayAnimation 0.4s ease-in-out; 
+}
+
+@keyframes modalOverlayAnimation{
+    0%{
+        opacity:0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+.ReactModal__Body--open {
+    overflow-y: hidden;
+}
+
+.StatusPanel {
+    width: 100%!important;
+}
+
+.StatusPanel img {
+    height: 10em;
+}
+
+.NoReviewsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.NoReviewsImg {
+    height: 150px;
+    width: 150px;
+    object-fit: contain;
+}
+
+.NoReviewsDescription {
+    margin-bottom: 0;
+    margin-top: 20px;
+    font-style: italic;
+    color: #6f7a85;
+}

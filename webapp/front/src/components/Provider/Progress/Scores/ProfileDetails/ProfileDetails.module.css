@@ -1,0 +1,26 @@
+.ProfileDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 30px;
+}
+
+.ProfileImage {
+    width: 110px;
+    height: 110px;
+    border-radius: 100%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.Name {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.GeneralCalification {
+    color: #989898;
+    font-style: italic;
+}

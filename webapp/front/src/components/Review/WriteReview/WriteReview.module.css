@@ -1,0 +1,86 @@
+.Panel {
+    display: flex;
+    flex: 1;
+    margin: 0 20px;
+}
+
+.Container {
+    padding: 0 2em;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.Title {
+    font-size: 24px;
+    text-align: center;
+}
+
+.Subtitle {
+    color: #73879C;
+    font-size: 15px;
+    margin-top: 2em;
+    font-weight: 600;
+    margin-bottom: 2em;
+}
+
+.StarsContainer {
+    margin-bottom: 3em;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Description {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.Description label {
+    margin-bottom: 5px;
+    font-weight: 700;
+    color: #73879c;
+}
+
+.Description textarea {
+    display: block;
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-height: 9em;
+    height: 100%;
+    resize: none;
+    outline: none;
+}
+
+.SendBtn {
+    align-self: flex-end;
+    margin: 0;
+    font-weight: 600;
+}
+
+.ErrorAlert {
+    margin-top: 2em;
+    font-style: italic;
+    font-size: 12px;
+}
+
+
+
+.ValidationError input, .ValidationError select, .ValidationError textarea {
+    border: 1px solid #e21313!important;
+}
+
+.ValidationMsg {
+    color: #e21313;
+    font-size: 13px;
+    text-align: center;
+    font-style: italic;
+}

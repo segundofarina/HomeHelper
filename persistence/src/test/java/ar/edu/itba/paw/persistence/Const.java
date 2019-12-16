@@ -1,113 +1,111 @@
 package ar.edu.itba.paw.persistence;
 
-public interface Const {
+public class Const {
 
-    int USER_ID          = 1;
-    String USER_USERNAME = "segundofarina";
-    String USER_PASSWORD = "dulcedeleche";
-    String USER_FIRSTNAME= "Segundo";
-    String USER_LASTNAME = "Farina";
-    String USER_EMAIL    = "segundofarina@me.com";
-    String USER_PHONE    = "1134373920";
-    String USER_KEY      = "673467ehgdudf7chsduy7ds7878ds78s7d8";
-
-
-
-    int SPROVIDER_ID            = 4;
-    String SPROVIDER_USERNAME   = "carlosrodriguez";
-    String SPROVIDER_PASSWORD   = "dulcedeleche";
-    String SPROVIDER_FIRSTNAME  = "Carlos";
-    String SPROVIDER_LASTNAME   = "Rodriguez";
-    String SPROVIDER_EMAIL      = "carlosrod@gmail.com";
-    String SPROVIDER_PHONE      = "1156984231";
+    public static final int USER_ID = 1;
+    public static final String USER_USERNAME = "segundofarina";
+    public static final String USER_PASSWORD = "dulcedeleche";
+    public static final String USER_FIRSTNAME = "Segundo";
+    public static final String USER_LASTNAME = "Farina";
+    public static final String USER_EMAIL = "segundofarina@me.com";
+    public static final String USER_PHONE = "1134373920";
+    public static final String USER_KEY = "673467ehgdudf7chsduy7ds7878ds78s7d8";
 
 
-    int SPROVIDER2_ID           = 5;
-    String SPROVIDER2_USERNAME  = "juliovelez";
-    String SPROVIDER2_PASSWORD  = "dulcedeleche";
-    String SPROVIDER2_FIRSTNAME = "Julio";
-    String SPROVIDER2_LASTNAME  = "Velez";
-    String SPROVIDER2_EMAIL     = "julitogallina@hotmail.com";
-    String SPROVIDER2_PHONE     = "1148526584";
-
-    int USER2_ID            = 2 ;
-    String USER2_USERNAME   = "florcavallin";
-    String USER2_PASSWORD   = "dulcedeleche";
-    String USER2_FIRSTNAME  = "Florencia";
-    String USER2_LASTNAME   = "Cavallin";
-    String USER2_EMAIL      = "fcavallin@itba.edu.ar";
-    String USER2_PHONE      = "1140910035";
-    String USER2_KEY        = "78asdyuadshu8743uyhjd78wehwe78dsh78";
+    public static final int SPROVIDER_ID = 4;
+    public static final String SPROVIDER_USERNAME = "carlosrodriguez";
+    public static final String SPROVIDER_PASSWORD = "dulcedeleche";
+    public static final String SPROVIDER_FIRSTNAME = "Carlos";
+    public static final String SPROVIDER_LASTNAME = "Rodriguez";
+    public static final String SPROVIDER_EMAIL = "carlosrod@gmail.com";
+    public static final String SPROVIDER_PHONE = "1156984231";
 
 
-    int USER3_ID            = 3 ;
-    String USER3_USERNAME   = "tinchovictory";
-    String USER3_PASSWORD   = "dulcedeleche";
-    String USER3_FIRSTNAME  = "Martin";
-    String USER3_LASTNAME   = "Victory";
-    String USER3_EMAIL      = "martin@victory.com.ar";
-    String USER3_PHONE      = "1159540388";
+    public static final int SPROVIDER2_ID = 5;
+    public static final String SPROVIDER2_USERNAME = "juliovelez";
+    public static final String SPROVIDER2_PASSWORD = "dulcedeleche";
+    public static final String SPROVIDER2_FIRSTNAME = "Julio";
+    public static final String SPROVIDER2_LASTNAME = "Velez";
+    public static final String SPROVIDER2_EMAIL = "julitogallina@hotmail.com";
+    public static final String SPROVIDER2_PHONE = "1148526584";
 
-    int USER4_ID=4;
-
-    int SPROVIDER3_ID=3;
-
-    int SERVICETYPE_ID=1;
-    String SERVICETYPE_NAME="Carpintero";
-
-    int SERVICETYPE2_ID=2;
-    String SERVICETYPE2_NAME="Pintor";
-
-    int SERVICETYPE3_ID=3;
-    String SERVICETYPE3_NAME="Obrero";
-
-    int INVALID_SERVICE_ID=100;
-
-    int VALID_APPOINTMENT_ID1=1;
-
-    int VALID_APPOINTMENT_ID2=2;
+    public static final int USER2_ID = 2;
+    public static final String USER2_USERNAME = "florcavallin";
+    public static final String USER2_PASSWORD = "dulcedeleche";
+    public static final String USER2_FIRSTNAME = "Florencia";
+    public static final String USER2_LASTNAME = "Cavallin";
+    public static final String USER2_EMAIL = "fcavallin@itba.edu.ar";
+    public static final String USER2_PHONE = "1140910035";
+    public static final String USER2_KEY = "78asdyuadshu8743uyhjd78wehwe78dsh78";
 
 
-    int INVALID_APPOINTMENT_ID=100;
+    public static final int USER3_ID = 3;
+    public static final String USER3_USERNAME = "tinchovictory";
+    public static final String USER3_PASSWORD = "dulcedeleche";
+    public static final String USER3_FIRSTNAME = "Martin";
+    public static final String USER3_LASTNAME = "Victory";
+    public static final String USER3_EMAIL = "martin@victory.com.ar";
+    public static final String USER3_PHONE = "1159540388";
 
-    int INVALID_SERVICE_TYPE_ID=100;
+    public static final int USER4_ID = 4;
 
-    String VALID_ADDRESS="aguilar 2547 12A";
+    public static final int SPROVIDER3_ID = 3;
 
-    String VALID_JOBDESCRIPTION="Carlos soy segundo no me rehaces para pared??";
+    public static final int SERVICETYPE_ID = 1;
+    public static final String SERVICETYPE_NAME = "Carpintero";
 
-    String INVALID_ADDRESS=null;
+    public static final int SERVICETYPE2_ID = 2;
+    public static final String SERVICETYPE2_NAME = "Pintor";
 
-    String INVALID_JOBDESCRIPTION=null;
+    public static final int SERVICETYPE3_ID = 3;
+    public static final String SERVICETYPE3_NAME = "Obrero";
 
-    int INVALID_SERVICE_PROVIDER_ID=100;
+    public static final int INVALID_SERVICE_ID = 100;
 
-    int INVALIDAD_USER_ID=100;
+    public static final int VALID_APPOINTMENT_ID1 = 1;
 
-    String VALID_DESCRIPTION="Carlos soy segundo no me rehaces para pared??";
+    public static final int VALID_APPOINTMENT_ID2 = 2;
 
-    String INVALID_DESCRIPTION=null;
 
-    int VALID_APTITUDE_ID=1;
+    public static final int INVALID_APPOINTMENT_ID = 100;
 
-    int VALID_APTITUDE2_ID=2;
+    public static final int INVALID_SERVICE_TYPE_ID = 100;
 
-    int VALID_APTITUDE4_ID=4;
+    public static final String VALID_ADDRESS = "aguilar 2547 12A";
 
-    int INVALID_APTITUDE_ID=100;
+    public static final String VALID_JOBDESCRIPTION = "Carlos soy segundo no me rehaces para pared??";
 
-    String VALID_COMMENT="Carlos soy segundo no me rehaces para pared??";
+    public static final String INVALID_ADDRESS = null;
 
-    String INVALID_COMMENT=null;
+    public static final String INVALID_JOBDESCRIPTION = null;
 
-    int VALID_CALIFICATION=4;
+    public static final int INVALID_SERVICE_PROVIDER_ID = 100;
 
-    int INVALID_CALIFICATION=100;
+    public static final int INVALIDAD_USER_ID = 100;
 
-    int VALID_NG=1;
+    public static final String VALID_DESCRIPTION = "Carlos soy segundo no me rehaces para pared??";
 
-    int INVALID_NG=100;
+    public static final String INVALID_DESCRIPTION = null;
 
+    public static final int VALID_APTITUDE_ID = 1;
+
+    public static final int VALID_APTITUDE2_ID = 2;
+
+    public static final int VALID_APTITUDE4_ID = 4;
+
+    public static final int INVALID_APTITUDE_ID = 100;
+
+    public static final String VALID_COMMENT = "Carlos soy segundo no me rehaces para pared??";
+
+    public static final String INVALID_COMMENT = null;
+
+    public static final int VALID_CALIFICATION = 4;
+
+    public static final int INVALID_CALIFICATION = 100;
+
+    public static final int VALID_NG = 1;
+
+    public static final int INVALID_NG = 100;
 
 
 }

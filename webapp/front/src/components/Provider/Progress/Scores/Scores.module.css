@@ -1,0 +1,12 @@
+.ScoresContainer {
+    display: flex;
+}
+
+.ProfileInfo {
+    width: 30%;
+    margin-right: 30px;
+}
+
+.ScoresInfo {
+    flex: 1;
+}

@@ -1,19 +1,16 @@
 package ar.edu.itba.paw.interfaces.services;
 
 import ar.edu.itba.paw.model.*;
+import ar.edu.itba.paw.model.utils.SizeListTuple;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public interface SProviderService {
 
-
-
     SProvider create(int userId, String description);
-
-    Set<SProvider> getServiceProviders();
-
-    List<SProvider> getServiceProvidersWithServiceType(int serviceType);
 
     SProvider getServiceProviderWithUserId(int userId);
 
@@ -21,11 +18,12 @@ public interface SProviderService {
 
     boolean isServiceProvider(int userId);
 
-    void insertWorkingZoneOfProvider(int userId, int ngId);
+    SizeListTuple<SProvider> getServiceProvidersByNeighborhood(double clientLocationLat, double clientLocationLng, int userId, int page, int pageSize);
 
-    List<SProvider> getServiceProvidersWorkingIn(int ngId);
+    SizeListTuple<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId, int page, int pageSize);
 
-    List<SProvider> getServiceProvidersByNeighborhoodAndServiceType(double clientLocationLat, double clientLocationLng, int stId, int userId);
+    SizeListTuple<SProvider> getServiceProvidersByServiceType(int stId, int userId, int page, int pageSize);
+
 
     Set<Review> getReviewsOfServiceProvider(int sproviderId);
 
@@ -34,8 +32,6 @@ public interface SProviderService {
     boolean updateDescriptionOfAptitude(int aptId, String description);
 
     boolean updateServiceTypeOfAptitude(int aptId, int stId);
-
-    boolean removeWorkingZoneOfProvider(int userId, int ngId);
 
     void addAptitude(int userId, int serviceType, String description);
 
@@ -49,8 +45,15 @@ public interface SProviderService {
 
     List<Aptitude> getAllAptitudesExcept(int serviceTypeId, SProvider provider);
 
-    boolean addCoordenates(int providerId, Set<CoordenatesPoint> coordenatesPoints);
+    boolean addCoordenates(int providerId, List<CoordenatesPoint> coordenatesPoints);
 
     boolean deleteCoordenates(int providerId);
 
+    Optional<SProvider> create(int id, String description, Map<Integer, String> aptitudes, List<CoordenatesPoint> coordenates);
+
+    SizeListTuple<SProvider> getServiceProviders(int id, int page, int pageSize);
+
+    SizeListTuple<Review> getReviewsOfServiceProvider(int id, Integer serviceTypeId, int page, int pageSize);
+
+    List<Review> getReviewsOfServiceProvider(int id, int page, int pageSize);
 }

@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "coordenates")
-public class CoordenatesPoint implements Comparable<CoordenatesPoint>{
+public class CoordenatesPoint implements Comparable<CoordenatesPoint> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "coordenates_coordId_seq")
@@ -24,21 +24,29 @@ public class CoordenatesPoint implements Comparable<CoordenatesPoint>{
     @Column(name = "pos")
     private int position;
 
-    /* package */ CoordenatesPoint(){
+    /* package */ CoordenatesPoint() {
 
     }
 
-    public CoordenatesPoint(int position,double lat, double lng) {
-        this.lat = lat;
-        this.lng = lng;
-        this.position = position;
-    }
+//    public CoordenatesPoint(int position, double lat, double lng) {
+//        this.lat = lat;
+//        this.lng = lng;
+//        this.position = position;
+//    }
 
-    public CoordenatesPoint(int userId,int position ,double lat, double lng) {
+    public CoordenatesPoint(int userId, int position, double lat, double lng) {
         this.userId = userId;
         this.lat = lat;
         this.lng = lng;
         this.position = position;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public int getId(){
+        return id;
     }
 
     public void setUserId(int userId) {
@@ -91,6 +99,17 @@ public class CoordenatesPoint implements Comparable<CoordenatesPoint>{
 
     @Override
     public int compareTo(CoordenatesPoint o) {
-        return Integer.compare(this.position,o.position);
+        return Integer.compare(this.position, o.position);
+    }
+
+    @Override
+    public String toString() {
+        return "CoordenatesPoint{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", lat=" + lat +
+                ", lng=" + lng +
+                ", position=" + position +
+                '}';
     }
 }

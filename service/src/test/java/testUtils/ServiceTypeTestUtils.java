@@ -10,11 +10,11 @@ import static org.junit.Assert.assertEquals;
 
 public class ServiceTypeTestUtils {
 
-    public ServiceTypeTestUtils(){
+    public ServiceTypeTestUtils() {
 
     }
 
-    public static ServiceType dummyServiceType(){
+    public static ServiceType dummyServiceType() {
         Random r = new Random();
         return new ServiceType(r.toString());
     }
@@ -28,13 +28,13 @@ public class ServiceTypeTestUtils {
         return serviceTypeList;
     }
 
-    public static void assertEqualsServiceTypes(ServiceType expected, ServiceType actual){
-        if(expected == null && actual == null){
+    public static void assertEqualsServiceTypes(ServiceType expected, ServiceType actual) {
+        if (expected == null && actual == null) {
             return;
         }
-        assertEquals(expected,actual);
-        assertEquals(expected.getName(),expected.getName());
-        assertEquals(expected.getId(),expected.getId());
+        assertEquals(expected, actual);
+        assertEquals(expected.getName(), expected.getName());
+        assertEquals(expected.getId(), expected.getId());
     }
 
 }

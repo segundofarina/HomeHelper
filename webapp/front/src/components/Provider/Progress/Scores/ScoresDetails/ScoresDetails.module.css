@@ -1,0 +1,9 @@
+.ScoreRow {
+    width: 100%;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.ScoreRow:last-of-type {
+    border-bottom: 0;
+}
