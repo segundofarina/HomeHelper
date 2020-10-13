@@ -9,7 +9,7 @@
         <jstl.version>1.2</jstl.version>
         <org.postgresql.version>9.3-1102-jdbc41</org.postgresql.version>
         <org.hsqldb.version>2.3.1</org.hsqldb.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <mockito.version>2.10.0</mockito.version>
         <javax.validation-api.version>1.0.0.GA</javax.validation-api.version>
         <org.hibernate.validator>4.3.1.Final</org.hibernate.validator>
