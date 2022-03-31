@@ -4,7 +4,7 @@
     <properties>
         <maven-idea-plugin.version>2.2.1</maven-idea-plugin.version>
 <!--        <org.springframework.version>4.2.5.RELEASE</org.springframework.version>-->
-        <org.springframework.version>4.3.12.RELEASE</org.springframework.version>
+        <org.springframework.version>5.3.18</org.springframework.version>
         <servlet-api.version>2.5</servlet-api.version>
         <jstl.version>1.2</jstl.version>
         <org.postgresql.version>9.3-1102-jdbc41</org.postgresql.version>
