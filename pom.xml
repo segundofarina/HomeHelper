@@ -12,7 +12,7 @@
         <junit.version>4.12</junit.version>
         <mockito.version>2.10.0</mockito.version>
         <javax.validation-api.version>1.0.0.GA</javax.validation-api.version>
-        <org.hibernate.validator>4.3.1.Final</org.hibernate.validator>
+        <org.hibernate.validator>6.0.23.Final</org.hibernate.validator>
         <spring-security.version>5.2.1.RELEASE</spring-security.version>
         <spring-security-web.version>4.0.4.RELEASE</spring-security-web.version>
         <javax.mail.version>1.4.7</javax.mail.version>
